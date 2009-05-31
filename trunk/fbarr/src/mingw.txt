@@ -3,7 +3,7 @@ CONTENTS
  0 About this document
  1 Requirements for compiling
  2 Setting up MinGW
- 3 Additional setup 
+ 3 Additional setup
  4 Setting up Perl
  5 Installing FBA
  6 Compiling FBA
