@@ -958,6 +958,8 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 				StartReplay();
 				GameInpCheckMouse();
 				AudSoundPlay();
+				VidRedraw();
+				VidPaint(0);
 			}
 			break;
 		case MENU_STARTRECORD:
@@ -967,10 +969,14 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 				StopReplay();
 				StartRecord();
 				GameInpCheckMouse();
+				VidRedraw();
+				VidPaint(0);
 			}
 			break;
 		case MENU_STOPREPLAY:
 			StopReplay();
+			VidRedraw();
+			VidPaint(0);
 			break;
 			
 		case MENU_HOTKEYS:

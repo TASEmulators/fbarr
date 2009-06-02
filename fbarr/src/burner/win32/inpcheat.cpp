@@ -98,9 +98,9 @@ static int InpCheatExit()
 
 	hInpCheatList = NULL;
 	hInpCheatDlg = NULL;
-	if(!bAltPause && bRunPause) {
-		bRunPause = 0;
-	}
+//	if(!bAltPause && bRunPause) {
+//		bRunPause = 0;
+//	}
 	GameInpCheckMouse();
 	return 0;
 }

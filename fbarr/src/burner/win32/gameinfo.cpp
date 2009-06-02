@@ -568,7 +568,7 @@ static BOOL CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPara
 		hRiched = NULL;
 		
 		if (bDrvOkay) {
-			if(!bAltPause && bRunPause) bRunPause = 0;
+//			if(!bAltPause && bRunPause) bRunPause = 0;
 			AudSoundPlay();
 		}
 		

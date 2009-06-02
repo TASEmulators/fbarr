@@ -1,6 +1,8 @@
 // Burner Config file module
 #include "burner.h"
 
+#include "maphkeys.h"
+
 #ifdef _UNICODE
  #include <locale.h>
 #endif
@@ -33,6 +35,8 @@ int ConfigAppLoad()
 	TCHAR szConfig[MAX_PATH];
 	TCHAR szLine[1024];
 	FILE* h;
+	TCHAR szName[1024];
+	int i;
 	
 #ifdef _UNICODE
 	setlocale(LC_ALL, "");
@@ -62,6 +66,8 @@ int ConfigAppLoad()
   if (szValue) x = _tcstod(szValue, NULL); }
 #define STR(x) { TCHAR* szValue = LabelCheck(szLine,_T(#x) _T(" "));	\
   if (szValue) _tcscpy(x,szValue); }
+#define VARZ(z,x) { TCHAR* szValue = LabelCheck(szLine,z);			\
+  if (szValue) x = _tcstol(szValue, NULL, 0); }
 
 		VAR(nIniVersion);
 
@@ -238,10 +244,19 @@ int ConfigAppLoad()
 		VAR(nPlayerDefaultControls[3]);
 		STR(szPlayerDefaultIni[3]);
 
+		// Hotkeys
+		for (i = EMUCMD_MENU; i <= EMUCMDMAX-1; i++) {
+			_stprintf(szName,_T("EmuCommandTable[%d].key"), i);
+			VARZ(szName,EmuCommandTable[i].key);
+			_stprintf(szName,_T("EmuCommandTable[%d].modkey"), i);
+			VARZ(szName,EmuCommandTable[i].keymod);
+		}
+
 #undef STR
 #undef FLT
 #undef VAR
 #undef VAR64
+#undef VARZ
 	}
 
 	fclose(h);
@@ -253,6 +268,7 @@ int ConfigAppSave()
 {
 	TCHAR szConfig[MAX_PATH];
 	FILE *h;
+	int i;
 
 	if (bCmdOptUsed) {
 		return 1;
@@ -552,6 +568,12 @@ int ConfigAppSave()
 	STR(szPlayerDefaultIni[2]);
 	VAR(nPlayerDefaultControls[3]);
 	STR(szPlayerDefaultIni[3]);
+
+	_ftprintf(h, _T("\n// Hotkeys, use the configuration dialog to change them\n"));
+	for (i = EMUCMD_MENU; i <= EMUCMDMAX-1; i++) {
+		_ftprintf(h, _T("EmuCommandTable[%d].key %d\n"), i, EmuCommandTable[i].key);
+		_ftprintf(h, _T("EmuCommandTable[%d].modkey %d\n"), i, EmuCommandTable[i].keymod);
+	}
 
 	_ftprintf(h, _T("\n\n\n"));
 

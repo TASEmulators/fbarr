@@ -631,120 +631,140 @@ void PADhandleKey(int key) {
 	if(key == EmuCommandTable[EMUCMD_SCREENSHOT].key
 	&& modifiers == EmuCommandTable[EMUCMD_SCREENSHOT].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_SAVESNAP),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_SAVESNAP,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_SAVESNAP),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_CHEATTOGLE].key
 	&& modifiers == EmuCommandTable[EMUCMD_CHEATTOGLE].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_ENABLECHEAT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_ENABLECHEAT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_ENABLECHEAT),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_CONFIGPAD].key
 	&& modifiers == EmuCommandTable[EMUCMD_CONFIGPAD].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_INPUT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_INPUT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_INPUT),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_LOADSTATE].key
 	&& modifiers == EmuCommandTable[EMUCMD_LOADSTATE].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_LOAD_SLOT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STATE_LOAD_SLOT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_LOAD_SLOT),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_SAVESTATE].key
 	&& modifiers == EmuCommandTable[EMUCMD_SAVESTATE].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_SAVE_SLOT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STATE_SAVE_SLOT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_SAVE_SLOT),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_STARTRECORDING].key
 	&& modifiers == EmuCommandTable[EMUCMD_STARTRECORDING].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STARTRECORD),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STARTRECORD,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STARTRECORD),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_STARTPLAYBACK].key
 	&& modifiers == EmuCommandTable[EMUCMD_STARTPLAYBACK].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STARTREPLAY),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STARTREPLAY,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STARTREPLAY),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_STOPMOVIE].key
 	&& modifiers == EmuCommandTable[EMUCMD_STOPMOVIE].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STOPREPLAY),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STOPREPLAY,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STOPREPLAY),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_STARTAVI].key
 	&& modifiers == EmuCommandTable[EMUCMD_STARTAVI].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_AVI_BEGIN),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_AVI_BEGIN,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_AVI_BEGIN),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_STOPAVI].key
 	&& modifiers == EmuCommandTable[EMUCMD_STOPAVI].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_AVI_END),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_AVI_END,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_AVI_END),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_CHEATEDITOR].key
 	&& modifiers == EmuCommandTable[EMUCMD_CHEATEDITOR].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_ENABLECHEAT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_ENABLECHEAT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_ENABLECHEAT),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_EXITGAME].key
 	&& modifiers == EmuCommandTable[EMUCMD_EXITGAME].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_QUIT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_QUIT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_QUIT),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_GAMEINFO].key
 	&& modifiers == EmuCommandTable[EMUCMD_GAMEINFO].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_VIEWGAMEINFO),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_VIEWGAMEINFO,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_VIEWGAMEINFO),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_DIPSWITCHES].key
 	&& modifiers == EmuCommandTable[EMUCMD_DIPSWITCHES].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_DIPSW),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_DIPSW,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_DIPSW),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_OPENGAME].key
 	&& modifiers == EmuCommandTable[EMUCMD_OPENGAME].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_LOAD),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_LOAD,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_LOAD),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_LOADSTATEDIAG].key
 	&& modifiers == EmuCommandTable[EMUCMD_LOADSTATEDIAG].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_LOAD_DIALOG),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STATE_LOAD_DIALOG,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_LOAD_DIALOG),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_SAVESTATEDIAG].key
 	&& modifiers == EmuCommandTable[EMUCMD_SAVESTATEDIAG].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_SAVE_DIALOG),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STATE_SAVE_DIALOG,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_SAVE_DIALOG),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_SELECTSTATEPREV].key
 	&& modifiers == EmuCommandTable[EMUCMD_SELECTSTATEPREV].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_PREVSLOT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STATE_PREVSLOT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_PREVSLOT),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_SELECTSTATENEXT].key
 	&& modifiers == EmuCommandTable[EMUCMD_SELECTSTATENEXT].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_NEXTSLOT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_STATE_NEXTSLOT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_NEXTSLOT),(LPARAM)(NULL));
 	}
 
 	if(key == EmuCommandTable[EMUCMD_SHOTFACTORY].key
 	&& modifiers == EmuCommandTable[EMUCMD_SHOTFACTORY].keymod)
 	{
-		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_SNAPFACT),(LPARAM)(NULL));
+		if (GetMenuState(hMenu,MENU_SNAPFACT,NULL) != MF_GRAYED)
+			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_SNAPFACT),(LPARAM)(NULL));
 	}
 }

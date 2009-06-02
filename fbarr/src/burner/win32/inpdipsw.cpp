@@ -160,9 +160,9 @@ static int InpDIPSWExit()
 {
 	hInpDIPSWList = NULL;
 	hInpDIPSWDlg = NULL;
-	if(!bAltPause && bRunPause) {
-		bRunPause = 0;
-	}
+//	if(!bAltPause && bRunPause) {
+//		bRunPause = 0;
+//	}
 	GameInpCheckMouse();
 	return 0;
 }
