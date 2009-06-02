@@ -1,6 +1,8 @@
 // Run module
 #include "burner.h"
 
+#include "maphkeys.h"
+
 int bRunPause = 0;
 int bAltPause = 0;
 
@@ -307,6 +309,8 @@ static int RunExit()
 	return 0;
 }
 
+void PADhandleKey(int key);
+
 // The main message loop
 int RunMessageLoop()
 {
@@ -351,10 +355,11 @@ int RunMessageLoop()
 				}
 
 				if (Msg.message == WM_SYSKEYDOWN || Msg.message == WM_KEYDOWN) {
+					PADhandleKey(Msg.wParam);
+
 					if (Msg.lParam & 0x20000000) {
 						// An Alt/AltGr-key was pressed
 						switch (Msg.wParam) {
-
 #if defined (FBA_DEBUG)
 							case 'C': {
 								static int count = 0;
@@ -365,52 +370,9 @@ int RunMessageLoop()
 								break;
 							}
 #endif
-
-							case VK_OEM_PLUS: {
-								TCHAR buffer[15];
-
-								nAudVolume += 100;
-								if (GetAsyncKeyState(VK_CONTROL) & 0x80000000) {
-									nAudVolume += 900;
-								}
-
-								if (nAudVolume > 10000) {
-									nAudVolume = 10000;
-								}
-								if (AudSoundSetVolume() == 0) {
-									VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_SOUND_NOVOLUME, true));
-								} else {
-									_stprintf(buffer, FBALoadStringEx(hAppInst, IDS_SOUND_VOLUMESET, true), nAudVolume / 100);
-									VidSNewShortMsg(buffer);
-								}
-								break;
-							}
-							case VK_OEM_MINUS: {
-								TCHAR buffer[15];
-
-								nAudVolume -= 100;
-								if (GetAsyncKeyState(VK_CONTROL) & 0x80000000) {
-									nAudVolume -= 900;
-								}
-
-								if (nAudVolume < 0) {
-									nAudVolume = 0;
-								}
-								if (AudSoundSetVolume() == 0) {
-									VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_SOUND_NOVOLUME, true));
-								} else {
-									_stprintf(buffer, FBALoadStringEx(hAppInst, IDS_SOUND_VOLUMESET, true), nAudVolume / 100);
-									VidSNewShortMsg(buffer);
-								}
-								break;
-							}
-							case VK_MENU: {
-								continue;
-							}
 						}
 					} else {
 						switch (Msg.wParam) {
-
 #if defined (FBA_DEBUG)
 							case 'N':
 								counter--;
@@ -421,211 +383,20 @@ int RunMessageLoop()
 								bprintf(PRINT_IMPORTANT, _T("*** New counter value: %04X.\n"), counter);
 								break;
 #endif
-							case VK_ESCAPE: {
-								if (hwndChat) {
-									DeActivateChat();
-								} else {
-									if (bCmdOptUsed) {
-										PostQuitMessage(0);
-									} else {
-										if (nVidFullscreen) {
-											nVidFullscreen = 0;
-											POST_INITIALISE_MESSAGE;
-										}
-									}
-								}
-								break;
-							}
-							case VK_RETURN: {
-								if (hwndChat) {
-									int i = 0;
-									while (EditText[i]) {
-										if (EditText[i++] != 0x20) {
-											break;
-										}
-									}
-									if (i) {
-										Kaillera_Chat_Send(TCHARToANSI(EditText, NULL, 0));
-										//kailleraChatSend(TCHARToANSI(EditText, NULL, 0));
-									}
-									DeActivateChat();
-
-									break;
-								}
-								if (GetAsyncKeyState(VK_CONTROL) & 0x80000000) {
-									bMenuEnabled = !bMenuEnabled;
-									POST_INITIALISE_MESSAGE;
-
-									break;
-								}
-
-								break;
-							}
-
-//							case VK_F1: {
-//								if (kNetGame) {
-//									break;
-//								}
-//
-//								if ((GetAsyncKeyState(VK_CONTROL) | GetAsyncKeyState(VK_SHIFT) & 0x80000000) == 0) {
-//									if (bRunPause) {
-//										bAppDoStep = 1;
-//									} else {
-//										bAppDoFast = 1;
-//									}
-//								}
-//								break;
-//							}
-
-							case VK_PAUSE:
-							case 'P': // pause - unpause
-								bRunPause^=1;
-								break;
-
-							case VK_OEM_5:
-							case VK_SPACE: // frame advance
-								if (!bRunPause) bRunPause = 1;
-									bAppDoStep = 1;
-								break;
-
-							case VK_TAB: // turbo mode
-								bAppDoFast = 1;
-								break;
-
-							case '8': // read-only toggle
-								if (GetKeyState(VK_SHIFT) & 0x8000) {
-									bReplayReadOnly^=1;
-									if (bReplayReadOnly)
-										VidSNewShortMsg(L"read-only");
-									else
-										VidSNewShortMsg(L"read+write");
-									VidRedraw();
-									VidPaint(0);
-								}
-								break;
-
-							case VK_F1:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(1);
-								else StatedLoad(1);
-							break;
-							case VK_F2:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(2);
-								else StatedLoad(2);
-							break;
-							case VK_F3:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(3);
-								else StatedLoad(3);
-							break;
-							case VK_F4:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(4);
-								else StatedLoad(4);
-							break;
-							case VK_F5:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(5);
-								else StatedLoad(5);
-							break;
-							case VK_F6:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(6);
-								else StatedLoad(6);
-							break;
-							case VK_F7:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(7);
-								else StatedLoad(7);
-							break;
-							case VK_F8:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(8);
-								else StatedLoad(8);
-							break;
-							case VK_F9:
-								if (GetKeyState(VK_SHIFT) & 0x8000) StatedSave(9);
-								else StatedLoad(9);
-							break;
-
-							case VK_BACK: {
-								if (GetAsyncKeyState(VK_SHIFT) & 0x80000000) {
-									bReplayFrameCounterDisplay = !bReplayFrameCounterDisplay;
-									if (!bReplayFrameCounterDisplay) {
-										VidSKillTinyMsg();
-									}
-								} else {
-									bShowFPS = !bShowFPS;
-									if (bShowFPS) {
-										DisplayFPS();
-									} else {
-										VidSKillShortMsg();
-										VidSKillOSDMsg();
-									}
-								}
-								break;
-							}
-							case 'T': {
-								if (kNetGame && hwndChat == NULL) {
-									if (AppMessage(&Msg)) {
-										ActivateChat();
-									}
-								}
-								break;
-							}
-							case VK_OEM_PLUS: {
-								if (GetAsyncKeyState(VK_SHIFT) & 0x80000000) {
-									wchar_t buffer[15];
-
-									if (nFpsScale < 10) {
-										nFpsScale = 10;
-									} else {
-										if (nFpsScale >= 100) {
-											nFpsScale += 50;
-										} else {
-											nFpsScale += 10;
-										}
-									}
-
-									if (nFpsScale > 800) {
-										nFpsScale = 800;
-									}
-
-									swprintf(buffer, L"speed %02i %%", nFpsScale);
-									VidSNewShortMsg(buffer);
-									VidRedraw();
-									VidPaint(0);
-
-									MediaChangeFps(nFpsScale);
-								}
-								break;
-							}
-							case VK_OEM_MINUS: {
-								if(GetAsyncKeyState(VK_SHIFT) & 0x80000000) {
-									wchar_t buffer[15];
-
-									if (nFpsScale <= 10) {
-										nFpsScale = 5;
-									} else {
-										if (nFpsScale > 100) {
-											nFpsScale -= 50;
-										} else {
-											nFpsScale -= 10;
-										}
-									}
-
-									swprintf(buffer, L"speed %02i %%", nFpsScale);
-									VidSNewShortMsg(buffer);
-									VidRedraw();
-									VidPaint(0);
-
-									MediaChangeFps(nFpsScale);
-								}
-								break;
-							}
 						}
 					}
 				} else {
 					if (Msg.message == WM_SYSKEYUP || Msg.message == WM_KEYUP) {
-						switch (Msg.wParam) {
-							case VK_MENU:
-								continue;
-							case VK_TAB:
+						if (Msg.wParam == (unsigned int)EmuCommandTable[EMUCMD_TURBOMODE].key) {
+							int modifier = 0;
+							if(GetAsyncKeyState(VK_MENU))
+								modifier = VK_MENU;
+							else if(GetAsyncKeyState(VK_CONTROL))
+								modifier = VK_CONTROL;
+							else if(GetAsyncKeyState(VK_SHIFT))
+								modifier = VK_SHIFT;
+							if(modifier == EmuCommandTable[EMUCMD_TURBOMODE].keymod)
 								bAppDoFast = 0;
-								break;
 						}
 					}
 				}
@@ -656,3 +427,324 @@ int RunMessageLoop()
 	return 0;
 }
 
+extern int nSavestateSlot;
+
+void PADhandleKey(int key) {
+	int i;
+	int modifiers = 0;
+	if(GetAsyncKeyState(VK_CONTROL))
+		modifiers = VK_CONTROL;
+	else if(GetAsyncKeyState(VK_MENU))
+		modifiers = VK_MENU;
+	else if(GetAsyncKeyState(VK_SHIFT))
+		modifiers = VK_SHIFT;
+
+	for (i = EMUCMD_SELECTSTATE1; i <= EMUCMD_SELECTSTATE1+8; i++) {
+		if(key == EmuCommandTable[i].key
+		&& modifiers == EmuCommandTable[i].keymod)
+		{
+			TCHAR szString[256];
+			nSavestateSlot = i-EMUCMD_SELECTSTATE1+1;
+			_sntprintf(szString, 256, FBALoadStringEx(hAppInst, IDS_STATE_ACTIVESLOT, true), nSavestateSlot);
+			VidSNewShortMsg(szString);
+			VidRedraw();
+			VidPaint(0);
+		}
+	}
+
+	for (i = EMUCMD_LOADSTATE1; i <= EMUCMD_LOADSTATE1+8; i++) {
+		if(key == EmuCommandTable[i].key
+		&& modifiers == EmuCommandTable[i].keymod)
+		{
+			StatedLoad(i-EMUCMD_LOADSTATE1+1);
+		}
+	}
+
+	for (i = EMUCMD_SAVESTATE1; i <= EMUCMD_SAVESTATE1+8; i++) {
+		if(key == EmuCommandTable[i].key
+		&& modifiers == EmuCommandTable[i].keymod)
+		{
+			StatedSave(i-EMUCMD_SAVESTATE1+1);
+		}
+	}
+
+	if(key == EmuCommandTable[EMUCMD_PAUSE].key
+	&& modifiers == EmuCommandTable[EMUCMD_PAUSE].keymod)
+	{
+		bRunPause^=1;
+	}
+
+	if(key == EmuCommandTable[EMUCMD_FRAMEADVANCE].key
+	&& modifiers == EmuCommandTable[EMUCMD_FRAMEADVANCE].keymod)
+	{
+		if (!bRunPause)
+			bRunPause = 1;
+		bAppDoStep = 1;
+	}
+
+	if(key == EmuCommandTable[EMUCMD_TURBOMODE].key
+	&& modifiers == EmuCommandTable[EMUCMD_TURBOMODE].keymod)
+	{
+		bAppDoFast = 1;
+	}
+
+	if(key == EmuCommandTable[EMUCMD_RWTOGGLE].key
+	&& modifiers == EmuCommandTable[EMUCMD_RWTOGGLE].keymod)
+	{
+		bReplayReadOnly^=1;
+		if (bReplayReadOnly)
+			VidSNewShortMsg(_T("read-only"));
+		else
+			VidSNewShortMsg(_T("read+write"));
+		VidRedraw();
+		VidPaint(0);
+	}
+
+	if(key == EmuCommandTable[EMUCMD_FRAMECOUNTER].key
+	&& modifiers == EmuCommandTable[EMUCMD_FRAMECOUNTER].keymod)
+	{
+		bReplayFrameCounterDisplay = !bReplayFrameCounterDisplay;
+		if (!bReplayFrameCounterDisplay)
+			VidSKillTinyMsg();
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SPEEDNORMAL].key
+	&& modifiers == EmuCommandTable[EMUCMD_SPEEDNORMAL].keymod)
+	{
+		wchar_t buffer[15];
+		nFpsScale = 100;
+		swprintf(buffer, _T("speed %02i %%"), nFpsScale);
+		VidSNewShortMsg(buffer);
+		VidRedraw();
+		VidPaint(0);
+		MediaChangeFps(nFpsScale);
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SPEEDTURBO].key
+	&& modifiers == EmuCommandTable[EMUCMD_SPEEDTURBO].keymod)
+	{
+		wchar_t buffer[15];
+		nFpsScale = 800;
+		swprintf(buffer, _T("speed %02i %%"), nFpsScale);
+		VidSNewShortMsg(buffer);
+		VidRedraw();
+		VidPaint(0);
+		MediaChangeFps(nFpsScale);
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SPEEDINC].key
+	&& modifiers == EmuCommandTable[EMUCMD_SPEEDINC].keymod)
+	{
+		wchar_t buffer[15];
+		if (nFpsScale < 10)
+			nFpsScale = 10;
+		else {
+			if (nFpsScale >= 100)
+				nFpsScale += 50;
+			else
+				nFpsScale += 10;
+		}
+		if (nFpsScale > 800)
+			nFpsScale = 800;
+		swprintf(buffer, _T("speed %02i %%"), nFpsScale);
+		VidSNewShortMsg(buffer);
+		VidRedraw();
+		VidPaint(0);
+		MediaChangeFps(nFpsScale);
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SPEEDDEC].key
+	&& modifiers == EmuCommandTable[EMUCMD_SPEEDDEC].keymod)
+	{
+		wchar_t buffer[15];
+		if (nFpsScale <= 10)
+			nFpsScale = 5;
+		else {
+			if (nFpsScale > 100)
+				nFpsScale -= 50;
+			else
+				nFpsScale -= 10;
+		}
+		swprintf(buffer, _T("speed %02i %%"), nFpsScale);
+		VidSNewShortMsg(buffer);
+		VidRedraw();
+		VidPaint(0);
+		MediaChangeFps(nFpsScale);
+	}
+
+	if(key == EmuCommandTable[EMUCMD_MENU].key
+	&& modifiers == EmuCommandTable[EMUCMD_MENU].keymod)
+	{
+		if (nVidFullscreen) {
+			nVidFullscreen = 0;
+			bMenuEnabled = true;
+			POST_INITIALISE_MESSAGE;
+		}
+		else {
+			bMenuEnabled = !bMenuEnabled;
+			POST_INITIALISE_MESSAGE;
+		}
+	}
+
+	if(key == EmuCommandTable[EMUCMD_VOLUMEDEC].key
+	&& modifiers == EmuCommandTable[EMUCMD_VOLUMEDEC].keymod)
+	{
+		TCHAR buffer[15];
+		nAudVolume -= 100;
+		if (nAudVolume < 0)
+			nAudVolume = 0;
+		if (AudSoundSetVolume() == 0)
+			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_SOUND_NOVOLUME, true));
+		else {
+			_stprintf(buffer, FBALoadStringEx(hAppInst, IDS_SOUND_VOLUMESET, true), nAudVolume / 100);
+			VidSNewShortMsg(buffer);
+		}
+	}
+
+	if(key == EmuCommandTable[EMUCMD_VOLUMEINC].key
+	&& modifiers == EmuCommandTable[EMUCMD_VOLUMEINC].keymod)
+	{
+		TCHAR buffer[15];
+		nAudVolume += 100;
+		if (nAudVolume > 10000)
+			nAudVolume = 10000;
+		if (AudSoundSetVolume() == 0)
+			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_SOUND_NOVOLUME, true));
+		else {
+			_stprintf(buffer, FBALoadStringEx(hAppInst, IDS_SOUND_VOLUMESET, true), nAudVolume / 100);
+			VidSNewShortMsg(buffer);
+		}
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SHOWFPS].key
+	&& modifiers == EmuCommandTable[EMUCMD_SHOWFPS].keymod)
+	{
+		bShowFPS = !bShowFPS;
+		if (bShowFPS)
+			DisplayFPS();
+		else {
+			VidSKillShortMsg();
+			VidSKillOSDMsg();
+		}
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SCREENSHOT].key
+	&& modifiers == EmuCommandTable[EMUCMD_SCREENSHOT].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_SAVESNAP),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_CHEATTOGLE].key
+	&& modifiers == EmuCommandTable[EMUCMD_CHEATTOGLE].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_ENABLECHEAT),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_CONFIGPAD].key
+	&& modifiers == EmuCommandTable[EMUCMD_CONFIGPAD].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_INPUT),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_LOADSTATE].key
+	&& modifiers == EmuCommandTable[EMUCMD_LOADSTATE].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_LOAD_SLOT),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SAVESTATE].key
+	&& modifiers == EmuCommandTable[EMUCMD_SAVESTATE].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_SAVE_SLOT),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_STARTRECORDING].key
+	&& modifiers == EmuCommandTable[EMUCMD_STARTRECORDING].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STARTRECORD),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_STARTPLAYBACK].key
+	&& modifiers == EmuCommandTable[EMUCMD_STARTPLAYBACK].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STARTREPLAY),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_STOPMOVIE].key
+	&& modifiers == EmuCommandTable[EMUCMD_STOPMOVIE].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STOPREPLAY),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_STARTAVI].key
+	&& modifiers == EmuCommandTable[EMUCMD_STARTAVI].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_AVI_BEGIN),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_STOPAVI].key
+	&& modifiers == EmuCommandTable[EMUCMD_STOPAVI].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_AVI_END),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_CHEATEDITOR].key
+	&& modifiers == EmuCommandTable[EMUCMD_CHEATEDITOR].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_ENABLECHEAT),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_EXITGAME].key
+	&& modifiers == EmuCommandTable[EMUCMD_EXITGAME].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_QUIT),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_GAMEINFO].key
+	&& modifiers == EmuCommandTable[EMUCMD_GAMEINFO].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_VIEWGAMEINFO),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_DIPSWITCHES].key
+	&& modifiers == EmuCommandTable[EMUCMD_DIPSWITCHES].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_DIPSW),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_OPENGAME].key
+	&& modifiers == EmuCommandTable[EMUCMD_OPENGAME].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_LOAD),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_LOADSTATEDIAG].key
+	&& modifiers == EmuCommandTable[EMUCMD_LOADSTATEDIAG].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_LOAD_DIALOG),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SAVESTATEDIAG].key
+	&& modifiers == EmuCommandTable[EMUCMD_SAVESTATEDIAG].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_SAVE_DIALOG),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SELECTSTATEPREV].key
+	&& modifiers == EmuCommandTable[EMUCMD_SELECTSTATEPREV].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_PREVSLOT),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SELECTSTATENEXT].key
+	&& modifiers == EmuCommandTable[EMUCMD_SELECTSTATENEXT].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_NEXTSLOT),(LPARAM)(NULL));
+	}
+
+	if(key == EmuCommandTable[EMUCMD_SHOTFACTORY].key
+	&& modifiers == EmuCommandTable[EMUCMD_SHOTFACTORY].keymod)
+	{
+		SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_SNAPFACT),(LPARAM)(NULL));
+	}
+}
