@@ -792,6 +792,17 @@ BEGIN
     CONTROL         "Record From Power-On",IDC_REPLAYRESET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,55,79,106,14
 END
 
+IDD_MHKEYS DIALOGEX 0, 0, 250, 244
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Map Hotkeys"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDCANCEL,195,225,50,14
+    GROUPBOX        "",IDC_STATIC,3,0,244,220
+    CTEXT           "Double-click a command to change its mapping",IDC_HKEYSS_STATIC,7,7,232,15,SS_CENTERIMAGE
+    CONTROL         "List1",IDC_MHKEYS_LIST,"SysListView32",LVS_REPORT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,9,24,232,190
+END
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
@@ -802,8 +813,7 @@ BEGIN
     POPUP "Game"
     BEGIN
         MENUITEM "Load game...",					MENU_LOAD
-		MENUITEM "Load NeoGeo MVS Cartridges...",		MENU_MVS_LOAD, GRAYED
-        MENUITEM "Play via Kaillera...",			MENU_STARTNET
+		MENUITEM "Load NeoGeo MVS ROM...",		MENU_MVS_LOAD, GRAYED
         POPUP "Most recent games..."
 	BEGIN
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES1, GRAYED
@@ -816,15 +826,23 @@ BEGIN
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES8, GRAYED
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES9, GRAYED
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES10, GRAYED
+        END        MENUITEM SEPARATOR
+        POPUP "Movie..."
+        BEGIN
+        	MENUITEM "Start recording...",					MENU_STARTRECORD
+	        MENUITEM "Start playback...",					MENU_STARTREPLAY
+	        MENUITEM "Stop movie",					MENU_STOPREPLAY, GRAYED
+	        MENUITEM SEPARATOR
+	        MENUITEM "Record AVI...",               MENU_AVI_BEGIN, GRAYED
+	        MENUITEM "Stop AVI",                    MENU_AVI_END, GRAYED
         END
         MENUITEM SEPARATOR
         MENUITEM "View Game Info...",			MENU_VIEWGAMEINFO, GRAYED
-        MENUITEM SEPARATOR
-        MENUITEM "Exit game",					MENU_QUIT, GRAYED
         MENUITEM "Pause game",					MENU_PAUSE, GRAYED
+        MENUITEM "Exit game",					MENU_QUIT, GRAYED
         MENUITEM SEPARATOR
         MENUITEM "MENU_SETCPUCLOCK",					MENU_SETCPUCLOCK, GRAYED
-        MENUITEM "Reset CPU speed to 100%",				MENU_RESETCPUCLOCK, GRAYED
+        MENUITEM "Reset CPU speed",				MENU_RESETCPUCLOCK, GRAYED
         MENUITEM SEPARATOR
         POPUP "Memory Card..."
         BEGIN
@@ -833,13 +851,6 @@ BEGIN
 	        MENUITEM "Insert memory card",				MENU_MEMCARD_INSERT
         	MENUITEM "Eject memory card",				MENU_MEMCARD_EJECT
         END
-        MENUITEM SEPARATOR
-        POPUP "Replay..."
-        BEGIN
-	        MENUITEM "Replay input...",					MENU_STARTREPLAY, GRAYED
-        	MENUITEM "Record input...",					MENU_STARTRECORD, GRAYED
-	        MENUITEM "Stop replay/record",					MENU_STOPREPLAY, GRAYED
-	END
         MENUITEM SEPARATOR
         POPUP "Save states..."
         BEGIN
@@ -991,6 +1002,7 @@ BEGIN
     	MENUITEM SEPARATOR
         MENUITEM "Map game inputs...",				MENU_INPUT, GRAYED
         MENUITEM "Set dipswitches...",				MENU_DIPSW, GRAYED
+        MENUITEM "Configure hotkeys...",				MENU_HOTKEYS
     END
     POPUP "Misc"
     BEGIN
@@ -1119,9 +1131,6 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Save settings to .ini now",				MENU_SAVESET
         MENUITEM "Reload settings from .ini",				MENU_LOADSET
-        MENUITEM SEPARATOR
-        MENUITEM "Record AVI...",               MENU_AVI_BEGIN, GRAYED
-        MENUITEM "Stop AVI",                    MENU_AVI_END, GRAYED
     END
     POPUP "Help"
     BEGIN

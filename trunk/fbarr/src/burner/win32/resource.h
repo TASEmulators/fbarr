@@ -485,7 +485,10 @@
 #define IDC_READONLY                    20259
 #define IDC_FILENAME                    20260
 #define IDC_BROWSE                      20261
-#define IDC_REPLAYRESET                 20242
+#define IDC_REPLAYRESET                 20262
+#define IDC_MHKEYS_LIST                 20263
+#define IDC_HKEYSS_STATIC               20264
+#define IDD_MHKEYS                      20265
 
 #define IDC_IPSMAN_DESELECTALL				20255
 
@@ -688,6 +691,7 @@
 #define MENU_INP_PLUGIN_6				10669
 #define MENU_INP_PLUGIN_7				10670
 #define MENU_INP_PLUGIN_8				10671
+#define MENU_HOTKEYS                    10672
 
 #define MENU_NORMAL                     11001
 #define MENU_SCAN                       11002

@@ -973,6 +973,10 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			StopReplay();
 			break;
 			
+		case MENU_HOTKEYS:
+			MHkeysCreate();
+			break;
+			
 		case MENU_VIEWGAMEINFO:
 			if (bDrvOkay && UseDialogs()) {
 				InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);

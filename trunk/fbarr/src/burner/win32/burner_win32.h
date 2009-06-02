@@ -505,3 +505,6 @@ void AviBegin();
 void AviEnd();
 void AviVideoUpdate();
 void AviSoundUpdate();
+
+// maphkeys.cpp
+int MHkeysCreate();
