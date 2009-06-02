@@ -998,7 +998,7 @@ int VidSRestoreOSD()
 
 	if (pTinyMsgSurf) {
 		if (FAILED(pTinyMsgSurf->IsLost())) {
-		if (FAILED(pTinyMsgSurf->Restore())) {
+			if (FAILED(pTinyMsgSurf->Restore())) {
 				return 1;
 			}
 			VidSClearSurface(pTinyMsgSurf, nKeyColour, NULL);
