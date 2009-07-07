@@ -652,15 +652,13 @@ void PADhandleKey(int key) {
 	if(key == EmuCommandTable[EMUCMD_LOADSTATE].key
 	&& modifiers == EmuCommandTable[EMUCMD_LOADSTATE].keymod)
 	{
-		if (GetMenuState(hMenu,MENU_STATE_LOAD_SLOT,NULL) != MF_GRAYED)
-			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_LOAD_SLOT),(LPARAM)(NULL));
+		StatedLoad(nSavestateSlot);
 	}
 
 	if(key == EmuCommandTable[EMUCMD_SAVESTATE].key
 	&& modifiers == EmuCommandTable[EMUCMD_SAVESTATE].keymod)
 	{
-		if (GetMenuState(hMenu,MENU_STATE_SAVE_SLOT,NULL) != MF_GRAYED)
-			SendMessage(hScrnWnd, WM_COMMAND, (WPARAM)(MENU_STATE_SAVE_SLOT),(LPARAM)(NULL));
+		StatedSave(nSavestateSlot);
 	}
 
 	if(key == EmuCommandTable[EMUCMD_STARTRECORDING].key
