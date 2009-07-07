@@ -1,6 +1,5 @@
-#include <windows.h>
-#include <vfw.h>
 #include "burner.h"
+#include <vfw.h>
 
 #define VIDEO_STREAM	0
 #define AUDIO_STREAM	1
@@ -33,10 +32,10 @@ static struct AVIFile
 int bAviRecording = 0;
 
 
-static bool truncate_existing(const char* filename)
+static bool truncate_existing(const TCHAR* filename)
 {
 	// this is only here because AVIFileOpen doesn't seem to do it for us
-	FILE* fd = fopen(filename, "wb");
+	FILE* fd = _tfopen(filename, _T("wb"));
 	if(fd)
 	{
 		fclose(fd);
@@ -117,7 +116,7 @@ static void set_sound_format(const WAVEFORMATEX* wave_format, struct AVIFile* av
 	(*avi_out).sound_added = true;
 }
 
-static int avi_open(const char* filename, const BITMAPINFOHEADER* pbmih, const WAVEFORMATEX* pwfex)
+static int avi_open(const TCHAR* filename, const BITMAPINFOHEADER* pbmih, const WAVEFORMATEX* pwfex)
 {
 	int result = 0;
 
@@ -222,12 +221,12 @@ static void MakeOfn()
 	memset(&ofn, 0, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hScrnWnd;
-	ofn.lpstrFilter = "AVI Files (*.avi)\0*.avi\0\0";
+	ofn.lpstrFilter = _T("AVI Files (*.avi)\0*.avi\0\0");
 	ofn.lpstrFile = szChoice;
 	ofn.nMaxFile = sizeof(szChoice);
-	ofn.lpstrInitialDir = ".\\recordings";
+	ofn.lpstrInitialDir = _T(".\\recordings");
 	ofn.Flags = OFN_NOCHANGEDIR | OFN_HIDEREADONLY;
-	ofn.lpstrDefExt = "avi";
+	ofn.lpstrDefExt = _T("avi");
 
 	return;
 }
@@ -237,9 +236,9 @@ void AviBegin()
 	int nRet;
 	int bOldPause;
 
-	sprintf(szChoice, "%.8s", BurnDrvGetText(DRV_NAME));
+	_stprintf(szChoice, _T("%s.avi"), BurnDrvGetText(DRV_NAME));
 	MakeOfn();
-	ofn.lpstrTitle = "Record to AVI File";
+	ofn.lpstrTitle = _T("Record to AVI File");
 	ofn.Flags |= OFN_OVERWRITEPROMPT;
 
 	bOldPause = bRunPause;

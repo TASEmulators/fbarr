@@ -1,7 +1,7 @@
 // Burner Config for Game file module
 #include "burner.h"
 
-const int nConfigMinVersion = 0x020921;
+const int nConfigMinVersion = 0x000000;
 
 bool bSaveInputs = true;
 
