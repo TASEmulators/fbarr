@@ -854,14 +854,14 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Save states..."
         BEGIN
-	        MENUITEM "Load state...",				MENU_STATE_LOAD_DIALOG, GRAYED
-        	MENUITEM "Save state...",				MENU_STATE_SAVE_DIALOG, GRAYED
+	        MENUITEM "Load state...",				MENU_STATE_LOAD_DIALOG
+        	MENUITEM "Save state...",				MENU_STATE_SAVE_DIALOG
 	        POPUP "State slots..."
 		BEGIN
 	            MENUITEM "Activate previous slot",			MENU_STATE_PREVSLOT
         	    MENUITEM "Activate next slot",				MENU_STATE_NEXTSLOT
-    		    MENUITEM "MENU_STATE_LOAD_SLOT",				MENU_STATE_LOAD_SLOT, GRAYED
-            	    MENUITEM "MENU_STATE_SAVE_SLOT",				MENU_STATE_SAVE_SLOT, GRAYED
+    		    MENUITEM "MENU_STATE_LOAD_SLOT",				MENU_STATE_LOAD_SLOT
+            	    MENUITEM "MENU_STATE_SAVE_SLOT",				MENU_STATE_SAVE_SLOT
         	END
         	MENUITEM "Restore full state on load",				MENU_ALLRAM
         END

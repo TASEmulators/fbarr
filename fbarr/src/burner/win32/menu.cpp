@@ -1413,8 +1413,6 @@ void MenuEnableItems()
 			EnableMenuItem(hMenu, MENU_STOPREPLAY,				MF_ENABLED | MF_BYCOMMAND);
 			EnableMenuItem(hMenu, MENU_STARTRECORD,				MF_GRAYED  | MF_BYCOMMAND);
 			EnableMenuItem(hMenu, MENU_STARTREPLAY,				MF_GRAYED  | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_STATE_LOAD_SLOT,			MF_GRAYED  | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_STATE_LOAD_DIALOG,		MF_GRAYED  | MF_BYCOMMAND);
 		} else {
 			EnableMenuItem(hMenu, MENU_STOPREPLAY,				MF_GRAYED  | MF_BYCOMMAND);
 
