@@ -1,7 +1,7 @@
 fr is the older movie capture format of Final Burn Alpha, an Arcade emulator.
 FR file format description
 FR file consists of a header, followed by a save state chunk, followed by a frame data chunk, then a metadata chunk.
-
+{{{
 File Header format:
 
     000 4-byte signature: 46 42 31 20 "FB1 "
@@ -34,6 +34,6 @@ Meta Data Chunk format:
     000 4-byte chunk identifier: 46 52 31 20 "FRM1"
     004 4-byte little-endian unsigned int: size of the metadata in bytes, not including the chunk identifier or this integer
     008 string of little-endian 2-byte wide characters of locale-dependant encoding: author information
-
+}}}
 Notes
 The format does not indicate a framerate, but it is assumed to always be 60 frames per second.
