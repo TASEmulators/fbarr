@@ -187,9 +187,14 @@ extern int bRunPause;
 extern int bAltPause;
 extern int bAlwaysDrawFrames;
 extern int kNetGame;
+extern bool bShowFPS;
+extern bool bAppDoFast;
+extern bool bAppDoStep;
+extern int nFastSpeed;
 int RunIdle();
 int RunMessageLoop();
 int RunReset();
+void DisplayFPS();
 void ToggleLayer(unsigned char thisLayer);
 
 // scrn.cpp

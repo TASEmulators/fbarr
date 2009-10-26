@@ -245,11 +245,11 @@ int ConfigAppLoad()
 		STR(szPlayerDefaultIni[3]);
 
 		// Hotkeys
-		for (i = EMUCMD_MENU; i <= EMUCMDMAX-1; i++) {
-			_stprintf(szName,_T("EmuCommandTable[%d].key"), i);
-			VARZ(szName,EmuCommandTable[i].key);
-			_stprintf(szName,_T("EmuCommandTable[%d].modkey"), i);
-			VARZ(szName,EmuCommandTable[i].keymod);
+		for (i = 0; !lastCustomKey(customKeys[i]); i++) {
+			_stprintf(szName,_T("customKeys[%d].key"), i);
+			VARZ(szName,customKeys[i].key);
+			_stprintf(szName,_T("customKeys[%d].modkey"), i);
+			VARZ(szName,customKeys[i].keymod);
 		}
 
 #undef STR
@@ -570,9 +570,9 @@ int ConfigAppSave()
 	STR(szPlayerDefaultIni[3]);
 
 	_ftprintf(h, _T("\n// Hotkeys, use the configuration dialog to change them\n"));
-	for (i = EMUCMD_MENU; i <= EMUCMDMAX-1; i++) {
-		_ftprintf(h, _T("EmuCommandTable[%d].key %d\n"), i, EmuCommandTable[i].key);
-		_ftprintf(h, _T("EmuCommandTable[%d].modkey %d\n"), i, EmuCommandTable[i].keymod);
+	for (i = 0; !lastCustomKey(customKeys[i]); i++) {
+		_ftprintf(h, _T("customKeys[%d].key %d\n"), i, customKeys[i].key);
+		_ftprintf(h, _T("customKeys[%d].modkey %d\n"), i, customKeys[i].keymod);
 	}
 
 	_ftprintf(h, _T("\n\n\n"));
