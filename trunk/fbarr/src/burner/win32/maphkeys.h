@@ -1,106 +1,74 @@
 #ifndef __MAPHKEYS_H__
 #define __MAPHKEYS_H__
 
-
-enum EMUCMD {
-	EMUCMD_MENU,
-	EMUCMD_PAUSE,
-	EMUCMD_TURBOMODE,
-	EMUCMD_FRAMEADVANCE,
-	EMUCMD_RWTOGGLE,
-	EMUCMD_SPEEDDEC,
-	EMUCMD_SPEEDINC,
-	EMUCMD_SPEEDNORMAL,
-	EMUCMD_SPEEDTURBO,
-	EMUCMD_FRAMECOUNTER,
-	EMUCMD_SCREENSHOT,
-	EMUCMD_LOADSTATE1,EMUCMD_LOADSTATE2,EMUCMD_LOADSTATE3,EMUCMD_LOADSTATE4,EMUCMD_LOADSTATE5,
-	EMUCMD_LOADSTATE6,EMUCMD_LOADSTATE7,EMUCMD_LOADSTATE8,EMUCMD_LOADSTATE9,
-	EMUCMD_SAVESTATE1,EMUCMD_SAVESTATE2,EMUCMD_SAVESTATE3,EMUCMD_SAVESTATE4,EMUCMD_SAVESTATE5,
-	EMUCMD_SAVESTATE6,EMUCMD_SAVESTATE7,EMUCMD_SAVESTATE8,EMUCMD_SAVESTATE9,
-	EMUCMD_SELECTSTATE1,EMUCMD_SELECTSTATE2,EMUCMD_SELECTSTATE3,EMUCMD_SELECTSTATE4,
-	EMUCMD_SELECTSTATE5,EMUCMD_SELECTSTATE6,EMUCMD_SELECTSTATE7,EMUCMD_SELECTSTATE8,
-	EMUCMD_SELECTSTATE9,
-	EMUCMD_SELECTSTATEPREV,
-	EMUCMD_SELECTSTATENEXT,
-	EMUCMD_LOADSTATE,
-	EMUCMD_SAVESTATE,
-	EMUCMD_LOADSTATEDIAG,
-	EMUCMD_SAVESTATEDIAG,
-	EMUCMD_STARTRECORDING,
-	EMUCMD_STARTPLAYBACK,
-	EMUCMD_PLAYFROMBEGINNING,
-	EMUCMD_STOPMOVIE,
-	EMUCMD_STARTAVI,
-	EMUCMD_STOPAVI,
-	EMUCMD_CHEATEDITOR,
-	EMUCMD_CHEATTOGLE,
-	EMUCMD_VOLUMEDEC,
-	EMUCMD_VOLUMEINC,
-	EMUCMD_SHOWFPS,
-	EMUCMD_OPENGAME,
-	EMUCMD_GAMEINFO,
-	EMUCMD_EXITGAME,
-	EMUCMD_CONFIGPAD,
-	EMUCMD_DIPSWITCHES,
-	EMUCMD_SHOTFACTORY,
-	EMUCMDMAX
-};
-
-struct EMUCMDTABLE
+struct CustomKey
 {
+	typedef void (*KeyHandler) (int param);
+
 	int key;
 	int keymod;
-	char* name;
+	int menuid;
+	const char* name;
+	const char* config_code;
+
+	KeyHandler handleKeyDown;
+	KeyHandler handleKeyUp;
+	int param;
 };
 
-extern struct EMUCMDTABLE EmuCommandTable[];
+extern CustomKey customKeys[];
 
-#define GAMEDEVICE_KEY "#%d"
-#define GAMEDEVICE_NUMPADPREFIX "Numpad-%c"
-#define GAMEDEVICE_VK_TAB "Tab"
-#define GAMEDEVICE_VK_BACK "Backspace"
-#define GAMEDEVICE_VK_CLEAR "Delete"
-#define GAMEDEVICE_VK_RETURN "Enter"
-#define GAMEDEVICE_VK_LSHIFT "LShift"
-#define GAMEDEVICE_VK_RSHIFT "RShift"
-#define GAMEDEVICE_VK_LCONTROL "LCTRL"
-#define GAMEDEVICE_VK_RCONTROL "RCTRL"
-#define GAMEDEVICE_VK_LMENU "LAlt"
-#define GAMEDEVICE_VK_RMENU "RAlt"
-#define GAMEDEVICE_VK_PAUSE "Pause"
-#define GAMEDEVICE_VK_CAPITAL "Capslock"
-#define GAMEDEVICE_VK_ESCAPE "Escape"
-#define GAMEDEVICE_VK_SPACE "Space"
-#define GAMEDEVICE_VK_PRIOR "PgUp"
-#define GAMEDEVICE_VK_NEXT "PgDn"
-#define GAMEDEVICE_VK_HOME "Home"
-#define GAMEDEVICE_VK_END "End"
-#define GAMEDEVICE_VK_LEFT "Left"
-#define GAMEDEVICE_VK_RIGHT "Right"
-#define GAMEDEVICE_VK_UP "Up"
-#define GAMEDEVICE_VK_DOWN "Down"
-#define GAMEDEVICE_VK_SELECT "Select"
-#define GAMEDEVICE_VK_PRINT "Print"
-#define GAMEDEVICE_VK_EXECUTE "Execute"
-#define GAMEDEVICE_VK_SNAPSHOT "SnapShot"
-#define GAMEDEVICE_VK_INSERT "Insert"
-#define GAMEDEVICE_VK_DELETE "Delete"
-#define GAMEDEVICE_VK_HELP "Help"
-#define GAMEDEVICE_VK_LWIN "LWinKey"
-#define GAMEDEVICE_VK_RWIN "RWinKey"
-#define GAMEDEVICE_VK_APPS "AppKey"
-#define GAMEDEVICE_VK_MULTIPLY "Numpad *"
-#define GAMEDEVICE_VK_ADD "Numpad +"
-#define GAMEDEVICE_VK_SEPARATOR "\\"
-#define GAMEDEVICE_VK_OEM_1 "Semi-Colon"
-#define GAMEDEVICE_VK_OEM_7 "Apostrophe"
-#define GAMEDEVICE_VK_OEM_COMMA "Comma" 
-#define GAMEDEVICE_VK_OEM_PERIOD "Period" 
-#define GAMEDEVICE_VK_SUBTRACT "Numpad -"
-#define GAMEDEVICE_VK_DECIMAL "Numpad ."
-#define GAMEDEVICE_VK_DIVIDE "Numpad /"
-#define GAMEDEVICE_VK_NUMLOCK "Num-lock"
-#define GAMEDEVICE_VK_SCROLL "Scroll-lock"
+inline bool lastCustomKey(const CustomKey& key) {
+	return (key.key == 0xffff && key.keymod == 0xffff);
+}
+
+int MHkeysCreate();
+int MHkeysUpdateMenuAcc();
+int MHkeysDownHandle(const MSG& Msg);
+int MHkeysUpHandle(const MSG& Msg);
+
+// key functions
+void HK_callMenu(int);
+void HK_fastFowardKeyDown(int);
+void HK_fastFowardKeyUp(int);
+void HK_loadState(int param);
+void HK_saveState(int param);
+void HK_selectState(int param);
+void HK_prevState(int);
+void HK_nextState(int);
+void HK_loadCurState(int);
+void HK_saveCurState(int);
+void HK_loadStateDialog(int);
+void HK_saveStateDialog(int);
+void HK_playRec(int);
+void HK_playFromBeginning(int);
+void HK_stopRec(int);
+void HK_startRec(int);
+void HK_startAvi(int);
+void HK_stopAvi(int);
+void HK_frameAdvance(int);
+void HK_toggleReadOnly(int);
+void HK_frameCounter(int);
+void HK_pause(int);
+void HK_speedInc(int);
+void HK_speedDec(int);
+void HK_speedNormal(int);
+void HK_speedTurbo(int);
+void HK_volumeDec(int);
+void HK_volumeInc(int);
+void HK_showFps(int);
+void HK_configPad(int);
+void HK_setDips(int);
+void HK_cheatEditor(int);
+//void HK_cheatSearch(int);
+void HK_windowSize(int param);
+void HK_windowSizeMax(int);
+void HK_fullscreen(int);
+void HK_screenShot(int);
+void HK_shotFactory(int);
+void HK_openGame(int);
+void HK_gameInfo(int);
+void HK_quickOpenGame(int);
+void HK_exitGame(int);
 
 #endif /* __MAPHKEYS_H__ */

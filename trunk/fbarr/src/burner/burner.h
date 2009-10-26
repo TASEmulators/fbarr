@@ -22,6 +22,8 @@
 #include "title.h"
 #include "burn.h"
 
+#define sizearray(a) (sizeof(a) / sizeof((a)[0]))
+
 // ---------------------------------------------------------------------------
 // OS dependent functionality
 

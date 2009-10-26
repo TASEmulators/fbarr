@@ -1,6 +1,7 @@
 // Screen Window
 #include "burner.h"
 #include "tracklst.h"
+#include "maphkeys.h"
 
 #define		HORIZONTAL_ORIENTED_RES		0
 #define		VERTICAL_ORIENTED_RES		1
@@ -9,7 +10,7 @@ extern HWND hJukeboxDlg;
 
 int nActiveGame;
 
-static bool bLoading = 0;
+bool bLoading = 0;
 
 int OnMenuSelect(HWND, HMENU, int, HMENU, UINT);
 int OnInitMenuPopup(HWND, HMENU, UINT, BOOL);
@@ -67,7 +68,7 @@ static int OnDisplayChange(HWND, UINT, UINT, UINT);
 
 int OnNotify(HWND, int, NMHDR* lpnmhdr);
 
-static bool UseDialogs()
+bool UseDialogs()
 {
 	if (/*!bDrvOkay ||*/ !nVidFullscreen) {
 		return true;
@@ -393,6 +394,16 @@ static LRESULT CALLBACK ScrnProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc(hWnd, Msg, wParam, lParam);
 }
 
+void SimpleReinitScrn(const bool& reinitVid)
+{
+	ScrnSize();
+
+	// need for dx9 blitter
+	if (reinitVid || VidInitNeeded()) {
+		VidReInitialise();
+	}
+}
+
 static int OnDisplayChange(HWND, UINT, UINT, UINT)
 {
 	if (nVidFullscreen == 0) {
@@ -587,7 +598,7 @@ static void OnDestroy(HWND)
     hScrnWnd = NULL;					// Make sure handle is not used again
 }
 
-static void UpdatePreviousGameList()
+void UpdatePreviousGameList()
 {
 	if (bJukeboxInUse) return;
 
@@ -790,93 +801,9 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 		}
 
-		case MENU_LOAD: {
-			int nGame;
-
-			if(kNetGame || !UseDialogs() || bLoading) {
-				break;
-			}
-
-			SplashDestroy(1);
-			StopReplay();
-
-			InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-
-			bLoading = 1;
-			AudSoundStop();						// Stop while the dialog is active or we're loading ROMs
-
-			// This is needed in case NeoGeo slot loading is canceled
-			if(bDrvOkay) {
-				nActiveGame = nBurnDrvSelect;
-			}
-
-			nGame = SelDialog(0, hScrnWnd);		// Bring up select dialog to pick a driver
-			
-			extern bool bDialogCancel;
-
-			if (nGame >= 0 && bDialogCancel == false) {
-
-				if(bJukeboxInUse == true) {
-					DrvExit();
-					bJukeboxInUse = true;
-				}
-
-				EndDialog(hJukeboxDlg, 0);
-
-#if defined (INCLUDE_NEOGEO_MULTISLOT)
-				//DrvExit();
-				if (!bMVSMultiSlot) {
-					DrvInit(nGame, true);		// Init the game driver
-				} else {
-					if(!NeogeoSlotSelectCreate(hScrnWnd)) 
-					{
-						// [CANCEL button was pressed] get previous emulation state
-						if(bDrvOkay) {
-							nBurnDrvSelect = nActiveGame;
-						}						
-						GameInpCheckMouse();
-						AudSoundPlay();					// Restart sound
-						bLoading = 0;
-						break;
-					} else {
-						// [OK button was pressed]
-						// NEOGEO MVS SLOT STUFF GOES HERE
-					}
-				}
-				MenuEnableItems();
-				bAltPause = 0;
-				AudSoundPlay();					// Restart sound
-				bLoading = 0;
-				if (!bMVSMultiSlot) {
-					UpdatePreviousGameList();
-					if (bVidAutoSwitchFull) {
-						nVidFullscreen = 1;
-						POST_INITIALISE_MESSAGE;
-					}
-				}
-#else
-				EndDialog(hJukeboxDlg, 0);
-				DrvExit();
-				DrvInit(nGame, true);			// Init the game driver
-				MenuEnableItems();
-				bAltPause = 0;
-				AudSoundPlay();					// Restart sound
-				bLoading = 0;
-				UpdatePreviousGameList();
-				if (bVidAutoSwitchFull) {
-					nVidFullscreen = 1;
-					POST_INITIALISE_MESSAGE;
-				}
-#endif
-				POST_INITIALISE_MESSAGE;
-				break;
-			} else {
-				GameInpCheckMouse();
-				AudSoundPlay();					// Restart sound
-				bLoading = 0;
-				break;
-			}
-		}
+		case MENU_LOAD:
+			HK_openGame(0);
+			break;
 
 		case MENU_TRACKLIST:
 		{
@@ -950,33 +877,13 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case MENU_STARTREPLAY:
-			if (UseDialogs()) {
-				InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-				AudSoundStop();
-				SplashDestroy(1);
-				StopReplay();
-				StartReplay();
-				GameInpCheckMouse();
-				AudSoundPlay();
-				VidRedraw();
-				VidPaint(0);
-			}
+			HK_playRec(0);
 			break;
 		case MENU_STARTRECORD:
-			if (UseDialogs() && nReplayStatus != 1) {
-				InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-				AudBlankSound();
-				StopReplay();
-				StartRecord();
-				GameInpCheckMouse();
-				VidRedraw();
-				VidPaint(0);
-			}
+			HK_startRec(0);
 			break;
 		case MENU_STOPREPLAY:
-			StopReplay();
-			VidRedraw();
-			VidPaint(0);
+			HK_stopRec(0);
 			break;
 			
 		case MENU_HOTKEYS:
@@ -984,40 +891,11 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 			
 		case MENU_VIEWGAMEINFO:
-			if (bDrvOkay && UseDialogs()) {
-				InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-				GameInfoDialogCreate(hScrnWnd, nBurnDrvSelect);
-			}
+			void HK_gameInfo(int);
 			break;
 			
 		case MENU_QUIT:
-			AudBlankSound();
-			StopReplay();
-			if (nVidFullscreen) {
-				nVidFullscreen = 0;
-				VidExit();
-			}
-			if (bDrvOkay) {
-				bMVSMultiSlot = false;
-				StopReplay();
-				DrvExit();
-  				if (kNetGame) {
-					kNetGame = 0;
-//					kailleraEndGame();
-					Kaillera_End_Game();
-					DeActivateChat();
-					PostQuitMessage(0);
-				}
-				bCheatsAllowed = true;						// reenable cheats netplay has ended
-
-				ScrnSize();
-				ScrnTitle();
-				MenuEnableItems();
-				nDialogSelect = -1;
-				nBurnDrvSelect = ~0U;
-				
-				POST_INITIALISE_MESSAGE;
-			}
+			HK_exitGame(0);
 			break;
 
 		case MENU_EXIT:
@@ -1032,27 +910,15 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			return;
 
 		case MENU_PAUSE:
-			if (bDrvOkay && !kNetGame) {
-				SetPauseMode(!bRunPause);
-			} else {
-				SetPauseMode(0);
-			}
+			HK_pause(0);
 			break;
 
 		case MENU_INPUT:
-			AudBlankSound();
-			if (UseDialogs()) {
-				InputSetCooperativeLevel(false, false);
-				InpdCreate();
-			}
+			HK_configPad(0);
 			break;
 
 		case MENU_DIPSW:
-			AudBlankSound();
-			if (UseDialogs()) {
-				InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-				InpDIPSWCreate();
-			}
+			HK_setDips(0);
 			break;
 
 		case MENU_SETCPUCLOCK:
@@ -1104,71 +970,22 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case MENU_STATE_LOAD_DIALOG:
-			if (UseDialogs() && !kNetGame) {
-				InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-				AudSoundStop();
-				SplashDestroy(1);
-				StatedLoad(0);
-				GameInpCheckMouse();
-				AudSoundPlay();
-			}
+			HK_loadStateDialog(0);
 			break;
 		case MENU_STATE_SAVE_DIALOG:
-			if (UseDialogs()) {
-				InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-				AudBlankSound();
-				StatedSave(0);
-				GameInpCheckMouse();
-			}
+			HK_saveStateDialog(0);
 			return;
-		case MENU_STATE_PREVSLOT: {
-			TCHAR szString[256];
-
-			nSavestateSlot--;
-			if (nSavestateSlot < 1) {
-				nSavestateSlot = 1;
-			}
-			_sntprintf(szString, 256, FBALoadStringEx(hAppInst, IDS_STATE_ACTIVESLOT, true), nSavestateSlot);
-			VidSNewShortMsg(szString);
+		case MENU_STATE_PREVSLOT:
+			HK_prevState(0);
 			break;
-		}
-		case MENU_STATE_NEXTSLOT: {
-			TCHAR szString[256];
-
-			nSavestateSlot++;
-			if (nSavestateSlot > 8) {
-				nSavestateSlot = 8;
-			}
-			_sntprintf(szString, 256, FBALoadStringEx(hAppInst, IDS_STATE_ACTIVESLOT, true), nSavestateSlot);
-			VidSNewShortMsg(szString);
+		case MENU_STATE_NEXTSLOT:
+			HK_nextState(0);
 			break;
-		}
 		case MENU_STATE_LOAD_SLOT:
-			if (bDrvOkay && !kNetGame) {
-				if (StatedLoad(nSavestateSlot) == 0) {
-					if(nReplayStatus) {
-						if(bReplayReadOnly) {
-							VidSNewShortMsg(L"rewind");
-						} else {
-							VidSNewShortMsg(L"undo");
-						}
-					} else {
-						VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_LOADED, true));
-					}
-				} else {
-					VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_LOAD_ERROR, true), 0xFF3F3F);
-				}
-			}
+			HK_loadCurState(0);
 			break;
 		case MENU_STATE_SAVE_SLOT:
-			if (bDrvOkay) {
-				if (StatedSave(nSavestateSlot) == 0) {
-					VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
-				} else {
-					VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVE_ERROR, true), 0xFF3F3F);
-					SetPauseMode(1);
-				}
-			}
+			HK_saveCurState(0);
 			break;
 
 		case MENU_ALLRAM:
@@ -1577,10 +1394,7 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case MENU_FULL:
-			if (bDrvOkay || nVidFullscreen) {
-				nVidFullscreen = !nVidFullscreen;
-				POST_INITIALISE_MESSAGE;
-			}
+			HK_fullscreen(0);
 			return;
 		
 		case MENU_AUTOSWITCHFULL:
@@ -1609,34 +1423,19 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			}
 			break;
 		case MENU_SINGLESIZEWINDOW:
-			if (nWindowSize != 1) {
-				nWindowSize = 1;
-				POST_INITIALISE_MESSAGE;
-			}
+			HK_windowSize(1);
 			break;
 		case MENU_DOUBLESIZEWINDOW:
-			if (nWindowSize != 2) {
-				nWindowSize = 2;
-				POST_INITIALISE_MESSAGE;
-			}
+			HK_windowSize(2);
 			break;
 		case MENU_TRIPLESIZEWINDOW:
-			if (nWindowSize != 3) {
-				nWindowSize = 3;
-				POST_INITIALISE_MESSAGE;
-			}
+			HK_windowSize(3);
 			break;
 		case MENU_QUADSIZEWINDOW:
-			if (nWindowSize != 4) {
-				nWindowSize = 4;
-				POST_INITIALISE_MESSAGE;
-			}
+			HK_windowSize(4);
 			break;
 		case MENU_MAXIMUMSIZEWINDOW:
-			if (nWindowSize <= 4) {
-				nWindowSize = 9999;
-				POST_INITIALISE_MESSAGE;
-			}
+			HK_windowSizeMax(0);
 			break;
 			
 		case MENU_MONITORAUTOCHECK:
@@ -2092,9 +1891,7 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case MENU_ENABLECHEAT:
-			AudBlankSound();
-			InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-			InpCheatCreate();
+			HK_cheatEditor(0);
 			break;
 
 		case MENU_DEBUG:
@@ -2109,26 +1906,12 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case MENU_SAVESNAP: {
-			if (bDrvOkay) {
-				int status = MakeScreenShot();
-
-				if (!status) {
-					VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_SSHOT_SAVED, true));
-				} else {
-					TCHAR tmpmsg[256];
-
-					_sntprintf(tmpmsg, 256, FBALoadStringEx(hAppInst, IDS_SSHOT_ERROR, true), status);
-					VidSNewShortMsg(tmpmsg, 0xFF3F3F);
-				}
-			}
+			HK_screenShot(0);
 			break;
 		}
 
 		case MENU_SNAPFACT:
-			if (UseDialogs()) {
-				InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-				SFactdCreate();
-			}
+			HK_shotFactory(0);
 			break;
 			
 		case MENU_CHEATSEARCH_START: {
@@ -2250,11 +2033,11 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case MENU_AVI_BEGIN:
-			AviBegin();
+			HK_startAvi(0);
 			break;
 
 		case MENU_AVI_END:
-			AviEnd();
+			HK_stopAvi(0);
 			break;
 
 		case MENU_ABOUT:
