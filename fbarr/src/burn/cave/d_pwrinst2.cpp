@@ -1176,18 +1176,18 @@ struct BurnDriver BurnDrvpwrinst2 = {
 	NULL, pwrinst2RomInfo, pwrinst2RomName, pwrinst2InputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 320, 240, 4, 3
+	&CaveRecalcPalette, 0x8000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvpwrins2j = {
-	"pwrins2j", "pwrinst2", NULL, "1994",
+	"pwrinst2j", "pwrinst2", NULL, "1994",
 	"Gouketsuji Ichizoku 2 (Japan, Ver. 94/04/08)\0", NULL, "Atlus/Cave", "Cave",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 2, HARDWARE_CAVE_68K_Z80, GBF_VSFIGHT, FBF_PWRINST,
 	NULL, pwrins2jRomInfo, pwrins2jRomName, pwrinst2InputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 320, 240, 4, 3
+	&CaveRecalcPalette, 0x8000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvplegends = {
@@ -1198,16 +1198,16 @@ struct BurnDriver BurnDrvplegends = {
 	NULL, plegendsRomInfo, plegendsRomName, pwrinst2InputInfo, NULL,
 	PlegendsInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 320, 240, 4, 3
+	&CaveRecalcPalette, 0x8000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvplegendj = {
-	"plegendj", "plegends", NULL, "1995",
+	"plegendsj", "plegends", NULL, "1995",
 	"Gouketsuji Ichizoku Saikyou Densetsu (Japan, Ver. 95/06/20)\0", NULL, "Atlus/Cave", "Cave",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 2, HARDWARE_CAVE_68K_Z80, GBF_VSFIGHT, FBF_PWRINST,
 	NULL, plegendjRomInfo, plegendjRomName, pwrinst2InputInfo, NULL,
 	PlegendsInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 320, 240, 4, 3
+	&CaveRecalcPalette, 0x8000, 320, 240, 4, 3
 };

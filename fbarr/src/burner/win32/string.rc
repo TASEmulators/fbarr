@@ -104,6 +104,7 @@ BEGIN
 	IDS_SEL_PACMAN			"Pacman"
 	IDS_SEL_KONAMI			"Konami"
 	IDS_SEL_GALAXIAN		"Galaxian"
+	IDS_SEL_ATARI			"Atari"
 	IDS_SEL_BOARDTYPE		"Board Type"
 	IDS_SEL_BOOTLEG			"Bootleg"
 	IDS_SEL_PROTOTYPE		"Prototype"

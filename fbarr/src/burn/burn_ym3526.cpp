@@ -4,6 +4,7 @@
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"
+#include "m6502_intf.h"
 
 // Timer Related
 
@@ -281,6 +282,20 @@ int BurnTimerAttachM6803YM3526(int nClockspeed)
 	pCPUTotalCycles = M6800TotalCycles;
 	pCPURun = M6803Run;
 	pCPURunEnd = M6803RunEnd;
+
+	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
+
+//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
+
+	return 0;
+}
+
+int BurnTimerAttachM6502YM3526(int nClockspeed)
+{
+	nCPUClockspeed = nClockspeed;
+	pCPUTotalCycles = m6502TotalCycles;
+	pCPURun = m6502Run;
+	pCPURunEnd = M6800RunEnd; // doesn't do anything...
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 

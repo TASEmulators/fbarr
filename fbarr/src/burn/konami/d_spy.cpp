@@ -572,7 +572,7 @@ static int DrvInit()
 	K051960SetCallback(K051960Callback);
 
 	BurnYM3812Init(3579545, &DrvFMIRQHandler, DrvSynchroniseStream, 0);
-	BurnTimerAttachZet(3579545);
+	BurnTimerAttachZetYM3812(3579545);
 
 	K007232Init(0, 3579545, DrvSndROM0, 0x40000);
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback0);
@@ -669,13 +669,13 @@ static int DrvFrame()
 		nCyclesDone[0] += M6809Run(nCyclesSegment - nCyclesDone[0]);
 
 		nCyclesSegment = (nCyclesTotal[1] / nInterleave) * (i + 1);
-		nCyclesDone[1] += BurnTimerUpdate(nCyclesSegment - nCyclesDone[1]);
+		nCyclesDone[1] += BurnTimerUpdateYM3812(nCyclesSegment - nCyclesDone[1]);
 	}
 
 	if (K052109_irq_enabled) M6809SetIRQ(0, M6809_IRQSTATUS_AUTO);
 
 	if (pBurnSoundOut) {
-		BurnTimerEndFrame(nCyclesTotal[1]);
+		BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 		K007232Update(0, pBurnSoundOut, nBurnSoundLen);
 		K007232Update(1, pBurnSoundOut, nBurnSoundLen);
@@ -763,7 +763,7 @@ struct BurnDriver BurnDrvSpy = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, spyRomInfo, spyRomName, SpyInputInfo, SpyDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	304, 224, 4, 3
 };
 
@@ -798,6 +798,6 @@ struct BurnDriver BurnDrvSpyu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, spyuRomInfo, spyuRomName, SpyInputInfo, SpyDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	304, 224, 4, 3
 };

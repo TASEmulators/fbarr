@@ -22,7 +22,7 @@ extern unsigned char *PGMARMRAM2;
 extern unsigned char *PGMARMShareRAM;
 extern unsigned char *PGMARMShareRAM2;
 extern unsigned short *RamRs;
-extern unsigned short *RamPal;
+extern unsigned short *PgmRamPal;
 extern unsigned short *RamVReg;
 extern unsigned short *RamSpr;
 extern unsigned short *RamSprBuf;

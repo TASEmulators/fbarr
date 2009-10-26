@@ -46,8 +46,8 @@ PERL = 1
 mingw345: FORCE
 	@$(MAKE) -s -f makefile.mingw345
 	
-mingw433: FORCE
-	@$(MAKE) -s -f makefile.mingw433
+mingw441: FORCE
+	@$(MAKE) -s -f makefile.mingw441
 
 sdl: FORCE
 	@$(MAKE) -s -f makefile.sdl

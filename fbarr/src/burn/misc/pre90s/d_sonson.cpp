@@ -725,7 +725,7 @@ struct BurnDriver BurnDrvSonson = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, sonsonRomInfo, sonsonRomName, SonsonInputInfo, SonsonDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	240, 240, 4, 3
 };
 
@@ -776,6 +776,6 @@ struct BurnDriver BurnDrvSonsonj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, sonsonjRomInfo, sonsonjRomName, SonsonInputInfo, SonsonDIPInfo,
-	SonsonjInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	SonsonjInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	240, 240, 4, 3
 };

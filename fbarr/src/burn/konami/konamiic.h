@@ -5,6 +5,13 @@ extern unsigned int KonamiIC_K052109InUse;
 extern unsigned int KonamiIC_K051316InUse;
 extern unsigned int KonamiIC_K053245InUse;
 extern unsigned int KonamiIC_K053247InUse;
+extern unsigned int KonamiIC_K053936InUse;
+
+extern unsigned short *konami_temp_screen;
+void KonamiBlendCopy(unsigned int *palette /* 32-bit color */, unsigned int *drvpalette /* n-bit color */);
+
+extern int K05324xZRejection;
+void K05324xSetZRejection(int z);
 
 void KonamiICReset();
 void KonamiICExit();
@@ -148,7 +155,7 @@ void K053245GfxDecode(unsigned char *src, unsigned char *dst, int len);
 void K053245Init(int chip, unsigned char *gfx, int mask, void (*callback)(int *code,int *color,int *priority));
 void K053245Exit();
 
-void K053245SpritesRender(int chip, unsigned char *gfxdata, int priority, int shadow_color);
+void K053245SpritesRender(int chip, unsigned char *gfxdata, int priority);
 
 void K053245SetSpriteOffset(int chip,int offsx, int offsy);
 void K053245ClearBuffer(int chip);
@@ -183,7 +190,7 @@ void K053251Scan(int nAction);
 // K053247.cpp
 //---------------------------------------------------------------------------------------------------------------
 void K053247Reset();
-void K053247Init(unsigned char *gfxrom, int gfxlen, void (*Callback)(int *code, int *color, int *priority));
+void K053247Init(unsigned char *gfxrom, int gfxlen, void (*Callback)(int *code, int *color, int *priority), int flags);
 void K053247Exit();
 void K053247Scan(int nAction);
 
@@ -215,3 +222,17 @@ void K051733Reset();
 void K051733Write(int offset, int data);
 unsigned char K051733Read(int offset);
 void K051733Scan(int nAction);
+
+// K053936.cpp
+//------------------------------------------------------------------------------------------
+void K053936Init(int chip, unsigned char *ram, int len, int w, int h, void (*pCallback)(int offset, unsigned short *ram, int *code, int *color, int *sx, int *sy, int *fx, int *fy));
+void K053936Reset();
+void K053936Exit();
+void K053936Scan(int nAction);
+
+void K053936EnableWrap(int chip, int status);
+void K053936SetOffset(int chip, int xoffs, int yoffs);
+
+void K053936PredrawTiles(int chip, unsigned char *gfx, int transparent, int tcol /*transparent color*/);
+void K053936Draw(int chip, unsigned short *ctrl, unsigned short *linectrl, int transp);
+

@@ -851,6 +851,8 @@ void HK_screenShot(int)
 			VidSNewShortMsg(tmpmsg, 0xFF3F3F);
 		}
 	}
+	VidRedraw();
+	VidPaint(0);
 }
 void HK_shotFactory(int)
 {

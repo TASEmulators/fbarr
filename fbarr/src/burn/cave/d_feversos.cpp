@@ -621,7 +621,7 @@ struct BurnDriver BurnDrvFeverSOS = {
 	NULL, feversosRomInfo, feversosRomName, feversosInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 240, 320, 3, 4
+	&CaveRecalcPalette, 0x8000, 240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvDFeveron = {
@@ -632,5 +632,5 @@ struct BurnDriver BurnDrvDFeveron = {
 	NULL, dfeveronRomInfo, dfeveronRomName, feversosInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 240, 320, 3, 4
+	&CaveRecalcPalette, 0x8000, 240, 320, 3, 4
 };

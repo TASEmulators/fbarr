@@ -49,7 +49,7 @@ typedef unsigned int UINT32;
 typedef signed long long INT64;
 typedef unsigned long long UINT64;
 
-#define BUSY_LOOP_HACKS 	0
+#define BUSY_LOOP_HACKS 	1
 #define FAST_OP_FETCH		1
 #define USE_JUMPTABLE		0
 
@@ -124,6 +124,7 @@ typedef struct
 	UINT32	cycle_counts;
 	UINT32	sh2_cycles_to_run;
 	INT32	sh2_icount;
+	int     sh2_total_cycles;
 	
 	int 	(*irq_callback)(int irqline);
 
@@ -400,6 +401,8 @@ int Sh2Init(int nCount)
 	}
 	memset(Sh2Ext, 0, sizeof(SH2EXT) * nCount);
 	
+	extern void CpuCheatRegister(int,int);
+
 	// init default memory handler
 	for (int i=0; i<nCount; i++) {
 		pSh2Ext = Sh2Ext + i;
@@ -422,11 +425,9 @@ int Sh2Init(int nCount)
 		Sh2SetWriteByteHandler(SH2_MAXHANDLER - 2, Sh2EmptyWriteByte);		
 		Sh2SetWriteWordHandler(SH2_MAXHANDLER - 2, Sh2EmptyWriteWord);
 		Sh2SetWriteLongHandler(SH2_MAXHANDLER - 2, Sh2EmptyWriteLong);
-		
-	}
 
-	extern void CpuCheatRegister(int,int);
-	CpuCheatRegister(0x0002, nCount);
+		CpuCheatRegister(0x0002, i);
+	}
 
 	return 0;
 }
@@ -861,7 +862,9 @@ INLINE void BRA(UINT32 d)
          */
 		if (next_opcode == 0x0009){
 			//bprintf(0, _T("SH2: BUSY_LOOP_HACKS %d\n"), sh2->sh2_icount);
+			sh2->sh2_total_cycles += sh2->sh2_icount;
 			sh2->sh2_icount %= 3;	/* cycles for BRA $ and NOP taken (3) */
+			sh2->sh2_total_cycles -= sh2->sh2_icount;
 		}
 	}
 #endif
@@ -1298,6 +1301,7 @@ INLINE void DT(UINT32 n)
 			{
 				sh2->r[n]--;
 				sh2->sh2_icount -= 4;	/* cycles for DT (1) and BF taken (3) */
+				sh2->sh2_total_cycles += 4;
 			}
 		}
 	}
@@ -3115,6 +3119,7 @@ int Sh2Run(int cycles)
 	do
 	{
 		if ( pSh2Ext->suspend ) {
+			sh2->sh2_total_cycles += cycles;
 			sh2->sh2_icount = 0;
 			break;
 		}
@@ -3181,6 +3186,7 @@ int Sh2Run(int cycles)
 	{
 
 		if ( pSh2Ext->suspend ) {
+			sh2->sh2_total_cycles += cycles;
 			sh2->sh2_icount = 0;
 			break;
 		}			
@@ -3228,6 +3234,7 @@ int Sh2Run(int cycles)
 			sh2->test_irq = 0;
 		}
 
+		sh2->sh2_total_cycles++;
 		sh2->sh2_icount--;
 		
 		// timer check 
@@ -3274,7 +3281,7 @@ void Sh2SetIRQLine(const int line, const int state)
 			sh2->test_irq = 1;
 		else
 			CHECK_PENDING_IRQ(/*"sh2_set_irq_line"*/);
-		
+
 		pSh2Ext->suspend = 0;
 	}
 
@@ -3297,10 +3304,26 @@ void Sh2BurnUntilInt(int)
 
 void Sh2StopRun()
 {
+	sh2->sh2_total_cycles += sh2->sh2_icount;
 	sh2->sh2_icount = 0;
 	sh2->sh2_cycles_to_run = 0;
 }
 
+int Sh2TotalCycles()
+{
+	return sh2->sh2_total_cycles;
+}
+
+void Sh2NewFrame()
+{
+	sh2->sh2_total_cycles = 0;
+}
+
+void Sh2BurnCycles(int cycles)
+{
+	sh2->sh2_icount -= cycles;
+	sh2->sh2_total_cycles += cycles;
+}
 
 void __fastcall Sh2WriteByte(unsigned int a, unsigned char d)
 {

@@ -3482,6 +3482,11 @@ void Z80Init()
 
 void Z80Reset()
 {
+	//struct z80_irq_daisy_chain *daisy;
+	//int (*irq_callback)(int irqline);
+
+	memset(&Z80, 0, sizeof(Z80));
+
 	PC = 0x0000;
 	I = 0;
 	R = 0;

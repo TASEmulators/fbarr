@@ -590,7 +590,7 @@ struct BurnDriver BurnDrvGumbo = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, gumboRomInfo, gumboRomName, GumboInputInfo, GumboDIPInfo,
-	GumboInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	GumboInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	320, 224, 4, 3
 };
 
@@ -614,12 +614,12 @@ STD_ROM_PICK(mspuzzlg)
 STD_ROM_FN(mspuzzlg)
 
 struct BurnDriver BurnDrvMspuzzlg = {
-	"mspuzzlg", "gumbo", NULL, "1994",
+	"mspuzzleg", "gumbo", NULL, "1994",
 	"Miss Puzzle (Clone of Gumbo)\0", NULL, "Min Corp.", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, mspuzzlgRomInfo, mspuzzlgRomName, GumboInputInfo, GumboDIPInfo,
-	GumboInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	GumboInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	320, 224, 4, 3
 };
 
@@ -648,7 +648,7 @@ struct BurnDriver BurnDrvMsbingo = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, msbingoRomInfo, msbingoRomName, GumboInputInfo, MsbingoDIPInfo,
-	MspuzzleInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	MspuzzleInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	320, 224, 4, 3
 };
 
@@ -679,7 +679,7 @@ struct BurnDriver BurnDrvMspuzzle = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, mspuzzleRomInfo, mspuzzleRomName, GumboInputInfo, MspuzzleDIPInfo,
-	MspuzzleInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	MspuzzleInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	224, 320, 3, 4
 };
 
@@ -687,8 +687,8 @@ struct BurnDriver BurnDrvMspuzzle = {
 // Miss Puzzle (Nudes)
 
 static struct BurnRomInfo mspuzzlenRomDesc[] = {
-	{ "u1.rom",	0x20000, 0xec940df4, 1 | BRF_PRG | BRF_ESS | BRF_NODUMP }, //  0 68k Code
-	{ "u2.rom",	0x20000, 0x7b9cac82, 1 | BRF_PRG | BRF_ESS | BRF_NODUMP }, //  1
+	{ "u1.rom",	0x20000, 0xec940df4, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "u2.rom",	0x20000, 0x7b9cac82, 1 | BRF_PRG | BRF_ESS }, //  1
 
 	{ "u210.rom",	0x40000, 0x8826b018, 2 | BRF_SND },  		           //  2 Samples
 
@@ -696,7 +696,7 @@ static struct BurnRomInfo mspuzzlenRomDesc[] = {
 	{ "u511.bin",	0x40000, 0x3d6b6c78, 3 | BRF_GRA },   		           //  4
 
 	{ "u421.rom",	0x80000, 0x3c567c55, 4 | BRF_GRA },     		   //  5 Background Tiles
-	{ "u425.rom",	0x80000, 0x1c4c8fc1, 4 | BRF_GRA | BRF_NODUMP },           //  6
+	{ "u425.rom",	0x80000, 0x1c4c8fc1, 4 | BRF_GRA },           //  6
 	{ "u420.rom",	0x80000, 0xf52ab7fd, 4 | BRF_GRA }, 		           //  7
 	{ "u426.rom",	0x80000, 0xc28b2743, 4 | BRF_GRA },		           //  8
 };
@@ -710,7 +710,7 @@ struct BurnDriver BurnDrvMspuzzlen = {
 	NULL, NULL, NULL, NULL,
 	BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, mspuzzlenRomInfo, mspuzzlenRomName, GumboInputInfo, MspuzzleDIPInfo,
-	MspuzzleInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	MspuzzleInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	224, 320, 3, 4
 };
 
@@ -739,7 +739,7 @@ struct BurnDriver BurnDrvDblpoint = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, dblpointRomInfo, dblpointRomName, DblpointInputInfo, DblpointDIPInfo,
-	GumboInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	GumboInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	320, 224, 4, 3
 };
 
@@ -763,12 +763,12 @@ STD_ROM_PICK(dblpoind)
 STD_ROM_FN(dblpoind)
 
 struct BurnDriver BurnDrvDblpoind = {
-	"dblpoind", "dblpoint", NULL, "1995",
+	"dblpointd", "dblpoint", NULL, "1995",
 	"Double Point (Dong Bang Electron, bootleg?)\0", NULL, "Dong Bang Electron", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, dblpoindRomInfo, dblpoindRomName, DblpointInputInfo, DblpointDIPInfo,
-	GumboInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	GumboInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	320, 224, 4, 3
 };
 

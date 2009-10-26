@@ -1045,37 +1045,37 @@ struct BurnDriver BurnDrvCommando = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, DrvRomInfo, DrvRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvCommandu = {
-	"commandu", "commando", NULL, "1985",
+	"commandou", "commando", NULL, "1985",
 	"Commando (US)\0", NULL, "Capcom (Data East USA license)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, DrvuRomInfo, DrvuRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvCommandj = {
-	"commandj", "commando", NULL, "1985",
+	"commandoj", "commando", NULL, "1985",
 	"Senjou no Ookami\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, DrvjRomInfo, DrvjRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvCommandb = {
-	"commandb", "commando", NULL, "1985",
+	"commandob", "commando", NULL, "1985",
 	"Commando (bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, DrvbRomInfo, DrvbRomName, DrvInputInfo, DrvDIPInfo,
 	BootlegInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvSinvasn = {
@@ -1085,7 +1085,7 @@ struct BurnDriver BurnDrvSinvasn = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, SinvasnRomInfo, SinvasnRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvSinvasnb = {
@@ -1095,5 +1095,5 @@ struct BurnDriver BurnDrvSinvasnb = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, SinvasnbRomInfo, SinvasnbRomName, DrvInputInfo, DrvDIPInfo,
 	BootlegInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 256, 3, 4
 };

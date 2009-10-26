@@ -1,6 +1,7 @@
 #include "tiles_generic.h"
 #include "burn_ym2151.h"
 #include "burn_ym2203.h"
+#include "burn_ym2413.h"
 #include "burn_ym2612.h"
 #include "rf5c68.h"
 #include "burn_gun.h"
@@ -95,6 +96,7 @@ extern bool Shangon;
 extern bool Hangon;
 
 extern int YBoardIrq2Scanline;
+extern int System16YM2413IRQInterval;
 
 extern bool System16HasGears;
 
@@ -238,6 +240,7 @@ extern int System16RecalcBgAltTileMap;
 extern int System16RecalcFgTileMap;
 extern int System16RecalcFgAltTileMap;
 extern int System16CreateOpaqueTileMaps;
+extern int System16IgnoreVideoEnable;
 
 extern bool bSystem16BootlegRender;
 

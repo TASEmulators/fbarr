@@ -506,6 +506,6 @@ struct BurnDriver BurnDrvPass = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
 	NULL, passRomInfo, passRomName, PassInputInfo, PassDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	320, 224, 4, 3
 };

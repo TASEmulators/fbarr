@@ -4,6 +4,8 @@
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"
+#include "m6502_intf.h"
+#include "sh2.h"
 
 #define MAX_TIMER_VALUE ((1 << 30) - 65536)
 
@@ -374,6 +376,35 @@ int BurnTimerAttachM6803(int nClockspeed)
 	pCPUTotalCycles = M6800TotalCycles;
 	pCPURun = M6803Run;
 	pCPURunEnd = M6803RunEnd;
+
+	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
+
+//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
+
+	return 0;
+}
+
+int BurnTimerAttachM6502(int nClockspeed)
+{
+	nCPUClockspeed = nClockspeed;
+	pCPUTotalCycles = m6502TotalCycles;
+	pCPURun = m6502Run;
+	pCPURunEnd = M6800RunEnd; // doesn't do anything...
+
+	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
+
+//	bprintf(PRINT_NORMAL, _T("--- timer cpu speed %iHz, one cycle = %i ticks.\n"), nClockspeed, MAKE_TIMER_TICKS(1, nCPUClockspeed));
+
+	return 0;
+}
+
+
+int BurnTimerAttachSh2(int nClockspeed)
+{
+	nCPUClockspeed = nClockspeed;
+	pCPUTotalCycles = Sh2TotalCycles;
+	pCPURun = Sh2Run;
+	pCPURunEnd = Sh2StopRun;
 
 	nTicksExtra = MAKE_TIMER_TICKS(1, nCPUClockspeed) - 1;
 

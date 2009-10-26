@@ -595,26 +595,26 @@ struct BurnDriver BurnDrvBatsugun = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_68K_Zx80, GBF_VERSHOOT, 0,
 	NULL, batsugunRomInfo, batsugunRomName, batsugunInputInfo, batsugunDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvBatsugunSP = {
-	"batugnsp", "batsugun", NULL, "1993",
+	"batsugunsp", "batsugun", NULL, "1993",
 	"Batsugun Special Ver.\0", "No sound (sound MCU not dumped)", "Dual Toaplan", "Toaplan GP9001 based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_68K_Zx80, GBF_VERSHOOT, 0,
 	NULL, batugnspRomInfo, batugnspRomName, batsugunInputInfo, batsugunDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvBatsugna = {
-	"batsugna", "batsugun", NULL, "1993",
+	"batsuguna", "batsugun", NULL, "1993",
 	"Batsugun (set 2)\0", "No sound (sound MCU not dumped)", "Dual Toaplan", "Toaplan GP9001 based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_68K_Zx80, GBF_VERSHOOT, 0,
 	NULL, batsugnaRomInfo, batsugnaRomName, batsugunInputInfo, batsugunDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };

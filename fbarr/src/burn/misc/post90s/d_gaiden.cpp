@@ -1573,7 +1573,7 @@ struct BurnDriver BurnDrvShadoww = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, shadowwRomInfo, shadowwRomName, DrvInputInfo, GaidenDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1621,7 +1621,7 @@ struct BurnDriver BurnDrvShadowwa = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, shadowwaRomInfo, shadowwaRomName, DrvInputInfo, GaidenDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1667,7 +1667,7 @@ struct BurnDriver BurnDrvGaiden = {
 	L"Ninja \u5916\u4F1D Gaiden (US)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, gaidenRomInfo, gaidenRomName, DrvInputInfo, GaidenDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1715,7 +1715,7 @@ struct BurnDriver BurnDrvRyukendn = {
 	L"\u5FCD\u8005 \u9F8D\u5263\u4F1D (Japan, set 1)\0Ninja Ryukenden\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, ryukendnRomInfo, ryukendnRomName, DrvInputInfo, GaidenDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1756,12 +1756,12 @@ STD_ROM_PICK(ryukenda)
 STD_ROM_FN(ryukenda)
 
 struct BurnDriver BurnDrvRyukenda = {
-	"ryukenda", "shadoww", NULL, "1989",
+	"ryukendna", "shadoww", NULL, "1989",
 	"Ninja Ryukenden (Japan, set 2)\0", NULL, "Tecmo", "Miscellaneous",
 	L"\u5FCD\u8005 \u9F8D\u5263\u4F1D (Japan, set 2)\0Ninja Ryukenden\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, ryukendaRomInfo, ryukendaRomName, DrvInputInfo, GaidenDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1800,7 +1800,7 @@ struct BurnDriver BurnDrvWildfang = {
 	L"Wild Fang\0Tecmo Knight\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, wildfangRomInfo, wildfangRomName, DrvInputInfo, WildfangDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1836,7 +1836,7 @@ struct BurnDriver BurnDrvTknight = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, tknightRomInfo, tknightRomName, DrvInputInfo, TknightDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1879,7 +1879,7 @@ struct BurnDriver BurnDrvStratof = {
 	L"\u96F7\u7259 Strato Fighter (US)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_HORSHOOT, 0,
 	NULL, stratofRomInfo, stratofRomName, RaigaInputInfo, RaigaDIPInfo,
-	stratofInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	stratofInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1915,7 +1915,7 @@ struct BurnDriver BurnDrvRaiga = {
 	L"\u96F7\u7259 Strato Fighter (Japan)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_HORSHOOT, 0,
 	NULL, raigaRomInfo, raigaRomName, RaigaInputInfo, RaigaDIPInfo,
-	stratofInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	stratofInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -1968,7 +1968,7 @@ struct BurnDriver BurnDrvDrgnbowl = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, drgnbowlRomInfo, drgnbowlRomName, DrvInputInfo, DrgnbowlDIPInfo,
-	drgnbowlInit, DrvExit, DrvFrame, DrgnbowlDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	drgnbowlInit, DrvExit, DrvFrame, DrgnbowlDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 

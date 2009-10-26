@@ -2014,7 +2014,7 @@ int NeoInit()
 
 	bMemoryCardInserted = false;
 	bMemoryCardWritable = false;
-
+	
 	neogeoReset();							// Reset machine
 
 	return 0;

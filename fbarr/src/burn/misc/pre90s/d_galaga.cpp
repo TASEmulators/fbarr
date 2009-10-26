@@ -226,23 +226,23 @@ static struct BurnDIPInfo GalagamwDIPList[]=
 STDDIPINFO(Galagamw)
 
 static struct BurnRomInfo DrvRomDesc[] = {
-	{ "gg1-1b.3p",     0x01000, 0xab036c9f, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
-	{ "gg1-2b.3m",     0x01000, 0xd9232240, BRF_ESS | BRF_PRG }, //	 1
-	{ "gg1-3.2m",      0x01000, 0x753ce503, BRF_ESS | BRF_PRG }, //	 2
-	{ "gg1-4b.2l",     0x01000, 0x499fcc76, BRF_ESS | BRF_PRG }, //	 3
+	{ "gg1_1b.3p",     0x01000, 0xab036c9f, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	{ "gg1_2b.3m",     0x01000, 0xd9232240, BRF_ESS | BRF_PRG }, //	 1
+	{ "gg1_3.2m",      0x01000, 0x753ce503, BRF_ESS | BRF_PRG }, //	 2
+	{ "gg1_4b.2l",     0x01000, 0x499fcc76, BRF_ESS | BRF_PRG }, //	 3
 	
-	{ "gg1-5b.3f",     0x01000, 0xbb5caae3, BRF_ESS | BRF_PRG }, //  4	Z80 #2 Program Code
+	{ "gg1_5b.3f",     0x01000, 0xbb5caae3, BRF_ESS | BRF_PRG }, //  4	Z80 #2 Program Code
 	
-	{ "gg1-7b.2c",     0x01000, 0xd016686b, BRF_ESS | BRF_PRG }, //  5	Z80 #3 Program Code
+	{ "gg1_7b.2c",     0x01000, 0xd016686b, BRF_ESS | BRF_PRG }, //  5	Z80 #3 Program Code
 	
 	{ "54xx.bin",      0x00400, 0xee7357e0, BRF_ESS | BRF_PRG }, //  6	54XX Program Code
 	
 	{ "51xx.bin",      0x00400, 0xc2f57ef8, BRF_ESS | BRF_PRG }, //  7	51XX Program Code
 	
-	{ "gg1-9.4l",      0x01000, 0x58b2f47c, BRF_GRA },	     //  8	Characters
+	{ "gg1_9.4l",      0x01000, 0x58b2f47c, BRF_GRA },	     //  8	Characters
 	
-	{ "gg1-11.4d",     0x01000, 0xad447c80, BRF_GRA },	     //  9	Sprites
-	{ "gg1-10.4f",     0x01000, 0xdd6f1afc, BRF_GRA },	     //  10
+	{ "gg1_11.4d",     0x01000, 0xad447c80, BRF_GRA },	     //  9	Sprites
+	{ "gg1_10.4f",     0x01000, 0xdd6f1afc, BRF_GRA },	     //  10
 	
 	{ "prom-5.5n",     0x00020, 0x54603c6b, BRF_GRA },	     //  11	PROMs
 	{ "prom-4.2n",     0x00100, 0x59b6edab, BRF_GRA },	     //  12
@@ -255,14 +255,14 @@ STD_ROM_PICK(Drv)
 STD_ROM_FN(Drv)
 
 static struct BurnRomInfo GalagaoRomDesc[] = {
-	{ "gg1-1",         0x01000, 0xa3a0f743, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
-	{ "gg1-2",         0x01000, 0x43bb0d5c, BRF_ESS | BRF_PRG }, //	 1
+	{ "gg1-1.3p",      0x01000, 0xa3a0f743, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	{ "gg1-2.3m",      0x01000, 0x43bb0d5c, BRF_ESS | BRF_PRG }, //	 1
 	{ "gg1-3.2m",      0x01000, 0x753ce503, BRF_ESS | BRF_PRG }, //	 2
-	{ "gg1-4",         0x01000, 0x83874442, BRF_ESS | BRF_PRG }, //	 3
+	{ "gg1-4.2l",      0x01000, 0x83874442, BRF_ESS | BRF_PRG }, //	 3
 	
-	{ "gg1-5",         0x01000, 0x3102fccd, BRF_ESS | BRF_PRG }, //  4	Z80 #2 Program Code
+	{ "gg1-5.3f",      0x01000, 0x3102fccd, BRF_ESS | BRF_PRG }, //  4	Z80 #2 Program Code
 	
-	{ "gg1-7",         0x01000, 0x8995088d, BRF_ESS | BRF_PRG }, //  5	Z80 #3 Program Code
+	{ "gg1-7.2c",      0x01000, 0x8995088d, BRF_ESS | BRF_PRG }, //  5	Z80 #3 Program Code
 	
 	{ "54xx.bin",      0x00400, 0xee7357e0, BRF_ESS | BRF_PRG }, //  6	54XX Program Code
 	
@@ -297,10 +297,10 @@ static struct BurnRomInfo GalagamwRomDesc[] = {
 	
 	{ "51xx.bin",      0x00400, 0xc2f57ef8, BRF_ESS | BRF_PRG }, //  7	51XX Program Code
 	
-	{ "gg1-9.4l",      0x01000, 0x58b2f47c, BRF_GRA },	     //  8	Characters
+	{ "2600j.bin",     0x01000, 0x58b2f47c, BRF_GRA },	     //  8	Characters
 	
-	{ "gg1-11.4d",     0x01000, 0xad447c80, BRF_GRA },	     //  9	Sprites
-	{ "gg1-10.4f",     0x01000, 0xdd6f1afc, BRF_GRA },	     //  10
+	{ "2800l.bin",     0x01000, 0xad447c80, BRF_GRA },	     //  9	Sprites
+	{ "2700k.bin",     0x01000, 0xdd6f1afc, BRF_GRA },	     //  10
 	
 	{ "prom-5.5n",     0x00020, 0x54603c6b, BRF_GRA },	     //  11	PROMs
 	{ "prom-4.2n",     0x00100, 0x59b6edab, BRF_GRA },	     //  12
@@ -326,10 +326,10 @@ static struct BurnRomInfo GalagamfRomDesc[] = {
 	
 	{ "51xx.bin",      0x00400, 0xc2f57ef8, BRF_ESS | BRF_PRG }, //  7	51XX Program Code
 	
-	{ "gg1-9.4l",      0x01000, 0x58b2f47c, BRF_GRA },	     //  8	Characters
+	{ "2600j.bin",     0x01000, 0x58b2f47c, BRF_GRA },	     //  8	Characters
 	
-	{ "gg1-11.4d",     0x01000, 0xad447c80, BRF_GRA },	     //  9	Sprites
-	{ "gg1-10.4f",     0x01000, 0xdd6f1afc, BRF_GRA },	     //  10
+	{ "2800l.bin",     0x01000, 0xad447c80, BRF_GRA },	     //  9	Sprites
+	{ "2700k.bin",     0x01000, 0xdd6f1afc, BRF_GRA },	     //  10
 	
 	{ "prom-5.5n",     0x00020, 0x54603c6b, BRF_GRA },	     //  11	PROMs
 	{ "prom-4.2n",     0x00100, 0x59b6edab, BRF_GRA },	     //  12
@@ -347,7 +347,7 @@ static struct BurnRomInfo GalagamkRomDesc[] = {
 	{ "3400c.bin",     0x01000, 0x16233d33, BRF_ESS | BRF_PRG }, //	 2
 	{ "mk2-4",         0x01000, 0x24b767f5, BRF_ESS | BRF_PRG }, //	 3
 	
-	{ "gg1-5",         0x01000, 0x3102fccd, BRF_ESS | BRF_PRG }, //  4	Z80 #2 Program Code
+	{ "gg1-5.3f",      0x01000, 0x3102fccd, BRF_ESS | BRF_PRG }, //  4	Z80 #2 Program Code
 	
 	{ "gg1-7b.2c",     0x01000, 0xd016686b, BRF_ESS | BRF_PRG }, //  5	Z80 #3 Program Code
 	
@@ -371,14 +371,14 @@ STD_ROM_PICK(Galagamk)
 STD_ROM_FN(Galagamk)
 
 static struct BurnRomInfo GallagRomDesc[] = {
-	{ "gg1-1",         0x01000, 0xa3a0f743, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
+	{ "gallag.1",      0x01000, 0xa3a0f743, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
 	{ "gallag.2",      0x01000, 0x5eda60a7, BRF_ESS | BRF_PRG }, //	 1
-	{ "gg1-3.2m",      0x01000, 0x753ce503, BRF_ESS | BRF_PRG }, //	 2
-	{ "gg1-4",         0x01000, 0x83874442, BRF_ESS | BRF_PRG }, //	 3
+	{ "gallag.3",      0x01000, 0x753ce503, BRF_ESS | BRF_PRG }, //	 2
+	{ "gallag.4",      0x01000, 0x83874442, BRF_ESS | BRF_PRG }, //	 3
 	
-	{ "gg1-5",         0x01000, 0x3102fccd, BRF_ESS | BRF_PRG }, //  4	Z80 #2 Program Code
+	{ "gallag.5",      0x01000, 0x3102fccd, BRF_ESS | BRF_PRG }, //  4	Z80 #2 Program Code
 	
-	{ "gg1-7",         0x01000, 0x8995088d, BRF_ESS | BRF_PRG }, //  5	Z80 #3 Program Code
+	{ "gallag.7",      0x01000, 0x8995088d, BRF_ESS | BRF_PRG }, //  5	Z80 #3 Program Code
 	
 	{ "gallag.6",      0x01000, 0x001b70bc, BRF_ESS | BRF_PRG }, //  6	Z80 #4 Program Code
 	
@@ -386,8 +386,8 @@ static struct BurnRomInfo GallagRomDesc[] = {
 	
 	{ "gallag.8",      0x01000, 0x169a98a4, BRF_GRA },	     //  8	Characters
 	
-	{ "gg1-11.4d",     0x01000, 0xad447c80, BRF_GRA },	     //  9	Sprites
-	{ "gg1-10.4f",     0x01000, 0xdd6f1afc, BRF_GRA },	     //  10
+	{ "gallag.a",      0x01000, 0xad447c80, BRF_GRA },	     //  9	Sprites
+	{ "gallag.9",      0x01000, 0xdd6f1afc, BRF_GRA },	     //  10
 	
 	{ "prom-5.5n",     0x00020, 0x54603c6b, BRF_GRA },	     //  11	PROMs
 	{ "prom-4.2n",     0x00100, 0x59b6edab, BRF_GRA },	     //  12
@@ -1507,7 +1507,7 @@ struct BurnDriver BurnDrvGalaga = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, DrvRomInfo, DrvRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 576, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvGalagao = {
@@ -1517,7 +1517,7 @@ struct BurnDriver BurnDrvGalagao = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, GalagaoRomInfo, GalagaoRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 576, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvGalagamw = {
@@ -1527,7 +1527,7 @@ struct BurnDriver BurnDrvGalagamw = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, GalagamwRomInfo, GalagamwRomName, DrvInputInfo, GalagamwDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 576, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvGalagamk = {
@@ -1537,7 +1537,7 @@ struct BurnDriver BurnDrvGalagamk = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, GalagamkRomInfo, GalagamkRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 576, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvGalagamf = {
@@ -1547,7 +1547,7 @@ struct BurnDriver BurnDrvGalagamf = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, GalagamfRomInfo, GalagamfRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 576, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvGallag = {
@@ -1557,5 +1557,5 @@ struct BurnDriver BurnDrvGallag = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, GallagRomInfo, GallagRomName, DrvInputInfo, DrvDIPInfo,
 	GallagInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 576, 224, 288, 3, 4
 };

@@ -735,7 +735,7 @@ static int DrvInit()
 	ToaPalInit();
 
 	BurnYM3812Init(28000000 / 8, &toaplan1FMIRQHandler, &toaplan1SynchroniseStream, 0);
-	BurnTimerAttachZet(28000000 / 8);
+	BurnTimerAttachZetYM3812(28000000 / 8);
 
 	bDrawScreen = true;
 
@@ -851,7 +851,7 @@ static int DrvFrame()
 	}
 
 	nToa1Cycles68KSync = SekTotalCycles();
-	BurnTimerEndFrame(nCyclesTotal[1]);
+	BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 
 	nCyclesDone[0] = SekTotalCycles() - nCyclesTotal[0];
@@ -873,7 +873,7 @@ struct BurnDriver BurnDrvOutZone = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, outzoneRomInfo, outzoneRomName, outzoneInputInfo, outzoneDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x400,
 	240, 320, 3, 4
 };
 
@@ -883,7 +883,7 @@ struct BurnDriver BurnDrvOutZonea = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, outzoneaRomInfo, outzoneaRomName, outzoneInputInfo, outzoneDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x400,
 	240, 320, 3, 4
 };
 
@@ -893,7 +893,7 @@ struct BurnDriver BurnDrvOutZoneb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, outzonebRomInfo, outzonebRomName, outzoneInputInfo, outzonebDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x400,
 	240, 320, 3, 4
 };
 
@@ -903,6 +903,6 @@ struct BurnDriver BurnDrvOutZonec = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, outzonecRomInfo, outzonecRomName, outzoneInputInfo, outzonecDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x400,
 	240, 320, 3, 4
 };

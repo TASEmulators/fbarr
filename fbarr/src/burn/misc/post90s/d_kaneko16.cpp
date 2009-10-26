@@ -436,7 +436,7 @@ static struct BurnDIPInfo BerlwallDIPList[]=
 
 STDDIPINFO(Berlwall)
 
-static struct BurnDIPInfo BerlwaltDIPList[]=
+static struct BurnDIPInfo BerlwalltDIPList[]=
 {
 	// Default Values
 	{0x16, 0xff, 0xff, 0xff, NULL                                 },
@@ -495,7 +495,7 @@ static struct BurnDIPInfo BerlwaltDIPList[]=
 	{0x17, 0x01, 0x80, 0x00, "Testmode"                           },
 };
 
-STDDIPINFO(Berlwalt)
+STDDIPINFO(Berlwallt)
 
 static struct BurnDIPInfo BlazeonDIPList[]=
 {
@@ -763,7 +763,7 @@ static struct BurnRomInfo BerlwallRomDesc[] = {
 STD_ROM_PICK(Berlwall)
 STD_ROM_FN(Berlwall)
 
-static struct BurnRomInfo BerlwaltRomDesc[] = {
+static struct BurnRomInfo BerlwalltRomDesc[] = {
 	{ "bw100a",            0x020000, 0xe6bcb4eb, BRF_ESS | BRF_PRG }, //  0	68000 Program Code
 	{ "bw101a",            0x020000, 0x38056fb2, BRF_ESS | BRF_PRG }, //  1	68000 Program Code
 	
@@ -786,8 +786,8 @@ static struct BurnRomInfo BerlwaltRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Berlwalt)
-STD_ROM_FN(Berlwalt)
+STD_ROM_PICK(Berlwallt)
+STD_ROM_FN(Berlwallt)
 
 static struct BurnRomInfo BlazeonRomDesc[] = {
 	{ "bz_prg1.u80",       0x040000, 0x8409e31d, BRF_ESS | BRF_PRG }, //  0	68000 Program Code
@@ -1088,7 +1088,7 @@ static struct BurnRomInfo MgcrystlRomDesc[] = {
 STD_ROM_PICK(Mgcrystl)
 STD_ROM_FN(Mgcrystl)
 
-static struct BurnRomInfo MgcrystoRomDesc[] = {
+static struct BurnRomInfo MgcrystloRomDesc[] = {
 	{ "mc100h00.u18",      0x020000, 0xc7456ba7, BRF_ESS | BRF_PRG }, //  0	68000 Program Code
 	{ "mc101h00.u19",      0x040000, 0xea8f9300, BRF_ESS | BRF_PRG }, //  1	68000 Program Code
 	
@@ -1103,10 +1103,10 @@ static struct BurnRomInfo MgcrystoRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Mgcrysto)
-STD_ROM_FN(Mgcrysto)
+STD_ROM_PICK(Mgcrystlo)
+STD_ROM_FN(Mgcrystlo)
 
-static struct BurnRomInfo MgcrystjRomDesc[] = {
+static struct BurnRomInfo MgcrystljRomDesc[] = {
 	{ "mc100j02.u18",      0x020000, 0xafe5882d, BRF_ESS | BRF_PRG }, //  0	68000 Program Code
 	{ "mc101j02.u19",      0x040000, 0x60da5492, BRF_ESS | BRF_PRG }, //  1	68000 Program Code
 	
@@ -1121,8 +1121,8 @@ static struct BurnRomInfo MgcrystjRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Mgcrystj)
-STD_ROM_FN(Mgcrystj)
+STD_ROM_PICK(Mgcrystlj)
+STD_ROM_FN(Mgcrystlj)
 
 /*==============================================================================================
 Graphics Decoding
@@ -4876,17 +4876,17 @@ struct BurnDriver BurnDrvBerlwall = {
 	BDF_GAME_WORKING, 2, HARDWARE_KANEKO16, GBF_PLATFORM, 0,
 	NULL, BerlwallRomInfo, BerlwallRomName, BerlwallInputInfo, BerlwallDIPInfo,
 	BerlwallInit, Kaneko16Exit, ExplbrkrFrame, NULL, ExplbrkrScan,
-	0, NULL, NULL, NULL, &Kaneko16RecalcBg15Palette, 256, 224, 4, 3
+	0, NULL, NULL, NULL, &Kaneko16RecalcBg15Palette, 0x9000, 256, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvBerlwalt = {
-	"berlwalt", "berlwall", NULL, "1991",
+struct BurnDriver BurnDrvBerlwallt = {
+	"berlwallt", "berlwall", NULL, "1991",
 	"The Berlin Wall (bootleg ?)\0", NULL, "Kaneko", "Kaneko 16-bit",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_KANEKO16, GBF_PLATFORM, 0,
-	NULL, BerlwaltRomInfo, BerlwaltRomName, BerlwallInputInfo, BerlwaltDIPInfo,
+	NULL, BerlwalltRomInfo, BerlwalltRomName, BerlwallInputInfo, BerlwalltDIPInfo,
 	BerlwallInit, Kaneko16Exit, ExplbrkrFrame, NULL, ExplbrkrScan,
-	0, NULL, NULL, NULL, &Kaneko16RecalcBg15Palette, 256, 224, 4, 3
+	0, NULL, NULL, NULL, &Kaneko16RecalcBg15Palette, 0x9000, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvBlazeon = {
@@ -4896,7 +4896,7 @@ struct BurnDriver BurnDrvBlazeon = {
 	BDF_GAME_WORKING, 2, HARDWARE_KANEKO16, GBF_HORSHOOT, 0,
 	NULL, BlazeonRomInfo, BlazeonRomName, BlazeonInputInfo, BlazeonDIPInfo,
 	BlazeonInit, Kaneko16Exit, BlazeonFrame, NULL, BlazeonScan,
-	0, NULL, NULL, NULL, NULL, 320, 232, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1000, 320, 232, 4, 3
 };
 
 struct BurnDriver BurnDrvBloodwar = {
@@ -4906,7 +4906,7 @@ struct BurnDriver BurnDrvBloodwar = {
 	BDF_GAME_WORKING, 2, HARDWARE_KANEKO16, GBF_VSFIGHT, 0,
 	NULL, BloodwarRomInfo, BloodwarRomName, BloodwarInputInfo, BloodwarDIPInfo,
 	BloodwarInit, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvBonkadv = {
@@ -4916,7 +4916,7 @@ struct BurnDriver BurnDrvBonkadv = {
 	BDF_GAME_WORKING, 2, HARDWARE_KANEKO16, GBF_PLATFORM, 0,
 	NULL, BonkadvRomInfo, BonkadvRomName, BonkadvInputInfo, BonkadvDIPInfo,
 	BonkadvInit, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvExplbrkr = {
@@ -4926,7 +4926,7 @@ struct BurnDriver BurnDrvExplbrkr = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_KANEKO16, GBF_VERSHOOT, 0,
 	NULL, ExplbrkrRomInfo, ExplbrkrRomName, ExplbrkrInputInfo, ExplbrkrDIPInfo,
 	ExplbrkrInit, Kaneko16Exit, ExplbrkrFrame, NULL, ExplbrkrScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1000, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvBakubrkr = {
@@ -4936,7 +4936,7 @@ struct BurnDriver BurnDrvBakubrkr = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_KANEKO16, GBF_VERSHOOT, 0,
 	NULL, BakubrkrRomInfo, BakubrkrRomName, ExplbrkrInputInfo, ExplbrkrDIPInfo,
 	ExplbrkrInit, Kaneko16Exit, ExplbrkrFrame, NULL, ExplbrkrScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1000, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvGtmr = {
@@ -4946,7 +4946,7 @@ struct BurnDriver BurnDrvGtmr = {
 	BDF_GAME_WORKING, 2, HARDWARE_KANEKO16, GBF_RACING, 0,
 	NULL, GtmrRomInfo, GtmrRomName, GtmrInputInfo, GtmrDIPInfo,
 	GtmrInit, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvGtmra = {
@@ -4956,7 +4956,7 @@ struct BurnDriver BurnDrvGtmra = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_KANEKO16, GBF_RACING, 0,
 	NULL, GtmraRomInfo, GtmraRomName, GtmrInputInfo, GtmrDIPInfo,
 	GtmrInit, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvGtmre = {
@@ -4966,7 +4966,7 @@ struct BurnDriver BurnDrvGtmre = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_KANEKO16, GBF_RACING, 0,
 	NULL, GtmreRomInfo, GtmreRomName, GtmrInputInfo, GtmrDIPInfo,
 	GtmrevoInit, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvGtmrusa = {
@@ -4976,7 +4976,7 @@ struct BurnDriver BurnDrvGtmrusa = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_KANEKO16, GBF_RACING, 0,
 	NULL, GtmrusaRomInfo, GtmrusaRomName, GtmrInputInfo, GtmrDIPInfo,
 	GtmrevoInit, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvGtmr2 = {
@@ -4986,7 +4986,7 @@ struct BurnDriver BurnDrvGtmr2 = {
 	BDF_GAME_WORKING, 2, HARDWARE_KANEKO16, GBF_RACING, 0,
 	NULL, Gtmr2RomInfo, Gtmr2RomName, GtmrInputInfo, Gtmr2DIPInfo,
 	Gtmr2Init, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvGtmr2a = {
@@ -4996,7 +4996,7 @@ struct BurnDriver BurnDrvGtmr2a = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_KANEKO16, GBF_RACING, 0,
 	NULL, Gtmr2aRomInfo, Gtmr2aRomName, GtmrInputInfo, Gtmr2DIPInfo,
 	Gtmr2Init, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvGtmr2u = {
@@ -5006,7 +5006,7 @@ struct BurnDriver BurnDrvGtmr2u = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_KANEKO16, GBF_RACING, 0,
 	NULL, Gtmr2uRomInfo, Gtmr2uRomName, GtmrInputInfo, Gtmr2DIPInfo,
 	Gtmr2uInit, Kaneko16Exit, GtmrFrame, NULL, GtmrScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x10000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvMgcrsytl = {
@@ -5016,25 +5016,25 @@ struct BurnDriver BurnDrvMgcrsytl = {
 	BDF_GAME_WORKING, 2, HARDWARE_KANEKO16, GBF_PLATFORM, 0,
 	NULL, MgcrystlRomInfo, MgcrystlRomName, MgcrystlInputInfo, MgcrystlDIPInfo,
 	MgcrystlInit, Kaneko16Exit, ExplbrkrFrame, NULL, ExplbrkrScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1000, 256, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvMgcrsyto = {
-	"mgcrysto", "mgcrystl", NULL, "1991",
+struct BurnDriver BurnDrvMgcrsytlo = {
+	"mgcrystlo", "mgcrystl", NULL, "1991",
 	"Magical Crystals (World, 91/12/10)\0", NULL, "Kaneko", "Kaneko 16-bit",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_KANEKO16, GBF_PLATFORM, 0,
-	NULL, MgcrystoRomInfo, MgcrystoRomName, MgcrystlInputInfo, MgcrystlDIPInfo,
+	NULL, MgcrystloRomInfo, MgcrystloRomName, MgcrystlInputInfo, MgcrystlDIPInfo,
 	MgcrystlInit, Kaneko16Exit, ExplbrkrFrame, NULL, ExplbrkrScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1000, 256, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvMgcrsytj = {
-	"mgcrystj", "mgcrystl", NULL, "1991",
+struct BurnDriver BurnDrvMgcrsytlj = {
+	"mgcrystlj", "mgcrystl", NULL, "1991",
 	"Magical Crystals (Japan, 92/01/13)\0", NULL, "Kaneko (Atlus license)", "Kaneko 16-bit",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_KANEKO16, GBF_PLATFORM, 0,
-	NULL, MgcrystjRomInfo, MgcrystjRomName, MgcrystlInputInfo, MgcrystlDIPInfo,
+	NULL, MgcrystljRomInfo, MgcrystljRomName, MgcrystlInputInfo, MgcrystlDIPInfo,
 	MgcrystlInit, Kaneko16Exit, ExplbrkrFrame, NULL, ExplbrkrScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1000, 256, 224, 4, 3
 };

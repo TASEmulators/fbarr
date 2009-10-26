@@ -193,6 +193,6 @@ struct BurnDriver BurnDrvminivadr = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 1, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, minivadrRomInfo, minivadrRomName, DrvInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 224, 4, 3
 };

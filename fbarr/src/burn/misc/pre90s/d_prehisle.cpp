@@ -524,7 +524,7 @@ int PrehisleInit()
 	ZetClose();
 
 	BurnYM3812Init(4000000, &prehisleFMIRQHandler, &prehisleSynchroniseStream, 0);
-	BurnTimerAttachZet(4000000);
+	BurnTimerAttachZetYM3812(4000000);
 	
 	UPD7759Init(0, UPD7759_STANDARD_CLOCK, PrehisleADPCMSamples);
 	
@@ -776,7 +776,7 @@ int PrehisleFrame()
 		if (i == (nInterleave - 1)) SekSetIRQLine(4, SEK_IRQSTATUS_AUTO);
 	}
 	
-	BurnTimerEndFrame(nCyclesTotal[1]);
+	BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 	UPD7759Update(0, pBurnSoundOut, nBurnSoundLen);
 
@@ -831,17 +831,17 @@ struct BurnDriver BurnDrvPrehisle = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, PrehisleRomInfo, PrehisleRomName, PrehisleInputInfo, PrehisleDIPInfo,
 	PrehisleInit, PrehisleExit, PrehisleFrame, NULL, PrehisleScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvPrehislu = {
-	"prehislu", "prehisle", NULL, "1989",
+	"prehisleu", "prehisle", NULL, "1989",
 	"Prehistoric Isle in 1930 (US)\0", NULL, "SNK of America", "Prehistoric Isle (SNK)",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, PrehisluRomInfo, PrehisluRomName, PrehisleInputInfo, PrehisleDIPInfo,
 	PrehisleInit, PrehisleExit, PrehisleFrame, NULL, PrehisleScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGensitou = {
@@ -851,5 +851,5 @@ struct BurnDriver BurnDrvGensitou = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, GensitouRomInfo, GensitouRomName, PrehisleInputInfo, PrehisleDIPInfo,
 	PrehisleInit, PrehisleExit, PrehisleFrame, NULL, PrehisleScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 256, 224, 4, 3
 };

@@ -877,7 +877,7 @@ static int DrvInit(int (*pInitCallback)())
 	ZetClose();
 
 	BurnYM3812Init(4000000, NULL, &DrvSynchroniseStream, 0);
-	BurnTimerAttachZet(4000000);
+	BurnTimerAttachZetYM3812(4000000);
 
 	MSM6295Init(0, 1056000 / 132, 60.0, 1);
 
@@ -1140,13 +1140,13 @@ static int DrvFrame()
 
 		nCyclesSegment = (nCyclesTotal[1] - nCyclesDone[1]) / (nInterleave - i);
 
-		BurnTimerUpdate(i * (nCyclesTotal[1] / nInterleave));
+		BurnTimerUpdateYM3812(i * (nCyclesTotal[1] / nInterleave));
 		if (i & 1) ZetNmi();
 	}
 
 	SekSetIRQLine(6, SEK_IRQSTATUS_AUTO);
 	
-	BurnTimerEndFrame(nCyclesTotal[1]);
+	BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 	if (pBurnSoundOut) {
 		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 		MSM6295Render(0, pBurnSoundOut, nBurnSoundLen);
@@ -1289,7 +1289,7 @@ struct BurnDriver BurnDrvMultchmp = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, multchmpRomInfo, multchmpRomName, MultchmpInputInfo, MultchmpDIPInfo,
 	MultchmpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x800, 320, 240, 4, 3
 };
 
 
@@ -1323,13 +1323,13 @@ STD_ROM_PICK(multchmk)
 STD_ROM_FN(multchmk)
 
 struct BurnDriver BurnDrvMultchmk = {
-	"multchmk", "multchmp", NULL, "1999",
+	"multchmpk", "multchmp", NULL, "1999",
 	"Multi Champ (Korea)\0", NULL, "ESD", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, multchmkRomInfo, multchmkRomName, MultchmpInputInfo, MultchmpDIPInfo,
 	MultchmpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x800, 320, 240, 4, 3
 };
 
 
@@ -1407,7 +1407,7 @@ struct BurnDriver BurnDrvHedpanic = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, hedpanicRomInfo, hedpanicRomName, HedpanicInputInfo, NULL,
 	HedpanicInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x800, 320, 240, 4, 3
 };
 
 
@@ -1433,13 +1433,13 @@ STD_ROM_PICK(hedpanif)
 STD_ROM_FN(hedpanif)
 
 struct BurnDriver BurnDrvHedpanif = {
-	"hedpanif", "hedpanic", NULL, "2000",
+	"hedpanicf", "hedpanic", NULL, "2000",
 	"Head Panic (ver. 0315, 15/03/2000)\0", "Story line in Japanese, game instructions in English", "ESD / Fuuki", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, hedpanifRomInfo, hedpanifRomName, HedpanicInputInfo, NULL,
 	HedpanicInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x800, 320, 240, 4, 3
 };
 
 
@@ -1517,7 +1517,7 @@ struct BurnDriver BurnDrvMchampdx = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, mchampdxRomInfo, mchampdxRomName, HedpanicInputInfo, NULL,
 	MchampdxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x800, 320, 240, 4, 3
 };
 
 
@@ -1543,13 +1543,13 @@ STD_ROM_PICK(mchampda)
 STD_ROM_FN(mchampda)
 
 struct BurnDriver BurnDrvMchampda = {
-	"mchampda", "mchampdx", NULL, "1999",
+	"mchampdxa", "mchampdx", NULL, "1999",
 	"Multi Champ Deluxe (ver. 1126, 26/11/1999)\0", NULL, "ESD", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, mchampdaRomInfo, mchampdaRomName, HedpanicInputInfo, NULL,
 	MchampdxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x800, 320, 240, 4, 3
 };
 
 
@@ -1629,7 +1629,7 @@ struct BurnDriver BurnDrvTangtang = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, tangtangRomInfo, tangtangRomName, HedpanicInputInfo, NULL,
 	TangtangInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x800, 320, 240, 4, 3
 };
 
 
@@ -1709,5 +1709,5 @@ struct BurnDriver BurnDrvSwatpolc = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_SHOOT, 0,
 	NULL, swatpolcRomInfo, swatpolcRomName, SwatpolcInputInfo, NULL,
 	SwatpolcInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x800, 320, 240, 4, 3
 };

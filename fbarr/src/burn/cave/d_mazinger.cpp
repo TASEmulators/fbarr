@@ -812,5 +812,5 @@ struct BurnDriver BurnDrvmazinger = {
 	NULL, mazingerRomInfo, mazingerRomName, mazingerInputInfo, mazingerDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 240, 384, 3, 4
+	&CaveRecalcPalette, 0x8000, 240, 384, 3, 4
 };

@@ -1356,7 +1356,7 @@ struct BurnDriver BurnDrvGng = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, DrvRomInfo, DrvRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGnga = {
@@ -1366,7 +1366,7 @@ struct BurnDriver BurnDrvGnga = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, DrvaRomInfo, DrvaRomName, DrvInputInfo, DrvDIPInfo,
 	GngaInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGngbl = {
@@ -1376,7 +1376,7 @@ struct BurnDriver BurnDrvGngbl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, DrvblRomInfo, DrvblRomName, DrvInputInfo, DrvDIPInfo,
 	GngaInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGngblita = {
@@ -1386,7 +1386,7 @@ struct BurnDriver BurnDrvGngblita = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, DrvblitaRomInfo, DrvblitaRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGngt = {
@@ -1396,7 +1396,7 @@ struct BurnDriver BurnDrvGngt = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, DrvtRomInfo, DrvtRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMakaimur = {
@@ -1406,27 +1406,27 @@ struct BurnDriver BurnDrvMakaimur = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, MakaimurRomInfo, MakaimurRomName, DrvInputInfo, DrvjDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMakaimuc = {
-	"makaimuc", "gng", NULL, "1985",
+	"makaimurc", "gng", NULL, "1985",
 	"Makai-Mura (Japan revision C)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, MakaimucRomInfo, MakaimucRomName, DrvInputInfo, DrvjDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMakaimug = {
-	"makaimug", "gng", NULL, "1985",
+	"makaimurg", "gng", NULL, "1985",
 	"Makai-Mura (Japan revision G)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, MakaimugRomInfo, MakaimugRomName, DrvInputInfo, DrvjDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDiamond = {
@@ -1436,5 +1436,5 @@ struct BurnDriver BurnDrvDiamond = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, DiamondRomInfo, DiamondRomName, DiamondInputInfo, DiamondDIPInfo,
 	DiamondInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };

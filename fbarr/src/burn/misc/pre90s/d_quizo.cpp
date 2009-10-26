@@ -380,7 +380,7 @@ struct BurnDriver BurnDrvQuizo = {
 	L"\uD034\uC988\uC62C\uB9BC\uD53D\0Quiz Olympic\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING, 1, HARDWARE_MISC_PRE90S, GBF_QUIZ, 0,
 	NULL, quizoRomInfo, quizoRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, NULL, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, NULL, DrvScan, 0, NULL, NULL, NULL, NULL, 0x10,
 	320, 200, 4, 3
 };
 

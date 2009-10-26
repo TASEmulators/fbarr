@@ -918,7 +918,7 @@ static int DrvScan(int nAction,int *pnMin)
 
 	if (nAction & ACB_DRIVER_DATA) {
 		ZetScan(nAction);
-//		M6809Scan(nAction);
+		M6809Scan(nAction);
 
 		AY8910Scan(nAction, pnMin);
 	}
@@ -962,7 +962,7 @@ struct BurnDriver BurnDrvGyruss = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, gyrussRomInfo, gyrussRomName, GyrussInputInfo, GyrussDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x140,
 	224, 256, 3, 4
 };
 
@@ -1002,7 +1002,7 @@ struct BurnDriver BurnDrvGyrussce = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, gyrussceRomInfo, gyrussceRomName, GyrussInputInfo, GyrussceDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x140,
 	224, 256, 3, 4
 };
 
@@ -1042,7 +1042,7 @@ struct BurnDriver BurnDrvVenus = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, venusRomInfo, venusRomName, GyrussInputInfo, GyrussDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x140,
 	224, 256, 3, 4
 };
 

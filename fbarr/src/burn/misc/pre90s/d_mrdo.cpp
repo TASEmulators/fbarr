@@ -532,7 +532,7 @@ struct BurnDriver BurnDrvmrdo = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, mrdoRomInfo, mrdoRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x140,
 	192, 240, 3, 4
 };
 
@@ -569,7 +569,7 @@ struct BurnDriver BurnDrvmrdot = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, mrdotRomInfo, mrdotRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x140,
 	192, 240, 3, 4
 };
 
@@ -605,7 +605,7 @@ struct BurnDriver BurnDrvmrdofix = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, mrdofixRomInfo, mrdofixRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x140,
 	192, 240, 3, 4
 };
 
@@ -642,7 +642,7 @@ struct BurnDriver BurnDrvmrlo = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, mrloRomInfo, mrloRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x140,
 	192, 240, 3, 4
 };
 
@@ -679,7 +679,7 @@ struct BurnDriver BurnDrvmrdu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, mrduRomInfo, mrduRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x140,
 	192, 240, 3, 4
 };
 
@@ -716,7 +716,7 @@ struct BurnDriver BurnDrvmrdoy = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_PROTOTYPE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, mrdoyRomInfo, mrdoyRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x140,
 	192, 240, 3, 4
 };
 
@@ -753,7 +753,7 @@ struct BurnDriver BurnDrvyankeedo = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, yankeedoRomInfo, yankeedoRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x140,
 	192, 240, 3, 4
 };
 

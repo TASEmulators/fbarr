@@ -225,7 +225,7 @@ struct BurnDriver BurnDrvdotrikun = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 1, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, dotrikunRomInfo, dotrikunRomName, DrvInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x02,
 	256, 192, 4, 3
 };
 
@@ -240,11 +240,11 @@ STD_ROM_PICK(dotriku2)
 STD_ROM_FN(dotriku2)
 
 struct BurnDriver BurnDrvdotriku2 = {
-	"dotriku2", "dotrikun", NULL, "1990",
+	"dotrikun2", "dotrikun", NULL, "1990",
 	"Dottori Kun (old version)\0", NULL, "Sega", "Test Hardware",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 1, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, dotriku2RomInfo, dotriku2RomName, DrvInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x02,
 	256, 192, 4, 3
 };

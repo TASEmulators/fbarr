@@ -799,7 +799,7 @@ struct BurnDriver BurnDrvSfiii = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiiiRomInfo, sfiiiRomName, cps3InputInfo, sfiiiusaDIPInfo,
-	sfiiiInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiiiInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -809,7 +809,7 @@ struct BurnDriver BurnDrvSfiiij = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiiijRomInfo, sfiiijRomName, cps3InputInfo, sfiiijapanDIPInfo,
-	sfiiiInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiiiInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -819,7 +819,7 @@ struct BurnDriver BurnDrvSfiiin = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiiinRomInfo, sfiiinRomName, cps3InputInfo, sfiiiasiaDIPInfo,
-	sfiiiInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiiiInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -829,7 +829,7 @@ struct BurnDriver BurnDrvSfiii2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiii2RomInfo, sfiii2RomName, cps3InputInfo, usaDIPInfo,
-	sfiii2Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiii2Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -839,7 +839,7 @@ struct BurnDriver BurnDrvSfiii2j = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiii2jRomInfo, sfiii2jRomName, cps3InputInfo, japanDIPInfo,
-	sfiii2Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiii2Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -849,7 +849,7 @@ struct BurnDriver BurnDrvSfiii2n = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiii2nRomInfo, sfiii2nRomName, cps3InputInfo, asiaDIPInfo,
-	sfiii2Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiii2Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -859,7 +859,7 @@ struct BurnDriver BurnDrvSfiii3 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiii3RomInfo, sfiii3RomName, cps3InputInfo, usaDIPInfo,
-	sfiii3Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiii3Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -869,7 +869,7 @@ struct BurnDriver BurnDrvSfiii3a = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiii3aRomInfo, sfiii3aRomName, cps3InputInfo, usaDIPInfo,
-	sfiii3Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiii3Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 		
@@ -879,7 +879,7 @@ struct BurnDriver BurnDrvSfiii3n = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiii3nRomInfo, sfiii3nRomName, cps3InputInfo, japanDIPInfo,
-	sfiii3Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiii3Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -889,7 +889,7 @@ struct BurnDriver BurnDrvSfiii3an = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, FBF_SF,
 	NULL, sfiii3anRomInfo, sfiii3anRomName, cps3InputInfo, japanDIPInfo,
-	sfiii3Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	sfiii3Init, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -899,7 +899,7 @@ struct BurnDriver BurnDrvJojo = {
 	L"\u30B8\u30E7\u30B8\u30E7\u306E \u5947\u5999\u306A\u5192\u967A\0JoJo's Venture (Japan 990108)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, 0,
 	NULL, jojoRomInfo, jojoRomName, cps3InputInfo, japanDIPInfo,
-	jojoInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	jojoInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -909,7 +909,7 @@ struct BurnDriver BurnDrvJojoa = {
 	L"\u30B8\u30E7\u30B8\u30E7\u306E \u5947\u5999\u306A\u5192\u967A\0JoJo's Venture (Japan 981202)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, 0,
 	NULL, jojoaRomInfo, jojoaRomName, cps3InputInfo, japanDIPInfo,
-	jojoaltInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	jojoaltInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -919,7 +919,7 @@ struct BurnDriver BurnDrvJojon = {
 	L"JoJo's Venture\0\u30B8\u30E7\u30B8\u30E7\u306E \u5947\u5999\u306A\u5192\u967A (Asia 990108, NO CD)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, 0,
 	NULL, jojonRomInfo, jojonRomName, cps3InputInfo, asiaDIPInfo,
-	jojoInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	jojoInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -929,7 +929,7 @@ struct BurnDriver BurnDrvJojoan = {
 	L"JoJo's Venture\0\u30B8\u30E7\u30B8\u30E7\u306E \u5947\u5999\u306A\u5192\u967A (Asia 981202, NO CD)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, 0,
 	NULL, jojoanRomInfo, jojoanRomName, cps3InputInfo, asiaDIPInfo,
-	jojoaltInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	jojoaltInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -939,7 +939,7 @@ struct BurnDriver BurnDrvJojoba = {
 	L"\u30B8\u30E7\u30B8\u30E7\u306E \u5947\u5999\u306A\u5192\u967A: \u672A\u6765\u3078\u306E\u907A\u7523\0JoJo's Bizarre Adventure (Japan 990913)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, 0,
 	NULL, jojobaRomInfo, jojobaRomName, cps3InputInfo, jojobaDIPInfo,
-	jojobaInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	jojobaInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -949,7 +949,7 @@ struct BurnDriver BurnDrvJojoban = {
 	L"\u30B8\u30E7\u30B8\u30E7\u306E \u5947\u5999\u306A\u5192\u967A: \u672A\u6765\u3078\u306E\u907A\u7523\0JoJo's Bizarre Adventure (Japan 990913, NO CD)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, 0,
 	NULL, jojobanRomInfo, jojobanRomName, cps3InputInfo, jojobaDIPInfo,
-	jojobaInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	jojobaInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -959,7 +959,7 @@ struct BurnDriver BurnDrvJojobane = {
 	L"JoJo's Bizarre Adventure\0\u30B8\u30E7\u30B8\u30E7\u306E \u5947\u5999\u306A\u5192\u967A: \u672A\u6765\u3078\u306E\u907A\u7523 (Euro 990913, NO CD)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, 0,
 	NULL, jojobaneRomInfo, jojobaneRomName, cps3InputInfo, jojobaneDIPInfo,
-	jojobaInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	jojobaInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -969,7 +969,7 @@ struct BurnDriver BurnDrvRedearth = {
 	L"Red Earth\0War-Zard (Euro 961121)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, 0,
 	NULL, redearthRomInfo, redearthRomName, cps3InputInfo, redearthDIPInfo,
-	redearthInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	redearthInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -979,7 +979,7 @@ struct BurnDriver BurnDrvWarzard = {
 	L"War-Zard\0Red Earth (Japan 961121)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE | BDF_HACK, 2, HARDWARE_CAPCOM_CPS3, GBF_VSFIGHT, 0,
 	NULL, warzardRomInfo, warzardRomName, cps3InputInfo, warzardDIPInfo,
-	redearthInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	redearthInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };
 
@@ -989,6 +989,6 @@ struct BurnDriver BurnDrvRedeartn = {
 	L"Red Earth\0War-Zard (Euro 961121, NO CD)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_CAPCOM_CPS3 | HARDWARE_CAPCOM_CPS3_NO_CD, GBF_VSFIGHT, 0,
 	NULL, redeartnRomInfo, redeartnRomName, cps3InputInfo, redeartnDIPInfo,
-	redearthInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change,
+	redearthInit, cps3Exit, cps3Frame, NULL, cps3Scan, 0, NULL, NULL, NULL, &cps3_palette_change, 0x40000,
 	384, 224, 4, 3
 };

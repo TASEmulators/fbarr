@@ -462,10 +462,10 @@ static int DrvInit()
 
 	if (nGame != 2) {
 		BurnYM3812Init(3125000, &deniam16YM3812IrqHandler, deniam16ZetSynchroniseStream, 0);
-		BurnTimerAttachZet(6250000);
+		BurnTimerAttachZetYM3812(6250000);
 	} else {
 		BurnYM3812Init(3125000, NULL, deniam16SekSynchroniseStream, 0);
-		BurnTimerAttachSek(12500000);
+		BurnTimerAttachSekYM3812(12500000);
 	}
 
 	MSM6295Init(0, 1056000 / 132, 100.0, 1);
@@ -775,7 +775,7 @@ static int DrvFrame()
 	SekSetIRQLine(4, SEK_IRQSTATUS_AUTO);
 
 	if (pBurnSoundOut) {
-		if (nGame != 2) BurnTimerEndFrame(nCyclesTotal[1] - nCyclesDone[1]);
+		if (nGame != 2) BurnTimerEndFrameYM3812(nCyclesTotal[1] - nCyclesDone[1]);
 		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 		MSM6295Render(0, pBurnSoundOut, nBurnSoundLen);
 	}
@@ -867,7 +867,7 @@ struct BurnDriver BurnDrvLogicpro = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, logicproRomInfo, logicproRomName, DrvInputInfo, Logicpr2DIPInfo,
-	logicproInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	logicproInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };
 
@@ -899,7 +899,7 @@ struct BurnDriver BurnDrvCroquis = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, croquisRomInfo, croquisRomName, DrvInputInfo, Logicpr2DIPInfo,
-	logicproInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	logicproInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };
 
@@ -954,7 +954,7 @@ struct BurnDriver BurnDrvKarianx = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, karianxRomInfo, karianxRomName, DrvInputInfo, KarianxDIPInfo,
-	karianxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	karianxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };
 
@@ -990,6 +990,6 @@ struct BurnDriver BurnDrvLogicpr2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, logicpr2RomInfo, logicpr2RomName, DrvInputInfo, Logicpr2DIPInfo,
-	logicpr2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	logicpr2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };

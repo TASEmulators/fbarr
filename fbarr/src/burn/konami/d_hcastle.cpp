@@ -185,6 +185,16 @@ void hcastle_write(unsigned short address, unsigned char data)
 		return;
 	}
 
+	if ((address & 0xff00) == 0x0000) {
+		DrvKonRAM0[address & 0xff] = data;
+		return;
+	}
+
+	if ((address & 0xff00) == 0x0200) {
+		DrvKonRAM1[address & 0xff] = data;
+		return;
+	}
+
 	switch (address)
 	{
 		case 0x0400:
@@ -369,8 +379,8 @@ static int MemIndex()
 
 	AllRam			= Next;
 
-	DrvKonRAM0		= Next; Next += 0x000020;
-	DrvKonRAM1		= Next; Next += 0x000020;
+	DrvKonRAM0		= Next; Next += 0x000100;
+	DrvKonRAM1		= Next; Next += 0x000100;
 	DrvPalRAM		= Next; Next += 0x002000;
 	DrvPf1RAM		= Next; Next += 0x001000;
 	DrvPf2RAM		= Next; Next += 0x001000;
@@ -475,8 +485,8 @@ static int DrvInit()
 
 	konamiInit(1);
 	konamiOpen(0);
-	konamiMapMemory(DrvKonRAM0,		0x0020, 0x003f, KON_RAM);
-	konamiMapMemory(DrvKonRAM1,		0x0220, 0x023f, KON_RAM);
+	konamiMapMemory(DrvKonRAM0,		0x0000, 0x00ff, KON_ROM); //020-03f
+	konamiMapMemory(DrvKonRAM1,		0x0200, 0x02ff, KON_ROM); //220-23f
 	konamiMapMemory(DrvPalRAM,		0x0600, 0x1fff, KON_RAM);
 	konamiMapMemory(DrvPf1RAM,		0x2000, 0x2fff, KON_RAM);
 	konamiMapMemory(DrvSprRAM1,		0x3000, 0x3fff, KON_RAM);
@@ -500,7 +510,7 @@ static int DrvInit()
 	ZetClose();
 
 	BurnYM3812Init(3579545, NULL, DrvSynchroniseStream, 0);
-	BurnTimerAttachZet(3579545);
+	BurnTimerAttachZetYM3812(3579545);
 
 	K007232Init(0, 3579545, DrvSndROM, 0x80000); // no idea...
 	K007232SetPortWriteHandler(0, DrvK007232VolCallback);
@@ -696,21 +706,23 @@ static int DrvDraw()
 		}
 	}
 
+	BurnTransferClear();
+
 	if ((*gfxbank & 0x04) == 0)
 	{
-		draw_layer(DrvPf2RAM, DrvPf2Ctrl, DrvGfxROM1, 0x90, ((*gfxbank & 2) >> 1) * 0x4000, 0);
-		draw_sprites(0, DrvSprBuf1, DrvPf1Ctrl, DrvGfxROM0, 0x00);
-		draw_sprites(1, DrvSprBuf2, DrvPf2Ctrl, DrvGfxROM1, 0x80);
-		draw_layer(DrvPf1RAM, DrvPf1Ctrl, DrvGfxROM0, 0x10, 0x0000, 1);
+		if (nBurnLayer & 1) draw_layer(DrvPf2RAM, DrvPf2Ctrl, DrvGfxROM1, 0x90, ((*gfxbank & 2) >> 1) * 0x4000, 0);
+		if (nSpriteEnable & 1) draw_sprites(0, DrvSprBuf1, DrvPf1Ctrl, DrvGfxROM0, 0x00);
+		if (nSpriteEnable & 2) draw_sprites(1, DrvSprBuf2, DrvPf2Ctrl, DrvGfxROM1, 0x80);
+		if (nBurnLayer & 2) draw_layer(DrvPf1RAM, DrvPf1Ctrl, DrvGfxROM0, 0x10, 0x0000, 1);
 	}
 	else
 	{
-		draw_layer(DrvPf2RAM, DrvPf2Ctrl, DrvGfxROM1, 0x90, ((*gfxbank & 2) >> 1) * 0x4000, 0);
-		draw_layer(DrvPf1RAM, DrvPf1Ctrl, DrvGfxROM0, 0x10, 0x0000, 1);
-		draw_sprites(0, DrvSprBuf1, DrvPf1Ctrl, DrvGfxROM0, 0x00);
-		draw_sprites(1, DrvSprBuf2, DrvPf2Ctrl, DrvGfxROM1, 0x80);
+		if (nBurnLayer & 1) draw_layer(DrvPf2RAM, DrvPf2Ctrl, DrvGfxROM1, 0x90, ((*gfxbank & 2) >> 1) * 0x4000, 0);
+		if (nBurnLayer & 2) draw_layer(DrvPf1RAM, DrvPf1Ctrl, DrvGfxROM0, 0x10, 0x0000, 1);
+		if (nSpriteEnable & 1) draw_sprites(0, DrvSprBuf1, DrvPf1Ctrl, DrvGfxROM0, 0x00);
+		if (nSpriteEnable & 2) draw_sprites(1, DrvSprBuf2, DrvPf2Ctrl, DrvGfxROM1, 0x80);
 	}
-
+	
 	BurnTransferCopy(DrvPalette);
 
 	return 0;
@@ -752,7 +764,7 @@ static int DrvFrame()
 	konamiRun(nCyclesTotal[0]);
 	konamiSetIrqLine(KONAMI_IRQ_LINE, KONAMI_HOLD_LINE);
 
-	BurnTimerEndFrame(nCyclesTotal[1] - ZetTotalCycles());
+	BurnTimerEndFrameYM3812(nCyclesTotal[1] - ZetTotalCycles());
 
 	if (pBurnSoundOut) {
 		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
@@ -839,7 +851,7 @@ struct BurnDriverD BurnDrvHcastle = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, hcastleRomInfo, hcastleRomName, HcastleInputInfo, HcastleDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -877,7 +889,7 @@ struct BurnDriverD BurnDrvHcastleo = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, hcastleoRomInfo, hcastleoRomName, HcastleInputInfo, HcastleDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -915,7 +927,7 @@ struct BurnDriverD BurnDrvHcastlej = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, hcastlejRomInfo, hcastlejRomName, HcastleInputInfo, HcastleDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -953,6 +965,6 @@ struct BurnDriverD BurnDrvHcastljo = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, hcastljoRomInfo, hcastljoRomName, HcastleInputInfo, HcastleDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };

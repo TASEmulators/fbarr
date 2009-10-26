@@ -686,7 +686,7 @@ struct BurnDriver BurnDrvEsprade = {
 	NULL, espradeRomInfo, espradeRomName, espradeInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 240, 320, 3, 4
+	&CaveRecalcPalette, 0x8000, 240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvEspradej = {
@@ -697,17 +697,17 @@ struct BurnDriver BurnDrvEspradej = {
 	NULL, espradejRomInfo, espradejRomName, espradeInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 240, 320, 3, 4
+	&CaveRecalcPalette, 0x8000, 240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvEspradeo = {
-	"espradeo", "esprade", NULL, "1998",
+	"espradejo", "esprade", NULL, "1998",
 	"ESP Ra.De. (Japan, 1998 4/14 master ver.)\0", NULL, "Atlus / Cave", "Cave",
 	L"ESP Ra.De. (Japan, 1998 4/14 master ver.)\0\u30A8\u30B9\u30D7\u30EC\u30A4\u30C9 (Japan, 1998 4/14 master ver.)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_CAVE_68K_ONLY, GBF_VERSHOOT, 0,
 	NULL, espradeoRomInfo, espradeoRomName, espradeInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 240, 320, 3, 4
+	&CaveRecalcPalette, 0x8000, 240, 320, 3, 4
 };
 

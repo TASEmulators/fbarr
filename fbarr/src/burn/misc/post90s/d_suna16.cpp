@@ -2226,7 +2226,7 @@ struct BurnDriver BurnDrvBestbest = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_VSFIGHT, 0,
 	NULL, bestbestRomInfo, bestbestRomName, BestbestInputInfo, bestbestDIPInfo,
-	BestbestInit, DrvExit, BestbestFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	BestbestInit, DrvExit, BestbestFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -2254,7 +2254,7 @@ struct BurnDriver BurnDrvSunaq = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_QUIZ, 0,
 	NULL, sunaqRomInfo, sunaqRomName, SunaqInputInfo, sunaqDIPInfo,
-	SunaqInit, DrvExit, SunaqFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	SunaqInit, DrvExit, SunaqFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -2284,7 +2284,7 @@ struct BurnDriver BurnDrvUballoon = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, uballoonRomInfo, uballoonRomName, UballoonInputInfo, uballoonDIPInfo,
-	UballoonInit, DrvExit, UballoonFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	UballoonInit, DrvExit, UballoonFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };
 
@@ -2320,6 +2320,6 @@ struct BurnDriver BurnDrvBssoccer = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 4, HARDWARE_MISC_POST90S, GBF_SPORTSFOOTBALL, 0,
 	NULL, bssoccerRomInfo, bssoccerRomName, BssoccerInputInfo, bssoccerDIPInfo,
-	BssoccerInit, DrvExit, BssoccerFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	BssoccerInit, DrvExit, BssoccerFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1000,
 	256, 224, 4, 3
 };

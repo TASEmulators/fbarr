@@ -11,17 +11,16 @@ FB Alpha can currently be obtained from http://www.barryharris.me.uk/.
 FB Alpha is based on Final Burn (formally at http://www.finalburn.com/), see additional text below.
 Musashi MC68000/MC68010/MC68EC020 core by Karl Stenerud (http://www.mamedev.org/).
 A68K MC68000 core by Mike Coates & Darren Olafson (http://www.mamedev.org/).
-YM3812 core by Jarek Burczynski & Tatsuyuki Satoh (http://www.mamedev.org/).
+YM3812/YM3526 core by Jarek Burczynski & Tatsuyuki Satoh (http://www.mamedev.org/).
 YM2151 core by Jarek Burczynski (http://www.mamedev.org/).
+YM2413 core by Jarek Burczynski (http://www.mamedev.org/).
 YMF278B core by R. Belmont & O.Galibert (http://www.mamedev.org/).
-YM2608/YM2610 cores by Jarek Burczynski & Tatsuyuki Satoh (http://www.mamedev.org/).
+YM2608/YM2610/YM2203 cores by Jarek Burczynski & Tatsuyuki Satoh (http://www.mamedev.org/).
 AY8910/YM2149 core by various authors (http://www.mamedev.org/).
 M6502 emulation core by Marat (http://fms.komkon.org/EMUL8/).
 I8039 emulation core by Mirko Buffoni (http://www.mamedev.org/).
 ARM7 emulation core by Steve Ellenoff (http://www.mamedev.org/).
-Z80 emulation core by Dave, modifications by Team FB Alpha (http://www.finalburn.com/).
-Alternative Z80 emulation core by Juergen Buchmueller (http://www.mamedev.org/).
-Alternative Z80 emulation core by Stéphane Dallongeville, modifications by Team FB Alpha.
+Z80 emulation core by Juergen Buchmueller (http://www.mamedev.org/).
 PNG functionality provided by libpng (http://www.libpng.org/) and PNGlib (http://www.madwizard.org/).
 Zip functionality provided by zlib (http://www.zlib.net/).
 
@@ -31,7 +30,7 @@ Miscellaneous other components from various sources. Copyright and license infor
 
 All material not covered above © 2004-2009 Team FB Alpha.
 
-DISCLAIMER: The authors of FB Alpha don't guarantee its fitness for any purpose, implied or otherwise, and do not except responsibility for any damages whatsoever that might occur when using FB Alpha. All games emulated by FB Alpha, including any images and sounds therein, are copyrighted by their respective copyright holders. FB Alpha DOES NOT INCLUDE any ROM images of emulated games.
+DISCLAIMER: The authors of FB Alpha don't guarantee its fitness for any purpose, implied or otherwise, and do not accept responsibility for any damages whatsoever that might occur when using FB Alpha. All games emulated by FB Alpha, including any images and sounds therein, are copyrighted by their respective copyright holders. FB Alpha DOES NOT INCLUDE any ROM images of emulated games.
 
 The following information and license conditions accompanied the original Final Burn emulator. They also apply to FB Alpha:
 

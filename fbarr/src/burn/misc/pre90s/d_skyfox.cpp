@@ -582,7 +582,7 @@ struct BurnDriver BurnDrvSkyfox = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 1, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, skyfoxRomInfo, skyfoxRomName, SkyfoxInputInfo, SkyfoxDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	224, 320, 3, 4
 };
 
@@ -618,6 +618,6 @@ struct BurnDriver BurnDrvExerizrb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 1, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, exerizrbRomInfo, exerizrbRomName, SkyfoxInputInfo, SkyfoxDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, NULL, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, NULL, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	224, 320, 3, 4
 };

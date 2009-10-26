@@ -24,6 +24,7 @@ static unsigned char *DrvPalRAM;
 static unsigned char *DrvSprRAM;
 static unsigned char *DrvZ80RAM;
 
+static unsigned int *Palette;
 static unsigned int *DrvPalette;
 static unsigned char DrvRecalc;
 
@@ -388,6 +389,7 @@ static int MemIndex()
 
 	DrvSndROM		= Next; Next += 0x200000;
 
+	Palette			= (unsigned int*)Next; Next += 0x800 * sizeof(int);
 	DrvPalette		= (unsigned int*)Next; Next += 0x800 * sizeof(int);
 
 	AllRam			= Next;
@@ -497,7 +499,7 @@ static int DrvInit()
 	K052109SetCallback(K052109Callback);
 	K052109AdjustScroll(7, 0);
 
-	K053247Init(DrvGfxROM1, 0x3fffff, K053247Callback);
+	K053247Init(DrvGfxROM1, 0x3fffff, K053247Callback, 0x03 /* shadows & highlights */);
 	K053247SetSpriteOffset(-60, 39);
 
 	BurnYM2151Init(3579545, 25.0);
@@ -556,6 +558,26 @@ static void simpsons_objdma()
 	if (num_inactive) do { *dst = 0; dst += 8; } while (--num_inactive);
 }
 
+static void DrvRecalcPal()
+{
+	unsigned char r,g,b;
+	unsigned short *p = (unsigned short*)DrvPalRAM;
+	for (int i = 0; i < 0x1000 / 2; i++) {
+		unsigned short d = (p[i] << 8) | (p[i] >> 8);
+
+		b = (d >> 10) & 0x1f;
+		g = (d >>  5) & 0x1f;
+		r = (d >>  0) & 0x1f;
+
+		r = (r << 3) | (r >> 2);
+		g = (g << 3) | (g >> 2);
+		b = (b << 3) | (b >> 2);
+
+		DrvPalette[i] = BurnHighCol(r, g, b, 0);
+		Palette[i] = (r << 16) | (g << 8) | b;
+	}
+}
+
 static void sortlayers(int *layer,int *pri)
 {
 #define SWAP(a,b) \
@@ -574,7 +596,7 @@ static void sortlayers(int *layer,int *pri)
 static int DrvDraw()
 {
 	if (DrvRecalc) {
-		KonamiRecalcPal(DrvPalRAM, DrvPalette, 0x1000);
+		DrvRecalcPal();
 	}
 
 	K052109UpdateScroll();
@@ -608,7 +630,7 @@ static int DrvDraw()
 	if (nBurnLayer & 4)    K052109RenderLayer(layer[2], 0, DrvGfxROMExp0);	// game over text
 	if (nSpriteEnable & 1) K053247SpritesRender(DrvGfxROMExp1, 0);		// not used? seems to make sense here...
 
-	BurnTransferCopy(DrvPalette);
+	KonamiBlendCopy(Palette, DrvPalette);
 
 	return 0;
 }
@@ -769,7 +791,7 @@ struct BurnDriver BurnDrvSimpsons = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 4, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, simpsonsRomInfo, simpsonsRomName, SimpsonsInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -800,12 +822,12 @@ STD_ROM_PICK(simps4pa)
 STD_ROM_FN(simps4pa)
 
 struct BurnDriver BurnDrvSimps4pa = {
-	"simps4pa", "simpsons", NULL, "1991",
+	"simpsons4pa", "simpsons", NULL, "1991",
 	"The Simpsons (4 Players World, set 2)\0", NULL, "Konami", "GX072",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, simps4paRomInfo, simps4paRomName, SimpsonsInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -836,12 +858,12 @@ STD_ROM_PICK(simpsn2p)
 STD_ROM_FN(simpsn2p)
 
 struct BurnDriver BurnDrvSimpsn2p = {
-	"simpsn2p", "simpsons", NULL, "1991",
+	"simpsons2p", "simpsons", NULL, "1991",
 	"The Simpsons (2 Players World, set 1)\0", NULL, "Konami", "GX072",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, simpsn2pRomInfo, simpsn2pRomName, Simpsn2pInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -872,12 +894,12 @@ STD_ROM_PICK(simps2pa)
 STD_ROM_FN(simps2pa)
 
 struct BurnDriver BurnDrvSimps2pa = {
-	"simps2pa", "simpsons", NULL, "1991",
+	"simpsons2p2", "simpsons", NULL, "1991",
 	"The Simpsons (2 Players World, set 2)\0", NULL, "Konami", "GX072",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, simps2paRomInfo, simps2paRomName, SimpsonsInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -908,12 +930,12 @@ STD_ROM_PICK(simp2pa)
 STD_ROM_FN(simp2pa)
 
 struct BurnDriver BurnDrvSimp2pa = {
-	"simp2pa", "simpsons", NULL, "1991",
+	"simpsons2pa", "simpsons", NULL, "1991",
 	"The Simpsons (2 Players Asia)\0", NULL, "Konami", "GX072",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, simp2paRomInfo, simp2paRomName, Simpsn2pInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -944,11 +966,11 @@ STD_ROM_PICK(simps2pj)
 STD_ROM_FN(simps2pj)
 
 struct BurnDriver BurnDrvSimps2pj = {
-	"simps2pj", "simpsons", NULL, "1991",
+	"simpsons2pj", "simpsons", NULL, "1991",
 	"The Simpsons (2 Players Japan)\0", NULL, "Konami", "GX072",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, simps2pjRomInfo, simps2pjRomName, Simpsn2pInputInfo, NULL,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };

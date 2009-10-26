@@ -437,7 +437,7 @@ struct BurnDriver BurnDrvWallc = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 1, HARDWARE_MISC_PRE90S, GBF_BREAKOUT, 0,
 	NULL, wallcRomInfo, wallcRomName, WallcInputInfo, WallcDIPInfo,
-	wallcInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	wallcInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x08,
 	256, 256, 4, 3
 };
 
@@ -486,6 +486,6 @@ struct BurnDriver BurnDrvWallca = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 1, HARDWARE_MISC_PRE90S, GBF_BREAKOUT, 0,
 	NULL, wallcaRomInfo, wallcaRomName, WallcInputInfo, WallcDIPInfo,
-	wallcaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	wallcaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x08,
 	256, 256, 4, 3
 };

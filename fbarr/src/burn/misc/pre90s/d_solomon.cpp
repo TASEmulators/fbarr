@@ -815,7 +815,7 @@ struct BurnDriver BurnDrvSolomon = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PUZZLE, 0,
 	NULL, SolomonRomInfo, SolomonRomName, SolomonInputInfo, SolomonDIPInfo,
 	SolomonInit, SolomonExit, SolomonFrame, NULL, SolomonScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSolomonj = {
@@ -825,5 +825,5 @@ struct BurnDriver BurnDrvSolomonj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PUZZLE, 0,
 	NULL, SolomonjRomInfo, SolomonjRomName, SolomonInputInfo, SolomonDIPInfo,
 	SolomonInit, SolomonExit, SolomonFrame, NULL, SolomonScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };

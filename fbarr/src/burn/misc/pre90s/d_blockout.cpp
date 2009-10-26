@@ -633,7 +633,7 @@ struct BurnDriver BurnDrvBlockout = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PUZZLE, 0,
 	NULL, blockoutRomInfo, blockoutRomName, BlockoutInputInfo, BlockoutDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x201,
 	320, 240, 4, 3
 };
 
@@ -655,12 +655,12 @@ STD_ROM_PICK(blckout2)
 STD_ROM_FN(blckout2)
 
 struct BurnDriver BurnDrvBlckout2 = {
-	"blckout2", "blockout", NULL, "1989",
+	"blockout2", "blockout", NULL, "1989",
 	"Block Out (set 2)\0", NULL, "Technos + California Dreams", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PUZZLE, 0,
 	NULL, blckout2RomInfo, blckout2RomName, BlockoutInputInfo, BlockoutDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x201,
 	320, 240, 4, 3
 };
 
@@ -682,12 +682,12 @@ STD_ROM_PICK(blckoutj)
 STD_ROM_FN(blckoutj)
 
 struct BurnDriver BurnDrvBlckoutj = {
-	"blckoutj", "blockout", NULL, "1989",
+	"blockoutj", "blockout", NULL, "1989",
 	"Block Out (Japan)\0", NULL, "Technos + California Dreams", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PUZZLE, 0,
 	NULL, blckoutjRomInfo, blckoutjRomName, BlckoutjInputInfo, BlockoutDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x201,
 	320, 240, 4, 3
 };
 
@@ -714,7 +714,7 @@ struct BurnDriver BurnDrvAgress = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, agressRomInfo, agressRomName, BlockoutInputInfo, AgressDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x201,
 	320, 240, 4, 3
 };
 
@@ -741,6 +741,6 @@ struct BurnDriver BurnDrvAgressb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, agressbRomInfo, agressbRomName, BlockoutInputInfo, AgressDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x201,
 	320, 240, 4, 3
 };

@@ -1088,7 +1088,7 @@ static int DrvInit(int loadtype, int sektype, int zettype) // 0 nmg, 1 pclubys
 	ZetClose();
 
 	BurnYM3812Init(4000000, &DrvFMIRQHandler, &DrvSynchroniseStream, 0);
-	BurnTimerAttachZet(4000000);
+	BurnTimerAttachZetYM3812(4000000);
 
 	MSM6295Init(0, 1000000 / 132, 100.0, 1);
 
@@ -1303,7 +1303,7 @@ static int DrvFrame()
 	SekSetIRQLine(6, SEK_IRQSTATUS_AUTO);
 
 	if (pBurnSoundOut) {
-		BurnTimerEndFrame(nTotalCycles[1]);
+		BurnTimerEndFrameYM3812(nTotalCycles[1]);
 		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 		MSM6295Render(0, pBurnSoundOut, nBurnSoundLen);
 	}
@@ -1341,7 +1341,7 @@ static int DrvScan(int nAction, int *pnMin)
 		ZetScan(nAction);
 		BurnYM3812Scan(nAction, pnMin);
 		MSM6295Scan(0, nAction);
-		BurnTimerScan(nAction, pnMin);
+//		BurnTimerScan(nAction, pnMin);
 
 		SCAN_VAR(soundlatch);
 		SCAN_VAR(prot_val);
@@ -1403,7 +1403,7 @@ struct BurnDriver BurnDrvNmg5 = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, nmg5RomInfo, nmg5RomName, Nmg5InputInfo, Nmg5DIPInfo,
 	Nmg5Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };
 
 
@@ -1443,7 +1443,7 @@ struct BurnDriver BurnDrvNmg5e = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, nmg5eRomInfo, nmg5eRomName, Nmg5InputInfo, Nmg5DIPInfo,
 	Nmg5Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };
 
 
@@ -1483,7 +1483,7 @@ struct BurnDriver BurnDrvSearchey = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, searcheyRomInfo, searcheyRomName, SearcheyInputInfo, SearcheyDIPInfo,
 	Nmg5Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };
 
 
@@ -1528,7 +1528,7 @@ struct BurnDriver BurnDrvSearchp2 = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, searchp2RomInfo, searchp2RomName, SearcheyInputInfo, Searchp2DIPInfo,
 	Searchp2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };
 
 
@@ -1571,7 +1571,7 @@ struct BurnDriver BurnDrvPclubys = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, pclubysRomInfo, pclubysRomName, PclubysInputInfo, PclubysDIPInfo,
 	PclubysInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };
 
 
@@ -1607,7 +1607,7 @@ struct BurnDriver BurnDrvPclubysa = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, pclubysaRomInfo, pclubysaRomName, PclubysInputInfo, PclubysDIPInfo,
 	PclubysInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };
 
 
@@ -1654,7 +1654,7 @@ struct BurnDriver BurnDrvGarogun = {
 	BDF_GAME_WORKING, 1, HARDWARE_MISC_POST90S, GBF_QUIZ, 0,
 	NULL, garogunRomInfo, garogunRomName, GarogunInputInfo, GarogunDIPInfo,
 	GarogunInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };
 
 
@@ -1711,7 +1711,7 @@ struct BurnDriver BurnDrvOrdi7 = {
 	BDF_GAME_WORKING, 1, HARDWARE_MISC_POST90S, GBF_CASINO, 0,
 	NULL, ordi7RomInfo, ordi7RomName, Ordi7InputInfo, Ordi7DIPInfo,
 	Ordi7Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };
 
 
@@ -1758,5 +1758,5 @@ struct BurnDriver BurnDrvWondstck = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, wondstckRomInfo, wondstckRomName, SearcheyInputInfo, WondstckDIPInfo,
 	WondstckInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL,
-	&DrvRecalc, 320, 240, 4, 3
+	&DrvRecalc, 0x400, 320, 240, 4, 3
 };

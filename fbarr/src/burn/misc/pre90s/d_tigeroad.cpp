@@ -1088,7 +1088,7 @@ struct BurnDriver BurnDrvTigeroad = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, tigeroadRomInfo, tigeroadRomName, TigeroadInputInfo, TigeroadDIPInfo,
-	TigeroadInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	TigeroadInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x240,
 	256, 224, 4, 3
 };
 
@@ -1140,7 +1140,7 @@ struct BurnDriver BurnDrvToramich = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, toramichRomInfo, toramichRomName, TigeroadInputInfo, ToramichDIPInfo,
-	ToramichInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	ToramichInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x240,
 	256, 224, 4, 3
 };
 
@@ -1212,12 +1212,12 @@ static int TigerodbInit()
 }
 
 struct BurnDriver BurnDrvTigerodb = {
-	"tigerodb", "tigeroad", NULL, "1987",
+	"tigeroadb", "tigeroad", NULL, "1987",
 	"Tiger Road (US bootleg)\0", NULL, "bootleg", "hardware",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, tigerodbRomInfo, tigerodbRomName, TigeroadInputInfo, TigeroadDIPInfo,
-	TigerodbInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	TigerodbInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x240,
 	256, 224, 4, 3
 };
 
@@ -1290,7 +1290,7 @@ struct BurnDriver BurnDrvF1dream = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_RACING, 0,
 	NULL, f1dreamRomInfo, f1dreamRomName, TigeroadInputInfo, F1dreamDIPInfo,
-	F1dreamInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	F1dreamInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x240,
 	256, 224, 4, 3
 };
 
@@ -1363,6 +1363,6 @@ struct BurnDriver BurnDrvF1dreamb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_RACING, 0,
 	NULL, f1dreambRomInfo, f1dreambRomName, TigeroadInputInfo, F1dreamDIPInfo,
-	F1dreambInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	F1dreambInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x240,
 	256, 224, 4, 3
 };

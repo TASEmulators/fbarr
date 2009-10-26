@@ -493,7 +493,7 @@ struct BurnDriver BurnDrvKBash = {
 	L"Knuckle Bash\0Knuckle Bash \u30CA\u30C3\u30AF\u30EB\u30D0\u30C3\u30B7\u30E5\0", NULL, NULL, NULL,
 	1, 2, HARDWARE_TOAPLAN_68K_Zx80, GBF_SCRFIGHT, 0,
 	NULL, drvRomInfo, drvRomName, kbashInputInfo,kbashDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	320, 240, 4, 3
 };
 

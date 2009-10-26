@@ -47,7 +47,7 @@ static unsigned char *RamC000_D;
 
 static unsigned short *EEPROM;
 
-static unsigned short *CurPal;
+unsigned short *Cps3CurPal;
 static unsigned int *RamScreen;
 
 unsigned char cps3_reset = 0;
@@ -497,7 +497,7 @@ static int MemIndex()
 	
 	RamEnd		= Next;
 	
-	CurPal		= (unsigned short *) Next; Next += 0x040000;
+	Cps3CurPal		= (unsigned short *) Next; Next += 0x040000;
 	RamScreen	= (unsigned int *) Next; Next += (512 * 2) * (224 * 2 + 32) * sizeof(int);
 	
 	MemEnd		= Next;
@@ -681,7 +681,7 @@ void __fastcall cps3WriteWord(unsigned int addr, unsigned short data)
 				b = b << 3;
 
 				RamPal[(paldma_dest + i) ^ 1] = coldata;
-				CurPal[(paldma_dest + i) ] = BurnHighCol(r, g, b, 0);
+				Cps3CurPal[(paldma_dest + i) ] = BurnHighCol(r, g, b, 0);
 			}
 			Sh2SetIRQLine(10, SH2_IRQSTATUS_AUTO);
 		}
@@ -923,7 +923,7 @@ void __fastcall cps3VidWriteWord(unsigned int addr, unsigned short data)
 		g |= g >> 5;
 		b |= b >> 5;
 			
-		CurPal[palindex] = BurnHighCol(r, g, b, 0);
+		Cps3CurPal[palindex] = BurnHighCol(r, g, b, 0);
 	
 	} else
 	bprintf(PRINT_NORMAL, _T("Video Attempt to write word value %4x to location %8x\n"), data, addr);
@@ -1191,7 +1191,10 @@ int cps3Init()
 	
 	BurnDrvGetVisibleSize(&cps3_gfx_width, &cps3_gfx_height);	
 	RamScreen	+= (512 * 2) * 16 + 16; // safe draw	
-	cps3SndInit(RomUser);	
+	cps3SndInit(RomUser);
+	
+	pBurnDrvPalette = (unsigned int*)Cps3CurPal;
+		
 	Cps3Reset();
 	return 0;
 }
@@ -1214,7 +1217,7 @@ static void cps3_drawgfxzoom_0(unsigned int code, unsigned int pal, int flipx, i
 	if ((x > (cps3_gfx_width - 8)) || (y > (cps3_gfx_height - 8))) return;
 	unsigned short * dst = (unsigned short *) pBurnDraw;
 	unsigned char * src = (unsigned char *)RamSS;
-	unsigned short * color = CurPal + (pal << 4);
+	unsigned short * color = Cps3CurPal + (pal << 4);
 	dst += (y * cps3_gfx_width + x);
 	src += code * 64;
 	
@@ -1729,8 +1732,8 @@ if (Cps3But2[9]) {
 	fwrite(RamPal, 1, 0x0040000, f);
 	fclose(f);
 	
-	f = fopen("CurPal.raw", "wb+");
-	fwrite(CurPal, 1, 0x0040000, f);
+	f = fopen("Cps3CurPal.raw", "wb+");
+	fwrite(Cps3CurPal, 1, 0x0040000, f);
 	fclose(f);
 	
 
@@ -1962,7 +1965,7 @@ if (Cps3But2[9]) {
 			srcbitmap = RamScreen + (srcy >> 16) * 512 * 2;
 			srcx=0;
 			for (int renderx=0; renderx<cps3_gfx_width; renderx++, dstbitmap ++) {
-				*dstbitmap = CurPal[ srcbitmap[srcx>>16] ];
+				*dstbitmap = Cps3CurPal[ srcbitmap[srcx>>16] ];
 				srcx += fsz;
 			}
 			srcy += fsz;
@@ -2009,7 +2012,7 @@ int cps3Frame()
 			r |= r >> 5;
 			g |= g >> 5;
 			b |= b >> 5;
-			CurPal[i] = BurnHighCol(r, g, b, 0);	
+			Cps3CurPal[i] = BurnHighCol(r, g, b, 0);	
 		}
 		cps3_palette_change = 0;
 	}

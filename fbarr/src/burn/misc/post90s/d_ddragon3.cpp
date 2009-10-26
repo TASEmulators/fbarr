@@ -556,7 +556,7 @@ static struct BurnRomInfo CtribebRomDesc[] = {
 STD_ROM_PICK(Ctribeb)
 STD_ROM_FN(Ctribeb)
 
-static struct BurnRomInfo Ctribb2RomDesc[] = {
+static struct BurnRomInfo Ctribeb2RomDesc[] = {
 	{ "1.bin",         0x20000, 0x9cfa997f, BRF_ESS | BRF_PRG }, // 0	68000 Program Code
 	{ "3.bin",         0x20000, 0x2ece8681, BRF_ESS | BRF_PRG }, //	1
 	{ "2.bin",         0x10000, 0x8c2c6dbd, BRF_ESS | BRF_PRG }, //	2
@@ -597,8 +597,8 @@ static struct BurnRomInfo Ctribb2RomDesc[] = {
 	{ "4.bin",         0x20000, 0x1a3a0b39, BRF_SND },	     // 33
 };
 
-STD_ROM_PICK(Ctribb2)
-STD_ROM_FN(Ctribb2)
+STD_ROM_PICK(Ctribeb2)
+STD_ROM_FN(Ctribeb2)
 
 static int MemIndex()
 {
@@ -1519,7 +1519,7 @@ static int CtribeInit()
 	nRet = BurnLoadRom(DrvTempRom + 0x040000, 5, 1); if (nRet != 0) return 1;
 	nRet = BurnLoadRom(DrvTempRom + 0x080000, 6, 1); if (nRet != 0) return 1;
 	nRet = BurnLoadRom(DrvTempRom + 0x0c0000, 7, 1); if (nRet != 0) return 1;
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "ctribb2")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "ctribeb2")) {
 		nRet = BurnLoadRom(DrvTempRom + 0x100000,  8, 1); if (nRet != 0) return 1;
 		nRet = BurnLoadRom(DrvTempRom + 0x140000,  9, 1); if (nRet != 0) return 1;
 		nRet = BurnLoadRom(DrvTempRom + 0x180000, 10, 1); if (nRet != 0) return 1;
@@ -1529,7 +1529,7 @@ static int CtribeInit()
 	
 	// Load and decode the sprites
 	memset(DrvTempRom, 0, 0x400000);
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "ctribb2")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "ctribeb2")) {
 		nRet = BurnLoadRom(DrvTempRom + 0x000000, 12, 1); if (nRet != 0) return 1;
 		nRet = BurnLoadRom(DrvTempRom + 0x020000, 13, 1); if (nRet != 0) return 1;
 		nRet = BurnLoadRom(DrvTempRom + 0x040000, 14, 1); if (nRet != 0) return 1;
@@ -1569,7 +1569,7 @@ static int CtribeInit()
 		memcpy(MSM6295ROM + 0x20000, DrvTempRom + 0x00000, 0x20000);
 		memcpy(MSM6295ROM + 0x00000, DrvTempRom + 0x20000, 0x20000);
 	} else {
-		if (!strcmp(BurnDrvGetTextA(DRV_NAME), "ctribb2")) {
+		if (!strcmp(BurnDrvGetTextA(DRV_NAME), "ctribeb2")) {
 			nRet = BurnLoadRom(MSM6295ROM + 0x00000, 32, 1); if (nRet != 0) return 1;
 			nRet = BurnLoadRom(MSM6295ROM + 0x20000, 33, 1); if (nRet != 0) return 1;
 		} else {
@@ -2026,37 +2026,37 @@ struct BurnDriver BurnDrvDdragon3 = {
 	BDF_GAME_WORKING, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, DrvRomInfo, DrvRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvDdrago3j = {
-	"ddrago3j", "ddragon3", NULL, "1990",
+	"ddragon3j", "ddragon3", NULL, "1990",
 	"Double Dragon 3 - The Rosetta Stone (Japan)\0", NULL, "Technos", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, DrvjRomInfo, DrvjRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvDdrago3p = {
-	"ddrago3p", "ddragon3", NULL, "1990",
+	"ddragon3p", "ddragon3", NULL, "1990",
 	"Double Dragon 3 - The Rosetta Stone (prototype)\0", NULL, "Technos", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_PROTOTYPE, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, DrvpRomInfo, DrvpRomName, DrvInputInfo, DrvDIPInfo,
 	DrvpInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvDdrago3b = {
-	"ddrago3b", "ddragon3", NULL, "1990",
+	"ddragon3b", "ddragon3", NULL, "1990",
 	"Double Dragon 3 - The Rosetta Stone (bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, DrvbRomInfo, DrvbRomName, DrvInputInfo, DrvbDIPInfo,
 	DrvbInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvCtribe = {
@@ -2066,7 +2066,7 @@ struct BurnDriver BurnDrvCtribe = {
 	BDF_GAME_WORKING, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, CtribeRomInfo, CtribeRomName, DrvInputInfo, CtribeDIPInfo,
 	CtribeInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvCtribe1 = {
@@ -2076,7 +2076,7 @@ struct BurnDriver BurnDrvCtribe1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, Ctribe1RomInfo, Ctribe1RomName, DrvInputInfo, CtribeDIPInfo,
 	CtribeInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvCtribej = {
@@ -2086,7 +2086,7 @@ struct BurnDriver BurnDrvCtribej = {
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, CtribejRomInfo, CtribejRomName, DrvInputInfo, CtribeDIPInfo,
 	CtribeInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvCtribeb = {
@@ -2096,15 +2096,15 @@ struct BurnDriver BurnDrvCtribeb = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, CtribebRomInfo, CtribebRomName, DrvInputInfo, CtribeDIPInfo,
 	CtribeInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };
 
-struct BurnDriver BurnDrvCtribb2 = {
-	"ctribb2", "ctribe", NULL, "1990",
+struct BurnDriver BurnDrvCtribeb2 = {
+	"ctribeb2", "ctribe", NULL, "1990",
 	"The Combatribes (bootleg set 2)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 3, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
-	NULL, Ctribb2RomInfo, Ctribb2RomName, DrvInputInfo, CtribeDIPInfo,
+	NULL, Ctribeb2RomInfo, Ctribeb2RomName, DrvInputInfo, CtribeDIPInfo,
 	CtribeInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x600, 320, 240, 4, 3
 };

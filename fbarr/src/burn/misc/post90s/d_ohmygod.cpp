@@ -682,7 +682,7 @@ struct BurnDriver BurnDrvOhmygod = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, OhmygodRomInfo, OhmygodRomName, OhmygodInputInfo, OhmygodDIPInfo,
 	OhmygodInit, OhmygodExit, OhmygodFrame, NULL, OhmygodScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 320, 240, 4, 3
 };
 
 struct BurnDriverD BurnDrvNaname = {
@@ -692,5 +692,5 @@ struct BurnDriverD BurnDrvNaname = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, NanameRomInfo, NanameRomName, OhmygodInputInfo, NanameDIPInfo,
 	OhmygodInit, OhmygodExit, OhmygodFrame, NULL, OhmygodScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 320, 240, 4, 3
 };

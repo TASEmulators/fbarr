@@ -629,7 +629,7 @@ struct BurnDriver BurnDrvmystston = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, myststonRomInfo, myststonRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 24,
 	240, 256, 3, 4
 };
 
@@ -665,12 +665,12 @@ STD_ROM_PICK(myststno)
 STD_ROM_FN(myststno)
 
 struct BurnDriver BurnDrvmyststno = {
-	"myststno", "mystston", NULL, "1984",
+	"myststono", "mystston", NULL, "1984",
 	"Mysterious Stones - Dr. Kick in Adventure\0", NULL, "Technos", "misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, myststnoRomInfo, myststnoRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 24,
 	240, 256, 3, 4
 };
 

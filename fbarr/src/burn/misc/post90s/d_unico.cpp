@@ -1097,7 +1097,7 @@ static int BurglarxInit()
 	SekClose();
 	
 	BurnYM3812Init(3579545, NULL, &BurglarxSynchroniseStream, 0);
-	BurnTimerAttachSek(16000000);
+	BurnTimerAttachSekYM3812(16000000);
 	
 	// Setup the OKIM6295 emulation
 	MSM6295Init(0, 1056000 / 132, 100.0, 1);
@@ -1178,7 +1178,7 @@ static int ZeropntInit()
 	SekClose();
 	
 	BurnYM3812Init(3579545, NULL, &BurglarxSynchroniseStream, 0);
-	BurnTimerAttachSek(16000000);
+	BurnTimerAttachSekYM3812(16000000);
 	
 	// Setup the OKIM6295 emulation
 	MSM6295Init(0, 1056000 / 132, 100.0, 1);
@@ -1724,7 +1724,7 @@ static int DrvFrame()
 	SekNewFrame();
 	
 	SekOpen(0);
-	BurnTimerEndFrame(nCyclesTotal[0]);
+	BurnTimerEndFrameYM3812(nCyclesTotal[0]);
 	SekSetIRQLine(2, SEK_IRQSTATUS_AUTO);
 	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 	MSM6295Render(0, pBurnSoundOut, nBurnSoundLen);	
@@ -1873,7 +1873,7 @@ struct BurnDriver BurnDrvBurglarx = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
 	NULL, BurglarxRomInfo, BurglarxRomName, BurglarxInputInfo, BurglarxDIPInfo,
 	BurglarxInit, DrvExit, DrvFrame, NULL, BurglarxScan,
-	0, NULL, NULL, NULL, NULL, 384, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 384, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvZeropnt = {
@@ -1883,7 +1883,7 @@ struct BurnDriver BurnDrvZeropnt = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_SHOOT, 0,
 	NULL, ZeropntRomInfo, ZeropntRomName, ZeropntInputInfo, ZeropntDIPInfo,
 	ZeropntInit, DrvExit, DrvFrame, NULL, ZeropntScan,
-	0, NULL, NULL, NULL, NULL, 384, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 384, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvZeropnta = {
@@ -1893,7 +1893,7 @@ struct BurnDriver BurnDrvZeropnta = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_SHOOT, 0,
 	NULL, ZeropntaRomInfo, ZeropntaRomName, ZeropntInputInfo, ZeropntDIPInfo,
 	ZeropntInit, DrvExit, DrvFrame, NULL, ZeropntScan,
-	0, NULL, NULL, NULL, NULL, 384, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 384, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvZeropnt2 = {
@@ -1903,5 +1903,5 @@ struct BurnDriver BurnDrvZeropnt2 = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_SHOOT, 0,
 	NULL, Zeropnt2RomInfo, Zeropnt2RomName, ZeropntInputInfo, Zeropnt2DIPInfo,
 	Zeropnt2Init, Zeropnt2Exit, Zeropnt2Frame, NULL, Zeropnt2Scan,
-	0, NULL, NULL, NULL, NULL, 384, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 384, 224, 4, 3
 };

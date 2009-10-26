@@ -2585,7 +2585,7 @@ struct BurnDriver BurnDrvpuckman = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, puckmanRomInfo, puckmanRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2617,7 +2617,7 @@ struct BurnDriver BurnDrvpuckmanf = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, puckmanfRomInfo, puckmanfRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2649,7 +2649,7 @@ struct BurnDriver BurnDrvpuckmod = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, puckmodRomInfo, puckmodRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2683,7 +2683,7 @@ struct BurnDriver BurnDrvpuckmana = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, puckmanaRomInfo, puckmanaRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2715,7 +2715,7 @@ struct BurnDriver BurnDrvpacman = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, pacmanRomInfo, pacmanRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2747,7 +2747,7 @@ struct BurnDriver BurnDrvpacmanf = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, pacmanfRomInfo, pacmanfRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2779,7 +2779,7 @@ struct BurnDriver BurnDrvhangly = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, hanglyRomInfo, hanglyRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2813,7 +2813,7 @@ struct BurnDriver BurnDrvhangly2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, hangly2RomInfo, hangly2RomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2851,7 +2851,7 @@ struct BurnDriver BurnDrvhangly3 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, hangly3RomInfo, hangly3RomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2883,7 +2883,7 @@ struct BurnDriver BurnDrvpacmod = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, pacmodRomInfo, pacmodRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2917,7 +2917,7 @@ struct BurnDriver BurnDrvpuckmanh = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, puckmanhRomInfo, puckmanhRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2949,7 +2949,7 @@ struct BurnDriver BurnDrvnewpuckx = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, newpuckxRomInfo, newpuckxRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -2987,7 +2987,7 @@ struct BurnDriver BurnDrvpacheart = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, pacheartRomInfo, pacheartRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3025,7 +3025,7 @@ struct BurnDriver BurnDrvjoyman = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, joymanRomInfo, joymanRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3063,7 +3063,7 @@ struct BurnDriver BurnDrvctrpllrp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, ctrpllrpRomInfo, ctrpllrpRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3147,7 +3147,7 @@ struct BurnDriver BurnDrvpacplus = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, pacplusRomInfo, pacplusRomName, DrvInputInfo, DrvDIPInfo,
-	pacplusInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	pacplusInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3186,7 +3186,7 @@ struct BurnDriver BurnDrvnewpuc2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, newpuc2RomInfo, newpuc2RomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3224,7 +3224,7 @@ struct BurnDriver BurnDrvnewpuc2b = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, newpuc2bRomInfo, newpuc2bRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3328,7 +3328,7 @@ struct BurnDriver BurnDrvmspacman = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mspacmanRomInfo, mspacmanRomName, DrvInputInfo, mspacmanDIPInfo,
-	mspacmanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	mspacmanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3363,7 +3363,7 @@ struct BurnDriver BurnDrvmspacmnf = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mspacmnfRomInfo, mspacmnfRomName, DrvInputInfo, mspacmanDIPInfo,
-	mspacmanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	mspacmanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3398,7 +3398,7 @@ struct BurnDriver BurnDrvmspacmat = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mspacmatRomInfo, mspacmatRomName, DrvInputInfo, mspacmanDIPInfo,
-	mspacmanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	mspacmanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3432,7 +3432,7 @@ struct BurnDriver BurnDrvmspacmab = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mspacmabRomInfo, mspacmabRomName, DrvInputInfo, mspacmanDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3488,7 +3488,7 @@ struct BurnDriver BurnDrvmspacmbe = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mspacmbeRomInfo, mspacmbeRomName, DrvInputInfo, mspacmanDIPInfo,
-	mspacmbeInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	mspacmbeInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3523,7 +3523,7 @@ struct BurnDriver BurnDrvpacgal = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, pacgalRomInfo, pacgalRomName, DrvInputInfo, mspacmanDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3557,7 +3557,7 @@ struct BurnDriver BurnDrvmspacpls = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mspacplsRomInfo, mspacplsRomName, DrvInputInfo, mspacmanDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3619,7 +3619,7 @@ struct BurnDriver BurnDrvmschamp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mschampRomInfo, mschampRomName, mschampInputInfo, mschampDIPInfo,
-	mschampInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	mschampInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3687,7 +3687,7 @@ struct BurnDriver BurnDrvcrush = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, crushRomInfo, crushRomName, DrvInputInfo, maketraxDIPInfo,
-	crushInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	crushInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3720,7 +3720,7 @@ struct BurnDriver BurnDrvcrushbl = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, crushblRomInfo, crushblRomName, DrvInputInfo, maketraxDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3758,7 +3758,7 @@ struct BurnDriver BurnDrvcrush2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, crush2RomInfo, crush2RomName, DrvInputInfo, maketraxDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3830,7 +3830,7 @@ struct BurnDriver BurnDrvcrush3 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, crush3RomInfo, crush3RomName, DrvInputInfo, maketraxDIPInfo,
-	crush3Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	crush3Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3881,7 +3881,7 @@ struct BurnDriver BurnDrvcrush4 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, crush4RomInfo, crush4RomName, DrvInputInfo, maketraxDIPInfo,
-	crush4Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	crush4Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3919,7 +3919,7 @@ struct BurnDriverD BurnDrvpaintrlr = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, paintrlrRomInfo, paintrlrRomName, DrvInputInfo, mbrushDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -3958,7 +3958,7 @@ struct BurnDriver BurnDrvcrushs = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, crushsRomInfo, crushsRomName, DrvInputInfo, crushsDIPInfo,
-	crushsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	crushsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4042,7 +4042,7 @@ struct BurnDriver BurnDrvmaketrax = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, maketraxRomInfo, maketraxRomName, DrvInputInfo, maketraxDIPInfo,
-	maketraxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	maketraxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4074,7 +4074,7 @@ struct BurnDriver BurnDrvmaketrxb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, maketrxbRomInfo, maketrxbRomName, DrvInputInfo, maketraxDIPInfo,
-	maketraxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	maketraxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4123,7 +4123,7 @@ struct BurnDriver BurnDrvmbrush = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mbrushRomInfo, mbrushRomName, DrvInputInfo, mbrushDIPInfo,
-	mbrushInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	mbrushInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4238,7 +4238,7 @@ struct BurnDriver BurnDrvkorosuke = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, korosukeRomInfo, korosukeRomName, korosukeInputInfo, korosukeDIPInfo,
-	korosukeInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	korosukeInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4277,7 +4277,7 @@ struct BurnDriver BurnDrveyes = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, eyesRomInfo, eyesRomName, eyesInputInfo, eyesDIPInfo,
-	eyesInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	eyesInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4309,7 +4309,7 @@ struct BurnDriver BurnDrveyes2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, eyes2RomInfo, eyes2RomName, eyesInputInfo, eyesDIPInfo,
-	eyesInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	eyesInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4349,7 +4349,7 @@ struct BurnDriver BurnDrveyeszac = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, eyeszacRomInfo, eyeszacRomName, eyesInputInfo, eyesDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4381,7 +4381,7 @@ struct BurnDriver BurnDrvmrtnt = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, mrtntRomInfo, mrtntRomName, eyesInputInfo, mrtntDIPInfo,
-	eyesInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	eyesInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4419,7 +4419,7 @@ struct BurnDriver BurnDrvgorkans = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, gorkansRomInfo, gorkansRomName, eyesInputInfo, mrtntDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4457,7 +4457,7 @@ struct BurnDriver BurnDrveggor = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, eggorRomInfo, eggorRomName, eyesInputInfo, mrtntDIPInfo,
-	eyesInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	eyesInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4503,7 +4503,7 @@ struct BurnDriver BurnDrvpiranha = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, piranhaRomInfo, piranhaRomName, DrvInputInfo, mspacmanDIPInfo,
-	piranhaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	piranhaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4541,7 +4541,7 @@ struct BurnDriver BurnDrvpiranhao = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, piranhaoRomInfo, piranhaoRomName, DrvInputInfo, mspacmanDIPInfo,
-	piranhaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	piranhaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4575,7 +4575,7 @@ struct BurnDriver BurnDrvpiranhah = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, piranhahRomInfo, piranhahRomName, DrvInputInfo, mspacmanDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4613,7 +4613,7 @@ struct BurnDriver BurnDrvabscam = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, abscamRomInfo, abscamRomName, DrvInputInfo, mspacmanDIPInfo,
-	piranhaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	piranhaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4696,7 +4696,7 @@ struct BurnDriver BurnDrvjumpshot = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_SPORTSMISC, 0,
 	NULL, jumpshotRomInfo, jumpshotRomName, jumpshotInputInfo, jumpshotDIPInfo,
-	jumpshotInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	jumpshotInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4728,7 +4728,7 @@ struct BurnDriver BurnDrvjumpshtp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_SPORTSMISC, 0,
 	NULL, jumpshtpRomInfo, jumpshtpRomName, jumpshotInputInfo, jumpshtpDIPInfo,
-	jumpshotInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	jumpshotInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4767,7 +4767,7 @@ struct BurnDriver BurnDrvshootbul = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_SPORTSMISC, 0,
 	NULL, shootbulRomInfo, shootbulRomName, shootbulInputInfo, shootbulDIPInfo,
-	shootbulInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	shootbulInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4839,14 +4839,14 @@ struct BurnDriver BurnDrvcannonbp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_BREAKOUT, 0,
 	NULL, cannonbpRomInfo, cannonbpRomName, cannonbpInputInfo, cannonbpDIPInfo,
-	cannonbpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	cannonbpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
 
 // Woodpecker (set 1)
 
-static struct BurnRomInfo woodpekRomDesc[] = {
+static struct BurnRomInfo woodpeckRomDesc[] = {
 	{ "f.bin", 0x1000, 0x37ea66ca, 1 | BRF_ESS | BRF_PRG },	//  0 Z80 Code
 	{ "i.bin", 0x1000, 0xcd115dba, 1 | BRF_ESS | BRF_PRG },	//  1
 	{ "e.bin", 0x1000, 0xd40b2321, 1 | BRF_ESS | BRF_PRG },	//  2
@@ -4865,10 +4865,10 @@ static struct BurnRomInfo woodpekRomDesc[] = {
 	{ "pr.3k", 0x0100, 0x77245b66, 0 | BRF_SND | BRF_OPT },	// 12 Timing Prom (not used)
 };
 
-STD_ROM_PICK(woodpek)
-STD_ROM_FN(woodpek)
+STD_ROM_PICK(woodpeck)
+STD_ROM_FN(woodpeck)
 
-static void woodpekCallback()
+static void woodpeckCallback()
 {
 	memcpy (Rom + 0xb000, Rom + 0x8000, 0x1000);
 	memcpy (Rom + 0x8000, Rom + 0x1000, 0x3000);
@@ -4879,20 +4879,20 @@ static void woodpekCallback()
 		eyes_gfx_decode(Gfx + i);
 }
 
-static int woodpekInit()
+static int woodpeckInit()
 {
-	pPacInitCallback = woodpekCallback;
+	pPacInitCallback = woodpeckCallback;
 
 	return DrvInit();
 }
 
-struct BurnDriver BurnDrvwoodpek = {
-	"woodpek", NULL, NULL, "1981",
+struct BurnDriver BurnDrvwoodpeck = {
+	"woodpeck", NULL, NULL, "1981",
 	"Woodpecker (set 1)\0", NULL, "Amenip (Palcom Queen River)", "Pac-man",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
-	NULL, woodpekRomInfo, woodpekRomName, woodpekInputInfo, woodpekDIPInfo,
-	woodpekInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	NULL, woodpeckRomInfo, woodpeckRomName, woodpekInputInfo, woodpekDIPInfo,
+	woodpeckInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4920,12 +4920,12 @@ STD_ROM_PICK(woodpeka)
 STD_ROM_FN(woodpeka)
 
 struct BurnDriverD BurnDrvwoodpeka = {
-	"woodpeka", "woodpek", NULL, "1981",
+	"woodpeka", "woodpeck", NULL, "1981",
 	"Woodpecker (set 2)\0", NULL, "Amenip (Palcom Queen River)", "Pac-man",
 	NULL, NULL, NULL, NULL,
 	BDF_CLONE, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, woodpekaRomInfo, woodpekaRomName, woodpekInputInfo, woodpekDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -4959,7 +4959,7 @@ struct BurnDriver BurnDrvlizwiz = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_SHOOT, 0,
 	NULL, lizwizRomInfo, lizwizRomName, DrvInputInfo, lizwizDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5032,7 +5032,7 @@ struct BurnDriver BurnDrvponpoko = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, ponpokoRomInfo, ponpokoRomName, ponpokoInputInfo, ponpokoDIPInfo,
-	ponpokoInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	ponpokoInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	288, 224, 4, 3
 };
 
@@ -5068,7 +5068,7 @@ struct BurnDriver BurnDrvponpokov = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, ponpokovRomInfo, ponpokovRomName, ponpokoInputInfo, ponpokoDIPInfo,
-	ponpokoInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	ponpokoInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	288, 224, 4, 3
 };
 
@@ -5146,7 +5146,7 @@ struct BurnDriver BurnDrvtheglobp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, theglobpRomInfo, theglobpRomName, theglobpInputInfo, theglobpDIPInfo,
-	theglobpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	theglobpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5176,7 +5176,7 @@ struct BurnDriver BurnDrvsprglobp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, sprglobpRomInfo, sprglobpRomName, theglobpInputInfo, theglobpDIPInfo,
-	theglobpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	theglobpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5207,7 +5207,7 @@ struct BurnDriver BurnDrvsprglbpg = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, sprglbpgRomInfo, sprglbpgRomName, theglobpInputInfo, theglobpDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5237,7 +5237,7 @@ struct BurnDriver BurnDrvbeastf = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, beastfRomInfo, beastfRomName, theglobpInputInfo, theglobpDIPInfo,
-	theglobpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	theglobpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5286,7 +5286,7 @@ struct BurnDriver BurnDrvvanvan = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, vanvanRomInfo, vanvanRomName, vanvanInputInfo, vanvanDIPInfo,
-	vanvanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	vanvanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5318,7 +5318,7 @@ struct BurnDriver BurnDrvvanvank = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, vanvankRomInfo, vanvankRomName, vanvankInputInfo, vanvanDIPInfo,
-	vanvanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	vanvanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5350,7 +5350,7 @@ struct BurnDriver BurnDrvvanvanb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, vanvanbRomInfo, vanvanbRomName, vanvankInputInfo, vanvanDIPInfo,
-	vanvanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	vanvanInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5395,7 +5395,7 @@ struct BurnDriver BurnDrvnmouse = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, nmouseRomInfo, nmouseRomName, DrvInputInfo, nmouseDIPInfo,
-	nmouseInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	nmouseInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5433,7 +5433,7 @@ struct BurnDriver BurnDrvnmouseb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_PLATFORM, 0,
 	NULL, nmousebRomInfo, nmousebRomName, DrvInputInfo, nmouseDIPInfo,
-	nmouseInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	nmouseInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5475,7 +5475,7 @@ struct BurnDriver BurnDrvdremshpr = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_PUZZLE, 0,
 	NULL, dremshprRomInfo, dremshprRomName, dremshprInputInfo, dremshprDIPInfo,
-	dremshprInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	dremshprInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5524,7 +5524,7 @@ struct BurnDriver BurnDrvbwcasino = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_CASINO, 0,
 	NULL, bwcasinoRomInfo, bwcasinoRomName, bwcasinoInputInfo, bwcasinoDIPInfo,
-	acityaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	acityaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5553,7 +5553,7 @@ struct BurnDriver BurnDrvacitya = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_CASINO, 0,
 	NULL, acityaRomInfo, acityaRomName, acityaInputInfo, acityaDIPInfo,
-	acityaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	acityaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5617,7 +5617,7 @@ struct BurnDriver BurnDrvbigbucks = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_QUIZ, 0,
 	NULL, bigbucksRomInfo, bigbucksRomName, bigbucksInputInfo, bigbucksDIPInfo,
-	bigbucksInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	bigbucksInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5689,7 +5689,7 @@ struct BurnDriver BurnDrvrocktrv2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PACMAN, GBF_QUIZ, 0,
 	NULL, rocktrv2RomInfo, rocktrv2RomName, rocktrv2InputInfo, rocktrv2DIPInfo,
-	rocktrv2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	rocktrv2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5742,7 +5742,7 @@ struct BurnDriver BurnDrvalibaba = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_MAZE, 0,
 	NULL, alibabaRomInfo, alibabaRomName, alibabaInputInfo, alibabaDIPInfo,
-	alibabaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	alibabaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5778,7 +5778,7 @@ struct BurnDriver BurnDrvdrivfrcp = {
 	NULL, NULL, NULL, NULL,
 	0, 2, HARDWARE_PACMAN, GBF_RACING, 0,
 	NULL, drivfrcpRomInfo, drivfrcpRomName, DrvInputInfo, NULL,
-	s2650Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	s2650Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5806,7 +5806,7 @@ struct BurnDriverD BurnDrvporky = {
 	NULL, NULL, NULL, NULL,
 	0, 2, HARDWARE_PACMAN, GBF_MISC, 0,
 	NULL, porkyRomInfo, porkyRomName, DrvInputInfo, NULL,
-	s2650Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	s2650Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };
 
@@ -5833,6 +5833,6 @@ struct BurnDriverD BurnDrvbpm8 = {
 	NULL, NULL, NULL, NULL,
 	0 | BDF_CLONE, 2, HARDWARE_PACMAN, GBF_SPORTSMISC, 0,
 	NULL, bpm8RomInfo, bpm8RomName, DrvInputInfo, NULL,
-	s2650Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	s2650Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x200,
 	224, 288, 3, 4
 };

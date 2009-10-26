@@ -23,6 +23,7 @@ static unsigned char *DrvKonRAM;
 static unsigned char *DrvPalRAM;
 static unsigned char *DrvZ80RAM;
 
+static unsigned int  *Palette;
 static unsigned int  *DrvPalette;
 static unsigned char DrvRecalc;
 
@@ -364,7 +365,8 @@ static int MemIndex()
 
 	DrvSndROM		= Next; Next += 0x080000;
 
-	DrvPalette		= (unsigned int*)Next; Next += 0x810 * sizeof(int);
+	Palette			= (unsigned int*)Next; Next += 0x800 * sizeof(int);
+	DrvPalette		= (unsigned int*)Next; Next += 0x800 * sizeof(int);
 
 	AllRam			= Next;
 
@@ -498,10 +500,30 @@ static void sortlayers(int *layer,int *pri)
 	SWAP(1,2)
 }
 
+static void DrvRecalcPal()
+{
+	unsigned char r,g,b;
+	unsigned short *p = (unsigned short*)DrvPalRAM;
+	for (int i = 0; i < 0x1000 / 2; i++) {
+		unsigned short d = (p[i] << 8) | (p[i] >> 8);
+
+		b = (d >> 10) & 0x1f;
+		g = (d >>  5) & 0x1f;
+		r = (d >>  0) & 0x1f;
+
+		r = (r << 3) | (r >> 2);
+		g = (g << 3) | (g >> 2);
+		b = (b << 3) | (b >> 2);
+
+		DrvPalette[i] = BurnHighCol(r, g, b, 0);
+		Palette[i] = (r << 16) | (g << 8) | b;
+	}
+}
+
 static int DrvDraw()
 {
 	if (DrvRecalc) {
-		KonamiRecalcPal(DrvPalRAM, DrvPalette, 0x1000);
+		DrvRecalcPal();
 	}
 
 	K052109UpdateScroll();
@@ -528,15 +550,15 @@ static int DrvDraw()
 	}
 
 	if (nBurnLayer & 1) K052109RenderLayer(layer[0], 0, DrvGfxROMExp0);
-	if (nSpriteEnable & 4) K053245SpritesRender(0, DrvGfxROMExp1, 2, 0x800); // right?
-	if (nSpriteEnable & 8) K053245SpritesRender(0, DrvGfxROMExp1, 3, 0x800);
+	if (nSpriteEnable & 4) K053245SpritesRender(0, DrvGfxROMExp1, 2); // right?
+	if (nSpriteEnable & 8) K053245SpritesRender(0, DrvGfxROMExp1, 3);
 	if (nBurnLayer & 2) K052109RenderLayer(layer[1], 0, DrvGfxROMExp0);
-	if (nSpriteEnable & 2) K053245SpritesRender(0, DrvGfxROMExp1, 1, 0x800);
+	if (nSpriteEnable & 2) K053245SpritesRender(0, DrvGfxROMExp1, 1);
 	if (nBurnLayer & 4) K052109RenderLayer(layer[2], 0, DrvGfxROMExp0);
 
-	if (nSpriteEnable & 1) K053245SpritesRender(0, DrvGfxROMExp1, 0, 0x800); // used (back)?
+	if (nSpriteEnable & 1) K053245SpritesRender(0, DrvGfxROMExp1, 0); // used (back)?
 
-	BurnTransferCopy(DrvPalette);
+	KonamiBlendCopy(Palette, DrvPalette);
 
 	return 0;
 }
@@ -670,7 +692,7 @@ struct BurnDriver BurnDrvParodius = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_KONAMI, GBF_HORSHOOT, 0,
 	NULL, parodiusRomInfo, parodiusRomName, ParodiusInputInfo, ParodiusDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -696,11 +718,11 @@ STD_ROM_PICK(parodisj)
 STD_ROM_FN(parodisj)
 
 struct BurnDriver BurnDrvParodisj = {
-	"parodisj", "parodius", NULL, "1990",
+	"parodiusj", "parodius", NULL, "1990",
 	"Parodius DA! (Japan)\0", NULL, "Konami", "GX955",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_HORSHOOT, 0,
 	NULL, parodisjRomInfo, parodisjRomName, ParodiusInputInfo, ParodiusDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };

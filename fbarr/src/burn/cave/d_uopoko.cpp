@@ -588,7 +588,7 @@ struct BurnDriver BurnDrvUoPoko = {
 	NULL, uopokoRomInfo, uopokoRomName, uopokoInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 320, 240, 4, 3
+	&CaveRecalcPalette, 0x8000, 320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvUoPokoj = {
@@ -599,7 +599,7 @@ struct BurnDriver BurnDrvUoPokoj = {
 	NULL, uopokojRomInfo, uopokojRomName, uopokoInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 320, 240, 4, 3
+	&CaveRecalcPalette, 0x8000, 320, 240, 4, 3
 };
 
 

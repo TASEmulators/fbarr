@@ -33,11 +33,12 @@ static unsigned char *DrvTextRAM;
 static unsigned char *DrvSprRAM;
 static unsigned char *DrvForeRAM;
 static unsigned char *DrvBackRAM;
+
+static unsigned int *DrvPalette;
+static unsigned char DrvRecalc;
+
 static unsigned short *DrvBgScroll;
 static unsigned short *DrvFgScroll;
-static unsigned int *DrvPalette;
-static unsigned int *Palette;
-static unsigned char DrvRecalc;
 
 static int tecmo_video_type;
 
@@ -80,6 +81,37 @@ static struct BurnInputInfo RygarInputList[] = {
 };
 
 STDINPUTINFO(Rygar)
+
+static struct BurnInputInfo BackfirtInputList[] = {
+	{"Coin 1"       , BIT_DIGITAL  , DrvJoy6 + 2,	"p1 coin"  },
+	{"Coin 2"       , BIT_DIGITAL  , DrvJoy6 + 3,	"p2 coin"  },
+
+	{"P1 Start"  ,    BIT_DIGITAL  , DrvJoy6 + 1,	"p1 start" },
+	{"P1 Left"      , BIT_DIGITAL  , DrvJoy1 + 0, 	"p1 left"  },
+	{"P1 Right"     , BIT_DIGITAL  , DrvJoy1 + 1, 	"p1 right" },
+	{"P1 Down",	  BIT_DIGITAL  , DrvJoy1 + 2,   "p1 down", },
+	{"P1 Up",	  BIT_DIGITAL  , DrvJoy1 + 3,   "p1 up",   },
+	{"P1 Button 1"  , BIT_DIGITAL  , DrvJoy2 + 0,	"p1 fire 1"},
+	{"P1 Button 2"  , BIT_DIGITAL  , DrvJoy2 + 1,	"p1 fire 2"},
+	{"P1 Button 3"  , BIT_DIGITAL  , DrvJoy2 + 2,	"p1 fire 3"},
+
+	{"P2 Start"  ,    BIT_DIGITAL  , DrvJoy6 + 0,	"p2 start" },
+	{"P2 Left"      , BIT_DIGITAL  , DrvJoy3 + 0, 	"p2 left"  },
+	{"P2 Right"     , BIT_DIGITAL  , DrvJoy3 + 1, 	"p2 right" },
+	{"P2 Down",	  BIT_DIGITAL,   DrvJoy3 + 2,   "p2 down", },
+	{"P2 Up",	  BIT_DIGITAL,   DrvJoy3 + 3,   "p2 up",   },
+	{"P2 Button 1"  , BIT_DIGITAL  , DrvJoy4 + 0,	"p2 fire 1"},
+	{"P2 Button 2"  , BIT_DIGITAL  , DrvJoy4 + 1,	"p2 fire 2"},
+	{"P2 Button 3"  , BIT_DIGITAL  , DrvJoy4 + 2,	"p2 fire 3"},
+
+	{"Reset",	  BIT_DIGITAL  , &DrvReset,	"reset"    },
+	{"Dip 1",	  BIT_DIPSWITCH, DrvInputs + 6,	"dip"	   },
+	{"Dip 2",	  BIT_DIPSWITCH, DrvInputs + 7,	"dip"	   },
+	{"Dip 3",	  BIT_DIPSWITCH, DrvInputs + 8,	"dip"	   },
+	{"Dip 4",	  BIT_DIPSWITCH, DrvInputs + 9,	"dip"	   },
+};
+
+STDINPUTINFO(Backfirt)
 
 static struct BurnInputInfo GeminiInputList[] = {
 	{"Coin 1"       , BIT_DIGITAL  , DrvJoy6 + 2,	"p1 coin"  },
@@ -312,6 +344,59 @@ static struct BurnDIPInfo SilkwormDIPList[]=
 
 STDDIPINFO(Silkworm)
 
+static struct BurnDIPInfo BackfirtDIPList[]=
+{
+	{0x13, 0xff, 0xff, 0x00, NULL },
+	{0x14, 0xff, 0xff, 0x10, NULL },
+	{0x15, 0xff, 0xff, 0x00, NULL },
+	{0x16, 0xff, 0xff, 0x00, NULL },
+
+	{0x13, 0xfe, 0,      4, "Coin A" },
+	{0x13, 0x01, 0x3, 0x00, "1C 1C" },
+	{0x13, 0x01, 0x3, 0x01, "1C 2C" },
+	{0x13, 0x01, 0x3, 0x02, "1C 3C" },
+	{0x13, 0x01, 0x3, 0x03, "1C 6C" },
+
+	{0x13, 0xfe, 0,      4, "Coin B" },
+	{0x13, 0x01, 0xC, 0x04, "2C 1C" },
+	{0x13, 0x01, 0xC, 0x00, "1C 1C" },
+	{0x13, 0x01, 0xC, 0x08, "1C 2C" },
+	{0x13, 0x01, 0xC, 0x0C, "1C 3C" },
+
+	{0x14, 0xfe, 0,       2, "Cabinet" },
+	{0x14, 0x01, 0x10, 0x10, "Upright" },
+	{0x14, 0x01, 0x10, 0x00, "Cocktail" },
+
+	{0x15, 0xfe, 0,      8, "Bonus Life" },
+	{0x15, 0x01, 0x07, 0x00, "50000  200000 500000" },
+	{0x15, 0x01, 0x07, 0x01, "100000 300000 800000" },
+	{0x15, 0x01, 0x07, 0x02, "50000  200000" },
+	{0x15, 0x01, 0x07, 0x03, "100000 300000" },
+	{0x15, 0x01, 0x07, 0x04, "50000" },
+	{0x15, 0x01, 0x07, 0x05, "100000" },
+	{0x15, 0x01, 0x07, 0x06, "200000" },
+	{0x15, 0x01, 0x07, 0x07, "None" },
+
+	// not verified
+	{0x15, 0xfe, 0,       6, "Difficulty" },
+	{0x15, 0x01, 0x38, 0x00, "0" },
+	{0x15, 0x01, 0x38, 0x08, "1" },
+	{0x15, 0x01, 0x38, 0x10, "2" },
+	{0x15, 0x01, 0x38, 0x18, "3" },
+	{0x15, 0x01, 0x38, 0x20, "4" },
+	{0x15, 0x01, 0x38, 0x28, "5" },
+
+	{0x16, 0xfe, 0,      2, "Allow Continue" },
+	{0x16, 0x01, 0x04, 0x04, "No" },
+	{0x16, 0x01, 0x04, 0x00, "Yes" },
+
+	{0x16, 0xfe, 0,      2, "Invincibility (Cheat)" },
+	{0x16, 0x01, 0x08, 0x08, "No" },
+	{0x16, 0x01, 0x08, 0x00, "Yes" },
+};
+
+STDDIPINFO(Backfirt)
+
 unsigned char __fastcall rygar_main_read(unsigned short address)
 {
 	switch (address)
@@ -343,7 +428,7 @@ static void bankswitch_w(int data)
 	ZetMapArea(0xf000, 0xf7ff, 2, DrvZ80ROM0 + DrvZ80Bank);
 }
 
-static void palette_write(int offset)
+static inline void palette_write(int offset)
 {
 	unsigned short data;
 	unsigned char r,g,b;
@@ -359,7 +444,6 @@ static void palette_write(int offset)
 	g |= g << 4;
 	b |= b << 4;
 
-	Palette[offset >> 1] = (r << 16) | (g << 8) | b;
 	DrvPalette[offset >> 1] = BurnHighCol(r, g, b, 0);
 }
 
@@ -431,50 +515,19 @@ unsigned char __fastcall rygar_sound_read(unsigned short address)
 
 void __fastcall rygar_sound_write(unsigned short address, unsigned char data)
 {
+	if ((address & 0xff80) == 0x2000) {
+		DrvZ80ROM1[address] = data;
+		return;
+	}
+
 	switch (address)
 	{
 		case 0x8000:
-			BurnYM3812Write(0, data);
-		return;
-
-		case 0x8001:
-			BurnYM3812Write(1, data);
-		return;
-
-		case 0xc000:
-			adpcm_pos = data << 8;
-			MSM5205Reset(0);
-		return;
-
-		case 0xd000:
-			adpcm_end = (data + 1) << 8;
-			MSM5205Play(adpcm_pos, adpcm_end, 0);
-		return;
-
-		case 0xe000:
-			adpcm_vol = (data & 0x0f) * 100 / 15;
-		return;
-
-		case 0xf000:
-		return;
-	}
-
-	return;
-}
-
-void __fastcall tecmo_sound_write(unsigned short address, unsigned char data)
-{
-	if ((address & 0xff80) == 0) {
-		DrvZ80ROM0[address] = data;
-		return;
-	}
-
-	switch (address)
-	{
 		case 0xa000:
 			BurnYM3812Write(0, data);
 		return;
 
+		case 0x8001:
 		case 0xa001:
 			BurnYM3812Write(1, data);
 		return;
@@ -485,15 +538,17 @@ void __fastcall tecmo_sound_write(unsigned short address, unsigned char data)
 		return;
 
 		case 0xc400:
+		case 0xd000:
 			adpcm_end = (data + 1) << 8;
 			MSM5205Play(adpcm_pos, adpcm_end, 0);
 		return;
 
 		case 0xc800:
+		case 0xe000:
 			adpcm_vol = (data & 0x0f) * 100 / 15;
 		return;
 
-		case 0xcc00:
+		case 0xf000:
 		return;
 	}
 
@@ -529,7 +584,6 @@ static int MemIndex()
 	DrvBgScroll	= (unsigned short*)Next; Next += 0x00002 * sizeof(unsigned short);
 	DrvFgScroll	= (unsigned short*)Next; Next += 0x00002 * sizeof(unsigned short);
 
-	Palette		= (unsigned int*)Next; Next += 0x00400 * sizeof(unsigned int);
 	DrvPalette	= (unsigned int*)Next; Next += 0x00400 * sizeof(unsigned int);
 
 	RamEnd		= Next;
@@ -690,7 +744,7 @@ static int RygarInit()
 	}
 
 	BurnYM3812Init(4000000, &TecmoFMIRQHandler, &TecmoSynchroniseStream, 0);
-	BurnTimerAttachZet(4000000);
+	BurnTimerAttachZetYM3812(4000000);
 
 	MSM5205Init(0, 8000, 100, 1);
 
@@ -740,7 +794,7 @@ static int SilkwormInit()
 	ZetMapArea(0x8000, 0x87ff, 0, DrvZ80RAM1);
 	ZetMapArea(0x8000, 0x87ff, 1, DrvZ80RAM1);
 	ZetMapArea(0x8000, 0x87ff, 2, DrvZ80RAM1);
-	ZetSetWriteHandler(tecmo_sound_write);
+	ZetSetWriteHandler(rygar_sound_write);
 	ZetSetReadHandler(rygar_sound_read);
 	ZetMemEnd();
 	ZetClose();
@@ -766,7 +820,7 @@ static int SilkwormInit()
 	}
 
 	BurnYM3812Init(4000000, &TecmoFMIRQHandler, &TecmoSynchroniseStream, 0);
-	BurnTimerAttachZet(4000000);
+	BurnTimerAttachZetYM3812(4000000);
 
 	MSM5205Init(0, 8000, 100, 1);
 
@@ -815,7 +869,7 @@ static int GeminiInit()
 	ZetMapArea(0x8000, 0x87ff, 0, DrvZ80RAM1);
 	ZetMapArea(0x8000, 0x87ff, 1, DrvZ80RAM1);
 	ZetMapArea(0x8000, 0x87ff, 2, DrvZ80RAM1);
-	ZetSetWriteHandler(tecmo_sound_write);
+	ZetSetWriteHandler(rygar_sound_write);
 	ZetSetReadHandler(rygar_sound_read);
 	ZetMemEnd();
 	ZetClose();
@@ -835,13 +889,13 @@ static int GeminiInit()
 			if (BurnLoadRom(DrvGfxROM3 + i * 0x10000, i + 12, 1)) return 1;
 		}
 
-		if (BurnLoadRom(DrvSndROM,	16, 1)) return 1;
+		BurnLoadRom(DrvSndROM,	16, 1);
 
 		DrvGfxDecode();
 	}
 
 	BurnYM3812Init(4000000, &TecmoFMIRQHandler, &TecmoSynchroniseStream, 0);
-	BurnTimerAttachZet(4000000);
+	BurnTimerAttachZetYM3812(4000000);
 
 	MSM5205Init(0, 8000, 100, 1);
 
@@ -864,27 +918,25 @@ static int DrvExit()
 	free (AllMem);
 	AllMem = NULL;
 
-	tecmo_video_type = 0;
-
 	return 0;
+}
+
+static inline int calc_sprite_offset(int code, int x, int y)
+{
+	int ofst = 0;
+	if (x & 0x001) ofst |= 0x01;
+	if (y & 0x001) ofst |= 0x02;
+	if (x & 0x002) ofst |= 0x04;
+	if (y & 0x002) ofst |= 0x08;
+	if (x & 0x004) ofst |= 0x10;
+	if (y & 0x004) ofst |= 0x20;
+
+	return (ofst + code) & 0x1fff;
 }
 
 static void draw_sprites(int priority)
 {
-	int offs;
-	static const unsigned char layout[8][8] =
-	{
-		{0,1,4,5,16,17,20,21},
-		{2,3,6,7,18,19,22,23},
-		{8,9,12,13,24,25,28,29},
-		{10,11,14,15,26,27,30,31},
-		{32,33,36,37,48,49,52,53},
-		{34,35,38,39,50,51,54,55},
-		{40,41,44,45,56,57,60,61},
-		{42,43,46,47,58,59,62,63}
-	};
-
-	for (offs = 0; offs < 0x800; offs += 8)
+	for (int offs = 0; offs < 0x800; offs += 8)
 	{
 		int flags = DrvSprRAM[offs+3];
 		if (priority != (flags >> 6)) continue;
@@ -922,15 +974,15 @@ static void draw_sprites(int priority)
 
 					if (flipy) {
 						if (flipx) {
-							Render8x8Tile_Mask_FlipXY_Clip(pTransDraw, code + layout[y][x], sx, sy, flags & 0x0f, 4, 0, 0, DrvGfxROM1);
+							Render8x8Tile_Mask_FlipXY_Clip(pTransDraw, calc_sprite_offset(code, x, y), sx, sy, flags & 0x0f, 4, 0, 0, DrvGfxROM1);
 						} else {
-							Render8x8Tile_Mask_FlipY_Clip(pTransDraw, code + layout[y][x], sx, sy, flags & 0x0f, 4, 0, 0, DrvGfxROM1);
+							Render8x8Tile_Mask_FlipY_Clip(pTransDraw, calc_sprite_offset(code, x, y), sx, sy, flags & 0x0f, 4, 0, 0, DrvGfxROM1);
 						}
 					} else {
 						if (flipx) {
-							Render8x8Tile_Mask_FlipX_Clip(pTransDraw, code + layout[y][x], sx, sy, flags & 0x0f, 4, 0, 0, DrvGfxROM1);
+							Render8x8Tile_Mask_FlipX_Clip(pTransDraw, calc_sprite_offset(code, x, y), sx, sy, flags & 0x0f, 4, 0, 0, DrvGfxROM1);
 						} else {
-							Render8x8Tile_Mask_Clip(pTransDraw, code + layout[y][x], sx, sy, flags & 0x0f, 4, 0, 0, DrvGfxROM1);
+							Render8x8Tile_Mask_Clip(pTransDraw, calc_sprite_offset(code, x, y), sx, sy, flags & 0x0f, 4, 0, 0, DrvGfxROM1);
 						}
 					}
 				}
@@ -939,7 +991,7 @@ static void draw_sprites(int priority)
 	}
 }
  
-static int Draw_16x16_Tiles(unsigned char *vidram, unsigned char *gfx_base, int paloffs, unsigned short *scroll)
+static int draw_layer(unsigned char *vidram, unsigned char *gfx_base, int paloffs, unsigned short *scroll)
 {
 	for (int offs = 0; offs < 32 * 16; offs++)
 	{
@@ -956,8 +1008,10 @@ static int Draw_16x16_Tiles(unsigned char *vidram, unsigned char *gfx_base, int 
 
 		if (sx <   -15) sx += 0x200;
 		if (sx >   511) sx -= 0x200;
-		    sy -= scroll[1];
+		    sy -= scroll[1] + 16;
 		if (sy <   -15) sy += 0x100;
+
+		if (sx > nScreenWidth || sy > nScreenHeight) continue;
 
 		unsigned char color = vidram[0x200 | offs];
 		int code  = vidram[offs];
@@ -969,25 +1023,42 @@ static int Draw_16x16_Tiles(unsigned char *vidram, unsigned char *gfx_base, int 
 		    code  |= ((color & 7) << 8);
 		    color >>= 4;
 
-		if (sx < -15 || sy < 1 || sx > 255 || sy > 239) continue;
-
-		if (sx < 0 || sy < 0 || sx > 240 || sy > 224) {
-			Render16x16Tile_Mask_Clip(pTransDraw, code, sx, sy-16, color, 4, 0, paloffs, gfx_base);
+		if (sx < 0 || sy < 0 || sx > nScreenWidth - 16 || sy > nScreenHeight - 16) {
+			Render16x16Tile_Mask_Clip(pTransDraw, code, sx, sy, color, 4, 0, paloffs, gfx_base);
 		} else {
-			Render16x16Tile_Mask(pTransDraw, code, sx, sy-16, color, 4, 0, paloffs, gfx_base);
+			Render16x16Tile_Mask(pTransDraw, code, sx, sy, color, 4, 0, paloffs, gfx_base);
 		}
 	}
 
 	return 0;
 }
 
+static void draw_text_layer()
+{
+	for (int offs = 0; offs < 0x400; offs++)
+	{
+		int sx = (offs & 0x1f) << 3;
+		int sy = (offs >> 5) << 3;
+
+		int color = DrvTextRAM[offs | 0x400];
+
+		int code = DrvTextRAM[offs] | ((color & 3) << 8);
+
+		color >>= 4;
+
+		if (sy < 16 || sy > 239) continue;
+
+		Render8x8Tile_Mask(pTransDraw, code, sx, sy-16, color, 4, 0, 0x100, DrvGfxROM0);
+	}
+}
+
 static int DrvDraw()
 {
 	if (DrvRecalc) {
-		for (int i = 0; i < 0x400; i++) {
-			unsigned int col = Palette[i];
-			DrvPalette[i] = BurnHighCol(col>>16, col>>8, col, 0);
+		for (int i = 0; i < 0x800; i+=2) {
+			palette_write(i);
 		}
+		DrvRecalc = 0;
 	}
 
 	for (int i = 0; i < nScreenWidth * nScreenHeight; i++) {
@@ -996,32 +1067,16 @@ static int DrvDraw()
  
 	draw_sprites(3);
 
-	Draw_16x16_Tiles(DrvBackRAM, DrvGfxROM3, 0x300, DrvBgScroll);
+	draw_layer(DrvBackRAM, DrvGfxROM3, 0x300, DrvBgScroll);
 
 	draw_sprites(2);
 
-	Draw_16x16_Tiles(DrvForeRAM, DrvGfxROM2, 0x200, DrvFgScroll);
+	draw_layer(DrvForeRAM, DrvGfxROM2, 0x200, DrvFgScroll);
 
 	draw_sprites(1);
 	draw_sprites(0);
 
-	{
-		for (int offs = 0; offs < 0x400; offs++)
-		{
-			int sx = (offs & 0x1f) << 3;
-			int sy = (offs >> 5) << 3;
-
-			int color = DrvTextRAM[offs | 0x400];
-
-			int code = DrvTextRAM[offs] | ((color & 3) << 8);
-
-			color >>= 4;
-
-			if (sy < 16 || sy > 239) continue;
-
-			Render8x8Tile_Mask(pTransDraw, code, sx, sy-16, color, 4, 0, 0x100, DrvGfxROM0);
-		}
-	}
+	draw_text_layer();
 
 	if (flipscreen) {
 		int nSize = (nScreenWidth * nScreenHeight) - 1;
@@ -1082,14 +1137,16 @@ static int DrvFrame()
 			DrvEnableNmi = 0;
 		}
 		nCyclesDone[1] += nSegment;
-		BurnTimerUpdate(nSegment);
+		BurnTimerUpdateYM3812(nSegment);
 		ZetClose();
 	}
 
 	ZetOpen(1);
-	BurnTimerEndFrame(nTotalCycles[1]);
-	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
-	MSM5205Render(0, pBurnSoundOut, nBurnSoundLen);
+	if (pBurnSoundOut) {
+		BurnTimerEndFrameYM3812(nTotalCycles[1]);
+		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
+		MSM5205Render(0, pBurnSoundOut, nBurnSoundLen);
+	}
 	ZetClose();
 
 	if (pBurnDraw) {
@@ -1180,7 +1237,7 @@ struct BurnDriver BurnDrvRygar = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, rygarRomInfo, rygarRomName, RygarInputInfo, RygarDIPInfo,
-	RygarInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	RygarInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1223,7 +1280,7 @@ struct BurnDriver BurnDrvRygar2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, rygar2RomInfo, rygar2RomName, RygarInputInfo, RygarDIPInfo,
-	RygarInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	RygarInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1266,7 +1323,7 @@ struct BurnDriver BurnDrvRygar3 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, rygar3RomInfo, rygar3RomName, RygarInputInfo, RygarDIPInfo,
-	RygarInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	RygarInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1309,7 +1366,7 @@ struct BurnDriver BurnDrvRygarj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, rygarjRomInfo, rygarjRomName, RygarInputInfo, RygarDIPInfo,
-	RygarInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	RygarInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1351,7 +1408,7 @@ struct BurnDriver BurnDrvSilkworm = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, silkwormRomInfo, silkwormRomName, SilkwormInputInfo, SilkwormDIPInfo,
-	SilkwormInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	SilkwormInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1388,12 +1445,52 @@ STD_ROM_PICK(silkwrm2)
 STD_ROM_FN(silkwrm2)
 
 struct BurnDriver BurnDrvSilkwrm2 = {
-	"silkwrm2", "silkworm", NULL, "1988",
+	"silkworm2", "silkworm", NULL, "1988",
 	"Silk Worm (set 2)\0", NULL, "Tecmo", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, silkwrm2RomInfo, silkwrm2RomName, SilkwormInputInfo, SilkwormDIPInfo,
-	SilkwormInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	SilkwormInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
+	256, 224, 4, 3
+};
+
+
+// Back Fire (Tecmo) (Japan, Bootleg, Prototype?)
+
+static struct BurnRomInfo backfirtRomDesc[] = {
+	{ "b5-e3.bin",		0x10000, 0x0ab3bd4d, 1 | BRF_PRG | BRF_ESS }, //  0 - Z80 Code
+	{ "b4-f3.bin",		0x10000, 0x150B6949, 1 | BRF_PRG | BRF_ESS }, //  1
+
+	{ "b2-e10.bin",		0x08000, 0x9b2ac54f, 2 | BRF_PRG | BRF_ESS }, //  2 - Z80 Code
+
+	{ "b3-c10.bin",		0x08000, 0x08ce729f, 3 | BRF_GRA },	      //  3 - Characters
+
+	{ "b6-c2.bin",		0x10000, 0xc8c25e45, 4 | BRF_GRA },	      //  4 - Sprites
+	{ "b7-d2.bin",		0x10000, 0x25fb6a57, 4 | BRF_GRA },	      //  5
+	{ "b8-e2.bin",		0x10000, 0x6bccac4e, 4 | BRF_GRA },	      //  6
+	{ "b9-h2.bin",		0x10000, 0x566a99b8, 4 | BRF_GRA },	      //  7
+
+	{ "b13-p1.bin",		0x10000, 0x8c7138bb, 5 | BRF_GRA },	      //  8 - Foreground Tiles
+	{ "b12-p2.bin",		0x10000, 0x6c03c476, 5 | BRF_GRA },	      //  9
+	{ "b11-p2.bin",		0x10000, 0x0bc84b4b, 5 | BRF_GRA },	      // 10
+	{ "b10-p3.bin",		0x10000, 0xec149ec3, 5 | BRF_GRA },	      // 11
+
+	{ "b17-s1.bin",		0x10000, 0x409df64b, 6 | BRF_GRA },	      // 12 - Background Tiles
+	{ "b16-s2.bin",		0x10000, 0x6e4052c9, 6 | BRF_GRA },	      // 13
+	{ "b15-s2.bin",		0x10000, 0x2b6cc20e, 6 | BRF_GRA },	      // 14
+	{ "b14-s3.bin",		0x08000, 0x4d29637a, 6 | BRF_GRA },	      // 15
+};
+
+STD_ROM_PICK(backfirt)
+STD_ROM_FN(backfirt)
+
+struct BurnDriver BurnDrvbackfirt = {
+	"backfirt", NULL, NULL, "1988",
+	"BBack Fire (Tecmo) (Japan, Bootleg, Prototype?)\0", NULL, "Tecmo", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
+	NULL, backfirtRomInfo, backfirtRomName, BackfirtInputInfo, BackfirtDIPInfo,
+	GeminiInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1435,6 +1532,6 @@ struct BurnDriver BurnDrvGemini = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, geminiRomInfo, geminiRomName, GeminiInputInfo, GeminiDIPInfo,
-	GeminiInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	GeminiInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	224, 256, 3, 4
 };

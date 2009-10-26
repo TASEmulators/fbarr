@@ -936,7 +936,7 @@ struct BurnDriver BurnDrvMcatadv = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, mcatadvRomInfo, mcatadvRomName, McatadvInputInfo, McatadvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1001,
 	320, 224, 4, 3
 };
 
@@ -974,7 +974,7 @@ struct BurnDriver BurnDrvMcatadvj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, mcatadvjRomInfo, mcatadvjRomName, McatadvInputInfo, McatadvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1001,
 	320, 224, 4, 3
 };
 
@@ -1015,7 +1015,7 @@ struct BurnDriver BurnDrvCatt = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, cattRomInfo, cattRomName, McatadvInputInfo, McatadvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1001,
 	320, 224, 4, 3
 };
 
@@ -1071,7 +1071,7 @@ struct BurnDriver BurnDrvNost = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, nostRomInfo, nostRomName, NostInputInfo, NostDIPInfo,
-	NostInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	NostInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1001,
 	224, 320, 3, 4
 };
 
@@ -1109,7 +1109,7 @@ struct BurnDriver BurnDrvNostj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, nostjRomInfo, nostjRomName, NostInputInfo, NostDIPInfo,
-	NostInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	NostInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1001,
 	224, 320, 3, 4
 };
 
@@ -1147,6 +1147,6 @@ struct BurnDriver BurnDrvNostk = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, nostkRomInfo, nostkRomName, NostInputInfo, NostDIPInfo,
-	NostInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	NostInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x1001,
 	224, 320, 3, 4
 };

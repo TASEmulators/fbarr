@@ -13,6 +13,8 @@ int PsikyoPalInit()
 
 	PsikyoPalCopy = (unsigned short*)malloc(0x1000 * sizeof(short));
 	memset(PsikyoPalCopy, 0, 0x1000 * sizeof(short));
+	
+	pBurnDrvPalette = PsikyoPalette;
 
 	return 0;
 }

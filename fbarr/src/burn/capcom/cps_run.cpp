@@ -125,6 +125,8 @@ int CpsRunInit()
 
 	//Init Draw Function
 	DrawFnInit();
+	
+	pBurnDrvPalette = CpsPal;
 
 	return 0;
 }

@@ -23,6 +23,7 @@ static unsigned char *DrvKonRAM;
 static unsigned char *DrvPalRAM;
 static unsigned char *DrvZ80RAM;
 
+static unsigned int *Palette;
 static unsigned int *DrvPalette;
 static unsigned char DrvRecalc;
 
@@ -571,6 +572,7 @@ static int MemIndex()
 
 	DrvSndROM		= Next; Next += 0x100000;
 
+	Palette			= (unsigned int*)Next; Next += 0x800 * sizeof(int);
 	DrvPalette		= (unsigned int*)Next; Next += 0x800 * sizeof(int);
 
 	AllRam			= Next;
@@ -662,7 +664,7 @@ static int DrvInit(int nGame)
 		K052109SetCallback(EsckidsK052109Callback);
 		K052109AdjustScroll(16, 0);
 
-		K053247Init(DrvGfxROM1, 0x3fffff, K053247Callback);
+		K053247Init(DrvGfxROM1, 0x3fffff, K053247Callback, 1);
 		K053247SetSpriteOffset(-17, 21);
 
 		bankoffset = 0x6000;
@@ -683,7 +685,7 @@ static int DrvInit(int nGame)
 		K052109SetCallback(K052109Callback);
 		K052109AdjustScroll(8, 0);
 
-		K053247Init(DrvGfxROM1, 0x3fffff, K053247Callback);
+		K053247Init(DrvGfxROM1, 0x3fffff, K053247Callback, 1);
 		K053247SetSpriteOffset(-53, 21);
 
 		bankoffset = 0;
@@ -734,6 +736,26 @@ static int DrvExit()
 	return 0;
 }
 
+static void DrvRecalcPal()
+{
+	unsigned char r,g,b;
+	unsigned short *p = (unsigned short*)DrvPalRAM;
+	for (int i = 0; i < 0x1000 / 2; i++) {
+		unsigned short d = (p[i] << 8) | (p[i] >> 8);
+
+		b = (d >> 10) & 0x1f;
+		g = (d >>  5) & 0x1f;
+		r = (d >>  0) & 0x1f;
+
+		r = (r << 3) | (r >> 2);
+		g = (g << 3) | (g >> 2);
+		b = (b << 3) | (b >> 2);
+
+		Palette[i] = (r << 16) | (g << 8) | b;
+		DrvPalette[i] = BurnHighCol(r, g, b, 0);
+	}
+}
+
 static void sortlayers(int *layer,int *pri)
 {
 #define SWAP(a,b) \
@@ -752,7 +774,7 @@ static void sortlayers(int *layer,int *pri)
 static int DrvDraw()
 {
 	if (DrvRecalc) {
-		KonamiRecalcPal(DrvPalRAM, DrvPalette, 0x1000);
+		DrvRecalcPal();
 	}
 
 	K052109UpdateScroll();
@@ -790,7 +812,7 @@ static int DrvDraw()
 
 	if (nSpriteEnable & 1) K053247SpritesRender(DrvGfxROMExp1, 3);
 
-	BurnTransferCopy(DrvPalette);
+	KonamiBlendCopy(Palette, DrvPalette);
 
 	return 0;
 }
@@ -940,13 +962,13 @@ static int VendettaInit()
 	return DrvInit(0);
 }
 
-struct BurnDriverD BurnDrvVendetta = {
+struct BurnDriver BurnDrvVendetta = {
 	"vendetta", NULL, NULL, "1991",
 	"Vendetta (World 4 Players ver. T)\0", NULL, "Konami", "GX081",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 4, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, vendettaRomInfo, vendettaRomName, Vendet4pInputInfo, NULL,
-	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -972,13 +994,13 @@ static struct BurnRomInfo vendetaoRomDesc[] = {
 STD_ROM_PICK(vendetao)
 STD_ROM_FN(vendetao)
 
-struct BurnDriverD BurnDrvVendetao = {
+struct BurnDriver BurnDrvVendetao = {
 	"vendettar", "vendetta", NULL, "1991",
 	"Vendetta (World 4 Players ver. R)\0", NULL, "Konami", "GX081",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, vendetaoRomInfo, vendetaoRomName, Vendet4pInputInfo, NULL,
-	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -1004,13 +1026,13 @@ static struct BurnRomInfo vendet2pRomDesc[] = {
 STD_ROM_PICK(vendet2p)
 STD_ROM_FN(vendet2p)
 
-struct BurnDriverD BurnDrvVendet2p = {
+struct BurnDriver BurnDrvVendet2p = {
 	"vendetta2p", "vendetta", NULL, "1991",
 	"Vendetta (World 2 Players ver. W)\0", NULL, "Konami", "GX081",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, vendet2pRomInfo, vendet2pRomName, VendettaInputInfo, NULL,
-	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -1036,13 +1058,13 @@ static struct BurnRomInfo vendetasRomDesc[] = {
 STD_ROM_PICK(vendetas)
 STD_ROM_FN(vendetas)
 
-struct BurnDriverD BurnDrvVendetas = {
+struct BurnDriver BurnDrvVendetas = {
 	"vendetta2pu", "vendetta", NULL, "1991",
 	"Vendetta (Asia 2 Players ver. U)\0", NULL, "Konami", "GX081",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, vendetasRomInfo, vendetasRomName, VendettaInputInfo, NULL,
-	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -1068,13 +1090,13 @@ static struct BurnRomInfo vendtasoRomDesc[] = {
 STD_ROM_PICK(vendtaso)
 STD_ROM_FN(vendtaso)
 
-struct BurnDriverD BurnDrvVendtaso = {
+struct BurnDriver BurnDrvVendtaso = {
 	"vendetta2pd", "vendetta", NULL, "1991",
 	"Vendetta (Asia 2 Players ver. D)\0", NULL, "Konami", "GX081",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, vendtasoRomInfo, vendtasoRomName, VendettaInputInfo, NULL,
-	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -1100,13 +1122,13 @@ static struct BurnRomInfo vendettjRomDesc[] = {
 STD_ROM_PICK(vendettj)
 STD_ROM_FN(vendettj)
 
-struct BurnDriverD BurnDrvVendettj = {
+struct BurnDriver BurnDrvVendettj = {
 	"vendettaj", "vendetta", NULL, "1991",
 	"Crime Fighters 2 (Japan 2 Players ver. P)\0", NULL, "Konami", "GX081",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SCRFIGHT, 0,
 	NULL, vendettjRomInfo, vendettjRomName, VendettaInputInfo, NULL,
-	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	VendettaInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -1143,7 +1165,7 @@ struct BurnDriver BurnDrvEsckids = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 4, HARDWARE_PREFIX_KONAMI, GBF_MISC, 0,
 	NULL, esckidsRomInfo, esckidsRomName, EsckidsInputInfo, NULL,
-	EsckidsInit, DrvExit, DrvFrame, DrvDraw, NULL, 0, NULL, NULL, NULL, &DrvRecalc,
+	EsckidsInit, DrvExit, DrvFrame, DrvDraw, NULL, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	272, 224, 4, 3
 };
 
@@ -1175,6 +1197,6 @@ struct BurnDriver BurnDrvEsckidsj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_MISC, 0,
 	NULL, esckidsjRomInfo, esckidsjRomName, EsckidsjInputInfo, NULL,
-	EsckidsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	EsckidsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	272, 224, 4, 3
 };

@@ -977,7 +977,7 @@ static struct BurnRomInfo CltchitrRomDesc[] = {
 STD_ROM_PICK(Cltchitr)
 STD_ROM_FN(Cltchitr)
 
-static struct BurnRomInfo CltchtrjRomDesc[] = {
+static struct BurnRomInfo CltchitrjRomDesc[] = {
 	{ "epr13783.a4",   0x40000, 0xe2a1d5af, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr13796.a6",   0x40000, 0x06001c67, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr13785.a5",   0x40000, 0x09714762, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1005,8 +1005,8 @@ static struct BurnRomInfo CltchtrjRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Cltchtrj)
-STD_ROM_FN(Cltchtrj)
+STD_ROM_PICK(Cltchitrj)
+STD_ROM_FN(Cltchitrj)
 
 static struct BurnRomInfo DdcrewRomDesc[] = {
 	{ "epr-14160.a4",  0x40000, 0xb9f897b7, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1356,7 +1356,7 @@ static struct BurnRomInfo ShdancerRomDesc[] = {
 STD_ROM_PICK(Shdancer)
 STD_ROM_FN(Shdancer)
 
-static struct BurnRomInfo Shdance1RomDesc[] = {
+static struct BurnRomInfo Shdancer1RomDesc[] = {
 	{ "epr12772b.a6",  0x40000, 0x6868a4d4, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12771b.a5",  0x40000, 0x04e30c84, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -1379,10 +1379,10 @@ static struct BurnRomInfo Shdance1RomDesc[] = {
 };
 
 	
-STD_ROM_PICK(Shdance1)
-STD_ROM_FN(Shdance1)
+STD_ROM_PICK(Shdancer1)
+STD_ROM_FN(Shdancer1)
 
-static struct BurnRomInfo ShdancejRomDesc[] = {
+static struct BurnRomInfo ShdancerjRomDesc[] = {
 	{ "epr12722b.a6",  0x40000, 0xc00552a2, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12721b.a5",  0x40000, 0x653d351a, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -1405,8 +1405,8 @@ static struct BurnRomInfo ShdancejRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Shdancej)
-STD_ROM_FN(Shdancej)
+STD_ROM_PICK(Shdancerj)
+STD_ROM_FN(Shdancerj)
 
 static struct BurnRomInfo ShdancblRomDesc[] = {
 	{ "ic39",          0x10000, 0xadc1781c, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -2446,7 +2446,7 @@ struct BurnDriver BurnDrvAstorm = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, AstormRomInfo, AstormRomName, System18InputInfo, Astorm2pDIPInfo,
 	Astorm3Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAstorm3 = {
@@ -2456,7 +2456,7 @@ struct BurnDriver BurnDrvAstorm3 = {
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, Astorm3RomInfo, Astorm3RomName, AstormInputInfo, AstormDIPInfo,
 	Astorm3Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAstormj = {
@@ -2466,7 +2466,7 @@ struct BurnDriver BurnDrvAstormj = {
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, AstormjRomInfo, AstormjRomName, System18InputInfo, Astorm2pDIPInfo,
 	Astorm3Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAstormu = {
@@ -2476,7 +2476,7 @@ struct BurnDriver BurnDrvAstormu = {
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, AstormuRomInfo, AstormuRomName, AstormInputInfo, AstormDIPInfo,
 	Astorm3Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriverD BurnDrvBloxeed = {
@@ -2486,7 +2486,7 @@ struct BurnDriverD BurnDrvBloxeed = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, BloxeedRomInfo, BloxeedRomName, System18InputInfo, NULL,
 	System16Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvCltchitr = {
@@ -2496,17 +2496,17 @@ struct BurnDriver BurnDrvCltchitr = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SPORTSMISC, 0,
 	NULL, CltchitrRomInfo, CltchitrRomName, System18InputInfo, CltchitrDIPInfo,
 	System18Bank40000Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvCltchtrj = {
-	"cltchtrj", "cltchitr", NULL, "1991",
+struct BurnDriver BurnDrvCltchitrj = {
+	"cltchitrj", "cltchitr", NULL, "1991",
 	"Clutch Hitter (set 1, Japan, FD1094 317-0175)\0", NULL, "Sega", "System 18",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SPORTSMISC, 0,
-	NULL, CltchtrjRomInfo, CltchtrjRomName, System18InputInfo, CltchitrDIPInfo,
+	NULL, CltchitrjRomInfo, CltchitrjRomName, System18InputInfo, CltchitrDIPInfo,
 	System18Bank40000Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDdcrew = {
@@ -2516,7 +2516,7 @@ struct BurnDriver BurnDrvDdcrew = {
 	BDF_GAME_WORKING, 3, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
 	NULL, DdcrewRomInfo, DdcrewRomName, DdcrewInputInfo, DdcrewDIPInfo,
 	System18Bank40000Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDdcrew1 = {
@@ -2526,7 +2526,7 @@ struct BurnDriver BurnDrvDdcrew1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
 	NULL, Ddcrew1RomInfo, Ddcrew1RomName, DdcrewuInputInfo, DdcrewuDIPInfo,
 	DdcrewuInit, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDdcrew2 = {
@@ -2536,7 +2536,7 @@ struct BurnDriver BurnDrvDdcrew2 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
 	NULL, Ddcrew2RomInfo, Ddcrew2RomName, Ddcrew2InputInfo, Ddcrew2DIPInfo,
 	System18Bank40000Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDdcrewj = {
@@ -2546,7 +2546,7 @@ struct BurnDriver BurnDrvDdcrewj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
 	NULL, DdcrewjRomInfo, DdcrewjRomName, Ddcrew2InputInfo, Ddcrew2DIPInfo,
 	System18Bank40000Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDdcrewu = {
@@ -2556,7 +2556,7 @@ struct BurnDriver BurnDrvDdcrewu = {
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
 	NULL, DdcrewuRomInfo, DdcrewuRomName, DdcrewuInputInfo, DdcrewuDIPInfo,
 	DdcrewuInit, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDesertbr = {
@@ -2566,7 +2566,7 @@ struct BurnDriver BurnDrvDesertbr = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 3, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_VERSHOOT, 0,
 	NULL, DesertbrRomInfo, DesertbrRomName, DesertbrInputInfo, DesertbrDIPInfo,
 	System18Bank80000Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvLghost = {
@@ -2576,7 +2576,7 @@ struct BurnDriver BurnDrvLghost = {
 	BDF_GAME_WORKING, 3, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SHOOT, 0,
 	NULL, LghostRomInfo, LghostRomName, LghostInputInfo, LghostDIPInfo,
 	LghostInit, LghostExit, System18Frame, NULL, LghostScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvLghostu = {
@@ -2586,7 +2586,7 @@ struct BurnDriver BurnDrvLghostu = {
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_SHOOT, 0,
 	NULL, LghostuRomInfo, LghostuRomName, LghostInputInfo, LghostDIPInfo,
 	LghostInit, LghostExit, System18Frame, NULL, LghostScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMWalk = {
@@ -2596,7 +2596,7 @@ struct BurnDriver BurnDrvMWalk = {
 	0, 3, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, MwalkRomInfo, MwalkRomName, MwalkInputInfo, MwalkDIPInfo,
 	System16Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMWalkbl = {
@@ -2606,7 +2606,7 @@ struct BurnDriver BurnDrvMWalkbl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 3, HARDWARE_SEGA_SYSTEM18, GBF_PLATFORM, 0,
 	NULL, MwalkblRomInfo, MwalkblRomName, MwalkInputInfo, MwalkDIPInfo,
 	MwalkblInit, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvShdancer = {
@@ -2616,27 +2616,27 @@ struct BurnDriver BurnDrvShdancer = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM18, GBF_PLATFORM, 0,
 	NULL, ShdancerRomInfo, ShdancerRomName, System18InputInfo, ShdancerDIPInfo,
 	System16Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvShdance1 = {
-	"shdance1", "shdancer", NULL, "1989",
+struct BurnDriver BurnDrvShdancer1 = {
+	"shdancer1", "shdancer", NULL, "1989",
 	"Shadow Dancer (set 1)\0", NULL, "Sega", "System 18",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM18, GBF_PLATFORM, 0,
-	NULL, Shdance1RomInfo, Shdance1RomName, System18InputInfo, ShdancerDIPInfo,
+	NULL, Shdancer1RomInfo, Shdancer1RomName, System18InputInfo, ShdancerDIPInfo,
 	System16Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvShdancej = {
-	"shdancej", "shdancer", NULL, "1989",
+struct BurnDriver BurnDrvShdancerj = {
+	"shdancerj", "shdancer", NULL, "1989",
 	"Shadow Dancer (set 2, Japan)\0", NULL, "Sega", "System 18",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM18, GBF_PLATFORM, 0,
-	NULL, ShdancejRomInfo, ShdancejRomName, System18InputInfo, ShdancerDIPInfo,
+	NULL, ShdancerjRomInfo, ShdancerjRomName, System18InputInfo, ShdancerDIPInfo,
 	System16Init, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriverD BurnDrvShdancbl = {
@@ -2646,7 +2646,7 @@ struct BurnDriverD BurnDrvShdancbl = {
 	BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_INVERT_TILES, GBF_PLATFORM, 0,
 	NULL, ShdancblRomInfo, ShdancblRomName, System18InputInfo, ShdancerDIPInfo,
 	ShdancblInit, System18Exit, System18Frame, NULL, System18Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWwallyj = {
@@ -2656,7 +2656,7 @@ struct BurnDriver BurnDrvWwallyj = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, WwallyjRomInfo, WwallyjRomName, WwallyInputInfo, WwallyDIPInfo,
 	WwallyInit, WwallyExit, System18Frame, NULL, WwallyScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWwallyja = {
@@ -2666,5 +2666,5 @@ struct BurnDriver BurnDrvWwallyja = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM18 | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, WwallyjaRomInfo, WwallyjaRomName, WwallyInputInfo, WwallyDIPInfo,
 	WwallyInit, WwallyExit, System18Frame, NULL, WwallyScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };

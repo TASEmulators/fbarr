@@ -618,7 +618,7 @@ struct BurnDriver BurnDrvIkki = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MAZE | GBF_SCRFIGHT, 0,
 	NULL, ikkiRomInfo, ikkiRomName, IkkiInputInfo, IkkiDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	240, 224, 4, 3
 };
 
@@ -660,6 +660,6 @@ struct BurnDriver BurnDrvFarmer = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MAZE | GBF_SCRFIGHT, 0,
 	NULL, farmerRomInfo, farmerRomName, IkkiInputInfo, IkkiDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	240, 224, 4, 3
 };

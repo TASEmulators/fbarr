@@ -570,7 +570,7 @@ struct BurnDriver BurnDrvAmbush = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, ambushRomInfo, ambushRomName, AmbushInputInfo, AmbushDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	256, 224, 4, 3
 };
 
@@ -602,7 +602,7 @@ struct BurnDriver BurnDrvAmbusht = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, ambushtRomInfo, ambushtRomName, AmbushInputInfo, AmbushDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	256, 224, 4, 3
 };
 
@@ -634,7 +634,7 @@ struct BurnDriver BurnDrvAmbushv = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, ambushvRomInfo, ambushvRomName, AmbushInputInfo, AmbushDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	256, 224, 4, 3
 };
 

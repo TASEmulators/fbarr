@@ -1128,7 +1128,7 @@ struct BurnDriver BurnDrvNineteen43 = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, DrvRomInfo, DrvRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x380, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvNineteen43j = {
@@ -1138,7 +1138,7 @@ struct BurnDriver BurnDrvNineteen43j = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, DrvjRomInfo, DrvjRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x380, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvNineteen43kai = {
@@ -1148,5 +1148,5 @@ struct BurnDriver BurnDrvNineteen43kai = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, DrvkaiRomInfo, DrvkaiRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x380, 224, 256, 3, 4
 };

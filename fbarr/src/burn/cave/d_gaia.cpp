@@ -797,7 +797,7 @@ struct BurnDriver BurnDrvGaia = {
 	NULL, gaiaRomInfo, gaiaRomName, gaiaInputInfo, gaiaDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 320, 224, 4, 3
+	&CaveRecalcPalette, 0x8000, 320, 224, 4, 3
 };
 
 static struct BurnRomInfo theroesRomDesc[] = {
@@ -827,5 +827,5 @@ struct BurnDriver BurnDrvTheroes = {
 	NULL, theroesRomInfo, theroesRomName, gaiaInputInfo, theroesDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 320, 224, 4, 3
+	&CaveRecalcPalette, 0x8000, 320, 224, 4, 3
 };

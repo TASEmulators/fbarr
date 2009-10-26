@@ -2669,7 +2669,7 @@ HD6309_INLINE void divq_im( void )
 		if( W & 0x0001 )
 			SEC;
 
-		if ( (v > 32768) || (v < -35767) ) /* soft overflow */
+		if ( (v > 32768) || (v < -32767) ) /* soft overflow */
 		{
 			SEV;
 

@@ -600,6 +600,6 @@ struct BurnDriver BurnDrvHexion = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_KONAMI, GBF_PUZZLE, 0,
 	NULL, hexionRomInfo, hexionRomName, HexionInputInfo, HexionDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	512, 256, 4, 3
 };

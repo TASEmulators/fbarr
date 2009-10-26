@@ -295,6 +295,18 @@ void ics2115_exit()
 	sndbuffer = NULL;
 }
 
+static void recalculate_ulaw()
+{
+	for(int i=0; i<256; i++) {
+		unsigned char c = ((~i) & 0xFF);
+		int v = ((c & 15) << 1) + 33;
+		v <<= ((c & 0x70) >> 4);
+		if(c & 0x80) v = 33-v;
+		else		 v = v-33;
+		chip->ulaw[i] = v;
+	}
+}
+
 void ics2115_reset()
 {
 	memset(chip, 0, sizeof(struct ics2115));
@@ -305,14 +317,7 @@ void ics2115_reset()
 //	chip->stream = stream_create(0, 2, 33075, chip, update);
 //	if(!chip->timer[0].timer || !chip->timer[1].timer) return NULL;
 
-	for(int i=0; i<256; i++) {
-		unsigned char c = ((~i) & 0xFF);
-		int v = ((c & 15) << 1) + 33;
-		v <<= ((c & 0x70) >> 4);
-		if(c & 0x80) v = 33-v;
-		else		 v = v-33;
-		chip->ulaw[i] = v;
-	}
+	recalculate_ulaw();
 	
 	if (nBurnSoundLen) {
 		nSoundDelta = ICS2115_FRAME_BUFFER_SIZE * 0x10000 / nBurnSoundLen;
@@ -415,12 +420,16 @@ void ics2115_scan(int nAction,int * /*pnMin*/)
 	struct BurnArea ba;
 	
 	if ( nAction & ACB_DRIVER_DATA ) {
+		unsigned char *rom = chip->rom;
+
 		ba.Data		= chip;
 		ba.nLen		= sizeof(struct ics2115);
 		ba.nAddress = 0;
 		ba.szName	= "ICS 2115";
 		BurnAcb(&ba);
-		
+
+		chip->rom = rom;
+
 		SCAN_VAR(nSoundlatch);
 		SCAN_VAR(bSoundlatchRead);
 	}

@@ -663,7 +663,7 @@ struct BurnDriver BurnDrvGuwange = {
 	NULL, guwangeRomInfo, guwangeRomName, guwangeInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 240, 320, 3, 4
+	&CaveRecalcPalette, 0x8000, 240, 320, 3, 4
 };
 
 

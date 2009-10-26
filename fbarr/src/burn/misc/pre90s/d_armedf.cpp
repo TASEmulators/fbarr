@@ -738,7 +738,7 @@ static int DrvInit(int (*pLoadRoms)(), void (*p68KInit)(), int zLen)
 	ZetClose();
 
 	BurnYM3812Init(4000000, NULL, &DrvSynchroniseStream, 0);
-	BurnTimerAttachZet(3072000);
+	BurnTimerAttachZetYM3812(3072000);
 
 	DACInit(0, 1);
 
@@ -1113,7 +1113,7 @@ struct BurnDriver BurnDrvArmedf = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, armedfRomInfo, armedfRomName, ArmedfInputInfo, ArmedfDIPInfo,
-	ArmedfInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	ArmedfInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	240, 320, 3, 4
 };
 
@@ -1196,7 +1196,7 @@ struct BurnDriver BurnDrvCclimbr2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, cclimbr2RomInfo, cclimbr2RomName, Cclimbr2InputInfo, Cclimbr2DIPInfo,
-	Cclimbr2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	Cclimbr2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -1234,12 +1234,12 @@ STD_ROM_PICK(cclmbr2a)
 STD_ROM_FN(cclmbr2a)
 
 struct BurnDriver BurnDrvCclmbr2a = {
-	"cclmbr2a", "cclimbr2", NULL, "1988",
+	"cclimbr2a", "cclimbr2", NULL, "1988",
 	"Crazy Climber 2 (Japan, Harder)\0", NULL, "Nichibutsu", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, cclmbr2aRomInfo, cclmbr2aRomName, Cclimbr2InputInfo, Cclimbr2DIPInfo,
-	Cclimbr2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	Cclimbr2Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -1313,7 +1313,7 @@ struct BurnDriver BurnDrvKodure = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, kodureRomInfo, kodureRomName, ArmedfInputInfo, KodureDIPInfo,
-	KodureInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	KodureInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	288, 224, 4, 3
 };
 
@@ -1390,7 +1390,7 @@ struct BurnDriver BurnDrvLegion = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, legionRomInfo, legionRomName, ArmedfInputInfo, LegionDIPInfo,
-	LegionInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	LegionInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	224, 288, 3, 4
 };
 
@@ -1442,7 +1442,7 @@ struct BurnDriver BurnDrvLegiono = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, legionoRomInfo, legionoRomName, ArmedfInputInfo, LegionDIPInfo,
-	LegionoInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	LegionoInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	224, 288, 3, 4
 };
 
@@ -1493,7 +1493,7 @@ struct BurnDriver BurnDrvTerraf = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, terrafRomInfo, terrafRomName, ArmedfInputInfo, TerrafDIPInfo,
-	TerrafInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	TerrafInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 240, 4, 3
 };
 
@@ -1544,7 +1544,7 @@ struct BurnDriver BurnDrvTerrafu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, terrafuRomInfo, terrafuRomName, ArmedfInputInfo, TerrafDIPInfo,
-	TerrafuInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	TerrafuInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 240, 4, 3
 };
 
@@ -1586,7 +1586,7 @@ struct BurnDriver BurnDrvTerrafa = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, terrafaRomInfo, terrafaRomName, ArmedfInputInfo, TerrafDIPInfo,
-	TerrafuInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	TerrafuInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 240, 4, 3
 };
 
@@ -1633,6 +1633,6 @@ struct BurnDriverD BurnDrvTerrafb = {
 	NULL, NULL, NULL, NULL,
 	BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, terrafbRomInfo, terrafbRomName, ArmedfInputInfo, TerrafDIPInfo,
-	TerrafbInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	TerrafbInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 240, 4, 3
 };

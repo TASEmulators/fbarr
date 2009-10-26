@@ -48,3 +48,7 @@ unsigned char m6502_fetch_byte(unsigned short address);
 void m6502_write_byte(unsigned short address, unsigned char data);
 
 void m6502_write_rom(unsigned short address, unsigned char data);
+
+int m6502TotalCycles();
+void m6502NewFrame();
+

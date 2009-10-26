@@ -38,6 +38,7 @@ int CpsLoadTilesHack160(unsigned char *Tile,int nStart);
 int CpsLoadTilesBootleg(unsigned char *Tile, int nStart);
 int CpsLoadTilesCaptcomb(unsigned char *Tile, int nStart);
 int CpsLoadTilesPunipic2(unsigned char *Tile, int nStart);
+int CpsLoadTilesSf2ebbl(unsigned char *Tile, int nStart);
 int CpsLoadStars(unsigned char *pStar, int nStart);
 int CpsLoadStarsByte(unsigned char *pStar, int nStart);
 int CpsLoadStarsForgottnAlt(unsigned char *pStar, int nStart);

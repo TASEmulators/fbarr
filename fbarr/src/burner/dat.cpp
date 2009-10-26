@@ -330,21 +330,27 @@ int write_datfile(int nDatType, int bIncMegadrive, FILE* fDat)
 				
 				if (nDatType == 2)
 				{
+					char szPossibleNameBuffer[255];
+			
+					memset(szPossibleNameBuffer, 0, 255);
+			
+					ReplaceAmpersand(szPossibleNameBuffer, szPossibleName);
+					
 					// File info
 					if (nPass==1 && !nMerged) {
 						if (ri.nType & BRF_NODUMP) {
-							fprintf(fDat, "\t\t<rom name=\"%s\" size=\"%d\" status=\"nodump\"/>\n", szPossibleName, ri.nLen);
+							fprintf(fDat, "\t\t<rom name=\"%s\" size=\"%d\" status=\"nodump\"/>\n", szPossibleNameBuffer, ri.nLen);
 						} else {
-							fprintf(fDat, "\t\t<rom name=\"%s\" size=\"%d\" crc=\"%08x\"/>\n", szPossibleName, ri.nLen, ri.nCrc);
+							fprintf(fDat, "\t\t<rom name=\"%s\" size=\"%d\" crc=\"%08x\"/>\n", szPossibleNameBuffer, ri.nLen, ri.nCrc);
 						}
 					}
 					if (nPass==1 && nMerged)
 					{
 						// Files from parent/boardROMs
 						if (ri.nType & BRF_NODUMP) {
-							fprintf(fDat, "\t\t<rom name=\"%s\" merge=\"%s\" size=\"%d\" status=\"nodump\"/>\n", szPossibleName, szPossibleName, ri.nLen);
+							fprintf(fDat, "\t\t<rom name=\"%s\" merge=\"%s\" size=\"%d\" status=\"nodump\"/>\n", szPossibleNameBuffer, szPossibleNameBuffer, ri.nLen);
 						} else {
-							fprintf(fDat, "\t\t<rom name=\"%s\" merge=\"%s\" size=\"%d\" crc=\"%08x\"/>\n", szPossibleName, szPossibleName, ri.nLen, ri.nCrc);
+							fprintf(fDat, "\t\t<rom name=\"%s\" merge=\"%s\" size=\"%d\" crc=\"%08x\"/>\n", szPossibleNameBuffer, szPossibleNameBuffer, ri.nLen, ri.nCrc);
 						}
 					}
 				}
@@ -433,7 +439,13 @@ int write_datfile(int nDatType, int bIncMegadrive, FILE* fDat)
 					
 					if (nDatType == 2)
 					{
-						fprintf(fDat, "\t\t<rom name=\"%s\" size=\"%d\" crc=\"%08x\"/>\n", szPossibleName, ri.nLen, ri.nCrc);
+						char szPossibleNameBuffer[255];
+			
+						memset(szPossibleNameBuffer, 0, 255);
+			
+						ReplaceAmpersand(szPossibleNameBuffer, szPossibleName);
+					
+						fprintf(fDat, "\t\t<rom name=\"%s\" size=\"%d\" crc=\"%08x\"/>\n", szPossibleNameBuffer, ri.nLen, ri.nCrc);
 					}
 				}
 			}

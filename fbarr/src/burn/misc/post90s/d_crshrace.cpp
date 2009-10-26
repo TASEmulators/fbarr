@@ -809,7 +809,7 @@ struct BurnDriver BurnDrvCrshrace = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_RACING, 0,
 	NULL, crshraceRomInfo, crshraceRomName, CrshraceInputInfo, CrshraceDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x401,
 	224, 320, 3, 4
 };
 
@@ -840,12 +840,12 @@ STD_ROM_PICK(crshrac2)
 STD_ROM_FN(crshrac2)
 
 struct BurnDriver BurnDrvCrshrac2 = {
-	"crshrac2", "crshrace", NULL, "1993",
+	"crshrace2", "crshrace", NULL, "1993",
 	"Lethal Crash Race (set 2)\0", NULL, "Video System Co.", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_RACING, 0,
 	NULL, crshrac2RomInfo, crshrac2RomName,  CrshraceInputInfo,  CrshraceDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x401,
 	224, 320, 3, 4
 };
 

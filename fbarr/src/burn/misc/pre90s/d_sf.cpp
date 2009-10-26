@@ -1396,7 +1396,7 @@ struct BurnDriver BurnDrvsf = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_VSFIGHT, FBF_SF,
 	NULL, sfRomInfo, sfRomName, SfInputInfo, SfDIPInfo,
 	SfInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, 
-	&DrvRecalc, 384, 224, 4, 3
+	&DrvRecalc, 0x401, 384, 224, 4, 3
 };
 
 
@@ -1473,7 +1473,7 @@ struct BurnDriver BurnDrvsfus = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_VSFIGHT, FBF_SF,
 	NULL, sfusRomInfo, sfusRomName, SfusInputInfo, SfusDIPInfo,
 	SfusInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, 
-	&DrvRecalc, 384, 224, 4, 3
+	&DrvRecalc, 0x401, 384, 224, 4, 3
 };
 
 
@@ -1545,13 +1545,13 @@ static int SfjpInit()
 }
 
 struct BurnDriver BurnDrvsfjp = {
-	"sfjp", "sf", NULL, "1987",
+	"sfj", "sf", NULL, "1987",
 	"Street Fighter (Japan)\0", NULL, "Capcom", "Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_VSFIGHT, FBF_SF,
 	NULL, sfjpRomInfo, sfjpRomName, SfjpInputInfo, SfusDIPInfo,
 	SfjpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, 
-	&DrvRecalc, 384, 224, 4, 3
+	&DrvRecalc, 0x401, 384, 224, 4, 3
 };
 
 
@@ -1620,6 +1620,6 @@ struct BurnDriver BurnDrvsfp = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_PROTOTYPE, 2, HARDWARE_MISC_PRE90S, GBF_VSFIGHT, FBF_SF,
 	NULL, sfpRomInfo, sfpRomName, SfInputInfo, SfDIPInfo,
 	SfpInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, 
-	&DrvRecalc, 384, 224, 4, 3
+	&DrvRecalc, 0x401, 384, 224, 4, 3
 };
 

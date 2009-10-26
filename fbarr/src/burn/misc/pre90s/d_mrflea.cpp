@@ -646,7 +646,7 @@ struct BurnDriver BurnDrvmrflea = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 1, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, mrfleaRomInfo, mrfleaRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x80,
 	248, 256, 3, 4
 };
 

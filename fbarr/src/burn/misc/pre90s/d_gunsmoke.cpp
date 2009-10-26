@@ -826,7 +826,7 @@ struct BurnDriver BurnDrvGunsmoke = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, gunsmokeRomInfo, gunsmokeRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x300,
 	224, 256, 3, 4
 };
 
@@ -879,12 +879,12 @@ STD_ROM_PICK(gunsmokj)
 STD_ROM_FN(gunsmokj)
 
 struct BurnDriver BurnDrvGunsmokj = {
-	"gunsmokj", "gunsmoke", NULL, "1985",
+	"gunsmokej", "gunsmoke", NULL, "1985",
 	"Gun. Smoke (Japan)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, gunsmokjRomInfo, gunsmokjRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x300,
 	224, 256, 3, 4
 };
 
@@ -937,12 +937,12 @@ STD_ROM_PICK(gunsmoku)
 STD_ROM_FN(gunsmoku)
 
 struct BurnDriver BurnDrvGunsmoku = {
-	"gunsmoku", "gunsmoke", NULL, "1985",
+	"gunsmokeu", "gunsmoke", NULL, "1985",
 	"Gun. Smoke (US set 1)\0", NULL, "Capcom (Romstar License)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, gunsmokuRomInfo, gunsmokuRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x300,
 	224, 256, 3, 4
 };
 
@@ -995,12 +995,12 @@ STD_ROM_PICK(gunsmoka)
 STD_ROM_FN(gunsmoka)
 
 struct BurnDriver BurnDrvGunsmoka = {
-	"gunsmoka", "gunsmoke", NULL, "1986",
+	"gunsmokeua", "gunsmoke", NULL, "1986",
 	"Gun. Smoke (US set 2)\0", NULL, "Capcom (Romstar License)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, gunsmokaRomInfo, gunsmokaRomName, DrvInputInfo, gunsmokaDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x300,
 	224, 256, 3, 4
 };
 

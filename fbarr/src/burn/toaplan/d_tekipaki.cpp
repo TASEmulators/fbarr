@@ -488,7 +488,7 @@ struct BurnDriver BurnDrvTekiPaki = {
 	L"Teki Paki\0\u6D17\u8133\u30B2\u30FC\u30E0\0", NULL, NULL, NULL,
 	1, 2, HARDWARE_TOAPLAN_68K_Zx80, GBF_PUZZLE, 0,
 	NULL, drvRomInfo, drvRomName, tekipakiInputInfo, tekipakiDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	320, 240, 4, 3
 };
 

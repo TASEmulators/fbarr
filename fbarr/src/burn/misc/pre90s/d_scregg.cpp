@@ -602,7 +602,7 @@ struct BurnDriver BurnDrvdommy = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, dommyRomInfo, dommyRomName, DrvInputInfo, DrvDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x08,
 	240, 248, 3, 4
 };
 
@@ -644,7 +644,7 @@ struct BurnDriver BurnDrvscregg = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, screggRomInfo, screggRomName, DrvInputInfo, DrvDIPInfo,
-	screggInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	screggInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x08,
 	240, 240, 3, 4
 };
 
@@ -679,7 +679,7 @@ struct BurnDriver BurnDrveggs = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, eggsRomInfo, eggsRomName, DrvInputInfo, DrvDIPInfo,
-	screggInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	screggInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x08,
 	240, 240, 3, 4
 };
 
@@ -716,6 +716,6 @@ struct BurnDriver BurnDrvrockduck = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, rockduckRomInfo, rockduckRomName, DrvInputInfo, DrvDIPInfo,
-	rockduckInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	rockduckInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x08,
 	240, 240, 3, 4
 };

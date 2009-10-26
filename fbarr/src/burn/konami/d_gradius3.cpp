@@ -861,7 +861,7 @@ struct BurnDriver BurnDrvGradius3 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, gradius3RomInfo, gradius3RomName, Gradius3InputInfo, Gradius3DIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };
 
@@ -905,12 +905,12 @@ STD_ROM_PICK(grdius3a)
 STD_ROM_FN(grdius3a)
 
 struct BurnDriver BurnDrvGrdius3a = {
-	"grdius3a", "gradius3", NULL, "1989",
+	"gradius3a", "gradius3", NULL, "1989",
 	"Gradius III (Asia)\0", NULL, "Konami", "GX945",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_HORSHOOT, 0,
 	NULL, grdius3aRomInfo, grdius3aRomName, Gradius3InputInfo, Gradius3DIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };
 
@@ -954,11 +954,11 @@ STD_ROM_PICK(grdius3e)
 STD_ROM_FN(grdius3e)
 
 struct BurnDriver BurnDrvGrdius3e = {
-	"grdius3e", "gradius3", NULL, "1989",
+	"gradius3e", "gradius3", NULL, "1989",
 	"Gradius III (World ?)\0", NULL, "Konami", "GX945",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_HORSHOOT, 0,
 	NULL, grdius3eRomInfo, grdius3eRomName, Gradius3InputInfo, Gradius3DIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };

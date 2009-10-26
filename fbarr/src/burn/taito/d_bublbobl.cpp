@@ -343,7 +343,7 @@ static struct BurnRomInfo BublboblRomDesc[] = {
 STD_ROM_PICK(Bublbobl)
 STD_ROM_FN(Bublbobl)
 
-static struct BurnRomInfo Bublbob1RomDesc[] = {
+static struct BurnRomInfo Bublbobl1RomDesc[] = {
 	{ "a78-06.51",     0x08000, 0x32c8305b, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
 	{ "a78-05.52",     0x10000, 0x53f4bc6e, BRF_ESS | BRF_PRG }, //	 1
 	
@@ -373,10 +373,10 @@ static struct BurnRomInfo Bublbob1RomDesc[] = {
 	{ "pal16r4.bin",   0x00001, 0x00000000, BRF_OPT | BRF_NODUMP },	//  20
 };
 
-STD_ROM_PICK(Bublbob1)
-STD_ROM_FN(Bublbob1)
+STD_ROM_PICK(Bublbobl1)
+STD_ROM_FN(Bublbobl1)
 
-static struct BurnRomInfo BublbobrRomDesc[] = {
+static struct BurnRomInfo BublboblrRomDesc[] = {
 	{ "a78-25.51",     0x08000, 0x2d901c9d, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
 	{ "a78-24.52",     0x10000, 0xb7afedc4, BRF_ESS | BRF_PRG }, //	 1
 	
@@ -406,10 +406,10 @@ static struct BurnRomInfo BublbobrRomDesc[] = {
 	{ "pal16r4.bin",   0x00001, 0x00000000, BRF_OPT | BRF_NODUMP },	//  20
 };
 
-STD_ROM_PICK(Bublbobr)
-STD_ROM_FN(Bublbobr)
+STD_ROM_PICK(Bublboblr)
+STD_ROM_FN(Bublboblr)
 
-static struct BurnRomInfo Bubbobr1RomDesc[] = {
+static struct BurnRomInfo Bublboblr1RomDesc[] = {
 	{ "a78-06.51",     0x08000, 0x32c8305b, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
 	{ "a78-21.52",     0x10000, 0x2844033d, BRF_ESS | BRF_PRG }, //	 1
 	
@@ -439,8 +439,8 @@ static struct BurnRomInfo Bubbobr1RomDesc[] = {
 	{ "pal16r4.bin",   0x00001, 0x00000000, BRF_OPT | BRF_NODUMP },	//  20
 };
 
-STD_ROM_PICK(Bubbobr1)
-STD_ROM_FN(Bubbobr1)
+STD_ROM_PICK(Bublboblr1)
+STD_ROM_FN(Bublboblr1)
 
 static struct BurnRomInfo BoblboblRomDesc[] = {
 	{ "bb3",           0x08000, 0x01f81936, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
@@ -1673,37 +1673,37 @@ struct BurnDriver BurnDrvBublbobl = {
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
 	NULL, BublboblRomInfo, BublboblRomName, BublboblInputInfo, BublboblDIPInfo,
 	BublboblInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvBublbob1 = {
-	"bublbob1", "bublbobl", NULL, "1986",
+struct BurnDriver BurnDrvBublbobl1 = {
+	"bublbobl1", "bublbobl", NULL, "1986",
 	"Bubble Bobble (older)\0", NULL, "Taito Corporation", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
-	NULL, Bublbob1RomInfo, Bublbob1RomName, BublboblInputInfo, BublboblDIPInfo,
+	NULL, Bublbobl1RomInfo, Bublbobl1RomName, BublboblInputInfo, BublboblDIPInfo,
 	BublboblInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvBublbobr = {
-	"bublbobr", "bublbobl", NULL, "1986",
+struct BurnDriver BurnDrvBublboblr = {
+	"bublboblr", "bublbobl", NULL, "1986",
 	"Bubble Bobble (US with mode select)\0", NULL, "Taito America Corporation (Romstar license)", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
-	NULL, BublbobrRomInfo, BublbobrRomName, BublboblInputInfo, BublboblDIPInfo,
+	NULL, BublboblrRomInfo, BublboblrRomName, BublboblInputInfo, BublboblDIPInfo,
 	BublboblInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvBubbobr1 = {
-	"bubbobr1", "bublbobl", NULL, "1986",
+struct BurnDriver BurnDrvBublboblr1 = {
+	"bublboblr1", "bublbobl", NULL, "1986",
 	"Bubble Bobble (US)\0", NULL, "Taito America Corporation (Romstar license)", "Taito Misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
-	NULL, Bubbobr1RomInfo, Bubbobr1RomName, BublboblInputInfo, BublboblDIPInfo,
+	NULL, Bublboblr1RomInfo, Bublboblr1RomName, BublboblInputInfo, BublboblDIPInfo,
 	BublboblInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvBoblbobl = {
@@ -1713,7 +1713,7 @@ struct BurnDriver BurnDrvBoblbobl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
 	NULL, BoblboblRomInfo, BoblboblRomName, BoblboblInputInfo, BoblboblDIPInfo,
 	BoblboblInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSboblboa = {
@@ -1723,7 +1723,7 @@ struct BurnDriver BurnDrvSboblboa = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
 	NULL, SboblboaRomInfo, SboblboaRomName, BoblboblInputInfo, BoblboblDIPInfo,
 	BoblboblInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSboblbob = {
@@ -1733,7 +1733,7 @@ struct BurnDriver BurnDrvSboblbob = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
 	NULL, SboblbobRomInfo, SboblbobRomName, BoblboblInputInfo, SboblbobDIPInfo,
 	BoblboblInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriverD BurnDrvBub68705 = {
@@ -1743,5 +1743,5 @@ struct BurnDriverD BurnDrvBub68705 = {
 	BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_TAITO_MISC, GBF_PLATFORM, 0,
 	NULL, Bub68705RomInfo, Bub68705RomName, BublboblInputInfo, BublboblDIPInfo,
 	Bub68705Init, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };

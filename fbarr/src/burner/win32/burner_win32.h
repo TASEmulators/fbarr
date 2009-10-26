@@ -441,6 +441,9 @@ int ExportGameListLocalisationTemplate();
 // ngslotd.cpp
 int NeogeoSlotSelectCreate(HWND hParentWND);
 
+// paletteviewer.cpp
+int PaletteViewerDialogCreate(HWND hParentWND);
+
 // favorites.cpp
 #define FAV_DRV_NAME		0
 #define FAV_DRV_TITLE		1

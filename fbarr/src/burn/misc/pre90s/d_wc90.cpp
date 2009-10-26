@@ -1187,7 +1187,7 @@ static int Wc90Init()
 	int Wc90YM2608RomSize = 0x20000;
 	BurnYM2608Init(8000000, Wc90YM2608Rom, &Wc90YM2608RomSize, &wc90FMIRQHandler, wc90SynchroniseStream, wc90GetTime, 0);
 	BurnTimerAttachZet(4000000);
-
+	
 	// Reset the driver
 	Wc90DoReset();
 
@@ -1271,7 +1271,7 @@ struct BurnDriver BurnDrvWc90 = {
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSFOOTBALL, 0,
 	NULL, Wc90RomInfo, Wc90RomName, Wc90InputInfo, Wc90DIPInfo,
 	Wc90Init, Wc90Exit, Wc90Frame, NULL, Wc90Scan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x400, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWc90a = {
@@ -1281,7 +1281,7 @@ struct BurnDriver BurnDrvWc90a = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSFOOTBALL, 0,
 	NULL, Wc90aRomInfo, Wc90aRomName, Wc90InputInfo, Wc90DIPInfo,
 	Wc90Init, Wc90Exit, Wc90Frame, NULL, Wc90Scan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x400, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWc90b = {
@@ -1291,7 +1291,7 @@ struct BurnDriver BurnDrvWc90b = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSFOOTBALL, 0,
 	NULL, Wc90bRomInfo, Wc90bRomName, Wc90InputInfo, Wc90DIPInfo,
 	Wc90Init, Wc90Exit, Wc90Frame, NULL, Wc90Scan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x400, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWc90t = {
@@ -1301,5 +1301,5 @@ struct BurnDriver BurnDrvWc90t = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSFOOTBALL, 0,
 	NULL, Wc90tRomInfo, Wc90tRomName, Wc90InputInfo, Wc90DIPInfo,
 	Wc90Init, Wc90Exit, Wc90Frame, NULL, Wc90Scan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x400, 256, 224, 4, 3
 };

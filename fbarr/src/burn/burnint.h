@@ -52,7 +52,7 @@ struct BurnDriver {
 	int (*GetDIPInfo)(struct BurnDIPInfo* pdi, unsigned int i);		// Function to get the input info for the game
 	int (*Init)(); int (*Exit)(); int (*Frame)(); int (*Redraw)(); int (*AreaScan)(int nAction, int* pnMin);
 	int JukeboxFlags; int (*JukeboxInit)(); int (*JukeboxExit)(); int (*JukeboxFrame)();
-	unsigned char* pRecalcPal;										// Set to 1 if the palette needs to be fully re-calculated
+	unsigned char* pRecalcPal; unsigned int nPaletteEntries;										// Set to 1 if the palette needs to be fully re-calculated
 	int nWidth, nHeight; int nXAspect, nYAspect;					// Screen width, height, x/y aspect
 };
 

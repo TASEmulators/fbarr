@@ -670,6 +670,7 @@ static void draw_background()
 		for (int x = 0; x < 480; x+=32)
 		{
 			int sx = x - (scrollx & 0x1f);
+			if (sx >= 448) break;
 
 			int offs = ((scrolly & 0x7e0) << 2) | (((scrollx + x) & 0x7e0) >> 4);
 
@@ -684,7 +685,7 @@ static void draw_background()
 
 			unsigned char *src = PGMTileROMExp + (code * 1024) + (((scrolly ^ flipy) & 0x1f) << 5);
 
-			if (sx >= 0 && sx <= 448) {
+			if (sx >= 0 && sx <= 416) {
 				for (int xx = 0; xx < 32; xx++, sx++) {
 					int pxl = src[xx^flipx];
 	
@@ -710,24 +711,24 @@ static void draw_background()
 
 int pgmDraw()
 {
-	{
+	if (nPgmPalRecalc) {
 		for (int i = 0; i < 0x1200 / 2; i++) {
-			RamCurPal[i] = CalcCol(RamPal[i]);
+			RamCurPal[i] = CalcCol(PgmRamPal[i]);
 		}
+		nPgmPalRecalc = 0;
 
 		// black / magenta
 		RamCurPal[0x1212] = (nSpriteEnable & 1) ? 0 : BurnHighCol(0xff, 0, 0xff, 0);
 	}
 
 	// Fill in background color (0x1212)
+	// also, clear buffers
 	{
-		memset (pTransDraw, 0x12, nScreenWidth * nScreenHeight * 2);
-	}
-
-	// Clear buffers
-	{
-		memset (pTempScreen, 0, nScreenWidth * nScreenHeight * 2);
-		memset (SpritePrio, 0xff, nScreenWidth * nScreenHeight);
+		for (int i = 0; i < nScreenWidth * nScreenHeight; i++) {
+			pTransDraw[i] = 0x1212;
+			pTempScreen[i] = 0;
+			SpritePrio[i] = 0xff;
+		}
 	}
 
 	pgm_drawsprites();
