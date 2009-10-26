@@ -496,7 +496,7 @@ static struct BurnDIPInfo ThndrbldDIPList[]=
 
 STDDIPINFO(Thndrbld)
 
-static struct BurnDIPInfo Thndrbd1DIPList[]=
+static struct BurnDIPInfo Thndrbld1DIPList[]=
 {
 	// Default Values
 	{0x0b, 0xff, 0xff, 0xff, NULL                                 },
@@ -535,7 +535,7 @@ static struct BurnDIPInfo Thndrbd1DIPList[]=
 	{0x0c, 0x01, 0xc0, 0x00, "Hardest"                            },
 };
 
-STDDIPINFO(Thndrbd1)
+STDDIPINFO(Thndrbld1)
 
 #undef BOARDX_COINAGE
 
@@ -1389,7 +1389,7 @@ static struct BurnRomInfo ThndrbldRomDesc[] = {
 STD_ROM_PICK(Thndrbld)
 STD_ROM_FN(Thndrbld)
 
-static struct BurnRomInfo Thndrbd1RomDesc[] = {
+static struct BurnRomInfo Thndrbld1RomDesc[] = {
 	{ "epr-11304.ic58",   0x20000, 0xa90630ef, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11305.ic63",   0x20000, 0x9ba3ef61, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11306.ic57",   0x20000, 0x4b95f2b4, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1431,8 +1431,8 @@ static struct BurnRomInfo Thndrbd1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Thndrbd1)
-STD_ROM_FN(Thndrbd1)
+STD_ROM_PICK(Thndrbld1)
+STD_ROM_FN(Thndrbld1)
 
 /*====================================================
 Memory Handlers
@@ -2338,7 +2338,7 @@ struct BurnDriver BurnDrvAbcop = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, AbcopRomInfo, AbcopRomName, AbcopInputInfo, AbcopDIPInfo,
 	AbcopInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAburner2 = {
@@ -2348,7 +2348,7 @@ struct BurnDriver BurnDrvAburner2 = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32, GBF_SHOOT, 0,
 	NULL, Aburner2RomInfo, Aburner2RomName, Aburner2InputInfo, Aburner2DIPInfo,
 	Aburner2Init, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAburner = {
@@ -2358,7 +2358,7 @@ struct BurnDriver BurnDrvAburner = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32, GBF_SHOOT, 0,
 	NULL, AburnerRomInfo, AburnerRomName, Aburner2InputInfo, AburnerDIPInfo,
 	Aburner2Init, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGprider = {
@@ -2368,7 +2368,7 @@ struct BurnDriver BurnDrvGprider = {
 	0, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, GpriderRomInfo, GpriderRomName, GpriderInputInfo, GpriderDIPInfo,
 	GpriderInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGprider1 = {
@@ -2378,7 +2378,7 @@ struct BurnDriver BurnDrvGprider1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, Gprider1RomInfo, Gprider1RomName, GpriderInputInfo, GpriderDIPInfo,
 	GpriderInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvLoffire = {
@@ -2388,7 +2388,7 @@ struct BurnDriver BurnDrvLoffire = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_SHOOT, 0,
 	NULL, LoffireRomInfo, LoffireRomName, LoffireInputInfo, LoffireDIPInfo,
 	LoffireInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvLoffirej = {
@@ -2398,7 +2398,7 @@ struct BurnDriver BurnDrvLoffirej = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_SHOOT, 0,
 	NULL, LoffirejRomInfo, LoffirejRomName, LoffireInputInfo, LoffireDIPInfo,
 	LoffireInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvLoffireu = {
@@ -2408,7 +2408,7 @@ struct BurnDriver BurnDrvLoffireu = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_SHOOT, 0,
 	NULL, LoffireuRomInfo, LoffireuRomName, LoffireInputInfo, LoffireDIPInfo,
 	LoffireInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvRachero = {
@@ -2418,7 +2418,7 @@ struct BurnDriver BurnDrvRachero = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, RacheroRomInfo, RacheroRomName, RacheroInputInfo, RacheroDIPInfo,
 	RacheroInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriverD BurnDrvRascot2 = {
@@ -2428,7 +2428,7 @@ struct BurnDriverD BurnDrvRascot2 = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32, GBF_MISC, 0,
 	NULL, Rascot2RomInfo, Rascot2RomName, Aburner2InputInfo, Aburner2DIPInfo,
 	Aburner2Init, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgp = {
@@ -2438,7 +2438,7 @@ struct BurnDriver BurnDrvSmgp = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, SmgpRomInfo, SmgpRomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgp5 = {
@@ -2448,7 +2448,7 @@ struct BurnDriver BurnDrvSmgp5 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, Smgp5RomInfo, Smgp5RomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgp6 = {
@@ -2458,7 +2458,7 @@ struct BurnDriver BurnDrvSmgp6 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, Smgp6RomInfo, Smgp6RomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgpj = {
@@ -2468,7 +2468,7 @@ struct BurnDriver BurnDrvSmgpj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, SmgpjRomInfo, SmgpjRomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgpja = {
@@ -2478,7 +2478,7 @@ struct BurnDriver BurnDrvSmgpja = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, SmgpjaRomInfo, SmgpjaRomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgpu = {
@@ -2488,7 +2488,7 @@ struct BurnDriver BurnDrvSmgpu = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, SmgpuRomInfo, SmgpuRomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgpu1 = {
@@ -2498,7 +2498,7 @@ struct BurnDriver BurnDrvSmgpu1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, Smgpu1RomInfo, Smgpu1RomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgpu2 = {
@@ -2508,7 +2508,7 @@ struct BurnDriver BurnDrvSmgpu2 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, Smgpu2RomInfo, Smgpu2RomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSmgpu3 = {
@@ -2518,7 +2518,7 @@ struct BurnDriver BurnDrvSmgpu3 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_RACING, 0,
 	NULL, Smgpu3RomInfo, Smgpu3RomName, SmgpInputInfo, SmgpDIPInfo,
 	SmgpInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvThndrbld = {
@@ -2528,15 +2528,15 @@ struct BurnDriver BurnDrvThndrbld = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_FD1094_ENC, GBF_SHOOT, 0,
 	NULL, ThndrbldRomInfo, ThndrbldRomName, ThndrbldInputInfo, ThndrbldDIPInfo,
 	ThndrbldInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvThndrbd1 = {
-	"thndrbd1", "thndrbld", NULL, "1987",
+struct BurnDriver BurnDrvThndrbld1 = {
+	"thndrbld1", "thndrbld", NULL, "1987",
 	"Thunder Blade (deluxe/standing, unprotected)\0", NULL, "Sega", "X-Board",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEMX | HARDWARE_SEGA_SPRITE_LOAD32, GBF_SHOOT, 0,
-	NULL, Thndrbd1RomInfo, Thndrbd1RomName, ThndrbldInputInfo, Thndrbd1DIPInfo,
+	NULL, Thndrbld1RomInfo, Thndrbld1RomName, ThndrbldInputInfo, Thndrbld1DIPInfo,
 	ThndrbldInit, XBoardExit, XBoardFrame, NULL, XBoardScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x6000, 320, 224, 4, 3
 };

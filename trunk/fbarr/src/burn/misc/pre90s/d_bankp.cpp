@@ -547,7 +547,7 @@ static struct BurnRomInfo bankpRomDesc[] = {
 	{ "epr-6168.5h",       0x2000, 0x05f3a867, 3 | BRF_GRA },	       // 10
 	{ "epr-6167.5i",       0x2000, 0x3fa337e1, 3 | BRF_GRA },	       // 11
 
-	{ "pr-6177.8a",        0x0020, 0xeb70c5ae, 4 | BRF_GRA },	       // 12 Palette
+	{ "pr-6177.8a",        0x0020, 0xeb70c5ae, 4 | BRF_GRA },	       // 12 (unsigned int*)Palette
 	{ "pr-6178.6f",        0x0100, 0x0acca001, 4 | BRF_GRA },	       // 13 Charset #1 lut
 	{ "pr-6179.5a",        0x0100, 0xe53bafdb, 4 | BRF_GRA },	       // 14 Charset #2 lut
 
@@ -564,7 +564,7 @@ struct BurnDriver BurnDrvbankp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, bankpRomInfo, bankpRomName, bankpInputInfo, bankpDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x100,
 	224, 224, 4, 3
 };
 
@@ -586,7 +586,7 @@ static struct BurnRomInfo combhRomDesc[] = {
 	{ "epr-10911.5h",      0x2000, 0x565d9e6d, 3 | BRF_GRA },	       // 10
 	{ "epr-10912.5i",      0x2000, 0xcbe22738, 3 | BRF_GRA },	       // 11
 
-	{ "pr-10900.8a",       0x0020, 0xf95fcd66, 4 | BRF_GRA },	       // 12 Palette
+	{ "pr-10900.8a",       0x0020, 0xf95fcd66, 4 | BRF_GRA },	       // 12 (unsigned int*)Palette
 	{ "pr-10901.6f",       0x0100, 0x6fd981c8, 4 | BRF_GRA },	       // 13 Charset #1 lut
 	{ "pr-10902.5a",       0x0100, 0x84d6bded, 4 | BRF_GRA },	       // 14 Charset #2 lut
 
@@ -603,7 +603,7 @@ struct BurnDriver BurnDrvcombh = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, combhRomInfo, combhRomName, combhInputInfo, combhDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x100,
 	224, 224, 3, 4
 };
 

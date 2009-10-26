@@ -606,7 +606,52 @@ void DarkplntCalcPalette()
 
 void DambustrCalcPalette()
 {
-	GalaxianCalcPalette();
+	static const int RGBResistances[3] = {1000, 470, 220};
+	double rWeights[3], gWeights[3], bWeights[2];
+	
+	ComputeResistorWeights(0, RGB_MAXIMUM, -1.0, 3, &RGBResistances[0], rWeights, 470, 0, 3, &RGBResistances[0], gWeights, 470, 0, 2, &RGBResistances[1], bWeights, 470, 0);
+			
+	// Colour PROM
+	for (int i = 0; i < 32; i++) {
+		unsigned char Bit0, Bit1, Bit2, r, g, b;
+
+		Bit0 = BIT(GalProm[i + (GalPaletteBank * 0x20)],0);
+		Bit1 = BIT(GalProm[i + (GalPaletteBank * 0x20)],1);
+		Bit2 = BIT(GalProm[i + (GalPaletteBank * 0x20)],2);
+		b = Combine3Weights(rWeights, Bit0, Bit1, Bit2);
+
+		Bit0 = BIT(GalProm[i + (GalPaletteBank * 0x20)],3);
+		Bit1 = BIT(GalProm[i + (GalPaletteBank * 0x20)],4);
+		Bit2 = BIT(GalProm[i + (GalPaletteBank * 0x20)],5);
+		r = Combine3Weights(gWeights, Bit0, Bit1, Bit2);
+
+		Bit0 = BIT(GalProm[i + (GalPaletteBank * 0x20)],6);
+		Bit1 = BIT(GalProm[i + (GalPaletteBank * 0x20)],7);
+		g = Combine2Weights(bWeights, Bit0, Bit1);
+
+		GalPalette[i] = BurnHighCol(r, g, b, 0);
+	}
+	
+	// Stars
+	for (int i = 0; i < GAL_PALETTE_NUM_COLOURS_STARS; i++) {
+		int Bits, r, g, b;
+		int Map[4] = {0x00, 0x88, 0xcc, 0xff};
+
+		Bits = (i >> 0) & 0x03;
+		r = Map[Bits];
+		Bits = (i >> 2) & 0x03;
+		g = Map[Bits];
+		Bits = (i >> 4) & 0x03;
+		b = Map[Bits];
+
+		GalPalette[i + GAL_PALETTE_STARS_OFFSET] = BurnHighCol(r, g, b, 0);
+	}
+
+	// Bullets
+	for (int i = 0; i < GAL_PALETTE_NUM_COLOURS_BULLETS - 1; i++) {
+		GalPalette[i + GAL_PALETTE_BULLETS_OFFSET] = BurnHighCol(0xff, 0xff, 0xff, 0);
+	}
+	GalPalette[GAL_PALETTE_NUM_COLOURS_BULLETS - 1 + GAL_PALETTE_BULLETS_OFFSET] = BurnHighCol(0xff, 0xff, 0x00, 0);
 	
 	for (int i = 0; i < 8; i++) {
 		int r = BIT(i, 0) * 0x47;

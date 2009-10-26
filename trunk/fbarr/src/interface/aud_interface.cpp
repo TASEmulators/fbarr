@@ -146,10 +146,10 @@ InterfaceInfo* AudGetInfo()
 
 		AudInfo.pszModuleName = pAudOut[nAudActive]->szModuleName;
 
-		_sntprintf(szString, MAX_PATH, _T("Playback at %iHz, %i%% volume"), nAudSampleRate, nAudVolume / 100);
+		_sntprintf(szString, MAX_PATH, _T("Playback at %iHz, %i%% volume"), nAudSampleRate[nAudActive], nAudVolume / 100);
 		IntInfoAddStringInterface(&AudInfo, szString);
 
-		if (nAudDSPModule) {
+		if (nAudDSPModule[nAudActive]) {
 			IntInfoAddStringInterface(&AudInfo, _T("Applying low-pass filter"));
 		}
 

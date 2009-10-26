@@ -660,7 +660,7 @@ static struct BurnRomInfo SharrierRomDesc[] = {
 STD_ROM_PICK(Sharrier)
 STD_ROM_FN(Sharrier)
 
-static struct BurnRomInfo Sharrir1RomDesc[] = {
+static struct BurnRomInfo Sharrier1RomDesc[] = {
 	{ "epr-7188.ic97",    0x08000, 0x7c30a036, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-7184.ic84",    0x08000, 0x16deaeb1, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-7189.ic98",    0x08000, 0x40b1309f, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -724,8 +724,8 @@ static struct BurnRomInfo Sharrir1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Sharrir1)
-STD_ROM_FN(Sharrir1)
+STD_ROM_PICK(Sharrier1)
+STD_ROM_FN(Sharrier1)
 
 /*====================================================
 Memory Handlers
@@ -1300,7 +1300,7 @@ struct BurnDriver BurnDrvEnduror = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_HANGON | HARDWARE_SEGA_FD1089B_ENC | HARDWARE_SEGA_SPRITE_LOAD32, GBF_RACING, 0,
 	NULL, EndurorRomInfo, EndurorRomName, EndurorInputInfo, EndurorDIPInfo,
 	EndurorInit, System16Exit, HangonFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvEnduror1 = {
@@ -1310,7 +1310,7 @@ struct BurnDriver BurnDrvEnduror1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_HANGON | HARDWARE_SEGA_FD1089B_ENC | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_YM2203, GBF_RACING, 0,
 	NULL, Enduror1RomInfo, Enduror1RomName, EndurorInputInfo, EndurorDIPInfo,
 	Enduror1Init, System16Exit, HangonYM2203Frame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvEndurobl = {
@@ -1320,7 +1320,7 @@ struct BurnDriver BurnDrvEndurobl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_HANGON | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_YM2203, GBF_RACING, 0,
 	NULL, EnduroblRomInfo, EnduroblRomName, EndurorInputInfo, EndurorDIPInfo,
 	EnduroblInit, System16Exit, HangonYM2203Frame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvHangon = {
@@ -1330,7 +1330,7 @@ struct BurnDriver BurnDrvHangon = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_HANGON | HARDWARE_SEGA_YM2203, GBF_RACING, 0,
 	NULL, HangonRomInfo, HangonRomName, HangonInputInfo, HangonDIPInfo,
 	HangonInit, System16Exit, HangonYM2203Frame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvHangon1 = {
@@ -1340,7 +1340,7 @@ struct BurnDriver BurnDrvHangon1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_HANGON | HARDWARE_SEGA_YM2203, GBF_RACING, 0,
 	NULL, Hangon1RomInfo, Hangon1RomName, HangonInputInfo, HangonDIPInfo,
 	HangonInit, System16Exit, HangonYM2203Frame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriverD BurnDrvShangupb = {
@@ -1350,7 +1350,7 @@ struct BurnDriverD BurnDrvShangupb = {
 	BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_HANGON, GBF_RACING, 0,
 	NULL, ShangupbRomInfo, ShangupbRomName, ShangupbInputInfo, ShangupbDIPInfo,
 	ShangupbInit, System16Exit, HangonFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSharrier = {
@@ -1360,15 +1360,15 @@ struct BurnDriver BurnDrvSharrier = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_HANGON | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_YM2203, GBF_SHOOT, 0,
 	NULL, SharrierRomInfo, SharrierRomName, SharrierInputInfo, SharrierDIPInfo,
 	SharrierInit, System16Exit, HangonYM2203Frame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvSharrir1 = {
-	"sharrir1", "sharrier", NULL, "1985",
+struct BurnDriver BurnDrvSharrier1 = {
+	"sharrier1", "sharrier", NULL, "1985",
 	"Space Harrier (8751 315-5163)\0", NULL, "Sega", "Hang-On",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_HANGON | HARDWARE_SEGA_SPRITE_LOAD32 | HARDWARE_SEGA_YM2203, GBF_SHOOT, 0,
-	NULL, Sharrir1RomInfo, Sharrir1RomName, SharrierInputInfo, SharrierDIPInfo,
+	NULL, Sharrier1RomInfo, Sharrier1RomName, SharrierInputInfo, SharrierDIPInfo,
 	SharrierInit, System16Exit, HangonYM2203Frame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };

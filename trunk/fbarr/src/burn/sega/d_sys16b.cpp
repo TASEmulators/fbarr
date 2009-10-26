@@ -156,6 +156,33 @@ static struct BurnInputInfo System16bDip3InputList[] = {
 
 STDINPUTINFO(System16bDip3)
 
+static struct BurnInputInfo AtomicpInputList[] = {
+	{"Coin 1"            , BIT_DIGITAL  , System16InputPort1 + 7, "p1 coin"   },
+	{"Start 1"           , BIT_DIGITAL  , System16InputPort0 + 6, "p1 start"  },
+	{"Coin 2"            , BIT_DIGITAL  , System16InputPort0 + 7, "p2 coin"   },
+	{"Start 2"           , BIT_DIGITAL  , System16InputPort1 + 6, "p2 start"  },
+
+	{"P1 Up"             , BIT_DIGITAL  , System16InputPort0 + 0, "p1 up"     },
+	{"P1 Down"           , BIT_DIGITAL  , System16InputPort0 + 1, "p1 down"   },
+	{"P1 Left"           , BIT_DIGITAL  , System16InputPort0 + 2, "p1 left"   },
+	{"P1 Right"          , BIT_DIGITAL  , System16InputPort0 + 3, "p1 right"  },
+	{"P1 Fire 1"         , BIT_DIGITAL  , System16InputPort0 + 4, "p1 fire 1" },
+	{"P1 Fire 2"         , BIT_DIGITAL  , System16InputPort0 + 5, "p1 fire 2" },
+	
+	{"P2 Up"             , BIT_DIGITAL  , System16InputPort1 + 0, "p2 up"     },
+	{"P2 Down"           , BIT_DIGITAL  , System16InputPort1 + 1, "p2 down"   },
+	{"P2 Left"           , BIT_DIGITAL  , System16InputPort1 + 2, "p2 left"   },
+	{"P2 Right"          , BIT_DIGITAL  , System16InputPort1 + 3, "p2 right"  },
+	{"P2 Fire 1"         , BIT_DIGITAL  , System16InputPort1 + 4, "p2 fire 1" },
+	{"P2 Fire 2"         , BIT_DIGITAL  , System16InputPort1 + 5, "p2 fire 2" },
+
+	{"Reset"             , BIT_DIGITAL  , &System16Reset         , "reset"    },
+	{"Dip 1"             , BIT_DIPSWITCH, System16Dip + 0        , "dip"      },
+	{"Dip 2"             , BIT_DIPSWITCH, System16Dip + 1        , "dip"      },
+};
+
+STDINPUTINFO(Atomicp)
+
 static struct BurnInputInfo BulletInputList[] = {
 	{"Coin 1"            , BIT_DIGITAL  , System16InputPort0 + 0, "p1 coin"   },
 	{"Start 1"           , BIT_DIGITAL  , System16InputPort0 + 4, "p1 start"  },
@@ -481,6 +508,25 @@ static struct BurnInputInfo SjryukoInputList[] = {
 
 STDINPUTINFO(Sjryuko)
 
+static struct BurnInputInfo SnapperInputList[] = {
+	{"Coin 1"            , BIT_DIGITAL  , System16InputPort1 + 0, "p1 coin"   },
+	{"Start 1"           , BIT_DIGITAL  , System16InputPort1 + 1, "p1 start"  },
+
+	{"P1 Up"             , BIT_DIGITAL  , System16InputPort0 + 0, "p1 up"     },
+	{"P1 Down"           , BIT_DIGITAL  , System16InputPort0 + 1, "p1 down"   },
+	{"P1 Left"           , BIT_DIGITAL  , System16InputPort0 + 2, "p1 left"   },
+	{"P1 Right"          , BIT_DIGITAL  , System16InputPort0 + 3, "p1 right"  },
+	{"P1 Fire 1"         , BIT_DIGITAL  , System16InputPort0 + 4, "p1 fire 1" },
+	{"P1 Fire 2"         , BIT_DIGITAL  , System16InputPort0 + 5, "p1 fire 2" },
+	{"P1 Fire 3"         , BIT_DIGITAL  , System16InputPort0 + 6, "p1 fire 3" },
+
+	{"Reset"             , BIT_DIGITAL  , &System16Reset         , "reset"    },
+	{"Dip 1"             , BIT_DIPSWITCH, System16Dip + 0        , "dip"      },
+	{"Dip 2"             , BIT_DIPSWITCH, System16Dip + 1        , "dip"      },
+};
+
+STDINPUTINFO(Snapper)
+
 #undef A
 
 /*====================================================
@@ -597,6 +643,73 @@ static struct BurnDIPInfo AltbeastDIPList[]=
 };
 
 STDDIPINFO(Altbeast)
+
+static struct BurnDIPInfo AtomicpDIPList[]=
+{
+	// Default Values
+	{0x11, 0xff, 0xff, 0xff, NULL                                 },
+	{0x12, 0xff, 0xff, 0x2f, NULL                                 },
+	
+	// Dip 1
+	{0   , 0xfe, 0   , 8   , "Coin A"                             },
+	{0x11, 0x01, 0x38, 0x00, "4 Coins 1 Credit"                   },
+	{0x11, 0x01, 0x38, 0x20, "3 Coins 1 Credit"                   },
+	{0x11, 0x01, 0x38, 0x18, "2 Coins 1 Credit"                   },
+	{0x11, 0x01, 0x38, 0x38, "1 Coin  1 Credit"                   },
+	{0x11, 0x01, 0x38, 0x10, "1 Coin  2 Credits"                  },
+	{0x11, 0x01, 0x38, 0x28, "1 Coin  3 Credits"                  },
+	{0x11, 0x01, 0x38, 0x08, "1 Coin  4 Credits"                  },
+	{0x11, 0x01, 0x38, 0x30, "1 Coin  5 Credits"                  },
+
+	{0   , 0xfe, 0   , 8   , "Coin B"                             },
+	{0x11, 0x01, 0x07, 0x00, "4 Coins 1 Credit"                   },
+	{0x11, 0x01, 0x07, 0x04, "3 Coins 1 Credit"                   },
+	{0x11, 0x01, 0x07, 0x03, "2 Coins 1 Credit"                   },
+	{0x11, 0x01, 0x07, 0x07, "1 Coin  1 Credit"                   },
+	{0x11, 0x01, 0x07, 0x02, "1 Coin  2 Credits"                  },
+	{0x11, 0x01, 0x07, 0x05, "1 Coin  3 Credits"                  },
+	{0x11, 0x01, 0x07, 0x01, "1 Coin  4 Credits"                  },
+	{0x11, 0x01, 0x07, 0x06, "1 Coin  5 Credits"                  },
+	
+	{0   , 0xfe, 0   , 4   , "Lives"                              },
+	{0x11, 0x01, 0xc0, 0xc0, "1"                                  },
+	{0x11, 0x01, 0xc0, 0x80, "2"                                  },
+	{0x11, 0x01, 0xc0, 0x40, "3"                                  },
+	{0x11, 0x01, 0xc0, 0x00, "5"                                  },
+	
+	// Dip 2
+	{0   , 0xfe, 0   , 4   , "Difficulty"                         },
+	{0x12, 0x01, 0x03, 0x01, "Easy"                               },
+	{0x12, 0x01, 0x03, 0x03, "Normal"                             },
+	{0x12, 0x01, 0x03, 0x02, "Hard"                               },
+	{0x12, 0x01, 0x03, 0x00, "Hardest"                            },
+	
+	{0   , 0xfe, 0   , 2   , "Level Select"                       },
+	{0x12, 0x01, 0x04, 0x04, "Off"                                },
+	{0x12, 0x01, 0x04, 0x00, "On"                                 },
+	
+	{0   , 0xfe, 0   , 2   , "Flip Screen"                        },
+	{0x12, 0x01, 0x08, 0x08, "Off"                                },
+	{0x12, 0x01, 0x08, 0x00, "On"                                 },
+	
+	{0   , 0xfe, 0   , 2   , "Demo Sounds"                        },
+	{0x12, 0x01, 0x10, 0x10, "Off"                                },
+	{0x12, 0x01, 0x10, 0x00, "On"                                 },
+	
+	{0   , 0xfe, 0   , 2   , "Allow Continue"                     },
+	{0x12, 0x01, 0x20, 0x00, "Off"                                },
+	{0x12, 0x01, 0x20, 0x20, "On"                                 },
+	
+	{0   , 0xfe, 0   , 2   , "Game Mode"                          },
+	{0x12, 0x01, 0x40, 0x40, "Normal Tetris"                      },
+	{0x12, 0x01, 0x40, 0x00, "Atomic Point"                       },
+	
+	{0   , 0xfe, 0   , 2   , "Service Mode"                       },
+	{0x12, 0x01, 0x80, 0x00, "Off"                                },
+	{0x12, 0x01, 0x80, 0x80, "On"                                 },
+};
+
+STDDIPINFO(Atomicp)
 
 static struct BurnDIPInfo AurailDIPList[]=
 {
@@ -1308,6 +1421,41 @@ static struct BurnDIPInfo SjryukoDIPList[]=
 
 STDDIPINFO(Sjryuko)
 
+static struct BurnDIPInfo SnapperDIPList[]=
+{
+	// Default Values
+	{0x0a, 0xff, 0xff, 0xff, NULL                                 },
+	{0x0b, 0xff, 0xff, 0xff, NULL                                 },
+	
+	// Dip 1
+	{0   , 0xfe, 0   , 8   , "Coin A"                             },
+	{0x0a, 0x01, 0x07, 0x07, "1 Coin  1 Credit"                   },
+	{0x0a, 0x01, 0x07, 0x06, "1 Coin  2 Credits"                  },
+	{0x0a, 0x01, 0x07, 0x05, "1 Coin  3 Credits"                  },
+	{0x0a, 0x01, 0x07, 0x04, "1 Coin  4 Credits"                  },
+	{0x0a, 0x01, 0x07, 0x03, "1 Coin  5 Credits"                  },
+	{0x0a, 0x01, 0x07, 0x02, "2 Coins 1 Credit"                   },
+	{0x0a, 0x01, 0x07, 0x01, "3 Coins 1 Credit"                   },
+	{0x0a, 0x01, 0x07, 0x00, "4 Coins 1 Credit"                   },
+	
+	{0   , 0xfe, 0   , 4   , "Lives"                              },
+	{0x0a, 0x01, 0x18, 0x10, "3"                                  },
+	{0x0a, 0x01, 0x18, 0x18, "4"                                  },	
+	{0x0a, 0x01, 0x18, 0x08, "5"                                  },
+	{0x0a, 0x01, 0x18, 0x00, "6"                                  },
+	
+	// Dip 2
+	{0   , 0xfe, 0   , 2   , "Demo Sounds"                        },
+	{0x0b, 0x01, 0x10, 0x00, "Off"                                },
+	{0x0b, 0x01, 0x10, 0x10, "On"                                 },
+	
+	{0   , 0xfe, 0   , 2   , "Service Mode"                       },
+	{0x0b, 0x01, 0x80, 0x80, "Off"                                },
+	{0x0b, 0x01, 0x80, 0x00, "On"                                 },
+};
+
+STDDIPINFO(Snapper)
+
 static struct BurnDIPInfo TetrisDIPList[]=
 {
 	// Default Values
@@ -1607,7 +1755,7 @@ static struct BurnRomInfo AliensynRomDesc[] = {
 STD_ROM_PICK(Aliensyn)
 STD_ROM_FN(Aliensyn)
 
-static struct BurnRomInfo Aliensy3RomDesc[] = {
+static struct BurnRomInfo Aliensyn3RomDesc[] = {
 	{ "epr10816.a4",   0x08000, 0x17bf5304, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10814.a1",   0x08000, 0x4cd134df, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10817.a5",   0x08000, 0xc8b791b0, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1638,8 +1786,8 @@ static struct BurnRomInfo Aliensy3RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Aliensy3)
-STD_ROM_FN(Aliensy3)
+STD_ROM_PICK(Aliensyn3)
+STD_ROM_FN(Aliensyn3)
 
 static struct BurnRomInfo AltbeastRomDesc[] = {
 	{ "epr-11907.a7",   0x20000, 0x29e0c3ad, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1670,7 +1818,7 @@ static struct BurnRomInfo AltbeastRomDesc[] = {
 STD_ROM_PICK(Altbeast)
 STD_ROM_FN(Altbeast)
 
-static struct BurnRomInfo AltbeasjRomDesc[] = {
+static struct BurnRomInfo AltbeastjRomDesc[] = {
 	{ "epr-11885.a7",   0x20000, 0x5bb715aa, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11884.a5",   0x20000, 0xe1707090, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -1705,10 +1853,10 @@ static struct BurnRomInfo AltbeasjRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Altbeasj)
-STD_ROM_FN(Altbeasj)
+STD_ROM_PICK(Altbeastj)
+STD_ROM_FN(Altbeastj)
 
-static struct BurnRomInfo Altbeas2RomDesc[] = {
+static struct BurnRomInfo Altbeast2RomDesc[] = {
 	{ "epr-11705.a7",   0x20000, 0x57dc5c7a, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11704.a5",   0x20000, 0x33bbcf07, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -1734,10 +1882,10 @@ static struct BurnRomInfo Altbeas2RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Altbeas2)
-STD_ROM_FN(Altbeas2)
+STD_ROM_PICK(Altbeast2)
+STD_ROM_FN(Altbeast2)
 
-static struct BurnRomInfo Altbeaj3RomDesc[] = {
+static struct BurnRomInfo Altbeastj3RomDesc[] = {
 	{ "epr-11721.a7",   0x20000, 0x1c5d11de, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11720.a5",   0x20000, 0x735350cf, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -1772,10 +1920,10 @@ static struct BurnRomInfo Altbeaj3RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Altbeaj3)
-STD_ROM_FN(Altbeaj3)
+STD_ROM_PICK(Altbeastj3)
+STD_ROM_FN(Altbeastj3)
 
-static struct BurnRomInfo Altbeas4RomDesc[] = {
+static struct BurnRomInfo Altbeast4RomDesc[] = {
 	{ "epr-11740.a7",   0x20000, 0xce227542, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11739.a5",   0x20000, 0xe466eb65, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -1810,10 +1958,10 @@ static struct BurnRomInfo Altbeas4RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Altbeas4)
-STD_ROM_FN(Altbeas4)
+STD_ROM_PICK(Altbeast4)
+STD_ROM_FN(Altbeast4)
 
-static struct BurnRomInfo Altbeas5RomDesc[] = {
+static struct BurnRomInfo Altbeast5RomDesc[] = {
 	{ "epr-11883.a7",   0x20000, 0xc5b3e8f7, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11882.a5",   0x20000, 0x9c01170b, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -1848,8 +1996,21 @@ static struct BurnRomInfo Altbeas5RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Altbeas5)
-STD_ROM_FN(Altbeas5)
+STD_ROM_PICK(Altbeast5)
+STD_ROM_FN(Altbeast5)
+
+static struct BurnRomInfo AtomicpRomDesc[] = {
+	{ "ap-t2.bin",     0x10000, 0x97421047, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
+	{ "ap-t1.bin",     0x10000, 0x5c65fe56, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
+
+	{ "ap-t4.bin",     0x08000, 0x332e58f4, SYS16_ROM_TILES | BRF_GRA },
+	{ "ap-t3.bin",     0x08000, 0xdddc122c, SYS16_ROM_TILES | BRF_GRA },
+	{ "ap-t5.bin",     0x08000, 0xef5ecd6b, SYS16_ROM_TILES | BRF_GRA },
+};
+
+
+STD_ROM_PICK(Atomicp)
+STD_ROM_FN(Atomicp)
 
 static struct BurnRomInfo AurailRomDesc[] = {
 	{ "epr13577.a7",   0x20000, 0x6701b686, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1999,7 +2160,7 @@ static struct BurnRomInfo BayrouteRomDesc[] = {
 STD_ROM_PICK(Bayroute)
 STD_ROM_FN(Bayroute)
 
-static struct BurnRomInfo BayroutjRomDesc[] = {
+static struct BurnRomInfo BayroutejRomDesc[] = {
 	{ "epr12457.a7",   0x20000, 0xbc726255, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12455.a5",   0x20000, 0xb6a722eb, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12458.a8",   0x20000, 0xe7c7476a, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -2023,10 +2184,10 @@ static struct BurnRomInfo BayroutjRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Bayroutj)
-STD_ROM_FN(Bayroutj)
+STD_ROM_PICK(Bayroutej)
+STD_ROM_FN(Bayroutej)
 
-static struct BurnRomInfo Bayrout1RomDesc[] = {
+static struct BurnRomInfo Bayroute1RomDesc[] = {
 	{ "br.a4",         0x10000, 0x91c6424b, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "br.a1",         0x10000, 0x76954bf3, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "br.a5",         0x10000, 0x9d6fd183, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -2056,8 +2217,8 @@ static struct BurnRomInfo Bayrout1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Bayrout1)
-STD_ROM_FN(Bayrout1)
+STD_ROM_PICK(Bayroute1)
+STD_ROM_FN(Bayroute1)
 
 static struct BurnRomInfo BulletRomDesc[] = {
 	{ "epr11010.a4",   0x08000, 0xdd9001de, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -2412,12 +2573,12 @@ static struct BurnRomInfo EswatblRomDesc[] = {
 	{ "mpr12625.b12",  0x40000, 0x3b8c757e, SYS16_ROM_TILES | BRF_GRA },
 	{ "mpr12626.b13",  0x40000, 0x3efca25c, SYS16_ROM_TILES | BRF_GRA },
 	
-	{ "mpr12618.b1",   0x40000, 0x0d1530bf, SYS16_ROM_SPRITES | BRF_GRA },
-	{ "mpr12621.b4",   0x40000, 0x18ff0799, SYS16_ROM_SPRITES | BRF_GRA },
-	{ "mpr12619.b2",   0x40000, 0x32069246, SYS16_ROM_SPRITES | BRF_GRA },
-	{ "mpr12622.b5",   0x40000, 0xa3dfe436, SYS16_ROM_SPRITES | BRF_GRA },
-	{ "mpr12620.b3",   0x40000, 0xf6b096e0, SYS16_ROM_SPRITES | BRF_GRA },
-	{ "mpr12623.b6",   0x40000, 0x6773fef6, SYS16_ROM_SPRITES | BRF_GRA },
+	{ "ic9",           0x40000, 0x0d1530bf, SYS16_ROM_SPRITES | BRF_GRA },
+	{ "ic12",          0x40000, 0x18ff0799, SYS16_ROM_SPRITES | BRF_GRA },
+	{ "ic10",          0x40000, 0x32069246, SYS16_ROM_SPRITES | BRF_GRA },
+	{ "ic13",          0x40000, 0xa3dfe436, SYS16_ROM_SPRITES | BRF_GRA },
+	{ "ic11",          0x40000, 0xf6b096e0, SYS16_ROM_SPRITES | BRF_GRA },
+	{ "ic14",          0x40000, 0x6773fef6, SYS16_ROM_SPRITES | BRF_GRA },
 
 	{ "epr12617.a13",  0x08000, 0x7efecf23, SYS16_ROM_Z80PROG | BRF_ESS | BRF_PRG },
 	
@@ -2571,7 +2732,7 @@ static struct BurnRomInfo GoldnaxeRomDesc[] = {
 STD_ROM_PICK(Goldnaxe)
 STD_ROM_FN(Goldnaxe)
 
-static struct BurnRomInfo Goldnax1RomDesc[] = {
+static struct BurnRomInfo Goldnaxe1RomDesc[] = {
 	{ "epr12389.a2",   0x40000, 0x35d5fa77, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12388.a1",   0x40000, 0x72952a93, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -2594,10 +2755,10 @@ static struct BurnRomInfo Goldnax1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Goldnax1)
-STD_ROM_FN(Goldnax1)
+STD_ROM_PICK(Goldnaxe1)
+STD_ROM_FN(Goldnaxe1)
 
-static struct BurnRomInfo Goldnax2RomDesc[] = {
+static struct BurnRomInfo Goldnaxe2RomDesc[] = {
 	{ "epr12523.a7",   0x20000, 0x8e6128d7, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12522.a5",   0x20000, 0xb6c35160, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12521.a8",   0x20000, 0x5001d713, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -2622,10 +2783,10 @@ static struct BurnRomInfo Goldnax2RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Goldnax2)
-STD_ROM_FN(Goldnax2)
+STD_ROM_PICK(Goldnaxe2)
+STD_ROM_FN(Goldnaxe2)
 
-static struct BurnRomInfo Goldnax3RomDesc[] = {
+static struct BurnRomInfo Goldnaxe3RomDesc[] = {
 	{ "7.bin",         0x20000, 0x48332c76, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "5.bin",         0x20000, 0x8e58f342, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12521.a8",   0x20000, 0x5001d713, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -2650,10 +2811,10 @@ static struct BurnRomInfo Goldnax3RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Goldnax3)
-STD_ROM_FN(Goldnax3)
+STD_ROM_PICK(Goldnaxe3)
+STD_ROM_FN(Goldnaxe3)
 
-static struct BurnRomInfo GoldnaxjRomDesc[] = {
+static struct BurnRomInfo GoldnaxejRomDesc[] = {
 	{ "epr12540.a7",   0x20000, 0x0c7ccc6d, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12539.a5",   0x20000, 0x1f24f7d0, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12521.a8",   0x20000, 0x5001d713, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -2678,10 +2839,10 @@ static struct BurnRomInfo GoldnaxjRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Goldnaxj)
-STD_ROM_FN(Goldnaxj)
+STD_ROM_PICK(Goldnaxej)
+STD_ROM_FN(Goldnaxej)
 
-static struct BurnRomInfo GoldnaxuRomDesc[] = {
+static struct BurnRomInfo GoldnaxeuRomDesc[] = {
 	{ "epr12543.a2",   0x40000, 0xb0df9ca4, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12542.a1",   0x40000, 0xb7994d3c, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 
@@ -2704,8 +2865,8 @@ static struct BurnRomInfo GoldnaxuRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Goldnaxu)
-STD_ROM_FN(Goldnaxu)
+STD_ROM_PICK(Goldnaxeu)
+STD_ROM_FN(Goldnaxeu)
 
 static struct BurnRomInfo HwchampRomDesc[] = {
 	{ "rom0-e.bin",    0x20000, 0xe5abfed7, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -3194,6 +3355,19 @@ static struct BurnRomInfo SjryukoRomDesc[] = {
 STD_ROM_PICK(Sjryuko)
 STD_ROM_FN(Sjryuko)
 
+static struct BurnRomInfo SnapperRomDesc[] = {
+	{ "snap2.r01",     0x10000, 0x9a9e4ed3, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
+	{ "snap1.r02",     0x10000, 0xcd468d6a, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
+
+	{ "snap4.r03",     0x08000, 0x0f848e1e, SYS16_ROM_TILES | BRF_GRA },
+	{ "snap3.r04",     0x08000, 0xc7f8cf0e, SYS16_ROM_TILES | BRF_GRA },
+	{ "snap5.r05",     0x08000, 0x378e08eb, SYS16_ROM_TILES | BRF_GRA },
+};
+
+
+STD_ROM_PICK(Snapper)
+STD_ROM_FN(Snapper)
+
 static struct BurnRomInfo SonicbomRomDesc[] = {
 	{ "epr11342.a4",   0x10000, 0x454693f1, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr11340.a1",   0x10000, 0x03ba3fed, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -3603,7 +3777,7 @@ static struct BurnRomInfo WrestwarRomDesc[] = {
 STD_ROM_PICK(Wrestwar)
 STD_ROM_FN(Wrestwar)
 
-static struct BurnRomInfo Wrestwa1RomDesc[] = {
+static struct BurnRomInfo Wrestwar1RomDesc[] = {
 	{ "epr12145.a7",   0x20000, 0x2af51e2e, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12143.a5",   0x20000, 0x4131e345, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12146.a8",   0x20000, 0xb77ba665, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -3635,10 +3809,10 @@ static struct BurnRomInfo Wrestwa1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Wrestwa1)
-STD_ROM_FN(Wrestwa1)
+STD_ROM_PICK(Wrestwar1)
+STD_ROM_FN(Wrestwar1)
 
-static struct BurnRomInfo Wrestwa2RomDesc[] = {
+static struct BurnRomInfo Wrestwar2RomDesc[] = {
 	{ "epr12370.a7",   0x20000, 0xcb5dbb76, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12369.a5",   0x20000, 0x6f47dd2f, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr12146.a8",   0x20000, 0xb77ba665, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -3670,8 +3844,8 @@ static struct BurnRomInfo Wrestwa2RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Wrestwa2)
-STD_ROM_FN(Wrestwa2)
+STD_ROM_PICK(Wrestwar2)
+STD_ROM_FN(Wrestwar2)
 
 /*====================================================
 Bootleg Z80 Handling
@@ -3855,6 +4029,84 @@ void __fastcall AliensynWriteByte(unsigned int a, unsigned char d)
 			return;
 		}
 	}
+}
+
+unsigned char __fastcall AtomicpReadByte(unsigned int a)
+{
+	switch (a) {
+		case 0xc41001: {
+			return 0xff - System16Input[0];
+		}
+		
+		case 0xc41003: {
+			return 0xff - System16Input[1];
+		}
+		
+		case 0xc41005: {
+			return System16Dip[0];
+		}
+		
+		case 0xc41007: {
+			return System16Dip[1];
+		}
+	}
+	
+#if 1 && defined FBA_DEBUG
+	bprintf(PRINT_NORMAL, _T("68000 Read Byte -> 0x%06X\n"), a);
+#endif
+
+	return 0xff;
+}
+
+void __fastcall AtomicpWriteByte(unsigned int a, unsigned char d)
+{
+	if (a >= 0x400000 && a <= 0x40ffff) {
+		System16BTileByteWrite((a - 0x400000) ^ 1, d);
+		return;
+	}
+	
+	switch (a) {
+		case 0x123407: {
+			// ???
+			return;
+		}
+		
+		case 0x3f0001: {
+			if (System16TileBanks[0] != (d & 0x07)) {
+				System16TileBanks[0] = d & 0x07;
+				System16RecalcBgTileMap = 1;
+				System16RecalcBgAltTileMap = 1;
+				System16RecalcFgTileMap = 1;
+				System16RecalcFgAltTileMap = 1;
+			}
+			return;
+		}
+		
+		case 0x3f0003: {
+			if (System16TileBanks[1] != (d & 0x07)) {
+				System16TileBanks[1] = d & 0x07;
+				System16RecalcBgTileMap = 1;
+				System16RecalcBgAltTileMap = 1;
+				System16RecalcFgTileMap = 1;
+				System16RecalcFgAltTileMap = 1;
+			}
+			return;
+		}
+		
+		case 0x080000: {
+			BurnYM2413Write(0, d);
+			return;
+		}
+		
+		case 0x080002: {
+			BurnYM2413Write(1, d);
+			return;
+		}
+	}
+
+#if 1 && defined FBA_DEBUG
+	bprintf(PRINT_NORMAL, _T("68000 Write Byte -> 0x%06X, 0x%02X\n"), a, d);
+#endif
 }
 
 void __fastcall AurailWriteByte(unsigned int a, unsigned char d)
@@ -5512,7 +5764,7 @@ static int AliensynInit()
 	return nRet;
 }
 
-static int Aliensy3Init()
+static int Aliensyn3Init()
 {
 	int nRet = System16Init();
 	
@@ -5546,7 +5798,7 @@ void Altbeast_Sim8751()
 	}
 }
 
-void Altbeasj_Sim8751()
+void Altbeastj_Sim8751()
 {
 	// System Inputs
 	*((unsigned short*)(System16Ram + 0x30d0)) = (unsigned short)(System16Input[0] << 8);
@@ -5566,7 +5818,7 @@ void Altbeasj_Sim8751()
 	}
 }
 
-void Altbeas5_Sim8751()
+void Altbeast5_Sim8751()
 {
 	// System Inputs
 	*((unsigned short*)(System16Ram + 0x3096)) = (unsigned short)(System16Input[0] << 8);
@@ -5595,9 +5847,9 @@ static int AltbeastInit()
 	return nRet;
 }
 
-static int AltbeasjInit()
+static int AltbeastjInit()
 {
-	Simulate8751 = Altbeasj_Sim8751;
+	Simulate8751 = Altbeastj_Sim8751;
 	
 	// Start off with some sprite rom and let the load routine add on the rest
 	System16SpriteRomSize = 0x1a0000 - 0xe0000;
@@ -5625,9 +5877,9 @@ static int AltbeasjInit()
 	return nRet;
 }
 
-static int Altbeas5Init()
+static int Altbeast5Init()
 {
-	Simulate8751 = Altbeas5_Sim8751;
+	Simulate8751 = Altbeast5_Sim8751;
 	
 	// Start off with some sprite rom and let the load routine add on the rest
 	System16SpriteRomSize = 0x1a0000 - 0xe0000;
@@ -5655,7 +5907,7 @@ static int Altbeas5Init()
 	return nRet;
 }
 
-static int Altbeaj3Init()
+static int Altbeastj3Init()
 {
 	// Start off with some sprite rom and let the load routine add on the rest
 	System16SpriteRomSize = 0x1a0000 - 0xe0000;
@@ -5683,7 +5935,7 @@ static int Altbeaj3Init()
 	return nRet;
 }
 
-static int Altbeas4Init()
+static int Altbeast4Init()
 {
 	// Start off with some sprite rom and let the load routine add on the rest
 	System16SpriteRomSize = 0x1a0000 - 0xe0000;
@@ -5707,6 +5959,34 @@ static int Altbeas4Init()
 		}
 		free(pTemp);
 	}
+	
+	return nRet;
+}
+
+void AtomicpMap68K()
+{
+	SekInit(0, 0x68000);
+	SekOpen(0);
+	SekMapMemory(System16Rom           , 0x000000, 0x01ffff, SM_READ);
+	SekMapMemory(System16Code          , 0x000000, 0x01ffff, SM_FETCH);
+	SekMapMemory(System16TileRam       , 0x400000, 0x40ffff, SM_READ);
+	SekMapMemory(System16TextRam       , 0x410000, 0x410fff, SM_RAM);
+	SekMapMemory(System16PaletteRam    , 0x840000, 0x840fff, SM_RAM);
+	SekMapMemory(System16Ram           , 0xffc000, 0xffffff, SM_RAM);
+	SekSetWriteWordHandler(0, System16BWriteWord);
+	SekSetReadByteHandler(0, AtomicpReadByte);
+	SekSetWriteByteHandler(0, AtomicpWriteByte);
+	SekClose();
+}
+
+static int AtomicpInit()
+{
+	System16Map68KDo = AtomicpMap68K;
+	
+	int nRet = System16Init();
+	
+	System16IgnoreVideoEnable = 1;
+	System16YM2413IRQInterval = 166;
 	
 	return nRet;
 }
@@ -5786,7 +6066,7 @@ static int BayrouteInit()
 	return nRet;
 }
 
-static int Bayrout1Init()
+static int Bayroute1Init()
 {
 	System16Map68KDo = BayrouteMap68K;
 	System16CustomLoadRomDo = CustomLoadRom20000;
@@ -6258,7 +6538,7 @@ static int GoldnaxeInit()
 	return nRet;
 }
 
-static int Goldnax1Init()
+static int Goldnaxe1Init()
 {
 	System16Map68KDo = GoldnaxeMap68K;
 	
@@ -6304,7 +6584,7 @@ static int Goldnax1Init()
 	return nRet;
 }
 
-static int Goldnax2Init()
+static int Goldnaxe2Init()
 {
 	Simulate8751 = Goldnaxe_Sim8751;
 	System16Map68KDo = GoldnaxeMap68K;
@@ -6340,7 +6620,7 @@ static int Goldnax2Init()
 	return nRet;
 }
 
-static int Goldnax3Init()
+static int Goldnaxe3Init()
 {
 	System16Map68KDo = GoldnaxeMap68K;
 	System16CustomLoadRomDo = CustomLoadRom40000;
@@ -6701,6 +6981,18 @@ static int SjryukoScan(int nAction,int *pnMin)
 	return System16Scan(nAction, pnMin);;
 }
 
+static int SnapperInit()
+{
+	System16Map68KDo = AtomicpMap68K;
+	
+	int nRet = System16Init();
+	
+	System16IgnoreVideoEnable = 1;
+	System16YM2413IRQInterval = 41;
+	
+	return nRet;
+}
+
 static int SonicbomInit()
 {
 	int nRet = System16Init();
@@ -7022,7 +7314,7 @@ static int WrestwarInit()
 	return nRet;
 }
 
-static int Wrestwa1Init()
+static int Wrestwar1Init()
 {
 	System16Map68KDo = WrestwarMap68K;
 	System16CustomLoadRomDo = CustomLoadRom40000;
@@ -7043,7 +7335,7 @@ struct BurnDriver BurnDrvAceattac = {
 	BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358 | HARDWARE_SEGA_FD1094_ENC, GBF_SPORTSMISC, 0,
 	NULL, AceattacRomInfo, AceattacRomName, System16bDip3InputInfo, NULL,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvAliensyn = {
@@ -7053,17 +7345,17 @@ struct BurnDriver BurnDrvAliensyn = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358, GBF_MAZE, 0,
 	NULL, AliensynRomInfo, AliensynRomName, System16bfire1InputInfo, AliensynDIPInfo,
 	AliensynInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAliensy3 = {
-	"aliensy3", "aliensyn", NULL, "1987",
+struct BurnDriver BurnDrvAliensyn3 = {
+	"aliensyn3", "aliensyn", NULL, "1987",
 	"Alien Syndrome (set 3, System 16B, FD1089A 317-0033)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358 | HARDWARE_SEGA_FD1089A_ENC, GBF_MAZE, 0,
-	NULL, Aliensy3RomInfo, Aliensy3RomName, System16bfire1InputInfo, AliensynDIPInfo,
-	Aliensy3Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Aliensyn3RomInfo, Aliensyn3RomName, System16bfire1InputInfo, AliensynDIPInfo,
+	Aliensyn3Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAltbeast = {
@@ -7073,57 +7365,67 @@ struct BurnDriver BurnDrvAltbeast = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_SCRFIGHT, 0,
 	NULL, AltbeastRomInfo, AltbeastRomName, System16bfire3InputInfo, AltbeastDIPInfo,
 	AltbeastInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAltbeasj = {
-	"altbeasj", "altbeast", NULL, "1988",
+struct BurnDriver BurnDrvAltbeastj = {
+	"altbeastj", "altbeast", NULL, "1988",
 	"Juuouki (set 6, Japan, 8751 317-0077)\0", NULL, "Sega", "System 16B",
 	L"Juuoki (set 6, Japan, 8751 317-0077)\0\u7363\u738B\u8A18\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_SCRFIGHT, 0,
-	NULL, AltbeasjRomInfo, AltbeasjRomName, System16bfire3InputInfo, AltbeastDIPInfo,
-	AltbeasjInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, AltbeastjRomInfo, AltbeastjRomName, System16bfire3InputInfo, AltbeastDIPInfo,
+	AltbeastjInit, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAltbeas2 = {
-	"altbeas2", "altbeast", NULL, "1988",
+struct BurnDriver BurnDrvAltbeast2 = {
+	"altbeast2", "altbeast", NULL, "1988",
 	"Altered Beast (set 2, MC-8123B 317-0066)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_MC8123_ENC, GBF_SCRFIGHT, 0,
-	NULL, Altbeas2RomInfo, Altbeas2RomName, System16bfire3InputInfo, AltbeastDIPInfo,
+	NULL, Altbeast2RomInfo, Altbeast2RomName, System16bfire3InputInfo, AltbeastDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAltbeaj3 = {
-	"altbeaj3", "altbeast", NULL, "1988",
+struct BurnDriver BurnDrvAltbeastj3 = {
+	"altbeastj3", "altbeast", NULL, "1988",
 	"Juuouki (set 3, Japan, FD1094 317-0068)\0", NULL, "Sega", "System 16B",
 	L"Juuoki (set 3, Japan, FD1094 317-0068)\0\u7363\u738B\u8A18\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
-	NULL, Altbeaj3RomInfo, Altbeaj3RomName, System16bfire3InputInfo, AltbeastDIPInfo,
-	Altbeaj3Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Altbeastj3RomInfo, Altbeastj3RomName, System16bfire3InputInfo, AltbeastDIPInfo,
+	Altbeastj3Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAltbeas4 = {
-	"altbeas4", "altbeast", NULL, "1988",
+struct BurnDriver BurnDrvAltbeast4 = {
+	"altbeast4", "altbeast", NULL, "1988",
 	"Altered Beast (set 4, MC-8123B 317-0066)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_MC8123_ENC, GBF_SCRFIGHT, 0,
-	NULL, Altbeas4RomInfo, Altbeas4RomName, System16bfire3InputInfo, AltbeastDIPInfo,
-	Altbeas4Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Altbeast4RomInfo, Altbeast4RomName, System16bfire3InputInfo, AltbeastDIPInfo,
+	Altbeast4Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAltbeas5 = {
-	"altbeas5", "altbeast", NULL, "1988",
+struct BurnDriver BurnDrvAltbeast5 = {
+	"altbeast5", "altbeast", NULL, "1988",
 	"Altered Beast (set 5, 8751 317-0076)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_SCRFIGHT, 0,
-	NULL, Altbeas5RomInfo, Altbeas5RomName, System16bfire3InputInfo, AltbeastDIPInfo,
-	Altbeas5Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Altbeast5RomInfo, Altbeast5RomName, System16bfire3InputInfo, AltbeastDIPInfo,
+	Altbeast5Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
+};
+
+struct BurnDriver BurnDrvAtomicp = {
+	"atomicp", NULL, NULL, "1990",
+	"Atomic Point (Korea)\0", NULL, "Philco", "System 16B",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_YM2413, GBF_MISC, 0,
+	NULL, AtomicpRomInfo, AtomicpRomName, AtomicpInputInfo, AtomicpDIPInfo,
+	AtomicpInit, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAurail = {
@@ -7133,7 +7435,7 @@ struct BurnDriver BurnDrvAurail = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_VERSHOOT, 0,
 	NULL, AurailRomInfo, AurailRomName, System16bfire3InputInfo, AurailDIPInfo,
 	AurailInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAurail1 = {
@@ -7143,7 +7445,7 @@ struct BurnDriver BurnDrvAurail1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1089B_ENC, GBF_VERSHOOT, 0,
 	NULL, Aurail1RomInfo, Aurail1RomName, System16bfire3InputInfo, AurailDIPInfo,
 	Aurail1Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAurailj = {
@@ -7153,7 +7455,7 @@ struct BurnDriver BurnDrvAurailj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1089A_ENC, GBF_VERSHOOT, 0,
 	NULL, AurailjRomInfo, AurailjRomName, System16bfire3InputInfo, AurailDIPInfo,
 	AurailjInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvBayroute = {
@@ -7163,27 +7465,27 @@ struct BurnDriver BurnDrvBayroute = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, BayrouteRomInfo, BayrouteRomName, System16bfire3InputInfo, BayrouteDIPInfo,
 	BayrouteInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvBayroutj = {
-	"bayroutj", "bayroute", NULL, "1989",
+struct BurnDriver BurnDrvBayroutej = {
+	"bayroutej", "bayroute", NULL, "1989",
 	"Bay Route (set 2, Japan, FD1094 317-0115)\0", NULL, "Sunsoft / Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
-	NULL, BayroutjRomInfo, BayroutjRomName, System16bfire3InputInfo, BayrouteDIPInfo,
+	NULL, BayroutejRomInfo, BayroutejRomName, System16bfire3InputInfo, BayrouteDIPInfo,
 	BayrouteInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvBayrout1 = {
-	"bayrout1", "bayroute", NULL, "1989",
+struct BurnDriver BurnDrvBayroute1 = {
+	"bayroute1", "bayroute", NULL, "1989",
 	"Bay Route (set 1, US, unprotected)\0", "No Sound, Missing Z80 Program ROM", "Sunsoft / Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358, GBF_PLATFORM, 0,
-	NULL, Bayrout1RomInfo, Bayrout1RomName, System16bfire3InputInfo, BayrouteDIPInfo,
-	Bayrout1Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Bayroute1RomInfo, Bayroute1RomName, System16bfire3InputInfo, BayrouteDIPInfo,
+	Bayroute1Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvBullet = {
@@ -7193,7 +7495,7 @@ struct BurnDriver BurnDrvBullet = {
 	BDF_GAME_WORKING, 3, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1094_ENC | HARDWARE_SEGA_5358, GBF_VERSHOOT, 0,
 	NULL, BulletRomInfo, BulletRomName, BulletInputInfo, BulletDIPInfo,
 	BulletInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvCotton = {
@@ -7203,7 +7505,7 @@ struct BurnDriver BurnDrvCotton = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_HORSHOOT, 0,
 	NULL, CottonRomInfo, CottonRomName, System16bInputInfo, CottonDIPInfo,
 	CottonInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvCottonu = {
@@ -7213,7 +7515,7 @@ struct BurnDriver BurnDrvCottonu = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_HORSHOOT, 0,
 	NULL, CottonuRomInfo, CottonuRomName, System16bInputInfo, CottonDIPInfo,
 	CottonInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvCottonj = {
@@ -7223,7 +7525,7 @@ struct BurnDriver BurnDrvCottonj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_HORSHOOT, 0,
 	NULL, CottonjRomInfo, CottonjRomName, System16bInputInfo, CottonDIPInfo,
 	CottonInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDdux = {
@@ -7233,7 +7535,7 @@ struct BurnDriver BurnDrvDdux = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
 	NULL, DduxRomInfo, DduxRomName, System16bInputInfo, DduxDIPInfo,
 	DduxInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDdux1 = {
@@ -7243,7 +7545,7 @@ struct BurnDriver BurnDrvDdux1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_SCRFIGHT, 0,
 	NULL, Ddux1RomInfo, Ddux1RomName, System16bInputInfo, DduxDIPInfo,
 	Ddux1Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDduxbl = {
@@ -7253,7 +7555,7 @@ struct BurnDriver BurnDrvDduxbl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_INVERT_TILES | HARDWARE_SEGA_5358, GBF_SCRFIGHT, 0,
 	NULL, DduxblRomInfo, DduxblRomName, System16bInputInfo, DduxDIPInfo,
 	DduxblInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDunkshot = {
@@ -7263,7 +7565,7 @@ struct BurnDriver BurnDrvDunkshot = {
 	BDF_GAME_WORKING, 4, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1089A_ENC | HARDWARE_SEGA_5358, GBF_SPORTSMISC, 0,
 	NULL, DunkshotRomInfo, DunkshotRomName, DunkshotInputInfo, DunkshotDIPInfo,
 	DunkshotInit, DunkshotExit, System16BFrame, NULL, DunkshotScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvEswat = {
@@ -7273,7 +7575,7 @@ struct BurnDriver BurnDrvEswat = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, EswatRomInfo, EswatRomName, System16bfire3InputInfo, EswatDIPInfo,
 	EswatInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvEswatj = {
@@ -7283,7 +7585,7 @@ struct BurnDriver BurnDrvEswatj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, EswatjRomInfo, EswatjRomName, System16bfire3InputInfo, EswatDIPInfo,
 	EswatInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvEswatu = {
@@ -7293,7 +7595,7 @@ struct BurnDriver BurnDrvEswatu = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, EswatuRomInfo, EswatuRomName, System16bfire3InputInfo, EswatDIPInfo,
 	EswatInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvEswatbl = {
@@ -7303,7 +7605,7 @@ struct BurnDriver BurnDrvEswatbl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797, GBF_PLATFORM, 0,
 	NULL, EswatblRomInfo, EswatblRomName, System16bfire3InputInfo, EswatDIPInfo,
 	EswatblInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvExctleag = {
@@ -7313,7 +7615,7 @@ struct BurnDriver BurnDrvExctleag = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1094_ENC | HARDWARE_SEGA_5358, GBF_SPORTSMISC, 0,
 	NULL, ExctleagRomInfo, ExctleagRomName, ExctleagInputInfo, ExctleagDIPInfo,
 	ExctleagInit, ExctleagExit, System16BFrame, NULL, ExctleagScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFpoint = {
@@ -7323,7 +7625,7 @@ struct BurnDriver BurnDrvFpoint = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1094_ENC | HARDWARE_SEGA_5358, GBF_PUZZLE, 0,
 	NULL, FpointRomInfo, FpointRomName, System16bfire1InputInfo, FpointDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFpoint1 = {
@@ -7333,7 +7635,7 @@ struct BurnDriver BurnDrvFpoint1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, Fpoint1RomInfo, Fpoint1RomName, System16bfire1InputInfo, FpointDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFpointbl = {
@@ -7343,7 +7645,7 @@ struct BurnDriver BurnDrvFpointbl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_INVERT_TILES, GBF_PUZZLE, 0,
 	NULL, FpointblRomInfo, FpointblRomName, FpointblInputInfo, FpointDIPInfo,
 	FpointblInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFpointbj = {
@@ -7353,7 +7655,7 @@ struct BurnDriver BurnDrvFpointbj = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_INVERT_TILES, GBF_PUZZLE, 0,
 	NULL, FpointbjRomInfo, FpointbjRomName, FpointblInputInfo, FpointDIPInfo,
 	FpointblInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGoldnaxe = {
@@ -7363,57 +7665,57 @@ struct BurnDriver BurnDrvGoldnaxe = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797, GBF_SCRFIGHT, 0,
 	NULL, GoldnaxeRomInfo, GoldnaxeRomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
 	GoldnaxeInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvGoldnax1 = {
-	"goldnax1", "goldnaxe", NULL, "1989",
+struct BurnDriver BurnDrvGoldnaxe1 = {
+	"goldnaxe1", "goldnaxe", NULL, "1989",
 	"Golden Axe (set 1, World, FD1094 317-0110)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
-	NULL, Goldnax1RomInfo, Goldnax1RomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
-	Goldnax1Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Goldnaxe1RomInfo, Goldnaxe1RomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
+	Goldnaxe1Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvGoldnax2 = {
-	"goldnax2", "goldnaxe", NULL, "1989",
+struct BurnDriver BurnDrvGoldnaxe2 = {
+	"goldnaxe2", "goldnaxe", NULL, "1989",
 	"Golden Axe (set 2, US, 8751 317-0112)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_SCRFIGHT, 0,
-	NULL, Goldnax2RomInfo, Goldnax2RomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
-	Goldnax2Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Goldnaxe2RomInfo, Goldnaxe2RomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
+	Goldnaxe2Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvGoldnax3 = {
-	"goldnax3", "goldnaxe", NULL, "1989",
+struct BurnDriver BurnDrvGoldnaxe3 = {
+	"goldnaxe3", "goldnaxe", NULL, "1989",
 	"Golden Axe (set 3, World, FD1094 317-0120)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
-	NULL, Goldnax3RomInfo, Goldnax3RomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
-	Goldnax3Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Goldnaxe3RomInfo, Goldnaxe3RomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
+	Goldnaxe3Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvGoldnaxj = {
-	"goldnaxj", "goldnaxe", NULL, "1989",
+struct BurnDriver BurnDrvGoldnaxej = {
+	"goldnaxej", "goldnaxe", NULL, "1989",
 	"Golden Axe (set 4, Japan, FD1094 317-0121)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
-	NULL, GoldnaxjRomInfo, GoldnaxjRomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
-	Goldnax3Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, GoldnaxejRomInfo, GoldnaxejRomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
+	Goldnaxe3Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvGoldnaxu = {
-	"goldnaxu", "goldnaxe", NULL, "1989",
+struct BurnDriver BurnDrvGoldnaxeu = {
+	"goldnaxeu", "goldnaxe", NULL, "1989",
 	"Golden Axe (set 5, US, FD1094 317-0122)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797 | HARDWARE_SEGA_FD1094_ENC, GBF_SCRFIGHT, 0,
-	NULL, GoldnaxuRomInfo, GoldnaxuRomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
-	Goldnax1Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, GoldnaxeuRomInfo, GoldnaxeuRomName, System16bfire3InputInfo, GoldnaxeDIPInfo,
+	Goldnaxe1Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvHwchamp = {
@@ -7423,7 +7725,7 @@ struct BurnDriver BurnDrvHwchamp = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_VSFIGHT, 0,
 	NULL, HwchampRomInfo, HwchampRomName, HwchampInputInfo, HwchampDIPInfo,
 	HwchampInit, HwchampExit, System16BFrame, NULL, HwchampScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMvp = {
@@ -7433,7 +7735,7 @@ struct BurnDriver BurnDrvMvp = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797 | HARDWARE_SEGA_FD1094_ENC, GBF_SPORTSMISC, 0,
 	NULL, MvpRomInfo, MvpRomName, System16bfire3InputInfo, MvpDIPInfo,
 	MvpInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMvpj = {
@@ -7443,7 +7745,7 @@ struct BurnDriver BurnDrvMvpj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_SPORTSMISC, 0,
 	NULL, MvpjRomInfo, MvpjRomName, System16bfire3InputInfo, MvpDIPInfo,
 	MvpjInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvPasssht = {
@@ -7453,7 +7755,7 @@ struct BurnDriver BurnDrvPasssht = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1094_ENC | HARDWARE_SEGA_5358, GBF_SPORTSMISC, 0,
 	NULL, PassshtRomInfo, PassshtRomName, System16bfire4InputInfo, PassshtDIPInfo,
 	PassshtInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvPassshta = {
@@ -7463,7 +7765,7 @@ struct BurnDriver BurnDrvPassshta = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_CLONE, 4, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1094_ENC | HARDWARE_SEGA_5358, GBF_SPORTSMISC, 0,
 	NULL, PassshtaRomInfo, PassshtaRomName, PassshtInputInfo, PassshtaDIPInfo,
 	PassshtaInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvPassshtj = {
@@ -7473,7 +7775,7 @@ struct BurnDriver BurnDrvPassshtj = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_CLONE, 4, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1094_ENC | HARDWARE_SEGA_5358, GBF_SPORTSMISC, 0,
 	NULL, PassshtjRomInfo, PassshtjRomName, PassshtInputInfo, PassshtaDIPInfo,
 	PassshtaInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriverD BurnDrvPassshtb = {
@@ -7483,7 +7785,7 @@ struct BurnDriverD BurnDrvPassshtb = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358, GBF_SPORTSMISC, 0,
 	NULL, PassshtbRomInfo, PassshtbRomName, PassshtInputInfo, PassshtDIPInfo,
 	PassshtbInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvRiotcity = {
@@ -7493,7 +7795,7 @@ struct BurnDriver BurnDrvRiotcity = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_SCRFIGHT, 0,
 	NULL, RiotcityRomInfo, RiotcityRomName, System16bInputInfo, RiotcityDIPInfo,
 	RiotcityInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvRyukyu = {
@@ -7503,7 +7805,7 @@ struct BurnDriver BurnDrvRyukyu = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, RyukyuRomInfo, RyukyuRomName, RyukyuInputInfo, RyukyuDIPInfo,
 	RyukyuInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSdib = {
@@ -7513,7 +7815,7 @@ struct BurnDriver BurnDrvSdib = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1089A_ENC | HARDWARE_SEGA_5358, GBF_SHOOT, 0,
 	NULL, SdibRomInfo, SdibRomName, SdiInputInfo, SdibDIPInfo,
 	SdibInit, SdibExit, System16BFrame, NULL, SdibScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSdibl = {
@@ -7523,7 +7825,7 @@ struct BurnDriver BurnDrvSdibl = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358, GBF_SHOOT, 0,
 	NULL, SdiblRomInfo, SdiblRomName, SdiInputInfo, SdibDIPInfo,
 	SdiblInit, SdibExit, System16BFrame, NULL, SdibScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDefense = {
@@ -7533,7 +7835,7 @@ struct BurnDriver BurnDrvDefense = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1089A_ENC | HARDWARE_SEGA_5358, GBF_SHOOT, 0,
 	NULL, DefenseRomInfo, DefenseRomName, SdiInputInfo, SdibDIPInfo,
 	SdibInit, SdibExit, System16BFrame, NULL, SdibScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvShinobi2 = {
@@ -7543,7 +7845,7 @@ struct BurnDriver BurnDrvShinobi2 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, Shinobi2RomInfo, Shinobi2RomName, System16bfire3InputInfo, ShinobiDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvShinobi3 = {
@@ -7553,7 +7855,7 @@ struct BurnDriver BurnDrvShinobi3 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358 | HARDWARE_SEGA_MC8123_ENC, GBF_PLATFORM, 0,
 	NULL, Shinobi3RomInfo, Shinobi3RomName, System16bfire3InputInfo, ShinobiDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvShinobi4 = {
@@ -7563,7 +7865,7 @@ struct BurnDriver BurnDrvShinobi4 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_MC8123_ENC, GBF_PLATFORM, 0,
 	NULL, Shinobi4RomInfo, Shinobi4RomName, System16bfire3InputInfo, ShinobiDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvShinobi5 = {
@@ -7573,7 +7875,7 @@ struct BurnDriver BurnDrvShinobi5 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_PLATFORM, 0,
 	NULL, Shinobi5RomInfo, Shinobi5RomName, System16bfire3InputInfo, ShinobiDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSjryuko = {
@@ -7583,7 +7885,17 @@ struct BurnDriver BurnDrvSjryuko = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1089B_ENC | HARDWARE_SEGA_5358, GBF_MAHJONG, 0,
 	NULL, SjryukoRomInfo, SjryukoRomName, SjryukoInputInfo, SjryukoDIPInfo,
 	SjryukoInit, SjryukoExit, System16BFrame, NULL, SjryukoScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
+};
+
+struct BurnDriver BurnDrvSnapper = {
+	"snapper", NULL, NULL, "1990",
+	"Snapper (Korea)\0", NULL, "Philko", "System 16B",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_YM2413, GBF_MISC, 0,
+	NULL, SnapperRomInfo, SnapperRomName, SnapperInputInfo, SnapperDIPInfo,
+	SnapperInit, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSonicbom = {
@@ -7593,7 +7905,7 @@ struct BurnDriver BurnDrvSonicbom = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358 | HARDWARE_SEGA_FD1094_ENC, GBF_VERSHOOT, 0,
 	NULL, SonicbomRomInfo, SonicbomRomName, System16bInputInfo, SonicbomDIPInfo,
 	SonicbomInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvSuprleag = {
@@ -7603,7 +7915,7 @@ struct BurnDriver BurnDrvSuprleag = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_FD1094_ENC | HARDWARE_SEGA_5358, GBF_SPORTSMISC, 0,
 	NULL, SuprleagRomInfo, SuprleagRomName, ExctleagInputInfo, ExctleagDIPInfo,
 	ExctleagInit, ExctleagExit, System16BFrame, NULL, ExctleagScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTetris1 = {
@@ -7613,7 +7925,7 @@ struct BurnDriver BurnDrvTetris1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358 | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, Tetris1RomInfo, Tetris1RomName, System16bfire1InputInfo, TetrisDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTetris2 = {
@@ -7623,7 +7935,7 @@ struct BurnDriver BurnDrvTetris2 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, Tetris2RomInfo, Tetris2RomName, System16bfire1InputInfo, TetrisDIPInfo,
 	System16Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTetrisbl = {
@@ -7633,7 +7945,7 @@ struct BurnDriver BurnDrvTetrisbl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM16B, GBF_PUZZLE, 0,
 	NULL, TetrisblRomInfo, TetrisblRomName, System16bfire1InputInfo, TetrisDIPInfo,
 	TetrisblInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTimescan = {
@@ -7643,7 +7955,7 @@ struct BurnDriver BurnDrvTimescan = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358, GBF_PINBALL, 0,
 	NULL, TimescanRomInfo, TimescanRomName, System16bDip3InputInfo, TimescanDIPInfo,
 	TimescanInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvToryumon = {
@@ -7653,7 +7965,7 @@ struct BurnDriver BurnDrvToryumon = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5797, GBF_PUZZLE, 0,
 	NULL, ToryumonRomInfo, ToryumonRomName, System16bfire1InputInfo, ToryumonDIPInfo,
 	ToryumonInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTturf = {
@@ -7663,7 +7975,7 @@ struct BurnDriver BurnDrvTturf = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_SCRFIGHT, 0,
 	NULL, TturfRomInfo, TturfRomName, System16bfire3InputInfo, TturfDIPInfo,
 	TturfInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTturfu = {
@@ -7673,7 +7985,7 @@ struct BurnDriver BurnDrvTturfu = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358, GBF_SCRFIGHT, 0,
 	NULL, TturfuRomInfo, TturfuRomName, System16bfire3InputInfo, TturfDIPInfo,
 	TturfuInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWb3 = {
@@ -7683,7 +7995,7 @@ struct BurnDriver BurnDrvWb3 = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_PLATFORM, 0,
 	NULL, Wb3RomInfo, Wb3RomName, System16bInputInfo, Wb3DIPInfo,
 	Wb3Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWb32 = {
@@ -7693,7 +8005,7 @@ struct BurnDriver BurnDrvWb32 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5358 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, Wb32RomInfo, Wb32RomName, System16bInputInfo, Wb3DIPInfo,
 	Wb32Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWb33 = {
@@ -7703,7 +8015,7 @@ struct BurnDriver BurnDrvWb33 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, Wb33RomInfo, Wb33RomName, System16bInputInfo, Wb3DIPInfo,
 	Wb33Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWb34 = {
@@ -7713,7 +8025,7 @@ struct BurnDriver BurnDrvWb34 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, Wb34RomInfo, Wb34RomName, System16bInputInfo, Wb3DIPInfo,
 	Wb33Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriverD BurnDrvWb3bbl = {
@@ -7723,7 +8035,7 @@ struct BurnDriverD BurnDrvWb3bbl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_INVERT_TILES, GBF_PLATFORM, 0,
 	NULL, Wb3bblRomInfo, Wb3bblRomName, System16bInputInfo, Wb3DIPInfo,
 	Wb3bblInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWrestwar = {
@@ -7733,25 +8045,25 @@ struct BurnDriver BurnDrvWrestwar = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521, GBF_VSFIGHT, 0,
 	NULL, WrestwarRomInfo, WrestwarRomName, System16bInputInfo, WrestwarDIPInfo,
 	WrestwarInit, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
-struct BurnDriver BurnDrvWrestwa1 = {
-	"wrestwa1", "wrestwar", NULL, "1988",
+struct BurnDriver BurnDrvWrestwar1 = {
+	"wrestwar1", "wrestwar", NULL, "1988",
 	"Wrestle War (set 1, Japan, FD1094 317-0090)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_VSFIGHT, 0,
-	NULL, Wrestwa1RomInfo, Wrestwa1RomName, System16bInputInfo, WrestwarDIPInfo,
-	Wrestwa1Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	NULL, Wrestwar1RomInfo, Wrestwar1RomName, System16bInputInfo, WrestwarDIPInfo,
+	Wrestwar1Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
-struct BurnDriver BurnDrvWrestwa2 = {
-	"wrestwa2", "wrestwar", NULL, "1988",
+struct BurnDriver BurnDrvWrestwar2 = {
+	"wrestwar2", "wrestwar", NULL, "1988",
 	"Wrestle War (set 2, World, FD1094 317-0102)\0", NULL, "Sega", "System 16B",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16B | HARDWARE_SEGA_5521 | HARDWARE_SEGA_FD1094_ENC, GBF_VSFIGHT, 0,
-	NULL, Wrestwa2RomInfo, Wrestwa2RomName, System16bInputInfo, WrestwarDIPInfo,
-	Wrestwa1Init, System16Exit, System16BFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	NULL, Wrestwar2RomInfo, Wrestwar2RomName, System16bInputInfo, WrestwarDIPInfo,
+	Wrestwar1Init, System16Exit, System16BFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };

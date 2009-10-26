@@ -763,7 +763,7 @@ struct BurnDriver BurnDrvroute16 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, route16RomInfo, route16RomName, DrvInputInfo, DrvDIPInfo,
-	route16Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	route16Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 3, 4
 };
 
@@ -825,7 +825,7 @@ struct BurnDriver BurnDrvroute16a = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, route16aRomInfo, route16aRomName, DrvInputInfo, DrvDIPInfo,
-	route16aInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	route16aInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 3, 4
 };
 
@@ -865,7 +865,7 @@ struct BurnDriver BurnDrvroute16b = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, route16bRomInfo, route16bRomName, DrvInputInfo, DrvDIPInfo,
-	route16Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	route16Init, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 3, 4
 };
 
@@ -899,7 +899,7 @@ struct BurnDriver BurnDrvroutex = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, routexRomInfo, routexRomName, DrvInputInfo, DrvDIPInfo,
-	route16bInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	route16bInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 3, 4
 };
 
@@ -937,7 +937,7 @@ struct BurnDriver BurnDrvspeakres = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, speakresRomInfo, speakresRomName, DrvInputInfo, speakresDIPInfo,
-	speakresInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	speakresInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 3, 4
 };
 
@@ -968,7 +968,7 @@ struct BurnDriver BurnDrvstratvox = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, stratvoxRomInfo, stratvoxRomName, DrvInputInfo, stratvoxDIPInfo,
-	speakresInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	speakresInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 3, 4
 };
 
@@ -994,12 +994,12 @@ STD_ROM_PICK(stratvob)
 STD_ROM_FN(stratvob)
 
 struct BurnDriver BurnDrvstratvob = {
-	"stratvob", "speakres", NULL, "1980",
+	"stratvoxb", "speakres", NULL, "1980",
 	"Stratovox (bootleg)\0", NULL, "bootleg", "Route 16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, stratvobRomInfo, stratvobRomName, DrvInputInfo, stratvoxDIPInfo,
-	speakresInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	speakresInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 3, 4
 };
 
@@ -1044,7 +1044,7 @@ struct BurnDriver BurnDrvspacecho = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, spacechoRomInfo, spacechoRomName, DrvInputInfo, stratvoxDIPInfo,
-	spacechoInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	spacechoInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 3, 4
 };
 
@@ -1081,7 +1081,7 @@ struct BurnDriver BurnDrvttmahjng = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_MAHJONG, 0,
 	NULL, ttmahjngRomInfo, ttmahjngRomName, mahjongInputInfo, NULL,
-	ttmahjngInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	ttmahjngInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0,
 	256, 256, 4, 3
 };
 

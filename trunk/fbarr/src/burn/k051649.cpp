@@ -112,9 +112,11 @@ void K051649Update(short *pBuf, int samples)
 
 				/* Amuse source:  Cab suggests this method gives greater resolution */
 				/* Sean Young 20010417: the formula is really: f = clock/(16*(f+1))*/
-				c+=(long)((((float)info->mclock / (float)((f+1) * 16))*(float)(1<<FREQBASEBITS)) / (float)(info->rate / 32));
+				//c+=(long)((((float)info->mclock / (float)((f+1) * 16))*(float)(1<<FREQBASEBITS)) / (float)(info->rate / 32));
+				c+=(long)((((((float)info->mclock / (float)((f+1) * 16))*(float)(1<<FREQBASEBITS)) / (float)(info->rate / 32)) * nUpdateStep) / 32768);
 				offs = (c >> 16) & 0x1f;
-				*mix++ += (((w[offs] * v)>>3) * nUpdateStep) >> 15;
+				//*mix++ += (((w[offs] * v)>>3) * nUpdateStep) >> 15;
+				*mix++ += ((w[offs] * v)>>3);
 			}
 
 			/* update the counter for this voice */
@@ -151,7 +153,7 @@ void K051649Init(int clock, float gain)
 
 	/* allocate a buffer to mix into - 1 second's worth should be more than enough */
 	info->mixer_buffer = (short *)malloc(2 * sizeof(short) * info->rate);
-
+	
 	/* build the mixer table */
 	make_mixer_table(5);
 }

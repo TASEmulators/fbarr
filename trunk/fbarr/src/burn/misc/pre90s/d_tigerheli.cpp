@@ -1985,7 +1985,7 @@ struct BurnDriver BurnDrvTigerH = {
 	NULL, NULL, NULL, NULL,
 	BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, tigerhRomInfo, tigerhRomName, tigerhInputInfo, tigerhDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	240, 280, 3, 4
 };
 
@@ -1995,7 +1995,7 @@ struct BurnDriver BurnDrvTigerHB1 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, tigerhb1RomInfo, tigerhb1RomName, tigerhInputInfo, tigerhDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	240, 280, 3, 4
 };
 
@@ -2005,7 +2005,7 @@ struct BurnDriver BurnDrvTigerHB2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, tigerhb2RomInfo, tigerhb2RomName, tigerhInputInfo, tigerhDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	240, 280, 3, 4
 };
 
@@ -2015,7 +2015,7 @@ struct BurnDriver BurnDrvTigerHB3 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, tigerhb3RomInfo, tigerhb3RomName, tigerhInputInfo, tigerhDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	240, 280, 3, 4
 };
 
@@ -2025,7 +2025,7 @@ struct BurnDriver BurnDrvGetStar = {
 	NULL, NULL, NULL, NULL,
 	0, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, getstarRomInfo, getstarRomName, tigerhInputInfo, getstarDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	280, 240, 4, 3
 };
 
@@ -2035,7 +2035,7 @@ struct BurnDriver BurnDrvGetStarb2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, gtstarb2RomInfo, gtstarb2RomName, tigerhInputInfo, getstarDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	280, 240, 4, 3
 };
 
@@ -2045,7 +2045,7 @@ struct BurnDriver BurnDrvGetStarb1 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, gtstarb1RomInfo, gtstarb1RomName, gtstarbaInputInfo, gtstarbaDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	280, 240, 4, 3
 };
 
@@ -2055,7 +2055,7 @@ struct BurnDriver BurnDrvSlapFigh = {
 	NULL, NULL, NULL, NULL,
 	BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, slapfighRomInfo, slapfighRomName, tigerhInputInfo, slapfighDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	240, 280, 3, 4
 };
 
@@ -2065,7 +2065,7 @@ struct BurnDriver BurnDrvSlapBtJP = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, slapbtjpRomInfo, slapbtjpRomName, tigerhInputInfo, slapfighDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	240, 280, 3, 4
 };
 
@@ -2075,7 +2075,7 @@ struct BurnDriver BurnDrvSlapBtUK = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, slapbtukRomInfo, slapbtukRomName, tigerhInputInfo, slapfighDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	240, 280, 3, 4
 };
 
@@ -2085,6 +2085,6 @@ struct BurnDriver BurnDrvSlapFghtr = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, slapfgtrRomInfo, slapfgtrRomName, tigerhInputInfo, slapfighDIPInfo,
-	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette,
+	tigerhInit, tigerhExit, tigerhFrame, NULL, tigerhScan, 0, NULL, NULL, NULL, &tigerhRecalcPalette, 0x100,
 	240, 280, 3, 4
 };

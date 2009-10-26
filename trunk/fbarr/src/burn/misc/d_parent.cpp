@@ -52,7 +52,7 @@ struct BurnDriver BurnDrvBagman = {
 	0, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, BagmanRomInfo, BagmanRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0, 224, 256, 3, 4
 };
 
 static struct BurnRomInfo CkongRomDesc[] = {
@@ -89,7 +89,7 @@ struct BurnDriver BurnDrvCkong = {
 	0, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, CkongRomInfo, CkongRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0, 224, 256, 3, 4
 };
 
 static struct BurnRomInfo DkongjrRomDesc[] = {
@@ -122,7 +122,7 @@ struct BurnDriver BurnDrvDkongjr = {
 	0, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, DkongjrRomInfo, DkongjrRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0, 224, 256, 3, 4
 };
 
 static struct BurnRomInfo EightballactRomDesc[] = {
@@ -160,7 +160,7 @@ struct BurnDriverD BurnDrvEightballact = {
 	0, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSMISC, 0,
 	NULL, EightballactRomInfo, EightballactRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0, 256, 224, 4, 3
 };
 
 static struct BurnRomInfo HunchbakRomDesc[] = {
@@ -170,13 +170,13 @@ static struct BurnRomInfo HunchbakRomDesc[] = {
 	{ "hb-gp4.bin",         0x01000, 0x7f91287b, BRF_ESS | BRF_PRG },
 	{ "hb-gp5.bin",         0x01000, 0x1dd5755c, BRF_ESS | BRF_PRG },
 	
-	{ "hb-sdp1.bin",        0x01000, 0xf9ba2854, BRF_ESS | BRF_PRG },
+	{ "6c.sdp1",            0x01000, 0xf9ba2854, BRF_ESS | BRF_PRG },
 	
-	{ "hb-sp1.bin",         0x00800, 0xed1cd201, BRF_SND },
+	{ "8a.sp1",             0x00800, 0xed1cd201, BRF_SND },
 
-	{ "hb-cp1.bin",         0x00800, 0xf256b047, BRF_GRA },
-	{ "hb-cp2.bin",         0x00800, 0xb870c64f, BRF_GRA },
-	{ "hb-cp3.bin",         0x00800, 0x9a7dab88, BRF_GRA },
+	{ "11a.cp1",            0x00800, 0xf256b047, BRF_GRA },
+	{ "10a.cp2",            0x00800, 0xb870c64f, BRF_GRA },
+	{ "9a.cp3",             0x00800, 0x9a7dab88, BRF_GRA },
 	
 	{ "5b.bin",             0x00800, 0xf055a624, BRF_SND },
 	
@@ -194,7 +194,7 @@ struct BurnDriver BurnDrvHunchbak = {
 	0, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, HunchbakRomInfo, HunchbakRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0, 224, 256, 3, 4
 };
 
 static struct BurnRomInfo HuncholyRomDesc[] = {
@@ -228,7 +228,7 @@ struct BurnDriver BurnDrvHuncholy = {
 	0, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSMISC, 0,
 	NULL, HuncholyRomInfo, HuncholyRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0, 224, 256, 3, 4
 };
 
 static struct BurnRomInfo LadybugRomDesc[] = {
@@ -260,7 +260,7 @@ struct BurnDriver BurnDrvLadybug = {
 	0, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, LadybugRomInfo, LadybugRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 208, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0, 208, 256, 3, 4
 };
 
 static struct BurnRomInfo ManiacsqRomDesc[] = {
@@ -283,7 +283,7 @@ struct BurnDriverD BurnDrvManiacsq = {
 	0, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, ManiacsqRomInfo, ManiacsqRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0, 256, 224, 4, 3
 };
 
 static struct BurnRomInfo PhoenixRomDesc[] = {
@@ -315,7 +315,7 @@ struct BurnDriver BurnDrvPhoenix = {
 	0, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, PhoenixRomInfo, PhoenixRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 208, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0, 208, 256, 3, 4
 };
 
 static struct BurnRomInfo TumblepRomDesc[] = {
@@ -342,5 +342,5 @@ struct BurnDriver BurnDrvTumblep = {
 	0, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, TumblepRomInfo, TumblepRomName, ParentInputInfo, NULL,
 	ParentInit, ParentExit, NULL, NULL, NULL,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0, 256, 224, 4, 3
 };

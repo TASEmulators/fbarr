@@ -618,7 +618,7 @@ struct BurnDriver BurnDrvGbusters = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_PREFIX_KONAMI, GBF_SHOOT, 0,
 	NULL, gbustersRomInfo, gbustersRomName, GbustersInputInfo, GbustersDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	224, 288, 3, 4
 };
 
@@ -646,12 +646,12 @@ STD_ROM_PICK(gbustera)
 STD_ROM_FN(gbustera)
 
 struct BurnDriver BurnDrvGbustera = {
-	"gbustera", "gbusters", NULL, "1988",
+	"gbustersa", "gbusters", NULL, "1988",
 	"Gang Busters (set 2)\0", NULL, "Konami", "GX878",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_PREFIX_KONAMI, GBF_SHOOT, 0,
 	NULL, gbusteraRomInfo, gbusteraRomName, GbustersInputInfo, GbustersDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	224, 288, 3, 4
 };
 
@@ -684,6 +684,6 @@ struct BurnDriver BurnDrvCrazycop = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_PREFIX_KONAMI, GBF_SHOOT, 0,
 	NULL, crazycopRomInfo, crazycopRomName, GbustersInputInfo, GbustersDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	224, 288, 3, 4
 };

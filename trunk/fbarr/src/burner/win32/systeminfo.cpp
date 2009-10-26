@@ -158,6 +158,7 @@ int PrintOSInfo()
 	AddText(_T("OS:  "));
 	{
 		if (osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) {
+			// http://msdn.microsoft.com/en-us/library/ms724833(VS.85).aspx
 			if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0) {
 				AddText(_T("Microsoft Windows 2000 "));
 			}
@@ -167,25 +168,39 @@ int PrintOSInfo()
 			if (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) {
 				AddText(_T("Microsoft Windows 2003 "));
 			}
-			if (osvi.dwMajorVersion != 5 || osvi.dwMinorVersion > 2) {
+			if (osvi.dwMajorVersion < 5 || osvi.dwMinorVersion > 2) {
 				AddText(_T("Microsoft Windows NT %d.%d "), osvi.dwMajorVersion, osvi.dwMinorVersion);
 			}
-
-			if (osvi.wProductType == VER_NT_WORKSTATION) {
-				if (osvi.wSuiteMask & VER_SUITE_PERSONAL) {
-					AddText(_T("Personal "));
-				} else {
-					AddText(_T("Professional "));
-				}
+			if (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 && osvi.wProductType == VER_NT_WORKSTATION) {
+				AddText(_T("Microsoft Windows Vista "));
 			}
-			if (osvi.wProductType == VER_NT_SERVER) {
-				if (osvi.wSuiteMask & VER_SUITE_DATACENTER) {
-					AddText(_T("DataCenter Server "));
-				} else {
-					if (osvi.wSuiteMask & VER_SUITE_DATACENTER) {
-						AddText(_T("Advanced Server "));
+			if (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 && osvi.wProductType != VER_NT_WORKSTATION) {
+				AddText(_T("Microsoft Server 2008 "));
+			}
+			if (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 && osvi.wProductType != VER_NT_WORKSTATION) {
+				AddText(_T("Microsoft Server 2008 R2 "));
+			}
+			if (osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 && osvi.wProductType == VER_NT_WORKSTATION) {
+				AddText(_T("Microsoft Windows 7 "));
+			}
+
+			if (osvi.dwMajorVersion == 5) {
+				if (osvi.wProductType == VER_NT_WORKSTATION) {
+					if (osvi.wSuiteMask & VER_SUITE_PERSONAL) {
+						AddText(_T("Personal "));
 					} else {
-						AddText(_T("Server "));
+						AddText(_T("Professional "));
+					}
+				}
+				if (osvi.wProductType == VER_NT_SERVER) {
+					if (osvi.wSuiteMask & VER_SUITE_DATACENTER) {
+						AddText(_T("DataCenter Server "));
+					} else {
+						if (osvi.wSuiteMask & VER_SUITE_DATACENTER) {
+							AddText(_T("Advanced Server "));
+						} else {
+							AddText(_T("Server "));
+						}
 					}
 				}
 			}
@@ -872,7 +887,6 @@ int PrintFBAInfo()
 	} else {
 		AddLine(_T("Musashi emulation core enabled for MC680x0 family emulation."));
 	}
-	AddLine(_T("Doze emulation core enabled for Z80 emulation."));
 	AddLine(_T(""));
 
 	if (bDrvOkay) {

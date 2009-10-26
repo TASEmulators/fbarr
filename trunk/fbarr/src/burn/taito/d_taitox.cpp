@@ -1572,7 +1572,7 @@ struct BurnDriver BurnDrvBallbros = {
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_TAITOX, GBF_PUZZLE, 0,
 	NULL, BallbrosRomInfo, BallbrosRomName, TwinhawkInputInfo, BallbrosDIPInfo,
 	BallbrosInit, TaitoXExit, TaitoXFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 384, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 384, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvGigandes = {
@@ -1582,7 +1582,7 @@ struct BurnDriver BurnDrvGigandes = {
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_TAITOX, GBF_HORSHOOT, 0,
 	NULL, GigandesRomInfo, GigandesRomName, TwinhawkInputInfo, GigandesDIPInfo,
 	GigandesInit, TaitoXExit, TaitoXFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 384, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 384, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvGigandesj = {
@@ -1592,7 +1592,7 @@ struct BurnDriver BurnDrvGigandesj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_TAITOX, GBF_HORSHOOT, 0,
 	NULL, GigandesjRomInfo, GigandesjRomName, TwinhawkInputInfo, GigandesDIPInfo,
 	GigandesInit, TaitoXExit, TaitoXFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 384, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 384, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvKyustrkr = {
@@ -1602,7 +1602,7 @@ struct BurnDriver BurnDrvKyustrkr = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_TAITO_TAITOX, GBF_SPORTSFOOTBALL, 0,
 	NULL, KyustrkrRomInfo, KyustrkrRomName, TwinhawkInputInfo, KyustrkrDIPInfo,
 	BallbrosInit, TaitoXExit, TaitoXFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 384, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 384, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvSuperman = {
@@ -1612,7 +1612,7 @@ struct BurnDriver BurnDrvSuperman = {
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_TAITOX, GBF_SCRFIGHT, 0,
 	NULL, SupermanRomInfo, SupermanRomName, SupermanInputInfo, SupermanDIPInfo,
 	SupermanInit, TaitoXExit, TaitoXFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 384, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 384, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvSupermanj = {
@@ -1622,7 +1622,7 @@ struct BurnDriver BurnDrvSupermanj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_TAITOX, GBF_SCRFIGHT, 0,
 	NULL, SupermanjRomInfo, SupermanjRomName, SupermanInputInfo, SupermanjDIPInfo,
 	SupermanInit, TaitoXExit, TaitoXFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 384, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 384, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvTwinhawk = {
@@ -1632,7 +1632,7 @@ struct BurnDriver BurnDrvTwinhawk = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_TAITO_TAITOX, GBF_VERSHOOT, 0,
 	NULL, TwinhawkRomInfo, TwinhawkRomName, TwinhawkInputInfo, TwinhawkDIPInfo,
 	TwinhawkInit, TaitoXExit, TwinhawkFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 224, 384, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x800, 224, 384, 3, 4
 };
 
 struct BurnDriver BurnDrvTwinhawku = {
@@ -1642,7 +1642,7 @@ struct BurnDriver BurnDrvTwinhawku = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_TAITO_TAITOX, GBF_VERSHOOT, 0,
 	NULL, TwinhawkuRomInfo, TwinhawkuRomName, TwinhawkInputInfo, TwinhawkuDIPInfo,
 	TwinhawkInit, TaitoXExit, TwinhawkFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 224, 384, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x800, 224, 384, 3, 4
 };
 
 struct BurnDriver BurnDrvDaisenpu = {
@@ -1652,5 +1652,5 @@ struct BurnDriver BurnDrvDaisenpu = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_TAITO_TAITOX, GBF_VERSHOOT, 0,
 	NULL, DaisenpuRomInfo, DaisenpuRomName, TwinhawkInputInfo, DaisenpuDIPInfo,
 	TwinhawkInit, TaitoXExit, TwinhawkFrame, NULL, TaitoXScan,
-	0, NULL, NULL, NULL, NULL, 224, 384, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x800, 224, 384, 3, 4
 };

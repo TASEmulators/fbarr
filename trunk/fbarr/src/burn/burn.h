@@ -108,7 +108,7 @@ inline static void SetCurrentFrame(const unsigned int n) {
 #define BRF_NODUMP			(1 << 28)
 
 struct BurnRomInfo {
-	char szName[32];
+	char szName[100];
 	unsigned int nLen;
 	unsigned int nCrc;
 	unsigned int nType;
@@ -179,6 +179,8 @@ extern short* pBurnSoundOut;				// Pointer to output buffer
 extern int nInterpolation;					// Desired interpolation level for ADPCM/PCM sound
 extern int nFMInterpolation;				// Desired interpolation level for FM sound
 
+extern unsigned int *pBurnDrvPalette;
+
 #define PRINT_NORMAL	(0)
 #define PRINT_UI		(1)
 #define PRINT_IMPORTANT (2)
@@ -194,6 +196,7 @@ int BurnDrvExit();
 int BurnDrvFrame();
 int BurnDrvRedraw();
 int BurnRecalcPal();
+int BurnDrvGetPaletteEntries();
 
 int BurnSetProgressRange(double dProgressRange);
 int BurnUpdateProgress(double dProgressStep, const TCHAR* pszText, bool bAbs);
@@ -298,6 +301,7 @@ extern unsigned int nNeoSlotDrvNum[MAX_NEO_SLOTS];
 #define HARDWARE_PREFIX_KANEKO16	(0x0e000000)
 #define HARDWARE_PREFIX_PACMAN		(0x0f000000)
 #define HARDWARE_PREFIX_GALAXIAN	(0x10000000)
+#define HARDWARE_PREFIX_ATARI		(0x20000000)
 
 #define HARDWARE_MISC_PRE90S		(HARDWARE_PREFIX_MISC_PRE90S)
 #define HARDWARE_MISC_POST90S		(HARDWARE_PREFIX_MISC_POST90S)
@@ -331,6 +335,7 @@ extern unsigned int nNeoSlotDrvNum[MAX_NEO_SLOTS];
 #define HARDWARE_SEGA_INVERT_TILES	(0x0400)
 #define HARDWARE_SEGA_5521		(0x0800)
 #define HARDWARE_SEGA_5797		(0x1000)
+#define HARDWARE_SEGA_YM2413		(0x2000)
 
 #define HARDWARE_KONAMI_68K_Z80		(HARDWARE_PREFIX_KONAMI | 0x00010000)
 #define HARDWARE_KONAMI_68K_ONLY	(HARDWARE_PREFIX_KONAMI | 0x00020000)
@@ -390,6 +395,8 @@ extern unsigned int nNeoSlotDrvNum[MAX_NEO_SLOTS];
 #define HARDWARE_PACMAN			(HARDWARE_PREFIX_PACMAN)
 
 #define HARDWARE_GALAXIAN		(HARDWARE_PREFIX_GALAXIAN)
+
+#define HARDWARE_ATARI_GAUNTLET		(HARDWARE_PREFIX_ATARI | 0x00010000)
 
 // flags for the jukebox member
 #define JBF_GAME_WORKING		(1 << 0)

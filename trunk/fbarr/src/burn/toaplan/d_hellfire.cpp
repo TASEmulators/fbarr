@@ -33,8 +33,8 @@ static struct BurnRomInfo hellfireRomDesc[] = {
 
 	{ "b90_03.2",     0x008000, 0x4058fa67, BRF_ESS | BRF_PRG }, //  10 Z80 program
 
-	{ "3w.bpr",       0x000020, 0xbc88cced, BRF_SND },			 // 11 Sprite attribute PROM
-	{ "6b.bpr",       0x000020, 0xa1e17492, BRF_SND },			 // 12 ???
+	{ "13.3w",        0x000020, 0xbc88cced, BRF_SND },			 // 11 Sprite attribute PROM
+	{ "12.6b",        0x000020, 0xa1e17492, BRF_SND },			 // 12 ???
 };
 
 STD_ROM_PICK(hellfire)
@@ -56,8 +56,8 @@ static struct BurnRomInfo hellfir1RomDesc[] = {
 
 	{ "b90_03x.2",    0x008000, 0xf58c368f, BRF_ESS | BRF_PRG }, //  10 Z80 program
 
-	{ "3w.bpr",       0x000020, 0xbc88cced, BRF_SND },			 // 11 Sprite attribute PROM
-	{ "6b.bpr",       0x000020, 0xa1e17492, BRF_SND },			 // 12 ???
+	{ "13.3w",        0x000020, 0xbc88cced, BRF_SND },			 // 11 Sprite attribute PROM
+	{ "12.6b",        0x000020, 0xa1e17492, BRF_SND },			 // 12 ???
 };
 
 STD_ROM_PICK(hellfir1)
@@ -79,12 +79,35 @@ static struct BurnRomInfo hellfir2RomDesc[] = {
 
 	{ "b90_03x.2",    0x008000, 0xf58c368f, BRF_ESS | BRF_PRG }, //  10 Z80 program
 
-	{ "3w.bpr",       0x000020, 0xbc88cced, BRF_SND },			 // 11 Sprite attribute PROM
-	{ "6b.bpr",       0x000020, 0xa1e17492, BRF_SND },			 // 12 ???
+	{ "13.3w",        0x000020, 0xbc88cced, BRF_SND },			 // 11 Sprite attribute PROM
+	{ "12.6b",        0x000020, 0xa1e17492, BRF_SND },			 // 12 ???
 };
 
 STD_ROM_PICK(hellfir2)
 STD_ROM_FN(hellfir2)
+
+static struct BurnRomInfo hellfir3RomDesc[] = {
+	{ "b90_01.10m",   0x020000, 0x034966d3, BRF_ESS | BRF_PRG }, //  0 CPU #0 code
+	{ "b90_02.9m",    0x020000, 0x06dd24c7, BRF_ESS | BRF_PRG }, //  1
+
+	{ "b90_04.3",     0x020000, 0xea6150fc, BRF_GRA },			 //  6
+	{ "b90_05.4",     0x020000, 0xbb52c507, BRF_GRA },			 //  7
+	{ "b90_06.5",     0x020000, 0xcf5b0252, BRF_GRA },			 //  8
+	{ "b90_07.6",     0x020000, 0xb98af263, BRF_GRA },			 //  9
+	
+	{ "b90_11.10",    0x020000, 0xc33e543c, BRF_GRA },			 //  2
+	{ "b90_10.9",     0x020000, 0x35fd1092, BRF_GRA },			 //  3
+	{ "b90_09.8",     0x020000, 0xcf01009e, BRF_GRA },			 //  4
+	{ "b90_08.7",     0x020000, 0x3404a5e3, BRF_GRA },			 //  5
+
+	{ "b90_03.2",     0x008000, 0x4058fa67, BRF_ESS | BRF_PRG }, //  10 Z80 program
+
+	{ "13.3w",        0x000020, 0xbc88cced, BRF_SND },			 // 11 Sprite attribute PROM
+	{ "12.6b",        0x000020, 0xa1e17492, BRF_SND },			 // 12 ???
+};
+
+STD_ROM_PICK(hellfir3)
+STD_ROM_FN(hellfir3)
 
 static struct BurnInputInfo hellfireInputList[] = {
 	{"P1 Coin",		BIT_DIGITAL,	DrvButton + 3,	"p1 coin"},
@@ -627,7 +650,7 @@ static int DrvInit()
 	ToaPalInit();
 
 	BurnYM3812Init(28000000 / 8, &toaplan1FMIRQHandler, &toaplan1SynchroniseStream, 0);
-	BurnTimerAttachZet(28000000 / 8);
+	BurnTimerAttachZetYM3812(28000000 / 8);
 
 	bDrawScreen = true;
 
@@ -746,7 +769,7 @@ static int DrvFrame()
 	}
 
 	nToa1Cycles68KSync = SekTotalCycles();
-	BurnTimerEndFrame(nCyclesTotal[1]);
+	BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 
 	nCyclesDone[0] = SekTotalCycles() - nCyclesTotal[0];
@@ -768,26 +791,36 @@ struct BurnDriver BurnDrvHellfire = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_TOAPLAN_RAIZING, GBF_HORSHOOT, 0,
 	NULL, hellfireRomInfo, hellfireRomName, hellfireInputInfo, hellfireDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x400,
 	320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvHellfir1 = {
-	"hellfir1", "hellfire", NULL, "1989",
+	"hellfire1", "hellfire", NULL, "1989",
 	"Hellfire (1P Ver.)\0", NULL, "Toaplan (Taito License)", "Toaplan BCU-2 / FCU-2 based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TOAPLAN_RAIZING, GBF_HORSHOOT, 0,
 	NULL, hellfir1RomInfo, hellfir1RomName, hellfireInputInfo, hellfir1DIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x400,
 	320, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvHellfir2 = {
-	"hellfir2", "hellfire", NULL, "1989",
+	"hellfire2", "hellfire", NULL, "1989",
 	"Hellfire (2P Ver., first edition)\0", NULL, "Toaplan (Taito License)", "Toaplan BCU-2 / FCU-2 based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TOAPLAN_RAIZING, GBF_HORSHOOT, 0,
 	NULL, hellfir2RomInfo, hellfir2RomName, hellfireInputInfo, hellfireDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x400,
+	320, 240, 4, 3
+};
+
+struct BurnDriver BurnDrvHellfir3 = {
+	"hellfire3", "hellfire", NULL, "1989",
+	"Hellfire (1P Ver., alt)\0", NULL, "Toaplan (Taito License)", "Toaplan BCU-2 / FCU-2 based",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TOAPLAN_RAIZING, GBF_HORSHOOT, 0,
+	NULL, hellfir3RomInfo, hellfir3RomName, hellfireInputInfo, hellfireDIPInfo,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x400,
 	320, 240, 4, 3
 };

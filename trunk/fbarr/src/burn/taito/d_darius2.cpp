@@ -1002,7 +1002,7 @@ struct BurnDriver BurnDrvDarius2 = {
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_TAITOF2, GBF_HORSHOOT, 0,
 	NULL, Darius2RomInfo, Darius2RomName, Darius2InputInfo, Darius2DIPInfo,
 	Darius2Init, Darius2Exit, Darius2Frame, NULL, Darius2Scan,
-	0, NULL, NULL, NULL, NULL, 864, 224, 12, 3
+	0, NULL, NULL, NULL, NULL, 0x3000, 864, 224, 12, 3
 };
 
 struct BurnDriver BurnDrvNinjaw = {
@@ -1012,7 +1012,7 @@ struct BurnDriver BurnDrvNinjaw = {
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_TAITOF2, GBF_PLATFORM, 0,
 	NULL, NinjawRomInfo, NinjawRomName, Darius2InputInfo, NinjawDIPInfo,
 	NinjawInit, Darius2Exit, Darius2Frame, NULL, Darius2Scan,
-	0, NULL, NULL, NULL, NULL, 864, 224, 12, 3
+	0, NULL, NULL, NULL, NULL, 0x3000, 864, 224, 12, 3
 };
 
 struct BurnDriver BurnDrvNinjawj = {
@@ -1022,5 +1022,5 @@ struct BurnDriver BurnDrvNinjawj = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_TAITOF2, GBF_PLATFORM, 0,
 	NULL, NinjawjRomInfo, NinjawjRomName, Darius2InputInfo, NinjawjDIPInfo,
 	NinjawInit, Darius2Exit, Darius2Frame, NULL, Darius2Scan,
-	0, NULL, NULL, NULL, NULL, 864, 224, 12, 3
+	0, NULL, NULL, NULL, NULL, 0x3000, 864, 224, 12, 3
 };

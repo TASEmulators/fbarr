@@ -768,5 +768,5 @@ struct BurnDriver BurnDrvCyvern = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, CyvernRomInfo, CyvernRomName, CyvernInputInfo, DrvDIPInfo,
 	CyvernInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 240, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x8000, 240, 320, 3, 4
 };

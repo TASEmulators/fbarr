@@ -1901,6 +1901,13 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			}
 			break;
 
+		case MENU_PALETTEVIEWER: {
+			AudBlankSound();
+			InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
+			PaletteViewerDialogCreate(hScrnWnd);
+			break;
+		}
+
 		case MENU_ASSEMBLYCORE:
 			bBurnUseASMCPUEmulation = !bBurnUseASMCPUEmulation;
 			break;

@@ -1066,7 +1066,7 @@ struct BurnDriver BurnDrvBatrid = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, batridRomInfo, batridRomName, batriderInputInfo, batridDIPInfo,
-	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
@@ -1076,7 +1076,7 @@ struct BurnDriver BurnDrvBatridu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, batriduRomInfo, batriduRomName, batriderInputInfo, batriduDIPInfo,
-	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
@@ -1086,7 +1086,7 @@ struct BurnDriver BurnDrvBatridc = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, batridcRomInfo, batridcRomName, batriderInputInfo, batridcDIPInfo,
-	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
@@ -1096,7 +1096,7 @@ struct BurnDriver BurnDrvBatridj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, batridjRomInfo, batridjRomName, batriderInputInfo, batriderDIPInfo,
-	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
@@ -1106,7 +1106,7 @@ struct BurnDriver BurnDrvBatridk = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, batridkRomInfo, batridkRomName, batriderInputInfo, batridkDIPInfo,
-	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
@@ -1116,6 +1116,6 @@ struct BurnDriver BurnDrvBatridja = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, batridjaRomInfo, batridjaRomName, batriderInputInfo, batriderDIPInfo,
-	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	drvInit, drvExit, drvFrame, drvDraw, drvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };

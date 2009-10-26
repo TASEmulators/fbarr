@@ -712,7 +712,7 @@ struct BurnDriver BurnDrvDarkseal = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MAZE | GBF_SCRFIGHT, 0,
 	NULL, darksealRomInfo, darksealRomName, DarksealInputInfo, DarksealDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	256, 240, 4, 3
 };
 
@@ -746,12 +746,12 @@ STD_ROM_PICK(darksea1)
 STD_ROM_FN(darksea1)
 
 struct BurnDriver BurnDrvDarksea1 = {
-	"darksea1", "darkseal", NULL, "1990",
+	"darkseal1", "darkseal", NULL, "1990",
 	"Dark Seal (World revision 1)\0", NULL, "Data East Corporation", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MAZE | GBF_SCRFIGHT, 0,
 	NULL, darksea1RomInfo, darksea1RomName, DarksealInputInfo, DarksealDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	256, 240, 4, 3
 };
 
@@ -785,12 +785,12 @@ STD_ROM_PICK(darkseaj)
 STD_ROM_FN(darkseaj)
 
 struct BurnDriver BurnDrvDarkseaj = {
-	"darkseaj", "darkseal", NULL, "1990",
+	"darksealj", "darkseal", NULL, "1990",
 	"Dark Seal (Japan)\0", NULL, "Data East Corporation", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MAZE | GBF_SCRFIGHT, 0,
 	NULL, darkseajRomInfo, darkseajRomName, DarksealInputInfo, DarksealDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	256, 240, 4, 3
 };
 
@@ -829,7 +829,7 @@ struct BurnDriver BurnDrvGatedoom = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MAZE | GBF_SCRFIGHT, 0,
 	NULL, gatedoomRomInfo, gatedoomRomName, DarksealInputInfo, DarksealDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	256, 240, 4, 3
 };
 
@@ -863,11 +863,11 @@ STD_ROM_PICK(gatedom1)
 STD_ROM_FN(gatedom1)
 
 struct BurnDriver BurnDrvGatedom1 = {
-	"gatedom1", "darkseal", NULL, "1990",
+	"gatedoom1", "darkseal", NULL, "1990",
 	"Gate of Doom (US revision 1)\0", NULL, "Data East Corporation", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MAZE | GBF_SCRFIGHT, 0,
 	NULL, gatedom1RomInfo, gatedom1RomName, DarksealInputInfo, DarksealDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	256, 240, 4, 3
 };

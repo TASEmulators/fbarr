@@ -622,7 +622,7 @@ struct BurnDriver BurnDrvGotcha = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 3, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, gotchaRomInfo, gotchaRomName, GotchaInputInfo, GotchaDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x300,
 	320, 240, 4, 3
 };
 
@@ -657,6 +657,6 @@ struct BurnDriver BurnDrvPpchamp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, ppchampRomInfo, ppchampRomName, GotchaInputInfo, GotchaDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x300,
 	320, 240, 4, 3
 };

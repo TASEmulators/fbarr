@@ -992,7 +992,7 @@ struct BurnDriver BurnDrvGberet = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, gberetRomInfo, gberetRomName, DrvInputInfo, gberetDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x200,
 	240, 224, 4, 3
 };
 
@@ -1025,7 +1025,7 @@ struct BurnDriver BurnDrvRushatck = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, rushatckRomInfo, rushatckRomName, DrvInputInfo, gberetDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x200,
 	240, 224, 4, 3
 };
 
@@ -1064,7 +1064,7 @@ struct BurnDriver BurnDrvGberetb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, gberetbRomInfo, gberetbRomName, gberetbInputInfo, gberetbDIPInfo,
-	gberetbInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	gberetbInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x200,
 	240, 224, 4, 3
 };
 
@@ -1101,7 +1101,7 @@ struct BurnDriver BurnDrvMrgoemon = {
 	L"Mr. Goemon \u4E94\u53F3\u885B\u9580 (Japan)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, mrgoemonRomInfo, mrgoemonRomName, DrvInputInfo, mrgoemonDIPInfo,
-	mrgoemonInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	mrgoemonInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x200,
 	240, 224, 4, 3
 };
 

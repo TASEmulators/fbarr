@@ -778,7 +778,7 @@ struct BurnDriver BurnDrvTaotaido = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MISC, 0,
 	NULL, taotaidoRomInfo, taotaidoRomName, TaotaidoInputInfo, TaotaidoDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };
 
@@ -805,11 +805,11 @@ STD_ROM_PICK(taotaida)
 STD_ROM_FN(taotaida)
 
 struct BurnDriver BurnDrvTaotaida = {
-	"taotaida", "taotaido", NULL, "1993",
+	"taotaidoa", "taotaido", NULL, "1993",
 	"Tao Taido (set 2)\0", NULL, "Video System Co.", "hardware",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_VSFIGHT, 0,
 	NULL, taotaidaRomInfo, taotaidaRomName, TaotaidoInputInfo, TaotaidoDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x800,
 	320, 224, 4, 3
 };

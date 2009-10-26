@@ -681,7 +681,7 @@ static struct BurnRomInfo FlashgalRomDesc[] = {
 STD_ROM_PICK(Flashgal)
 STD_ROM_FN(Flashgal)
 
-static struct BurnRomInfo FlashglaRomDesc[] = {
+static struct BurnRomInfo FlashgalaRomDesc[] = {
 	{ "flashgal.5",    0x02000, 0xaa889ace, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
 	{ "epr-7168.4h",   0x02000, 0x00c4851f, BRF_ESS | BRF_PRG }, //  1
 	{ "epr-7169.4j",   0x02000, 0x1ef0b8f7, BRF_ESS | BRF_PRG }, //  2
@@ -712,8 +712,8 @@ static struct BurnRomInfo FlashglaRomDesc[] = {
 	{ "bpr.2c",        0x00020, 0x83a39201, BRF_GRA },	     //  22
 };
 
-STD_ROM_PICK(Flashgla)
-STD_ROM_FN(Flashgla)
+STD_ROM_PICK(Flashgala)
+STD_ROM_FN(Flashgala)
 
 static struct BurnRomInfo GyrodineRomDesc[] = {
 	{ "a21.02",        0x02000, 0xc5ec4a50, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
@@ -746,7 +746,7 @@ static struct BurnRomInfo GyrodineRomDesc[] = {
 STD_ROM_PICK(Gyrodine)
 STD_ROM_FN(Gyrodine)
 
-static struct BurnRomInfo GyrodincRomDesc[] = {
+static struct BurnRomInfo GyrodinecRomDesc[] = {
 	{ "rom2",          0x02000, 0x85ddea38, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
 	{ "a21.03",        0x02000, 0x4e9323bd, BRF_ESS | BRF_PRG }, //  1
 	{ "a21.04",        0x02000, 0x57e659d4, BRF_ESS | BRF_PRG }, //  2
@@ -774,8 +774,8 @@ static struct BurnRomInfo GyrodincRomDesc[] = {
 	{ "m1.2c",         0x00020, 0x83a39201, BRF_GRA },	     //  19
 };
 
-STD_ROM_PICK(Gyrodinc)
-STD_ROM_FN(Gyrodinc)
+STD_ROM_PICK(Gyrodinec)
+STD_ROM_FN(Gyrodinec)
 
 static struct BurnRomInfo BuzzardRomDesc[] = {
 	{ "rom2",          0x02000, 0x85ddea38, BRF_ESS | BRF_PRG }, //  0	Z80 #1 Program Code
@@ -1196,7 +1196,7 @@ void __fastcall FlashgalPortWrite1(unsigned short a, unsigned char d)
 	}
 }
 
-void __fastcall FlashglaPortWrite1(unsigned short a, unsigned char d)
+void __fastcall FlashgalaPortWrite1(unsigned short a, unsigned char d)
 {
 	a &= 0xff;
 	
@@ -1297,7 +1297,7 @@ unsigned char __fastcall FlashgalRead2(unsigned short a)
 	return 0;
 }
 
-unsigned char __fastcall FlashglaRead2(unsigned short a)
+unsigned char __fastcall FlashgalaRead2(unsigned short a)
 {
 	switch (a) {
 		case 0xc040: {
@@ -1415,7 +1415,7 @@ unsigned char __fastcall KyugoPortRead2(unsigned short a)
 	return 0;
 }
 
-unsigned char __fastcall FlashglaPortRead2(unsigned short a)
+unsigned char __fastcall FlashgalaPortRead2(unsigned short a)
 {
 	a &= 0xff;
 	
@@ -1480,7 +1480,7 @@ void __fastcall FlashgalPortWrite2(unsigned short a, unsigned char d)
 	}
 }
 
-void __fastcall FlashglaPortWrite2(unsigned short a, unsigned char d)
+void __fastcall FlashgalaPortWrite2(unsigned short a, unsigned char d)
 {
 	a &= 0xff;
 	
@@ -1611,14 +1611,14 @@ static int KyugoInit()
 		 KyugoSizeZ80Rom2 = 0x8000;
 		 KyugoSizeSpriteRom = 0x8000;
 	}
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinc") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard")) KyugoNumZ80Rom2 = 1;
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinec") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard")) KyugoNumZ80Rom2 = 1;
 	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "legend")) {
 		 KyugoNumZ80Rom1 = 2;
 		 KyugoNumZ80Rom2 = 4;
 		 KyugoSizeZ80Rom1 = 0x4000;
 		 KyugoSizeZ80Rom2 = 0x2000;
 	}
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "sonofphx") || !strcmp(BurnDrvGetTextA(DRV_NAME), "repulse") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwar") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwra") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwrk")) KyugoNumZ80Rom1 = 3;
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "sonofphx") || !strcmp(BurnDrvGetTextA(DRV_NAME), "repulse") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwar") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwara") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwark")) KyugoNumZ80Rom1 = 3;
 	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "skywolf") || !strcmp(BurnDrvGetTextA(DRV_NAME), "srdmissn") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fx")) {
 		 KyugoNumZ80Rom1 = 2;
 		 KyugoNumZ80Rom2 = 2;
@@ -1692,7 +1692,7 @@ static int KyugoInit()
 	nRet = BurnLoadRom(KyugoPromRed,          KyugoNumSpriteRom + KyugoNumZ80Rom2 + KyugoNumZ80Rom1 + 4, 1); if (nRet != 0) return 1;
 	nRet = BurnLoadRom(KyugoPromGreen,        KyugoNumSpriteRom + KyugoNumZ80Rom2 + KyugoNumZ80Rom1 + 5, 1); if (nRet != 0) return 1;
 	nRet = BurnLoadRom(KyugoPromBlue,         KyugoNumSpriteRom + KyugoNumZ80Rom2 + KyugoNumZ80Rom1 + 6, 1); if (nRet != 0) return 1;
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "flashgal") || !strcmp(BurnDrvGetTextA(DRV_NAME), "flashgla") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinc") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard") || !strcmp(BurnDrvGetTextA(DRV_NAME), "legend") || !strcmp(BurnDrvGetTextA(DRV_NAME), "srdmissn") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fx")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "flashgal") || !strcmp(BurnDrvGetTextA(DRV_NAME), "flashgala") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinec") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard") || !strcmp(BurnDrvGetTextA(DRV_NAME), "legend") || !strcmp(BurnDrvGetTextA(DRV_NAME), "srdmissn") || !strcmp(BurnDrvGetTextA(DRV_NAME), "fx")) {
 		nRet = BurnLoadRom(KyugoPromCharLookup,   KyugoNumSpriteRom + KyugoNumZ80Rom2 + KyugoNumZ80Rom1 + 7, 1); if (nRet != 0) return 1;
 	}
 	
@@ -1728,7 +1728,7 @@ static int KyugoInit()
 	ZetOpen(1);
 	ZetSetWriteHandler(KyugoWrite2);
 	ZetSetInHandler(KyugoPortRead2);
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinc") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinec") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard")) {
 		ZetMapArea(0x0000, 0x1fff, 0, KyugoZ80Rom2             );
 		ZetMapArea(0x0000, 0x1fff, 2, KyugoZ80Rom2             );
 	} else {
@@ -1770,22 +1770,22 @@ static int KyugoInit()
 		ZetClose();
 	}
 	
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "flashgla")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "flashgala")) {
 		ZetOpen(0);
-		ZetSetOutHandler(FlashglaPortWrite1);
+		ZetSetOutHandler(FlashgalaPortWrite1);
 		ZetClose();
 		
 		ZetOpen(1);
-		ZetSetReadHandler(FlashglaRead2);
-		ZetSetInHandler(FlashglaPortRead2);
-		ZetSetOutHandler(FlashglaPortWrite2);
+		ZetSetReadHandler(FlashgalaRead2);
+		ZetSetInHandler(FlashgalaPortRead2);
+		ZetSetOutHandler(FlashgalaPortWrite2);
 		ZetMapArea(0xe000, 0xe7ff, 0, KyugoSharedZ80Ram        );
 		ZetMapArea(0xe000, 0xe7ff, 1, KyugoSharedZ80Ram        );
 		ZetMapArea(0xe000, 0xe7ff, 2, KyugoSharedZ80Ram        );
 		ZetClose();
 	}
 	
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinc") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodine") || !strcmp(BurnDrvGetTextA(DRV_NAME), "gyrodinec") || !strcmp(BurnDrvGetTextA(DRV_NAME), "buzzard")) {
 		ZetOpen(0);
 		ZetSetOutHandler(GyrodinePortWrite1);
 		ZetClose();
@@ -1814,7 +1814,7 @@ static int KyugoInit()
 		ZetClose();
 	}
 	
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "sonofphx") || !strcmp(BurnDrvGetTextA(DRV_NAME), "repulse") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwar") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwra") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwrk")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "sonofphx") || !strcmp(BurnDrvGetTextA(DRV_NAME), "repulse") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwar") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwara") || !strcmp(BurnDrvGetTextA(DRV_NAME), "99lstwark")) {
 		ZetOpen(0);
 		ZetSetOutHandler(GyrodinePortWrite1);
 		ZetClose();
@@ -2294,7 +2294,7 @@ struct BurnDriver BurnDrvAirwolf = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, AirwolfRomInfo, AirwolfRomName, KyugoInputInfo, AirwolfDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 288, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 288, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvAirwolfa = {
@@ -2304,7 +2304,7 @@ struct BurnDriver BurnDrvAirwolfa = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, AirwolfaRomInfo, AirwolfaRomName, KyugoInputInfo, AirwolfDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 288, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 288, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSkywolf = {
@@ -2314,7 +2314,7 @@ struct BurnDriver BurnDrvSkywolf = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, SkywolfRomInfo, SkywolfRomName, KyugoInputInfo, SkywolfDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 288, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 288, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSkywolf2 = {
@@ -2324,7 +2324,7 @@ struct BurnDriver BurnDrvSkywolf2 = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_HORSHOOT, 0,
 	NULL, Skywolf2RomInfo, Skywolf2RomName, KyugoInputInfo, AirwolfDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 288, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 288, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFlashgal = {
@@ -2334,17 +2334,17 @@ struct BurnDriver BurnDrvFlashgal = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, FlashgalRomInfo, FlashgalRomName, KyugoInputInfo, FlashgalDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 288, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 288, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvFlashgla = {
-	"flashgla", "flashgal", NULL, "1985",
+struct BurnDriver BurnDrvFlashgala = {
+	"flashgala", "flashgal", NULL, "1985",
 	"Flashgal (set 2)\0", NULL, "Sega", "Kyugo",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
-	NULL, FlashglaRomInfo, FlashglaRomName, KyugoInputInfo, FlashgalDIPInfo,
+	NULL, FlashgalaRomInfo, FlashgalaRomName, KyugoInputInfo, FlashgalDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 288, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 288, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvGyrodine = {
@@ -2354,17 +2354,17 @@ struct BurnDriver BurnDrvGyrodine = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, GyrodineRomInfo, GyrodineRomName, KyugoInputInfo, GyrodineDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
-struct BurnDriver BurnDrvGyrodinc = {
-	"gyrodinc", "gyrodine", NULL, "1984",
+struct BurnDriver BurnDrvGyrodinec = {
+	"gyrodinec", "gyrodine", NULL, "1984",
 	"Gyrodine\0", NULL, "Crux", "Kyugo",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
-	NULL, GyrodincRomInfo, GyrodincRomName, KyugoInputInfo, GyrodineDIPInfo,
+	NULL, GyrodinecRomInfo, GyrodinecRomName, KyugoInputInfo, GyrodineDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvBuzzard = {
@@ -2374,7 +2374,7 @@ struct BurnDriver BurnDrvBuzzard = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, BuzzardRomInfo, BuzzardRomName, KyugoInputInfo, GyrodineDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvLegend = {
@@ -2384,7 +2384,7 @@ struct BurnDriver BurnDrvLegend = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, LegendRomInfo, LegendRomName, KyugoInputInfo, LegendDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 288, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 288, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSonofphx = {
@@ -2394,7 +2394,7 @@ struct BurnDriver BurnDrvSonofphx = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, SonofphxRomInfo, SonofphxRomName, KyugoInputInfo, SonofphxDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvRepulse = {
@@ -2404,7 +2404,7 @@ struct BurnDriver BurnDrvRepulse = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, RepulseRomInfo, RepulseRomName, KyugoInputInfo, SonofphxDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrv99lstwar = {
@@ -2414,27 +2414,27 @@ struct BurnDriver BurnDrv99lstwar = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, Lstwar99RomInfo, Lstwar99RomName, KyugoInputInfo, SonofphxDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
-struct BurnDriver BurnDrv99lstwra = {
-	"99lstwra", "sonofphx", NULL, "1985",
+struct BurnDriver BurnDrv99lstwara = {
+	"99lstwara", "sonofphx", NULL, "1985",
 	"'99: The Last War (alternate)\0", NULL, "Proma", "Kyugo",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, Lstwra99RomInfo, Lstwra99RomName, KyugoInputInfo, SonofphxDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
-struct BurnDriver BurnDrv99lstwrk = {
-	"99lstwrk", "sonofphx", NULL, "1985",
+struct BurnDriver BurnDrv99lstwark = {
+	"99lstwark", "sonofphx", NULL, "1985",
 	"'99: The Last War (Kyugo)\0", NULL, "Kyugo", "Kyugo",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, Lstwrk99RomInfo, Lstwrk99RomName, KyugoInputInfo, SonofphxDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvSrdmissn = {
@@ -2444,7 +2444,7 @@ struct BurnDriver BurnDrvSrdmissn = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, SrdmissnRomInfo, SrdmissnRomName, KyugoInputInfo, SrdmissnDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };
 
 struct BurnDriver BurnDrvFx = {
@@ -2454,5 +2454,5 @@ struct BurnDriver BurnDrvFx = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, FxRomInfo, FxRomName, KyugoInputInfo, SrdmissnDIPInfo,
 	KyugoInit, KyugoExit, KyugoFrame, NULL, KyugoScan,
-	0, NULL, NULL, NULL, NULL, 224, 288, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x100, 224, 288, 3, 4
 };

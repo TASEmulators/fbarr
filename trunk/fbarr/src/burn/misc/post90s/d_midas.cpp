@@ -664,6 +664,6 @@ struct BurnDriver BurnDrvLivequiz = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 3, HARDWARE_MISC_POST90S, GBF_QUIZ, 0,
 	NULL, livequizRomInfo, livequizRomName, LivequizInputInfo, LivequizDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, NULL, 0x10000,
 	320, 224, 4, 3
 };

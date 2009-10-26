@@ -725,5 +725,5 @@ struct BurnDriver BurnDrvhotdogst = {
 	NULL, hotdogstRomInfo, hotdogstRomName, hotdogstInputInfo, NULL,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	0, NULL, NULL, NULL,
-	&CaveRecalcPalette, 240, 384, 3, 4
+	&CaveRecalcPalette, 0x8000, 240, 384, 3, 4
 };

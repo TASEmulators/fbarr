@@ -493,7 +493,7 @@ struct BurnDriverD BurnDrvrobocop = {
 		BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 		NULL, robocopRomInfo, robocopRomName, robocopInputInfo, NULL,
 		robocopInit, robocopExit, robocopFrame, NULL, robocopScan,
-		0, NULL, NULL, NULL, NULL, 256, 256, 4, 3
+		0, NULL, NULL, NULL, NULL, 0x400, 256, 256, 4, 3
 };
 
 struct BurnDriverD BurnDrvrobocopb = {
@@ -503,5 +503,5 @@ struct BurnDriverD BurnDrvrobocopb = {
 		BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 		NULL, robocopbRomInfo, robocopbRomName, robocopInputInfo, NULL,
 		robocopInit, robocopExit, robocopFrame, NULL, robocopScan,
-		0, NULL, NULL, NULL, NULL, 256, 256, 4, 3
+		0, NULL, NULL, NULL, NULL, 0x400, 256, 256, 4, 3
 };

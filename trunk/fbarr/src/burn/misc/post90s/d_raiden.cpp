@@ -946,7 +946,7 @@ static int DrvInit()
 	}
 	
 	BurnYM3812Init(3579545, &raidenFMIRQHandler, &raidenSynchroniseStream, 0);
-	BurnTimerAttachZet(3579545);
+	BurnTimerAttachZetYM3812(3579545);
 	
 	MSM6295Init(0, 8000, 80.0, 1); //	1320000
 	DrvDoReset();
@@ -1504,7 +1504,7 @@ static int DrvFrame()
 		VezOpen(1);
 		VezRun(10000000 / 60 / 200);
 		ZetOpen(0);
-		BurnTimerUpdate(i * ((3579545 / 60) / 200));
+		BurnTimerUpdateYM3812(i * ((3579545 / 60) / 200));
 		ZetClose();
 	}
 
@@ -1521,7 +1521,7 @@ static int DrvFrame()
 	if (pBurnDraw) DrvDraw();
 	
 	ZetOpen(0);
-	BurnTimerEndFrame(3579545 / 60);
+	BurnTimerEndFrameYM3812(3579545 / 60);
 	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 	ZetClose();
 	if (pBurnSoundOut)
@@ -1581,7 +1581,7 @@ static int DrvFrameAlt()
 	if (pBurnDraw) DrvDrawAlt();
 	
 	ZetOpen(0);
-	BurnTimerEndFrame(3579545 / 60);
+	BurnTimerEndFrameYM3812(3579545 / 60);
 	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 	ZetClose();
 	if (pBurnSoundOut)
@@ -1643,7 +1643,7 @@ struct BurnDriver BurnDrvRaiden = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, raidenRomInfo, raidenRomName, raidenInputInfo, raidenDIPInfo,
-	DrvInit, DrvExit, DrvFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	DrvInit, DrvExit, DrvFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	224, 256, 3, 4
 };
 
@@ -1653,7 +1653,7 @@ struct BurnDriver BurnDrvRaidena = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_ORIENTATION_VERTICAL | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, raidenaRomInfo, raidenaRomName, raidenInputInfo, raidenDIPInfo,
-	DrvInit, DrvExit, DrvFrameAlt, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	DrvInit, DrvExit, DrvFrameAlt, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	224, 256, 3, 4
 };
 
@@ -1663,7 +1663,7 @@ struct BurnDriver BurnDrvRaidenk = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_ORIENTATION_VERTICAL | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, raidenkRomInfo, raidenkRomName, raidenInputInfo, raidenDIPInfo,
-	DrvInit, DrvExit, DrvFrameAlt, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	DrvInit, DrvExit, DrvFrameAlt, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	224, 256, 3, 4
 };
 
@@ -1673,6 +1673,6 @@ struct BurnDriver BurnDrvRaident = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_ORIENTATION_VERTICAL | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, raidentRomInfo, raidentRomName, raidenInputInfo, raidenDIPInfo,
-	DrvInit, DrvExit, DrvFrameAlt, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	DrvInit, DrvExit, DrvFrameAlt, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	224, 256, 3, 4
 };

@@ -1271,7 +1271,7 @@ struct BurnDriver BurnDrvF1gp = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 1, HARDWARE_MISC_POST90S, GBF_RACING, 0,
 	NULL, f1gpRomInfo, f1gpRomName, F1gpInputInfo, F1gpDIPInfo,
-	F1gpInit, DrvExit, DrvFrame, F1gpDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	F1gpInit, DrvExit, DrvFrame, F1gpDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x401,
 	240, 320, 3, 4
 };
 
@@ -1320,7 +1320,7 @@ struct BurnDriverD BurnDrvF1gpb = {
 	NULL, NULL, NULL, NULL,
 	BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 1, HARDWARE_MISC_POST90S, GBF_RACING, 0,
 	NULL, f1gpbRomInfo, f1gpbRomName, F1gpInputInfo, F1gpDIPInfo,
-	F1gpbInit, DrvExit, DrvFrame, F1gpbDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	F1gpbInit, DrvExit, DrvFrame, F1gpbDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x401,
 	240, 320, 3, 4
 };
 
@@ -1363,7 +1363,7 @@ struct BurnDriver BurnDrvF1gp2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 1, HARDWARE_MISC_POST90S, GBF_RACING, 0,
 	NULL, f1gp2RomInfo, f1gp2RomName, F1gp2InputInfo, F1gp2DIPInfo,
-	F1gp2Init, DrvExit, DrvFrame, F1gp2Draw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	F1gp2Init, DrvExit, DrvFrame, F1gp2Draw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x401,
 	224, 320, 3, 4
 };
 

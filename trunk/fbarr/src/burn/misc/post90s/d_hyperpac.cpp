@@ -693,7 +693,7 @@ static struct BurnRomInfo HyperpacRomDesc[] = {
 STD_ROM_PICK(Hyperpac)
 STD_ROM_FN(Hyperpac)
 
-static struct BurnRomInfo HyperpcbRomDesc[] = {
+static struct BurnRomInfo HyperpacbRomDesc[] = {
 	{ "hpacuh12.bin",  0x20000, 0x633ab2c6, BRF_ESS | BRF_PRG }, //  0	68000 Program Code
 	{ "hpacui12.bin",  0x20000, 0x23dc00d1, BRF_ESS | BRF_PRG }, //  1	68000 Program Code
 
@@ -707,8 +707,8 @@ static struct BurnRomInfo HyperpcbRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Hyperpcb)
-STD_ROM_FN(Hyperpcb)
+STD_ROM_PICK(Hyperpacb)
+STD_ROM_FN(Hyperpacb)
 
 static struct BurnRomInfo Cookbib2RomDesc[] = {
 	{ "cookbib2.02",   0x40000, 0xb2909460, BRF_ESS | BRF_PRG }, 		 //  0	68000 Program Code
@@ -1145,7 +1145,7 @@ static inline void snowbrosSynchroniseZ80(int nExtraCycles)
 
 	nCycles68KSync = nCycles - nExtraCycles;
 
-	BurnTimerUpdate(nCycles);
+	BurnTimerUpdateYM3812(nCycles);
 }
 
 // Callbacks for the FM chip
@@ -1822,7 +1822,7 @@ unsigned char __fastcall SnowbrosZ80PortRead(unsigned short a)
 			return BurnYM3812Read(0);
 		case 0x04: {
 			if (ZetTotalCycles() > nCycles68KSync) {
-				BurnTimerUpdateEnd();
+				BurnTimerUpdateEndYM3812();
 			}
 			return HyperpacSoundLatch;
 		}
@@ -2555,7 +2555,7 @@ int HoneydolInit()
 	ZetClose();
 
 	BurnYM3812Init(3000000, &snowbrosFMIRQHandler, &HoneydolSynchroniseStream, 0);
-	BurnTimerAttachZet(4000000);
+	BurnTimerAttachZetYM3812(4000000);
 
 	// Setup the OKIM6295 emulation
 	MSM6295Init(0, 999900 / 132, 100.0, 1);
@@ -2650,7 +2650,7 @@ int SnowbrosInit()
 	ZetClose();
 
 	BurnYM3812Init(3000000, &snowbrosFMIRQHandler, &snowbrosSynchroniseStream, 0);
-	BurnTimerAttachZet(6000000);
+	BurnTimerAttachZetYM3812(6000000);
 
 	GenericTilesInit();
 
@@ -3559,7 +3559,7 @@ int HoneydolFrame()
 	SekClose();
 
 	nCycles68KSync = SekTotalCycles();
-	BurnTimerEndFrame(nCyclesTotal[1]);
+	BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 	if (pBurnSoundOut) MSM6295Render(0, pBurnSoundOut, nBurnSoundLen);
 	
@@ -3613,7 +3613,7 @@ int SnowbrosFrame()
 	SekClose();
 
 	nCycles68KSync = SekTotalCycles();
-	BurnTimerEndFrame(nCyclesTotal[1]);
+	BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 	BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 
 	nCyclesDone[0] = SekTotalCycles() - nCyclesTotal[0];
@@ -3788,17 +3788,17 @@ struct BurnDriver BurnDrvHyperpac = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
 	NULL, HyperpacRomInfo, HyperpacRomName, HyperpacInputInfo, HyperpacDIPInfo,
 	HyperpacInit, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvHyperpcb = {
-	"hyperpcb", "hyperpac", NULL, "1995",
+struct BurnDriver BurnDrvHyperpacb = {
+	"hyperpacb", "hyperpac", NULL, "1995",
 	"Hyper Pacman (bootleg)\0", NULL, "SemiCom", "Kaneko Pandora based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
-	NULL, HyperpcbRomInfo, HyperpcbRomName, HyperpacInputInfo, HyperpacDIPInfo,
+	NULL, HyperpacbRomInfo, HyperpacbRomName, HyperpacInputInfo, HyperpacDIPInfo,
 	HyperpacInit, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvCookbib2 = {
@@ -3808,7 +3808,7 @@ struct BurnDriver BurnDrvCookbib2 = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, Cookbib2RomInfo, Cookbib2RomName, HyperpacInputInfo, Cookbib2DIPInfo,
 	Cookbib2Init, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvCookbib3 = {
@@ -3818,7 +3818,7 @@ struct BurnDriver BurnDrvCookbib3 = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, Cookbib3RomInfo, Cookbib3RomName, HyperpacInputInfo, Cookbib3DIPInfo,
 	Cookbib3Init, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMoremore = {
@@ -3828,7 +3828,7 @@ struct BurnDriver BurnDrvMoremore = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, MoremoreRomInfo, MoremoreRomName, HyperpacInputInfo, MoremoreDIPInfo,
 	MoremoreInit, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMoremorp = {
@@ -3838,7 +3838,7 @@ struct BurnDriver BurnDrvMoremorp = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, MoremorpRomInfo, MoremorpRomName, HyperpacInputInfo, MoremoreDIPInfo,
 	MoremoreInit, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvThreein1semi = {
@@ -3848,7 +3848,7 @@ struct BurnDriver BurnDrvThreein1semi = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, Threein1semiRomInfo, Threein1semiRomName, HyperpacInputInfo, MoremoreDIPInfo,
 	MoremoreInit, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvToppyrap = {
@@ -3858,7 +3858,7 @@ struct BurnDriver BurnDrvToppyrap = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, ToppyrapRomInfo, ToppyrapRomName, HyperpacInputInfo, ToppyrapDIPInfo,
 	MoremoreInit, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTwinkle = {
@@ -3868,7 +3868,7 @@ struct BurnDriver BurnDrvTwinkle = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
 	NULL, TwinkleRomInfo, TwinkleRomName, HyperpacInputInfo, MoremoreDIPInfo,
 	TwinkleInit, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFourin1boot = {
@@ -3878,7 +3878,7 @@ struct BurnDriver BurnDrvFourin1boot = {
 	BDF_GAME_WORKING | BDF_BOOTLEG, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, Fourin1bootRomInfo, Fourin1bootRomName, HyperpacInputInfo, Fourin1bootDIPInfo,
 	Fourin1bootInit, HyperpacExit, HyperpacFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFinalttr = {
@@ -3888,7 +3888,7 @@ struct BurnDriver BurnDrvFinalttr = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, FinalttrRomInfo, FinalttrRomName, HyperpacInputInfo, FinalttrDIPInfo,
 	FinalttrInit, HyperpacExit, FinalttrFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTwinadv = {
@@ -3898,7 +3898,7 @@ struct BurnDriver BurnDrvTwinadv = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, TwinadvRomInfo, TwinadvRomName, HyperpacInputInfo, TwinadvDIPInfo,
 	TwinadvInit, HyperpacExit, TwinadvFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTwinadvk = {
@@ -3908,7 +3908,7 @@ struct BurnDriver BurnDrvTwinadvk = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, TwinadvkRomInfo, TwinadvkRomName, HyperpacInputInfo, TwinadvDIPInfo,
 	TwinadvInit, HyperpacExit, TwinadvFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvHoneydol = {
@@ -3918,7 +3918,7 @@ struct BurnDriver BurnDrvHoneydol = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, HoneydolRomInfo, HoneydolRomName, HyperpacInputInfo, HoneydolDIPInfo,
 	HoneydolInit, HyperpacExit, HoneydolFrame, NULL, HyperpacScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x800, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSnowbros = {
@@ -3928,57 +3928,57 @@ struct BurnDriver BurnDrvSnowbros = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, SnowbrosRomInfo, SnowbrosRomName, SnowbrosInputInfo, SnowbrosDIPInfo,
 	SnowbrosInit, SnowbrosExit, SnowbrosFrame, NULL, SnowbrosScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSnowbroa = {
-	"snowbroa", "snowbros", NULL, "1990",
+	"snowbrosa", "snowbros", NULL, "1990",
 	"Snow Bros. - Nick & Tom (set 2)\0", NULL, "Toaplan", "Kaneko Pandora based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, SnowbroaRomInfo, SnowbroaRomName, SnowbrosInputInfo, SnowbrosDIPInfo,
 	SnowbrosInit, SnowbrosExit, SnowbrosFrame, NULL, SnowbrosScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSnowbrob = {
-	"snowbrob", "snowbros", NULL, "1990",
+	"snowbrosb", "snowbros", NULL, "1990",
 	"Snow Bros. - Nick & Tom (set 3)\0", NULL, "Toaplan", "Kaneko Pandora based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, SnowbrobRomInfo, SnowbrobRomName, SnowbrosInputInfo, SnowbrosDIPInfo,
 	SnowbrosInit, SnowbrosExit, SnowbrosFrame, NULL, SnowbrosScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSnowbroc = {
-	"snowbroc", "snowbros", NULL, "1990",
+	"snowbrosc", "snowbros", NULL, "1990",
 	"Snow Bros. - Nick & Tom (set 4)\0", NULL, "Toaplan", "Kaneko Pandora based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, SnowbrocRomInfo, SnowbrocRomName, SnowbrosInputInfo, SnowbrosDIPInfo,
 	SnowbrosInit, SnowbrosExit, SnowbrosFrame, NULL, SnowbrosScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSnowbroj = {
-	"snowbroj", "snowbros", NULL, "1990",
+	"snowbrosj", "snowbros", NULL, "1990",
 	"Snow Bros. - Nick & Tom (Japan)\0", NULL, "Toaplan", "Kaneko Pandora based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, SnowbrojRomInfo, SnowbrojRomName, SnowbrosInputInfo, SnowbrojDIPInfo,
 	SnowbrosInit, SnowbrosExit, SnowbrosFrame, NULL, SnowbrosScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSnowbrod = {
-	"snowbrod", "snowbros", NULL, "1990",
+	"snowbrosd", "snowbros", NULL, "1990",
 	"Snow Bros. - Nick & Tom (Dooyong license)\0", NULL, "Toaplan (Dooyong license)", "Kaneko Pandora based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, SnowbrodRomInfo, SnowbrodRomName, SnowbrosInputInfo, SnowbrojDIPInfo,
 	SnowbrosInit, SnowbrosExit, SnowbrosFrame, NULL, SnowbrosScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvWintbob = {
@@ -3988,15 +3988,15 @@ struct BurnDriver BurnDrvWintbob = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, WintbobRomInfo, WintbobRomName, SnowbrosInputInfo, SnowbrosDIPInfo,
 	SnowbrosInit, SnowbrosExit, SnowbrosFrame, NULL, SnowbrosScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x200, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSnowbro3 = {
-	"snowbro3", "snowbros", NULL, "2002",
+	"snowbros3", "snowbros", NULL, "2002",
 	"Snow Brothers 3 - Magical Adventure\0", NULL, "bootleg", "Kaneko Pandora based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL, Snowbro3RomInfo, Snowbro3RomName, SnowbrosInputInfo, SnowbrojDIPInfo,
 	Snowbro3Init, SnowbrosExit, Snowbro3Frame, NULL, Snowbro3Scan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x400, 256, 224, 4, 3
 };

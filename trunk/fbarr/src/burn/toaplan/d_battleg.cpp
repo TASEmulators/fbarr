@@ -120,6 +120,26 @@ static struct BurnRomInfo bgaregcnRomDesc[] = {
 STD_ROM_PICK(bgaregcn)
 STD_ROM_FN(bgaregcn)
 
+static struct BurnRomInfo bgaregtwRomDesc[] = {
+	{ "garegga_prg0.u123",0x080000, 0x235b7405, BRF_ESS | BRF_PRG }, //  0 CPU #0 code (even)
+	{ "garegga_prg1.u65", 0x080000, 0xc29ccf6a, BRF_ESS | BRF_PRG }, //  1				(odd)
+
+	{ "rom4.bin",     0x200000, 0xB333D81F, BRF_GRA },			 //  2 GP9001 Tile data
+	{ "rom3.bin",     0x200000, 0x51B9EBFB, BRF_GRA },			 //  3
+	{ "rom2.bin",     0x200000, 0xB330E5E2, BRF_GRA },			 //  4
+	{ "rom1.bin",     0x200000, 0x7EAFDD70, BRF_GRA },			 //  5
+
+	{ "text.u81",     0x008000, 0xE67FD534, BRF_GRA },			 //  6 Extra text layer tile data
+
+	{ "snd.bin",      0x020000, 0x68632952, BRF_ESS | BRF_PRG }, //  7 Z80 program
+
+	{ "rom5.bin",     0x100000, 0xF6D49863, BRF_SND },			 //  8 MSM6295 ADPCM data
+};
+
+
+STD_ROM_PICK(bgaregtw)
+STD_ROM_FN(bgaregtw)
+
 static struct BurnInputInfo battlegInputList[] = {
 	{"P1 Coin",		BIT_DIGITAL,	DrvButton + 3,	"p1 coin"},
 	{"P1 Start",	BIT_DIGITAL,	DrvButton + 5,	"p1 start"},
@@ -295,9 +315,25 @@ static struct BurnDIPInfo bgareghkRegionDIPList[] = {
 	{0x16,	0x01, 0x03, 0x02, "U.S.A. [illegal setting]"},
 };
 
+static struct BurnDIPInfo bgaregtwRegionDIPList[] = {
+	// DIP 3
+	{0,		0xFE, 0,	2,	  "Stage edit"},
+	{0x16,	0x01, 0x08, 0x00, "Disable"},
+	{0x16,	0x01, 0x08, 0x08, "Enable"},
+	
+	// Region
+	{0x16,	0xFF, 0x0F,	0x01, NULL},
+	{0,		0xFE, 0,	2,	  "Region"},
+	{0x16,	0x01, 0x03, 0x01, "Germany"},
+	{0x16,	0x01, 0x03, 0x03, "Taiwan"},
+	{0x16,	0x01, 0x03, 0x00, "Nippon [illegal setting]"},
+	{0x16,	0x01, 0x03, 0x02, "U.S.A. [illegal setting]"},
+};
+
 STDDIPINFOEXT(bgaregga, bgaregga, bgareggaRegion)
 STDDIPINFOEXT(bgaregcn, bgaregga, bgaregcnRegion)
 STDDIPINFOEXT(bgareghk, bgaregga, bgareghkRegion)
+STDDIPINFOEXT(bgaregtw, bgaregga, bgaregtwRegion)
 
 static unsigned char *Mem = NULL, *MemEnd = NULL;
 static unsigned char *RamStart, *RamEnd;
@@ -875,46 +911,56 @@ struct BurnDriver BurnDrvBgaregga = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, bgareggaRomInfo, bgareggaRomName, battlegInputInfo, bgareggaDIPInfo,
-	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvBgaregcn = {
-	"bgaregcn", "bgaregga", NULL, "1996",
+	"bgareggacn", "bgaregga", NULL, "1996",
 	"Battle Garegga - Type 2 (Denmark / China) (Tue Apr 2 1996)\0", NULL, "Raizing / 8ing", "Toaplan GP9001 based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, bgaregcnRomInfo, bgaregcnRomName, battlegInputInfo, bgaregcnDIPInfo,
-	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvBgaregt2 = {
-	"bgaregt2", "bgaregga", NULL, "1996",
+	"bgareggat2", "bgaregga", NULL, "1996",
 	"Battle Garegga - Type 2 (Europe / USA / Japan / Asia) (Sat Mar 2 1996)\0", NULL, "Raizing / 8ing", "Toaplan GP9001 based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, bgaregt2RomInfo, bgaregt2RomName, battlegInputInfo, bgareggaDIPInfo,
-	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvBgaregnv = {
-	"bgaregnv", "bgaregga", NULL, "1996",
+	"bgaregganv", "bgaregga", NULL, "1996",
 	"Battle Garegga - New Version (Austria / Hong Kong) (Sat Mar 2 1996)\0", NULL, "Raizing / 8ing", "Toaplan GP9001 based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, bgaregnvRomInfo, bgaregnvRomName, battlegInputInfo, bgareghkDIPInfo,
-	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvBgareghk = {
-	"bgareghk", "bgaregga", NULL, "1996",
+	"bgareggahk", "bgaregga", NULL, "1996",
 	"Battle Garegga (Austria / Hong Kong) (Sat Feb 3 1996)\0", NULL, "Raizing / 8ing", "Toaplan GP9001 based",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
 	NULL, bgareghkRomInfo, bgareghkRomName, battlegInputInfo, bgareghkDIPInfo,
-	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette,
+	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
+	240, 320, 3, 4
+};
+
+struct BurnDriver BurnDrvBgaregtw = {
+	"bgareggatw", "bgaregga", NULL, "1996",
+	"Battle Garegga (Taiwan / Germany) (Thu Feb 1 1996)\0", NULL, "Raizing / 8ing", "Toaplan GP9001 based",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | TOA_ROTATE_GRAPHICS_CCW, 2, HARDWARE_TOAPLAN_RAIZING, GBF_VERSHOOT, 0,
+	NULL, bgaregtwRomInfo, bgaregtwRomName, battlegInputInfo, bgaregtwDIPInfo,
+	battlegInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &ToaRecalcPalette, 0x800,
 	240, 320, 3, 4
 };

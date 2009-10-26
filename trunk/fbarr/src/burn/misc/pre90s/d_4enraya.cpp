@@ -398,7 +398,7 @@ struct BurnDriver BurnDrvEnraya4 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_PUZZLE, 0,
 	NULL, enraya4RomInfo, enraya4RomName, Enraya4InputInfo, Enraya4DIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x8,
 	256, 224, 4, 3
 };
 

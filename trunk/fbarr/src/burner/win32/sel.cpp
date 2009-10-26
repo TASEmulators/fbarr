@@ -40,7 +40,8 @@ static HICON hDrvIconMiss;
 static char TreeBuilding		= 0;										// if 1, ignore TVN_SELCHANGED messages
 
 // Filter TreeView
-HWND hFilterList				= NULL;
+HWND hFilterList			= NULL;
+HTREEITEM hFilterAtari			= NULL;
 HTREEITEM hFilterCave			= NULL;
 HTREEITEM hFilterCps1			= NULL;
 HTREEITEM hFilterCps2			= NULL;
@@ -134,14 +135,15 @@ HTREEITEM hHardware			= NULL;
 #define MASKKONAMI		(1 << (HARDWARE_PREFIX_KONAMI			>> 24))
 #define MASKPACMAN		(1 << (HARDWARE_PREFIX_PACMAN			>> 24))
 #define MASKGALAXIAN		(1 << (HARDWARE_PREFIX_GALAXIAN			>> 24))
+#define MASKATARI		(0x1000 * (HARDWARE_PREFIX_ATARI			>> 24))
 #define MASKMISCPRE90S	(1 << (HARDWARE_PREFIX_MISC_PRE90S		>> 24))
 #define MASKMISCPOST90S	(1 << (HARDWARE_PREFIX_MISC_POST90S		>> 24))
-#define MASKALL			(MASKCPS | MASKCPS2 | MASKCPS3 | MASKNEOGEO | MASKSEGA | MASKTOAPLAN | MASKCAVE | MASKPGM | MASKTAITO | MASKPSIKYO | MASKKANEKO16 | MASKKONAMI | MASKPACMAN | MASKGALAXIAN | MASKMEGADRIVE | MASKMISCPRE90S | MASKMISCPOST90S)
+#define MASKALL			(MASKCPS | MASKCPS2 | MASKCPS3 | MASKNEOGEO | MASKSEGA | MASKTOAPLAN | MASKCAVE | MASKPGM | MASKTAITO | MASKPSIKYO | MASKKANEKO16 | MASKKONAMI | MASKPACMAN | MASKGALAXIAN | MASKATARI | MASKMEGADRIVE | MASKMISCPRE90S | MASKMISCPOST90S)
 
-#define AVAILONLY		(1 << 17)
-#define AUTOEXPAND		(1 << 18)
-#define SHOWSHORT		(1 << 19)
-#define ASCIIONLY		(1 << 20)
+#define AVAILONLY		(1 << 18)
+#define AUTOEXPAND		(1 << 19)
+#define SHOWSHORT		(1 << 20)
+#define ASCIIONLY		(1 << 21)
 
 #define MASKBOARDTYPEGENUINE	(1)
 #define MASKFAMILYOTHER		0x10000000
@@ -388,6 +390,7 @@ static int SelListMake()
 		//}
 
 		int nHardware = 1 << (BurnDrvGetHardwareCode() >> 24);
+		if ((BurnDrvGetHardwareCode() >> 24) == (HARDWARE_PREFIX_ATARI >> 24)) nHardware = MASKATARI;
 		if ((nHardware & MASKALL) && ((nHardware & nLoadMenuShowX) || (nHardware & MASKALL) == 0)) {
 			continue;
 		}
@@ -430,6 +433,7 @@ static int SelListMake()
 		//}
 
 		int nHardware = 1 << (BurnDrvGetHardwareCode() >> 24);
+		if ((BurnDrvGetHardwareCode() >> 24) == (HARDWARE_PREFIX_ATARI >> 24)) nHardware = MASKATARI;
 		if ((nHardware & MASKALL) && ((nHardware & nLoadMenuShowX) || ((nHardware & MASKALL) == 0))) {
 			continue;
 		}
@@ -741,6 +745,7 @@ static void CreateFilters()
 
 	_TVCreateFiltersB(hRoot			, IDS_SEL_HARDWARE, hHardware			);
 	
+	_TVCreateFiltersA(hHardware		, IDS_SEL_ATARI			, hFilterAtari			, nLoadMenuShowX & MASKATARI						);
 	_TVCreateFiltersA(hHardware		, IDS_SEL_CAVE			, hFilterCave			, nLoadMenuShowX & MASKCAVE							);
 	_TVCreateFiltersA(hHardware		, IDS_SEL_CPS1			, hFilterCps1			, nLoadMenuShowX & MASKCPS							);
 	_TVCreateFiltersA(hHardware		, IDS_SEL_CPS2			, hFilterCps2			, nLoadMenuShowX & MASKCPS2							);
@@ -969,6 +974,7 @@ static BOOL CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPara
 			if ((nLoadMenuShowX & MASKALL) == 0) {
 				_TreeView_SetCheckState(hFilterList, hItemChanged, FALSE);
 			
+				_TreeView_SetCheckState(hFilterList, hFilterAtari, FALSE);
 				_TreeView_SetCheckState(hFilterList, hFilterCave, FALSE);
 				_TreeView_SetCheckState(hFilterList, hFilterCps1, FALSE);
 				_TreeView_SetCheckState(hFilterList, hFilterCps2, FALSE);
@@ -991,6 +997,7 @@ static BOOL CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPara
 			} else {
 				_TreeView_SetCheckState(hFilterList, hItemChanged, TRUE);
 			
+				_TreeView_SetCheckState(hFilterList, hFilterAtari, TRUE);
 				_TreeView_SetCheckState(hFilterList, hFilterCave, TRUE);
 				_TreeView_SetCheckState(hFilterList, hFilterCps1, TRUE);
 				_TreeView_SetCheckState(hFilterList, hFilterCps2, TRUE);
@@ -1009,7 +1016,7 @@ static BOOL CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPara
 				_TreeView_SetCheckState(hFilterList, hFilterMiscPost90s, TRUE);
 				_TreeView_SetCheckState(hFilterList, hFilterMegadrive, TRUE);
 				
-				nLoadMenuShowX &= 0xfffe0000;
+				nLoadMenuShowX &= 0xfffc0000;
 			}
 		}
 		
@@ -1127,6 +1134,7 @@ static BOOL CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lPara
 			}
 		}
 
+		if (hItemChanged == hFilterAtari)			_ToggleGameListing(nLoadMenuShowX, MASKATARI);
 		if (hItemChanged == hFilterCave)			_ToggleGameListing(nLoadMenuShowX, MASKCAVE);
 		if (hItemChanged == hFilterCps1)			_ToggleGameListing(nLoadMenuShowX, MASKCPS);
 		if (hItemChanged == hFilterCps2)			_ToggleGameListing(nLoadMenuShowX, MASKCPS2);

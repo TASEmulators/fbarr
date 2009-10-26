@@ -933,7 +933,7 @@ static int KuniokunInit()
 	return DrvInit(MCU_TYPE_KUNIOKUN);
 }
 
-static int KuniokubInit()
+static int KuniokunbInit()
 {
 	return DrvInit(MCU_TYPE_NONE);
 }
@@ -1269,7 +1269,7 @@ struct BurnDriver BurnDrvRenegade = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, DrvRomInfo, DrvRomName, DrvInputInfo, DrvDIPInfo,
 	RenegadeInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 240, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 240, 240, 4, 3
 };
 
 struct BurnDriver BurnDrvKuniokun = {
@@ -1279,15 +1279,15 @@ struct BurnDriver BurnDrvKuniokun = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, DrvjRomInfo, DrvjRomName, DrvInputInfo, DrvDIPInfo,
 	KuniokunInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 240, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 240, 240, 4, 3
 };
 
-struct BurnDriver BurnDrvKuniokub = {
-	"kuniokub", "renegade", NULL, "1986",
+struct BurnDriver BurnDrvKuniokunb = {
+	"kuniokunb", "renegade", NULL, "1986",
 	"Nekketsu Kouha Kunio-kun (Japan bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, DrvbRomInfo, DrvbRomName, DrvInputInfo, DrvDIPInfo,
-	KuniokubInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 240, 240, 4, 3
+	KuniokunbInit, DrvExit, DrvFrame, NULL, DrvScan,
+	0, NULL, NULL, NULL, NULL, 0x100, 240, 240, 4, 3
 };

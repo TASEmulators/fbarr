@@ -1330,35 +1330,35 @@ struct BurnDriver BurnDrvWwfwfest = {
 	BDF_GAME_WORKING, 4, HARDWARE_MISC_POST90S, GBF_VSFIGHT, 0,
 	NULL, DrvRomInfo, DrvRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	JBF_GAME_WORKING, DrvJukeboxInit, DrvJukeboxExit, DrvJukeboxFrame, NULL, 320, 240, 4, 3
+	JBF_GAME_WORKING, DrvJukeboxInit, DrvJukeboxExit, DrvJukeboxFrame, NULL, 0x2000, 320, 240, 4, 3
 };
 
-struct BurnDriver BurnDrvWwfwfsta = {
-	"wwfwfsta", "wwfwfest", NULL, "1991",
+struct BurnDriver BurnDrvWwfwfesta = {
+	"wwfwfesta", "wwfwfest", NULL, "1991",
 	"WWF WrestleFest (US Tecmo)\0", NULL, "Technos Japan (Tecmo License)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_MISC_POST90S, GBF_VSFIGHT, 0,
 	NULL, DrvaRomInfo, DrvaRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 320, 240, 4, 3
 };
 
-struct BurnDriver BurnDrvWwfwfstb = {
-	"wwfwfstb", "wwfwfest", NULL, "1991",
+struct BurnDriver BurnDrvWwfwfestb = {
+	"wwfwfestb", "wwfwfest", NULL, "1991",
 	"WWF WrestleFest (US bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 4, HARDWARE_MISC_POST90S, GBF_VSFIGHT, 0,
 	NULL, DrvbRomInfo, DrvbRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 320, 240, 4, 3
 };
 
-struct BurnDriver BurnDrvWwfwfstj = {
-	"wwfwfstj", "wwfwfest", NULL, "1991",
+struct BurnDriver BurnDrvWwfwfestj = {
+	"wwfwfestj", "wwfwfest", NULL, "1991",
 	"WWF WrestleFest (Japan)\0", NULL, "Technos Japan", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_MISC_POST90S, GBF_VSFIGHT, 0,
 	NULL, DrvjRomInfo, DrvjRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 320, 240, 4, 3
 };

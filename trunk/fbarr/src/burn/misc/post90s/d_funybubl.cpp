@@ -580,7 +580,7 @@ struct BurnDriver BurnDrvFunybubl = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, funybublRomInfo, funybublRomName, FunybublInputInfo, FunybublDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x300,
 	320, 224, 4, 3
 };
 
@@ -614,11 +614,11 @@ STD_ROM_PICK(funybubc)
 STD_ROM_FN(funybubc)
 
 struct BurnDriver BurnDrvFunybubc = {
-	"funybubc", "funybubl", NULL, "1999",
+	"funybublc", "funybubl", NULL, "1999",
 	"Funny Bubble (Comad version)\0", NULL, "Comad Industry Co Ltd", "misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, funybubcRomInfo, funybubcRomName, FunybublInputInfo, FunybublDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x300,
 	320, 224, 4, 3
 };

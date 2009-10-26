@@ -1358,7 +1358,7 @@ struct BurnDriver BurnDrvjack = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, jackRomInfo, jackRomName, JackInputInfo, JackDIPInfo,
-	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1392,7 +1392,7 @@ struct BurnDriver BurnDrvjack2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, jack2RomInfo, jack2RomName, JackInputInfo, Jack2DIPInfo,
-	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1426,7 +1426,7 @@ struct BurnDriver BurnDrvjack3 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, jack3RomInfo, jack3RomName, JackInputInfo, Jack3DIPInfo,
-	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1492,7 +1492,7 @@ struct BurnDriver BurnDrvtreahunt = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, treahuntRomInfo, treahuntRomName, JackInputInfo, TreahuntDIPInfo,
-	treahuntInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	treahuntInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1534,7 +1534,7 @@ struct BurnDriver BurnDrvzzyzzyxx = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, zzyzzyxxRomInfo, zzyzzyxxRomName, ZzyzzyxxInputInfo, ZzyzzyxxDIPInfo,
-	zzyzzyxxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	zzyzzyxxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1564,12 +1564,12 @@ STD_ROM_PICK(zzyzzyx2)
 STD_ROM_FN(zzyzzyx2)
 
 struct BurnDriver BurnDrvzzyzzyx2 = {
-	"zzyzzyx2", "zzyzzyxx", NULL, "1982",
+	"zzyzzyxx2", "zzyzzyxx", NULL, "1982",
 	"Zzyzzyxx (set 2)\0", NULL, "Cinematronics + Advanced Microcomputer Systems", "Jack the Giantkiller",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, zzyzzyx2RomInfo, zzyzzyx2RomName, ZzyzzyxxInputInfo, ZzyzzyxxDIPInfo,
-	zzyzzyxxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	zzyzzyxxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1604,7 +1604,7 @@ struct BurnDriver BurnDrvbrix = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, brixRomInfo, brixRomName, ZzyzzyxxInputInfo, ZzyzzyxxDIPInfo,
-	zzyzzyxxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	zzyzzyxxInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1638,7 +1638,7 @@ struct BurnDriver BurnDrvfreeze = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MISC, 0,
 	NULL, freezeRomInfo, freezeRomName, FreezeInputInfo, FreezeDIPInfo,
-	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1670,7 +1670,7 @@ struct BurnDriver BurnDrvsucasino = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_CASINO, 0,
 	NULL, sucasinoRomInfo, sucasinoRomName, SucasinoInputInfo, SucasinoDIPInfo,
-	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	jackInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1709,7 +1709,7 @@ struct BurnDriver BurnDrvtripool = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSMISC, 0,
 	NULL, tripoolRomInfo, tripoolRomName, TripoolInputInfo, NULL,
-	tripoolInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	tripoolInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1740,7 +1740,7 @@ struct BurnDriver BurnDrvtripoola = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SPORTSMISC, 0,
 	NULL, tripoolaRomInfo, tripoolaRomName, TripoolInputInfo, NULL,
-	tripoolInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	tripoolInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 
@@ -1808,7 +1808,7 @@ struct BurnDriver BurnDrvjoinem = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, joinemRomInfo, joinemRomName, JoinemInputInfo, JoinemDIPInfo,
-	joinemInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	joinemInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 240, 3, 4
 };
 
@@ -1856,7 +1856,7 @@ struct BurnDriver BurnDrvloverboy = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, loverboyRomInfo, loverboyRomName, LoverboyInputInfo, LoverboyDIPInfo,
-	loverboyInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	loverboyInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 240, 3, 4
 };
 
@@ -1930,7 +1930,7 @@ struct BurnDriver BurnDrvstriv = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_QUIZ, 0,
 	NULL, strivRomInfo, strivRomName, StrivInputInfo, StrivDIPInfo,
-	strivInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal,
+	strivInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvCalcPal, 0x100,
 	224, 256, 3, 4
 };
 

@@ -457,7 +457,7 @@ static int DrvInit(int (*pRomLoadCallback)())
 	ZetClose();
 
 	BurnYM3812Init(3579545, &crospangYM3812IrqHandler, crospangSynchroniseStream, 0);
-	BurnTimerAttachZet(3579545);
+	BurnTimerAttachZetYM3812(3579545);
 
 	MSM6295Init(0, 1056000 / 132, 100.0, 1);
 
@@ -628,7 +628,7 @@ static int DrvFrame()
 	SekSetIRQLine(6, SEK_IRQSTATUS_AUTO);
 
 	if (pBurnSoundOut) {
-		BurnTimerEndFrame(nTotalCycles[1]);
+		BurnTimerEndFrameYM3812(nTotalCycles[1]);
 		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
 		MSM6295Render(0, pBurnSoundOut, nBurnSoundLen);
 	}
@@ -703,7 +703,7 @@ struct BurnDriver BurnDrvCrospang = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, crospangRomInfo, crospangRomName, CrospangInputInfo, CrospangDIPInfo,
-	crospangInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	crospangInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x300,
 	320, 240, 4, 3
 };
 
@@ -741,7 +741,7 @@ struct BurnDriver BurnDrvHeuksun = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MISC, 0,
 	NULL, heuksunRomInfo, heuksunRomName, CrospangInputInfo, HeuksunDIPInfo,
-	heuksunInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	heuksunInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x300,
 	320, 240, 4, 3
 };
 
@@ -783,6 +783,6 @@ struct BurnDriver BurnDrvBestri = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, bestriRomInfo, bestriRomName, CrospangInputInfo, BestriDIPInfo,
-	bestriInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	bestriInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x300,
 	320, 240, 4, 3
 };

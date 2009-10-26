@@ -26,7 +26,7 @@
 #define OSC_NTSC 53693175
 #define OSC_PAL  53203424
 
-#define MAX_CARTRIDGE_SIZE	0x500000
+#define MAX_CARTRIDGE_SIZE	0xc00000
 #define MAX_SRAM_SIZE		0x010000
 
 static int cycles_68k, cycles_z80;
@@ -92,7 +92,7 @@ static struct PicoVideo *RamVReg;
 static struct PicoMisc *RamMisc;
 static struct MegadriveJoyPad *JoyPad;
 
-static unsigned short *CurPal;
+unsigned short *MegadriveCurPal;
 
 static unsigned char *HighCol;
 static unsigned char *HighColFull;
@@ -299,16 +299,16 @@ inline static void CalcCol(int index, unsigned short nColour)
 	RamPal[index] = nColour;
 	
 	// Normal Color
-	CurPal[index + 0x00] = BurnHighCol(r, g, b, 0);
+	MegadriveCurPal[index + 0x00] = BurnHighCol(r, g, b, 0);
 	
 	// Shadow Color
-	CurPal[index + 0x40] = CurPal[index + 0xc0] = BurnHighCol(r>>1, g>>1, b>>1, 0);
+	MegadriveCurPal[index + 0x40] = MegadriveCurPal[index + 0xc0] = BurnHighCol(r>>1, g>>1, b>>1, 0);
 	
 	// Highlight Color
 	r += 0x80; if (r > 0xFF) r = 0xFF;
 	g += 0x80; if (g > 0xFF) g = 0xFF;
 	b += 0x80; if (b > 0xFF) b = 0xFF;
-	CurPal[index + 0x80] = BurnHighCol(r, g, b, 0);
+	MegadriveCurPal[index + 0x80] = BurnHighCol(r, g, b, 0);
 }
 
 static int MemIndex()
@@ -332,7 +332,7 @@ static int MemIndex()
 	
 	RamEnd		= Next;
 
-	CurPal		= (unsigned short *) Next; Next += 0x000040 * sizeof(unsigned short) * 4;
+	MegadriveCurPal		= (unsigned short *) Next; Next += 0x000040 * sizeof(unsigned short) * 4;
 	
 	HighColFull	= Next; Next += (8 + 320 + 8) * 240;
 	
@@ -352,11 +352,14 @@ unsigned short __fastcall MegadriveReadWord(unsigned int sekAddress)
 {
 	switch (sekAddress) {
 		case 0xa11100: {
-			int retVal = 0;
-			if (Z80HasBus || MegadriveZ80Reset) retVal = 0x100;
+			unsigned short retVal = rand() & 0xffff;
+			if (Z80HasBus || MegadriveZ80Reset) {
+				retVal |= 0x100;
+			} else {
+				retVal &= 0xfeff;
+			}
 			return retVal;
 		}
-
 		
 		default: {
 			bprintf(PRINT_NORMAL, _T("Attempt to read word value of location %x\n"), sekAddress);
@@ -380,10 +383,14 @@ unsigned char __fastcall MegadriveReadByte(unsigned int sekAddress)
 		}
 				
 		case 0xa11100: {
-			int retVal = 0;
-			if (Z80HasBus || MegadriveZ80Reset) retVal = 0x01;
+			unsigned char retVal = rand() & 0xff;
+			if (Z80HasBus || MegadriveZ80Reset) {
+				retVal |= 0x01;
+			} else {
+				retVal &= 0xfe;
+			}
 			return retVal;
-		}		
+		}
 
 		default: {
 			bprintf(PRINT_NORMAL, _T("Attempt to read byte value of location %x\n"), sekAddress);
@@ -840,9 +847,10 @@ unsigned short __fastcall MegadriveVideoReadWord(unsigned int sekAddress)
 			res <<= 8;
 			res |= hc;
 		}
+		break;
 		
 	default:	
-		//bprintf(PRINT_NORMAL, _T("Video Attempt to read word value of location %x\n"), sekAddress);
+		bprintf(PRINT_NORMAL, _T("Video Attempt to read word value of location %x, %x\n"), sekAddress, sekAddress & 0x1c);
 		break;
 	}	
 	
@@ -1398,10 +1406,10 @@ int MegadriveInit()
 	if ( res == 0 ) {
 		struct BurnRomInfo ri;
 		BurnDrvGetRomInfo(&ri, 0);
-		RomSize = ri.nLen;
+		RomSize = ri.nLen;		
 		if (!RomNoByteswap) Byteswap(RomMain, RomSize);
 	}
-	
+
 	// preset sram to 0xff ???
 	memset(SRam, 0xFF, MAX_SRAM_SIZE);
 	
@@ -1415,7 +1423,8 @@ int MegadriveInit()
 		
 		SekMapHandler(1,			0xC00000, 0xC0001F, SM_RAM);	// Video Port
 		SekMapHandler(2,			0xA00000, 0xA01FFF, SM_RAM);	// Z80 Ram
-		SekMapHandler(3,			0xA10000, 0xA1001F, SM_RAM);	// I/O
+		SekMapHandler(3,			0xA02000, 0xA03FFF, SM_RAM);	// Z80 Ram
+		SekMapHandler(4,			0xA10000, 0xA1001F, SM_RAM);	// I/O
 		
 		SekSetReadByteHandler (0, MegadriveReadByte);
 		SekSetReadWordHandler (0, MegadriveReadWord);
@@ -1431,11 +1440,16 @@ int MegadriveInit()
 		SekSetReadWordHandler (2, MegadriveZ80RamReadWord);
 		SekSetWriteByteHandler(2, MegadriveZ80RamWriteByte);
 		SekSetWriteWordHandler(2, MegadriveZ80RamWriteWord);
+		
+		SekSetReadByteHandler (3, MegadriveZ80RamReadByte);
+		SekSetReadWordHandler (3, MegadriveZ80RamReadWord);
+		SekSetWriteByteHandler(3, MegadriveZ80RamWriteByte);
+		SekSetWriteWordHandler(3, MegadriveZ80RamWriteWord);
 
-		SekSetReadByteHandler (3, MegadriveIOReadByte);
-		SekSetReadWordHandler (3, MegadriveIOReadWord);
-		SekSetWriteByteHandler(3, MegadriveIOWriteByte);
-		SekSetWriteWordHandler(3, MegadriveIOWriteWord);
+		SekSetReadByteHandler (4, MegadriveIOReadByte);
+		SekSetReadWordHandler (4, MegadriveIOReadWord);
+		SekSetWriteByteHandler(4, MegadriveIOWriteByte);
+		SekSetWriteWordHandler(4, MegadriveIOWriteWord);
 
 		SekSetIrqCallback( MegadriveIrqCallback );
 	}
@@ -1471,6 +1485,8 @@ int MegadriveInit()
 	SN76496Init(0, OSC_NTSC / 15, 1);
 	
 	if (MegadriveCallback) MegadriveCallback();
+	
+	pBurnDrvPalette = (unsigned int*)MegadriveCurPal;
 	
 	MegadriveResetDo();	
 
@@ -1549,6 +1565,32 @@ int MegadriveSsf2Init()
 	return MegadriveInit();
 }
 
+static void RiseRealDumpLoad()
+{
+	BurnLoadRom(RomMain + 0x200000, 1, 1);
+}
+
+int MegadriveRiseRealDumpInit()
+{
+	MegadriveCallback = RiseRealDumpLoad;
+	
+	RomNoByteswap = 1;
+	return MegadriveInit();
+}
+
+static void F22RealDumpLoad()
+{
+	BurnLoadRom(RomMain + 0x080000, 1, 2);
+}
+
+int MegadriveF22RealDumpInit()
+{
+	MegadriveCallback = F22RealDumpLoad;
+	
+	RomNoByteswap = 1;
+	return MegadriveInit();
+}
+
 static void MegadriveMapSRAM_0x200000_0x800()
 {
 	SekOpen(0);
@@ -1608,6 +1650,14 @@ static void MegadriveMapSRAM_0x200000_0x10000()
 
 int MegadriveBackup_0x200000_0x10000_Init()
 {
+	MegadriveCallback = MegadriveMapSRAM_0x200000_0x10000;
+	
+	return MegadriveInit();
+}
+
+int MegadriveNoByteswapBackup_0x200000_0x10000_Init()
+{
+	RomNoByteswap = 1;
 	MegadriveCallback = MegadriveMapSRAM_0x200000_0x10000;
 	
 	return MegadriveInit();
@@ -1701,15 +1751,14 @@ int MegadriveBackup_Sks3_0x4000_Init()
 
 unsigned char __fastcall RadicaBankSelectByte(unsigned int sekAddress)
 {
-	bprintf(PRINT_IMPORTANT, _T("Byte %06x\n"), sekAddress);
+	bprintf(PRINT_IMPORTANT, _T("Radica Bank Read Byte %06x\n"), sekAddress);
 	
 	return 0;
 }
 
 unsigned short __fastcall RadicaBankSelectWord(unsigned int sekAddress)
 {
-	int Bank = (sekAddress >> 1) & 0x3f;
-	bprintf(PRINT_NORMAL, _T("%x\n"), Bank * 0x10000);
+	int Bank = ((sekAddress - 0xa13000) >> 1) & 0x3f;
 	memcpy(RomMain, RomMain + (Bank * 0x10000) + 0x400000, 0x400000);
 	
 	return 0;
@@ -1717,15 +1766,14 @@ unsigned short __fastcall RadicaBankSelectWord(unsigned int sekAddress)
 
 static void MapRadicaBanks()
 {
-//	memcpy(RomMain + 0x400000, RomMain, 0x400000);
-//	memcpy(RomMain + 0x800000, RomMain, 0x400000);
+	memcpy(RomMain + 0x400000, RomMain + 0x000000, 0x400000);
+	memcpy(RomMain + 0x800000, RomMain + 0x000000, 0x400000);
 	
-//	SekOpen(0);
-//	SekMapMemory(RomMain, 0x000000, 0xbfffff, SM_ROM);
-//	SekMapHandler(6, 0xa13000, 0xa1307f, SM_READ);
-//	SekSetReadByteHandler(6, RadicaBankSelectByte);
-//	SekSetReadWordHandler(6, RadicaBankSelectWord);
-//	SekClose();
+	SekOpen(0);
+	SekMapHandler(6, 0xa13000, 0xa1307f, SM_READ);
+	SekSetReadByteHandler(6, RadicaBankSelectByte);
+	SekSetReadWordHandler(6, RadicaBankSelectWord);
+	SekClose();
 }
 
 int RadicaInit()
@@ -2800,7 +2848,7 @@ static void MegadriveDraw()
 		for (int j=0; j<224; j++) {
 			unsigned char * pSrc = HighColFull + (j+9)*(8+320+8) + 8;
 			for (int i=0;i<320;i++)
-				pDest[i] = CurPal[ pSrc[i] ];
+				pDest[i] = MegadriveCurPal[ pSrc[i] ];
 			pDest += 320;
 		}
 	
@@ -2815,7 +2863,7 @@ static void MegadriveDraw()
 				memset((unsigned char *)pDest -  32*2, 0, 64);
 				
 				for (int i=0;i<256;i++)
-					pDest[i] = CurPal[ pSrc[i] ];
+					pDest[i] = MegadriveCurPal[ pSrc[i] ];
 				
 				memset((unsigned char *)pDest + 256*2, 0, 64);
 				
@@ -2827,7 +2875,7 @@ static void MegadriveDraw()
 				unsigned char * pSrc = HighColFull + (j+9)*(8+320+8) + 8;
 				unsigned int delta = 0;
 				for (int i=0;i<320;i++) {
-					pDest[i] = CurPal[ pSrc[ delta >> 16 ] ];
+					pDest[i] = MegadriveCurPal[ pSrc[ delta >> 16 ] ];
 					delta += 0xCCCC;
 				}
 				pDest += 320;

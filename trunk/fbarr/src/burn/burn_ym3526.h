@@ -13,6 +13,7 @@ int BurnTimerAttachHD6309YM3526(int nClockspeed);
 int BurnTimerAttachM6800YM3526(int nClockspeed);
 int BurnTimerAttachHD63701YM3526(int nClockspeed);
 int BurnTimerAttachM6803YM3526(int nClockspeed);
+int BurnTimerAttachM6502YM3526(int nClockspeed);
 
 extern "C" void BurnYM3526UpdateRequest();
 

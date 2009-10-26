@@ -4,6 +4,7 @@
 
 static unsigned char *USER1, *USER2;
 static unsigned short *olds_sharedprotram;
+static unsigned char PGMARM7Latch;
 
 int pstarsScan(int nAction,int */*pnMin*/);
 int killbldtScan(int nAction,int */*pnMin*/);
@@ -997,7 +998,8 @@ void install_protection_puzlstar()
 //-----------------------------------------------------------------------------------------------------
 // ASIC27A - Kov2, Martmast, etc
 
-static unsigned char PGMARM7Latch = 0;
+static unsigned char PGM_55857F_68k_w = 0;
+static unsigned char PGM_55857F_arm_w = 0;
 
 static inline void pgm_cpu_sync()
 {
@@ -1017,7 +1019,7 @@ void __fastcall asic27A_write_word(unsigned int address, unsigned short data)
 {
 	if ((address & 0xfffffe) == 0xd10000) {
 	//	pgm_cpu_sync();
-		PGMARM7Latch = data & 0xff;
+		PGM_55857F_68k_w = data & 0xff;
 		Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_HOLD_LINE);
 		return;
 	}
@@ -1032,9 +1034,9 @@ unsigned char __fastcall asic27A_read_byte(unsigned int address)
 
 	if ((address & 0xfffffc) == 0xd10000) {
 		pgm_cpu_sync();
-		return PGMARM7Latch;
+		return PGM_55857F_arm_w;
 	}
-	
+
 	return 0;
 }
 
@@ -1047,9 +1049,9 @@ unsigned short __fastcall asic27A_read_word(unsigned int address)
 
 	if ((address & 0xfffffc) == 0xd10000) {
 		pgm_cpu_sync();
-		return PGMARM7Latch;
+		return PGM_55857F_arm_w;
 	}
-	
+
 	return 0;
 }
 
@@ -1058,7 +1060,7 @@ void asic27A_arm7_write_byte(unsigned int address, unsigned char data)
 	switch (address)
 	{
 		case 0x38000000:
-			PGMARM7Latch = data;
+			PGM_55857F_arm_w = data;
 		return;
 	}
 }
@@ -1068,9 +1070,9 @@ unsigned char asic27A_arm7_read_byte(unsigned int address)
 	switch (address)
 	{
 		case 0x38000000:
-			return PGMARM7Latch;
+			return PGM_55857F_68k_w;
 	}
-	
+
 	return 0;
 }
 
@@ -1532,7 +1534,8 @@ int asic27AScan(int nAction,int *)
 	if (nAction & ACB_DRIVER_DATA) {
 		Arm7Scan(nAction);
 
-		SCAN_VAR(PGMARM7Latch);
+		SCAN_VAR(PGM_55857F_68k_w);
+		SCAN_VAR(PGM_55857F_arm_w);
 	}
 
  	return 0;

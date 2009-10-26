@@ -616,7 +616,7 @@ struct BurnDriver BurnDrvAliens = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_KONAMI, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, aliensRomInfo, aliensRomName, AliensInputInfo, AliensDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	288, 224, 4, 3
 };
 
@@ -653,7 +653,7 @@ struct BurnDriver BurnDrvAliens2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, aliens2RomInfo, aliens2RomName, AliensInputInfo, AliensDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	288, 224, 4, 3
 };
 
@@ -690,7 +690,7 @@ struct BurnDriver BurnDrvAliens3 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, aliens3RomInfo, aliens3RomName, AliensInputInfo, AliensDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	288, 224, 4, 3
 };
 
@@ -727,7 +727,7 @@ struct BurnDriver BurnDrvAliensu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, aliensuRomInfo, aliensuRomName, AliensInputInfo, AliensDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	288, 224, 4, 3
 };
 
@@ -764,7 +764,7 @@ struct BurnDriver BurnDrvAliensj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, aliensjRomInfo, aliensjRomName, AliensInputInfo, AliensDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	288, 224, 4, 3
 };
 
@@ -801,7 +801,7 @@ struct BurnDriver BurnDrvAliensj2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, aliensj2RomInfo, aliensj2RomName, AliensInputInfo, AliensDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	288, 224, 4, 3
 };
 
@@ -834,10 +834,10 @@ STD_ROM_FN(aliensa)
 
 struct BurnDriver BurnDrvAliensa = {
 	"aliensa", "aliens", NULL, "1990",
-	"Aliensa (Asia)\0", NULL, "Konami", "GX875",
+	"Aliens (Asia)\0", NULL, "Konami", "GX875",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, aliensaRomInfo, aliensaRomName, AliensInputInfo, AliensDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x200,
 	288, 224, 4, 3
 };

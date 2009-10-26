@@ -12,9 +12,13 @@ static unsigned short K053247Regs[16];
 static unsigned char *K053246Gfx;
 static unsigned int   K053246Mask;
 
+static unsigned short *K053247Temp = NULL;
+
 static int K053247_dx;
 static int K053247_dy;
 static int K053247_wraparound;
+
+static int K053247Flags;
 
 static void (*K053247Callback)(int *code, int *color, int *priority);
 
@@ -53,7 +57,7 @@ void K053247Scan(int nAction)
 	}
 }
 
-void K053247Init(unsigned char *gfxrom, int gfxlen, void (*Callback)(int *code, int *color, int *priority))
+void K053247Init(unsigned char *gfxrom, int gfxlen, void (*Callback)(int *code, int *color, int *priority), int flags)
 {
 	K053247Ram = (unsigned char*)malloc(0x1000);
 
@@ -66,15 +70,29 @@ void K053247Init(unsigned char *gfxrom, int gfxlen, void (*Callback)(int *code, 
 	K053247_dy = 0;
 	K053247_wraparound = 1;
 
+	if (konami_temp_screen == NULL) {
+		int width, height;
+		BurnDrvGetVisibleSize(&width, &height);
+		konami_temp_screen = (unsigned short*)malloc(width * height * 2);
+	}
+
+	K053247Temp = konami_temp_screen;
+
+	K053247Flags = flags; // 0x02 highlight, 0x01 shadow
+
 	KonamiIC_K053247InUse = 1;
 }
 
 void K053247Exit()
 {
+	K053247Temp = NULL;
+
 	if (K053247Ram) {
 		free (K053247Ram);
 		K053247Ram = NULL;
 	}
+
+	K053247Flags = 0;
 
 	memset (K053247Regs, 0, 16 * sizeof(short));
 }
@@ -161,9 +179,66 @@ int K053246_is_IRQ_enabled()
 	return K053246Regs[5] & 0x10;
 }
 
+static void RenderZoomedShadowTile(unsigned char *gfx, int code, int color, unsigned char *t, int sx, int sy, int fx, int fy, int width, int height, int zoomx, int zoomy, int highlight)
+{
+	int h = ((zoomy << 4) + 0x8000) >> 16;
+	int w = ((zoomx << 4) + 0x8000) >> 16;
+
+	if (!h || !w || sx + w < 0 || sy + h < 0 || sx >= nScreenWidth || sy >= nScreenHeight) return;
+
+	if (fy) fy  = (height-1)*width;
+	if (fx) fy |= (width-1);
+
+	int hz = (height << 12) / h;
+	int wz = (width << 12) / w;
+
+	int starty = 0, startx = 0, endy = h, endx = w;
+	if (sy < 0) starty = 0 - sy;
+	if (sx < 0) startx = 0 - sx;
+	if (sy + h >= nScreenHeight) endy -= (h + sy) - nScreenHeight;
+	if (sx + w >= nScreenWidth ) endx -= (w + sx) - nScreenWidth;
+
+	unsigned char  *src = gfx + (code * width * height);
+	unsigned short *dst = K053247Temp + (sy + starty) * nScreenWidth + sx;
+	unsigned short *pTemp = pTransDraw + (sy + starty) * nScreenWidth + sx;
+
+	int or1 = 0x8000 >> highlight;
+
+	for (int y = starty; y < endy; y++)
+	{
+		int zy = ((y * hz) >> 12) * width;
+
+		for (int x = startx; x < endx; x++)
+		{
+			int pxl = src[(zy + ((x * wz) >> 12)) ^ fy];
+
+			if (pxl) {
+				if (t[pxl] == 2) {
+					dst[x] = color | pxl;
+					pTemp[x] |= or1;
+				} else {
+					pTemp[x] = color | pxl;
+				}
+			}
+		}
+
+		dst += nScreenWidth;
+		pTemp += nScreenWidth;
+	}
+}
+
 void K053247SpritesRender(unsigned char *gfxbase, int priority)
 {
 #define NUM_SPRITES 256
+
+	unsigned char dtable[256];
+	unsigned char stable[256];
+	unsigned char *wtable;
+
+	memset(dtable, 1, 256);
+	dtable[0] = 0;
+	memset(stable, 2, 256);
+	stable[0] = 0;
 
 	static const int xoffset[8] = { 0, 1, 4, 5, 16, 17, 20, 21 };
 	static const int yoffset[8] = { 0, 2, 8, 10, 32, 34, 40, 42 };
@@ -171,7 +246,7 @@ void K053247SpritesRender(unsigned char *gfxbase, int priority)
 	int sortedlist[NUM_SPRITES];
 	int offs,zcode;
 	int ox,oy,color,code,size,w,h,x,y,xa,ya,flipx,flipy,mirrorx,mirrory,shadow,zoomx,zoomy,primask;
-	int nozoom,count,temp;//shdmask,
+	int nozoom,count,temp,shdmask;
 
 	int flipscreenx = K053246Regs[5] & 0x01;
 	int flipscreeny = K053246Regs[5] & 0x02;
@@ -180,28 +255,20 @@ void K053247SpritesRender(unsigned char *gfxbase, int priority)
 
 	unsigned short *SprRam = (unsigned short*)K053247Ram;
 
-	int screen_width = nScreenWidth-1; //video_screen_get_width(machine->primary_screen);
-//	UINT8 drawmode_table[256];
-//	UINT8 shadowmode_table[256];
-//	UINT8 *whichtable;
+	int screen_width = nScreenWidth-1;
 
-//	memset(drawmode_table, DRAWMODE_SOURCE, sizeof(drawmode_table));
-//	drawmode_table[0] = DRAWMODE_NONE;
-//	memset(shadowmode_table, DRAWMODE_SHADOW, sizeof(shadowmode_table));
-//	shadowmode_table[0] = DRAWMODE_NONE;
-
-//	if (machine->config->video_attributes & VIDEO_HAS_SHADOWS)
-//	{
-//		if (bitmap->bpp == 32 && (machine->config->video_attributes & VIDEO_HAS_HIGHLIGHTS))
-//			shdmask = 3; // enable all shadows and highlights
-//		else
-//			shdmask = 0; // enable default shadows
-//	}
-//	else
-//		shdmask = -1; // disable everything
+	if (K053247Flags & 1) {
+		if (K053247Flags & 2) {
+			shdmask = 3;
+		} else {
+			shdmask = 0;
+		}
+	} else {
+		shdmask = -1;
+	}
 
 	// Prebuild a sorted table by descending Z-order.
-	zcode = -1; //K05324x_z_rejection;
+	zcode = K05324xZRejection;
 	offs = count = 0;
 
 	if (zcode == -1)
@@ -252,7 +319,7 @@ void K053247SpritesRender(unsigned char *gfxbase, int priority)
 
 	for (int i = 0; i <= count; i++)
 	{
-		offs = sortedlist[i]; //count];
+		offs = sortedlist[i];
 
 		code = SprRam[offs+1];
 		shadow = color = SprRam[offs+6];
@@ -317,26 +384,29 @@ void K053247SpritesRender(unsigned char *gfxbase, int priority)
 		if (mirrorx) flipx = 0; // documented and confirmed
 		mirrory = shadow & 0x8000;
 
-	//	whichtable = drawmode_table;
-	//	if (color == -1)
-	//	{
-	//		// drop the entire sprite to shadow unconditionally
-	//		if (shdmask < 0) continue;
-	//		color = 0;
-	//		shadow = -1;
-	//		whichtable = shadowmode_table;
-	//		palette_set_shadow_mode(machine, 0);
-	//	}
-	//	else
-	//	{
-	//		if (shdmask >= 0)
-	//		{
-	//			shadow = (color & K053247_CUSTOMSHADOW) ? (color>>K053247_SHDSHIFT) : (shadow>>10);
-	//			if (shadow &= 3) palette_set_shadow_mode(machine, (shadow-1) & shdmask);
-	//		}
-	//		else
-	//			shadow = 0;
-	//	}
+		int highlight = 0;
+
+		wtable = dtable;
+		if (color == -1)
+		{
+			// drop the entire sprite to shadow unconditionally
+			if (shdmask < 0) continue;
+			color = 0;
+			shadow = -1;
+			wtable = stable;
+		}
+		else
+		{
+			if (shdmask >= 0)
+			{
+				shadow = (color & 0x20000000) ? (color >> 20) : (shadow >> 10);
+				if (shadow &= 3) {
+					if (((shadow-1) & shdmask) == 1) highlight = 1;
+				}
+			}
+			else
+				shadow = 0;
+		}
 
 		color &= 0xffff; // strip attribute flags
 
@@ -376,7 +446,7 @@ void K053247SpritesRender(unsigned char *gfxbase, int priority)
 		ox -= (zoomx * w) >> 13;
 		oy -= (zoomy * h) >> 13;
 
-	//	drawmode_table[K053247_gfx->color_granularity-1] = shadow ? DRAWMODE_SHADOW : DRAWMODE_SOURCE;
+		dtable[15] = shadow ? 2 : 1;
 
 		for (y = 0;y < h;y++)
 		{
@@ -412,6 +482,7 @@ void K053247SpritesRender(unsigned char *gfxbase, int priority)
 					else c += xoffset[(x+xa)&7];
 					fx = flipx;
 				}
+
 				if (mirrory)
 				{
 					if ((flipy == 0) ^ ((y<<1) >= h))
@@ -433,27 +504,35 @@ void K053247SpritesRender(unsigned char *gfxbase, int priority)
 					fy = flipy;
 				}
 
-				if (mirrory && h == 1)  /* Simpsons shadows */
+				if (shadow || wtable == stable) {
+					if (mirrory && h == 1)
+						RenderZoomedShadowTile(gfxbase, c, color << 4, wtable, sx, sy, flipx, !flipy, 16, 16, zw << 12, zh << 12, highlight);
+
+					RenderZoomedShadowTile(gfxbase, c, color << 4, wtable, sx, sy, flipx,  flipy, 16, 16, zw << 12, zh << 12, highlight);
+					continue;
+				}
+
+				if (mirrory && h == 1)
 				{
 					if (nozoom)
 					{
 						if (!flipy) {
 							if (flipx) {
-								Render16x16Tile_Mask_FlipXY_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* fix */, 0, gfxbase);
+								Render16x16Tile_Mask_FlipXY_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxbase);
 							} else {
-								Render16x16Tile_Mask_FlipY_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* fix */, 0, gfxbase);
+								Render16x16Tile_Mask_FlipY_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxbase);
 							}
 						} else {
 							if (flipx) {
-								Render16x16Tile_Mask_FlipX_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* fix */, 0, gfxbase);
+								Render16x16Tile_Mask_FlipX_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxbase);
 							} else {
-								Render16x16Tile_Mask_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* fix */, 0, gfxbase);
+								Render16x16Tile_Mask_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxbase);
 							}
 						}
 					}
 					else
 					{
-						RenderZoomedTile(pTransDraw, gfxbase, c, color << 4, 0 /* fix */, sx, sy, fx, !fy, 16, 16, (zw << 16) >> 4, (zh << 16) >> 4);
+						RenderZoomedTile(pTransDraw, gfxbase, c, color << 4, 0, sx, sy, fx, !fy, 16, 16, (zw << 16) >> 4, (zh << 16) >> 4);
 					}
 				}
 
@@ -461,21 +540,21 @@ void K053247SpritesRender(unsigned char *gfxbase, int priority)
 				{
 					if (flipy) {
 						if (flipx) {
-							Render16x16Tile_Mask_FlipXY_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* fix */, 0, gfxbase);
+							Render16x16Tile_Mask_FlipXY_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxbase);
 						} else {
-							Render16x16Tile_Mask_FlipY_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* fix */, 0, gfxbase);
+							Render16x16Tile_Mask_FlipY_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxbase);
 						}
 					} else {
 						if (flipx) {
-							Render16x16Tile_Mask_FlipX_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* fix */, 0, gfxbase);
+							Render16x16Tile_Mask_FlipX_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxbase);
 						} else {
-							Render16x16Tile_Mask_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* fix */, 0, gfxbase);
+							Render16x16Tile_Mask_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxbase);
 						}
 					}
 				}
 				else
 				{
-					RenderZoomedTile(pTransDraw, gfxbase, c, color << 4, 0 /* fix */, sx, sy, fx, fy, 16, 16, (zw << 16) >> 4, (zh << 16) >> 4);
+					RenderZoomedTile(pTransDraw, gfxbase, c, color << 4, 0, sx, sy, fx, fy, 16, 16, (zw << 16) >> 4, (zh << 16) >> 4);
 				}
 
 

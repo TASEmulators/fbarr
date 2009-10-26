@@ -1228,7 +1228,7 @@ struct BurnDriver BurnDrvAerofgt = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, FBF_SONICWI,
 	NULL, aerofgtRomInfo, aerofgtRomName, aerofgtInputInfo, aerofgtDIPInfo,
 	aerofgtInit,DrvExit,DrvFrame,DrvDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL, 224,320,3,4
+	0, NULL, NULL, NULL, NULL, 0x800, 224,320,3,4
 };
 
 // ------------------------------------------------------
@@ -2205,7 +2205,7 @@ struct BurnDriver BurnDrvTurbofrc = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 3, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, turbofrcRomInfo, turbofrcRomName, turbofrcInputInfo, turbofrcDIPInfo,
 	turbofrcInit,DrvExit,turbofrcFrame,turbofrcDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL,240,352,3,4
+	0, NULL, NULL, NULL, NULL, 0x800,240,352,3,4
 };
 
 
@@ -2845,27 +2845,27 @@ struct BurnDriver BurnDrvKaratblz = {
 	BDF_GAME_WORKING | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, karatblzRomInfo, karatblzRomName, karatblzInputInfo, karatblzDIPInfo,
 	karatblzInit,DrvExit,karatblzFrame,karatblzDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL,352,240,4,3
+	0, NULL, NULL, NULL, NULL, 0x800,352,240,4,3
 };
 
 struct BurnDriver BurnDrvKaratblu = {
-	"karatblu", "karatblz", NULL, "1991",
+	"karatblzu", "karatblz", NULL, "1991",
 	"Karate Blazers (US)\0", NULL, "Video System Co.", "Video System",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, karatbluRomInfo, karatbluRomName, karatblzInputInfo, karatblzDIPInfo,
 	karatblzInit,DrvExit,karatblzFrame,karatblzDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL,352,240,4,3
+	0, NULL, NULL, NULL, NULL, 0x800,352,240,4,3
 };
 
 struct BurnDriver BurnDrvKaratblj = {
-	"karatblj", "karatblz", NULL, "1991",
+	"karatblzj", "karatblz", NULL, "1991",
 	"Karate Blazers (Japan)\0", NULL, "Video System Co.", "Video System",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, karatbljRomInfo, karatbljRomName, karatblzInputInfo, karatblzDIPInfo,
 	karatblzInit,DrvExit,karatblzFrame,karatblzDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL,352,240,4,3
+	0, NULL, NULL, NULL, NULL, 0x800,352,240,4,3
 };
 
 // -----------------------------------------------------------
@@ -3507,27 +3507,27 @@ struct BurnDriver BurnDrvSpinlbrk = {
 	BDF_GAME_WORKING | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_SHOOT, 0,
 	NULL, spinlbrkRomInfo, spinlbrkRomName, spinlbrkInputInfo, spinlbrkDIPInfo,
 	spinlbrkInit,DrvExit,spinlbrkFrame,spinlbrkDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL,352,240,4,3
+	0, NULL, NULL, NULL, NULL, 0x800,352,240,4,3
 };
 
 struct BurnDriver BurnDrvSpinlbru = {
-	"spinlbru", "spinlbrk", NULL, "1990",
+	"spinlbrku", "spinlbrk", NULL, "1990",
 	"Spinal Breakers (US)\0", NULL, "V-System Co.", "V-System",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_SHOOT, 0,
 	NULL, spinlbruRomInfo, spinlbruRomName, spinlbrkInputInfo, spinlbruDIPInfo,
 	spinlbrkInit,DrvExit,spinlbrkFrame,spinlbrkDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL,352,240,4,3
+	0, NULL, NULL, NULL, NULL, 0x800,352,240,4,3
 };
 
 struct BurnDriver BurnDrvSpinlbrj = {
-	"spinlbrj", "spinlbrk", NULL, "1990",
+	"spinlbrkj", "spinlbrk", NULL, "1990",
 	"Spinal Breakers (Japan)\0", NULL, "V-System Co.", "V-System",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_SHOOT, 0,
 	NULL, spinlbrjRomInfo, spinlbrjRomName, spinlbrkInputInfo, spinlbrjDIPInfo,
 	spinlbrkInit,DrvExit,spinlbrkFrame,spinlbrkDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL,352,240,4,3
+	0, NULL, NULL, NULL, NULL, 0x800,352,240,4,3
 };
 
 // -------------------------------------------------------
@@ -4391,7 +4391,7 @@ struct BurnDriver BurnDrvAerofgtb = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, FBF_SONICWI,
 	NULL, aerofgtbRomInfo, aerofgtbRomName, aerofgtInputInfo, aerofgtbDIPInfo,
 	aerofgtbInit,DrvExit,aerofgtbFrame,aerofgtbDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL, 224,320,3,4
+	0, NULL, NULL, NULL, NULL, 0x800, 224,320,3,4
 };
 
 struct BurnDriver BurnDrvAerofgtc = {
@@ -4401,7 +4401,7 @@ struct BurnDriver BurnDrvAerofgtc = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, FBF_SONICWI,
 	NULL, aerofgtcRomInfo, aerofgtcRomName, aerofgtInputInfo, aerofgtDIPInfo,
 	aerofgtbInit,DrvExit,aerofgtbFrame,aerofgtbDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL, 224,320,3,4
+	0, NULL, NULL, NULL, NULL, 0x800, 224,320,3,4
 };
 
 struct BurnDriver BurnDrvSonicwi = {
@@ -4411,6 +4411,6 @@ struct BurnDriver BurnDrvSonicwi = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, FBF_SONICWI,
 	NULL, sonicwiRomInfo, sonicwiRomName, aerofgtInputInfo, aerofgtDIPInfo,
 	aerofgtbInit,DrvExit,aerofgtbFrame,aerofgtbDraw,DrvScan,
-	0, NULL, NULL, NULL, NULL, 224,320,3,4
+	0, NULL, NULL, NULL, NULL, 0x800, 224,320,3,4
 };
 

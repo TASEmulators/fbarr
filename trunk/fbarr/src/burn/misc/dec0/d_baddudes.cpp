@@ -471,7 +471,7 @@ struct BurnDriverD BurnDrvbaddudes = {
 		BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 		NULL, baddudesRomInfo, baddudesRomName, baddudesInputInfo, NULL,
 		baddudesInit, baddudesExit, baddudesFrame, NULL, baddudesScan,
-		0, NULL, NULL, NULL, NULL, 256, 256, 4, 3
+		0, NULL, NULL, NULL, NULL, 0x400, 256, 256, 4, 3
 };
 
 

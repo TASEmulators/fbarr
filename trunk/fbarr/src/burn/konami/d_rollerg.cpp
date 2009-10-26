@@ -22,6 +22,7 @@ static unsigned char *DrvKonRAM;
 static unsigned char *DrvPalRAM;
 static unsigned char *DrvZ80RAM;
 
+static unsigned int  *Palette;
 static unsigned int  *DrvPalette;
 static unsigned char  DrvRecalc;
 
@@ -337,7 +338,8 @@ static int MemIndex()
 
 	DrvSndROM		= Next; Next += 0x080000;
 
-	DrvPalette		= (unsigned int*)Next; Next += 0x410 * sizeof(int);
+	Palette			= (unsigned int*)Next; Next += 0x400 * sizeof(int);
+	DrvPalette		= (unsigned int*)Next; Next += 0x400 * sizeof(int);
 
 	AllRam			= Next;
 
@@ -412,7 +414,7 @@ static int DrvInit()
 	K051316SetOffset(0, -90, -15);
 
 	BurnYM3812Init(3579545, NULL, DrvSynchroniseStream, 0);
-	BurnTimerAttachZet(3579545);
+	BurnTimerAttachZetYM3812(3579545);
 
 	K053260Init(0, 3579545, DrvSndROM, 0x80000);
 
@@ -441,21 +443,41 @@ static int DrvExit()
 	return 0;
 }
 
+static void DrvRecalcPal()
+{
+	unsigned char r,g,b;
+	unsigned short *p = (unsigned short*)DrvPalRAM;
+	for (int i = 0; i < 0x800 / 2; i++) {
+		unsigned short d = (p[i] << 8) | (p[i] >> 8);
+
+		b = (d >> 10) & 0x1f;
+		g = (d >>  5) & 0x1f;
+		r = (d >>  0) & 0x1f;
+
+		r = (r << 3) | (r >> 2);
+		g = (g << 3) | (g >> 2);
+		b = (b << 3) | (b >> 2);
+
+		DrvPalette[i] = BurnHighCol(r, g, b, 0);
+		Palette[i] = (r << 16) | (g << 8) | b;
+	}
+}
+
 static int DrvDraw()
 {
 	if (DrvRecalc) {
-		KonamiRecalcPal(DrvPalRAM, DrvPalette, 0x800);
+		DrvRecalcPal();
 	}
 
 	for (int i = 0; i < nScreenWidth * nScreenHeight; i++) {
 		pTransDraw[i] = 0x100;
 	}
 
-	K053245SpritesRender(0, DrvGfxROMExp0, 0x00, 0x400);
+	K053245SpritesRender(0, DrvGfxROMExp0, 0x00);
 	K051316_zoom_draw(0, 1);
-	K053245SpritesRender(0, DrvGfxROMExp0, 0x10, 0x400);
+	K053245SpritesRender(0, DrvGfxROMExp0, 0x10);
 
-	BurnTransferCopy(DrvPalette);
+	KonamiBlendCopy(Palette, DrvPalette);
 
 	return 0;
 }
@@ -493,12 +515,12 @@ static int DrvFrame()
 		nCyclesSegment = konamiRun(nCyclesSegment);
 		nCyclesDone[0] += nCyclesSegment;
 
-		BurnTimerUpdate(i * (nCyclesTotal[1] / nInterleave));
+		BurnTimerUpdateYM3812(i * (nCyclesTotal[1] / nInterleave));
 	}
 
 	konamiSetIrqLine(KONAMI_IRQ_LINE, KONAMI_HOLD_LINE);
 	
-	BurnTimerEndFrame(nCyclesTotal[1]);
+	BurnTimerEndFrameYM3812(nCyclesTotal[1]);
 
 	if (pBurnSoundOut) {
 		BurnYM3812Update(pBurnSoundOut, nBurnSoundLen);
@@ -577,7 +599,7 @@ struct BurnDriver BurnDrvRollerg = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_KONAMI, GBF_SPORTSMISC, 0,
 	NULL, rollergRomInfo, rollergRomName, RollergInputInfo, RollergDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	288, 224, 4, 3
 };
 
@@ -607,6 +629,6 @@ struct BurnDriver BurnDrvRollergj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SPORTSMISC, 0,
 	NULL, rollergjRomInfo, rollergjRomName, RollergInputInfo, RollergDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x400,
 	288, 224, 4, 3
 };

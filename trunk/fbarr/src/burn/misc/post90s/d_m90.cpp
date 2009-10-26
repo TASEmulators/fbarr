@@ -1050,7 +1050,7 @@ struct BurnDriverD BurnDrvdynablst = {
 	NULL, NULL, NULL, NULL,
 	BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
 	NULL, dynablstRomInfo, dynablstRomName, dynablstInputInfo, dynablstDIPInfo,
-	dynablstInit, dynablstExit, dynablstFrame, NULL, dynablstScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	dynablstInit, dynablstExit, dynablstFrame, NULL, dynablstScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
@@ -1060,7 +1060,7 @@ struct BurnDriverD BurnDrvbombrman = {
 	NULL, NULL, NULL, NULL,
 	BDF_CLONE | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
 	NULL, bombrmanRomInfo, bombrmanRomName, dynablstInputInfo, dynablstDIPInfo,
-	dynablstInit, dynablstExit, dynablstFrame, NULL, dynablstScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	dynablstInit, dynablstExit, dynablstFrame, NULL, dynablstScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
@@ -1070,16 +1070,16 @@ struct BurnDriverD BurnDrvatompunk = {
 	NULL, NULL, NULL, NULL,
 	BDF_CLONE | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
 	NULL, atompunkRomInfo, atompunkRomName, dynablstInputInfo, dynablstDIPInfo,
-	dynablstInit, dynablstExit, dynablstFrame, NULL, dynablstScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	dynablstInit, dynablstExit, dynablstFrame, NULL, dynablstScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
 struct BurnDriverD BurnDrvdynablsb = {
-	"dynablsb", "dynablst", NULL, "1992",
+	"dynablstb", "dynablst", NULL, "1992",
 	"Dynablaster (bootleg)\0", "Preliminary driver", "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_CLONE | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_MAZE, 0,
 	NULL, dynablsbRomInfo, dynablsbRomName, dynablstInputInfo, dynablstDIPInfo,
-	dynablstInit, dynablstExit, dynablstFrame, NULL, dynablstScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	dynablstInit, dynablstExit, dynablstFrame, NULL, dynablstScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };

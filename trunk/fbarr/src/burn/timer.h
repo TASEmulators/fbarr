@@ -27,6 +27,8 @@ int BurnTimerAttachHD6309(int nClockspeed);
 int BurnTimerAttachM6800(int nClockspeed);
 int BurnTimerAttachHD63701(int nClockspeed);
 int BurnTimerAttachM6803(int nClockspeed);
+int BurnTimerAttachM6502(int nClockspeed);
+int BurnTimerAttachSh2(int nClockspeed);
 void BurnTimerScan(int nAction, int* pnMin);
 int BurnTimerUpdate(int nCycles);
 void BurnTimerUpdateEnd();

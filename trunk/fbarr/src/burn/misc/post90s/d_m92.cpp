@@ -1788,7 +1788,7 @@ struct BurnDriverD BurnDrvHook = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, hookRomInfo, hookRomName, hookInputInfo, hookDIPInfo,
-	hookInit, hookExit, hookFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	hookInit, hookExit, hookFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
@@ -1798,7 +1798,7 @@ struct BurnDriverD BurnDrvHooku = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, hookuRomInfo, hookuRomName, hookInputInfo, hookDIPInfo,
-	hookInit, hookExit, hookFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	hookInit, hookExit, hookFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
@@ -1808,7 +1808,7 @@ struct BurnDriverD BurnDrvHookj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 4, HARDWARE_MISC_POST90S, GBF_SCRFIGHT, 0,
 	NULL, hookjRomInfo, hookjRomName, hookInputInfo, hookDIPInfo,
-	hookInit, hookExit, hookFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	hookInit, hookExit, hookFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
@@ -1972,7 +1972,7 @@ struct BurnDriverD BurnDrvInthunt = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_HORSHOOT, 0,
 	NULL, inthuntRomInfo, inthuntRomName, inthuntInputInfo, inthuntDIPInfo,
-	inthuntInit, hookExit, inthuntFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	inthuntInit, hookExit, inthuntFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
@@ -1982,7 +1982,7 @@ struct BurnDriverD BurnDrvInthuntu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_HORSHOOT, 0,
 	NULL, inthuntuRomInfo, inthuntuRomName, inthuntInputInfo, inthuntDIPInfo,
-	inthuntInit, hookExit, inthuntFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	inthuntInit, hookExit, inthuntFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
@@ -1992,7 +1992,7 @@ struct BurnDriverD BurnDrvKaiteids = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_HORSHOOT, 0,
 	NULL, kaiteidsRomInfo, kaiteidsRomName, inthuntInputInfo, inthuntDIPInfo,
-	inthuntInit, hookExit, inthuntFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	inthuntInit, hookExit, inthuntFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
@@ -2161,16 +2161,16 @@ struct BurnDriverD BurnDrvRtypeleo = {
 	NULL, NULL, NULL, NULL,
 	BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_HORSHOOT, 0,
 	NULL, rtypeleoRomInfo, rtypeleoRomName, inthuntInputInfo, inthuntDIPInfo,
-	rtypeleoInit, rtypeleoExit, rtypeleoFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	rtypeleoInit, rtypeleoExit, rtypeleoFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };
 
 struct BurnDriverD BurnDrvRtypelej = {
-	"rtypelej", "rtypeleo", NULL, "1992",
+	"rtypeleoj", "rtypeleo", NULL, "1992",
 	"R-Type Leo (Japan)\0", "Preliminary driver", "Irem", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_CLONE | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_HORSHOOT, 0,
 	NULL, rtypelejRomInfo, rtypelejRomName, inthuntInputInfo, inthuntDIPInfo,
-	rtypeleoInit, rtypeleoExit, rtypeleoFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette,
+	rtypeleoInit, rtypeleoExit, rtypeleoFrame, NULL, DrvScan, 0, NULL, NULL, NULL, &bRecalcPalette, 0x1000,
 	320, 240, 4, 3
 };

@@ -437,7 +437,7 @@ struct BurnDriver BurnDrvNews = {
 	BDF_GAME_WORKING, 1, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, NewsRomInfo, NewsRomName, NewsInputInfo, NewsDIPInfo,
 	NewsInit, NewsExit, NewsFrame, NULL, NewsScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvNewsa = {
@@ -447,5 +447,5 @@ struct BurnDriver BurnDrvNewsa = {
 	BDF_GAME_WORKING | BDF_CLONE, 1, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, NewsaRomInfo, NewsaRomName, NewsInputInfo, NewsaDIPInfo,
 	NewsInit, NewsExit, NewsFrame, NULL, NewsScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x100, 256, 224, 4, 3
 };

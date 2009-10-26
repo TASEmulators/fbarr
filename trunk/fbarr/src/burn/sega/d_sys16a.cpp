@@ -123,7 +123,7 @@ static struct BurnInputInfo System16aDip3InputList[] = {
 
 STDINPUTINFO(System16aDip3)
 
-static struct BurnInputInfo AceattaaInputList[] = {
+static struct BurnInputInfo AceattacaInputList[] = {
 	{"Coin 1"            , BIT_DIGITAL  , System16InputPort0 + 0, "p1 coin"   },
 	{"Start 1"           , BIT_DIGITAL  , System16InputPort0 + 4, "p1 start"  },
 	{"Coin 2"            , BIT_DIGITAL  , System16InputPort0 + 1, "p2 coin"   },
@@ -176,7 +176,7 @@ static struct BurnInputInfo AceattaaInputList[] = {
 	{"Dip 2"             , BIT_DIPSWITCH, System16Dip + 1        , "dip"       },
 };
 
-STDINPUTINFO(Aceattaa)
+STDINPUTINFO(Aceattaca)
 
 static struct BurnInputInfo MjleagueInputList[] = {
 	{"Coin 1"            , BIT_DIGITAL  , System16InputPort0 + 0, "p1 coin"   },
@@ -215,7 +215,7 @@ static struct BurnInputInfo MjleagueInputList[] = {
 
 STDINPUTINFO(Mjleague)
 
-static struct BurnInputInfo Pshot16aInputList[] = {
+static struct BurnInputInfo Passsht16aInputList[] = {
 	{"Coin 1"            , BIT_DIGITAL  , System16InputPort0 + 0, "p1 coin"    },
 	{"Start 1"           , BIT_DIGITAL  , System16InputPort0 + 4, "p1 start"   },
 	{"Coin 2"            , BIT_DIGITAL  , System16InputPort0 + 1, "p2 coin"    },
@@ -266,7 +266,7 @@ static struct BurnInputInfo Pshot16aInputList[] = {
 	{"Dip 2"             , BIT_DIPSWITCH, System16Dip + 1        , "dip"       },
 };
 
-STDINPUTINFO(Pshot16a)
+STDINPUTINFO(Passsht16a)
 
 static struct BurnInputInfo QuartetInputList[] = {
 	{"Coin 1"            , BIT_DIGITAL  , System16InputPort0 + 6, "p1 coin"   },
@@ -424,7 +424,7 @@ Dip defs
 	{dipval, 0x01, 0xf0, 0xa0, "1 Coin  6 Credits"                  },			\
 	{dipval, 0x01, 0xf0, 0x00, "Free Play (if coin A too) or 1C/1C" },
 	
-static struct BurnDIPInfo AceattaaDIPList[]=
+static struct BurnDIPInfo AceattacaDIPList[]=
 {
 	// Default Values
 	{0x2d, 0xff, 0xff, 0xff, NULL                                 },
@@ -449,7 +449,7 @@ static struct BurnDIPInfo AceattaaDIPList[]=
 	{0x2e, 0x01, 0x0e, 0x00, "9000"                               },
 };
 
-STDDIPINFO(Aceattaa)
+STDDIPINFO(Aceattaca)
 
 static struct BurnDIPInfo AfighterDIPList[]=
 {
@@ -653,7 +653,7 @@ static struct BurnDIPInfo MjleagueDIPList[]=
 
 STDDIPINFO(Mjleague)
 
-static struct BurnDIPInfo Pshot16aDIPList[]=
+static struct BurnDIPInfo Passsht16aDIPList[]=
 {
 	// Default Values
 	{0x29, 0xff, 0xff, 0xff, NULL                                 },
@@ -690,7 +690,7 @@ static struct BurnDIPInfo Pshot16aDIPList[]=
 	{0x2a, 0x01, 0xc0, 0x00, "Hardest"                            },
 };
 
-STDDIPINFO(Pshot16a)
+STDDIPINFO(Passsht16a)
 
 static struct BurnDIPInfo QuartetDIPList[]=
 {
@@ -987,7 +987,7 @@ STDDIPINFO(Wb31)
 Rom defs
 ====================================================*/
 
-static struct BurnRomInfo AceattaaRomDesc[] = {
+static struct BurnRomInfo AceattacaRomDesc[] = {
 	{ "epr-11573.43",   0x10000, 0xca116367, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11571.26",   0x10000, 0x5631d1d6, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-11574.42",   0x10000, 0x8d3ed7bd, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1019,8 +1019,8 @@ static struct BurnRomInfo AceattaaRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Aceattaa)
-STD_ROM_FN(Aceattaa)
+STD_ROM_PICK(Aceattaca)
+STD_ROM_FN(Aceattaca)
 
 static struct BurnRomInfo AfighterRomDesc[] = {
 	{ "10353",         0x08000, 0x5a757dc9, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1083,7 +1083,7 @@ static struct BurnRomInfo AlexkiddRomDesc[] = {
 STD_ROM_PICK(Alexkidd)
 STD_ROM_FN(Alexkidd)
 
-static struct BurnRomInfo Alexkid1RomDesc[] = {
+static struct BurnRomInfo Alexkidd1RomDesc[] = {
 	{ "epr10429.42",   0x10000, 0xbdf49eca, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10427.26",   0x10000, 0xf6e3dd29, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10430.43",   0x10000, 0x89e3439f, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1113,10 +1113,10 @@ static struct BurnRomInfo Alexkid1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Alexkid1)
-STD_ROM_FN(Alexkid1)
+STD_ROM_PICK(Alexkidd1)
+STD_ROM_FN(Alexkidd1)
 
-static struct BurnRomInfo Aliensy1RomDesc[] = {
+static struct BurnRomInfo Aliensyn1RomDesc[] = {
 	{ "epr10699.43",   0x08000, 0x3fd38d17, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10696.26",   0x08000, 0xd734f19f, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10700.42",   0x08000, 0x3b04b252, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1149,10 +1149,10 @@ static struct BurnRomInfo Aliensy1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Aliensy1)
-STD_ROM_FN(Aliensy1)
+STD_ROM_PICK(Aliensyn1)
+STD_ROM_FN(Aliensyn1)
 
-static struct BurnRomInfo Aliensy2RomDesc[] = {
+static struct BurnRomInfo Aliensyn2RomDesc[] = {
 	{ "10808",         0x08000, 0xe669929f, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "10806",         0x08000, 0x9f7f8fdd, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "10809",         0x08000, 0x9a424919, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1185,10 +1185,10 @@ static struct BurnRomInfo Aliensy2RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Aliensy2)
-STD_ROM_FN(Aliensy2)
+STD_ROM_PICK(Aliensyn2)
+STD_ROM_FN(Aliensyn2)
 
-static struct BurnRomInfo Aliensy5RomDesc[] = {
+static struct BurnRomInfo Aliensyn5RomDesc[] = {
 	{ "epr10804.43",   0x08000, 0x23f78b83, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10802.26",   0x08000, 0x996768bd, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10805.42",   0x08000, 0x53d7fe50, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1221,8 +1221,8 @@ static struct BurnRomInfo Aliensy5RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Aliensy5)
-STD_ROM_FN(Aliensy5)
+STD_ROM_PICK(Aliensyn5)
+STD_ROM_FN(Aliensyn5)
 
 static struct BurnRomInfo BodyslamRomDesc[] = {
 	{ "epr-10066.b9",  0x08000, 0x6cd53290, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1324,7 +1324,7 @@ static struct BurnRomInfo FantzoneRomDesc[] = {
 STD_ROM_PICK(Fantzone)
 STD_ROM_FN(Fantzone)
 
-static struct BurnRomInfo Fantzon1RomDesc[] = {
+static struct BurnRomInfo Fantzone1RomDesc[] = {
 	{ "7385.43",       0x08000, 0x5cb64450, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "7382.26",       0x08000, 0x3fda7416, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "7386.42",       0x08000, 0x15810ace, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1347,8 +1347,8 @@ static struct BurnRomInfo Fantzon1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Fantzon1)
-STD_ROM_FN(Fantzon1)
+STD_ROM_PICK(Fantzone1)
+STD_ROM_FN(Fantzone1)
 
 static struct BurnRomInfo MjleagueRomDesc[] = {
 	{ "epr-7404.9b",   0x08000, 0xec1655b5, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1385,7 +1385,7 @@ static struct BurnRomInfo MjleagueRomDesc[] = {
 STD_ROM_PICK(Mjleague)
 STD_ROM_FN(Mjleague)
 
-static struct BurnRomInfo Pshot16aRomDesc[] = {
+static struct BurnRomInfo Passsht16aRomDesc[] = {
 	{ "epr11833.43",   0x10000, 0x5eb1405c, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr11832.26",   0x10000, 0x718a3fe4, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	
@@ -1413,8 +1413,8 @@ static struct BurnRomInfo Pshot16aRomDesc[] = {
 };
 
 
-STD_ROM_PICK(Pshot16a)
-STD_ROM_FN(Pshot16a)
+STD_ROM_PICK(Passsht16a)
+STD_ROM_FN(Passsht16a)
 
 static struct BurnRomInfo QuartetRomDesc[] = {
 	{ "epr-7458a.9b",  0x08000, 0x42e7b23e, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1457,7 +1457,7 @@ static struct BurnRomInfo QuartetRomDesc[] = {
 STD_ROM_PICK(Quartet)
 STD_ROM_FN(Quartet)
 
-static struct BurnRomInfo Quartet1RomDesc[] = {
+static struct BurnRomInfo QuartetaRomDesc[] = {
 	{ "epr-7458.9b",   0x08000, 0x0096499f, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-7455.6b",   0x08000, 0xda934390, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-7459.10b",  0x08000, 0xd130cf61, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1495,10 +1495,10 @@ static struct BurnRomInfo Quartet1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Quartet1)
-STD_ROM_FN(Quartet1)
+STD_ROM_PICK(Quarteta)
+STD_ROM_FN(Quarteta)
 
-static struct BurnRomInfo Quart21RomDesc[] = {
+static struct BurnRomInfo Quartet2RomDesc[] = {
 	{ "epr-7695.b9",   0x08000, 0x67177cd8, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-7692.b6",   0x08000, 0x50f50b08, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-7696.b10",  0x08000, 0x4273c3b7, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1532,10 +1532,10 @@ static struct BurnRomInfo Quart21RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Quart21)
-STD_ROM_FN(Quart21)
+STD_ROM_PICK(Quartet2)
+STD_ROM_FN(Quartet2)
 
-static struct BurnRomInfo Quart2RomDesc[] = {
+static struct BurnRomInfo Quartet2aRomDesc[] = {
 	{ "epr-7728.b9",   0x08000, 0x56a8c88e, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-7725.b6",   0x08000, 0xee15fcc9, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr-7729.b10",  0x08000, 0xbc242123, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1567,8 +1567,8 @@ static struct BurnRomInfo Quart2RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Quart2)
-STD_ROM_FN(Quart2)
+STD_ROM_PICK(Quartet2a)
+STD_ROM_FN(Quartet2a)
 
 static struct BurnRomInfo SdiRomDesc[] = {
 	{ "epr10970.43",   0x08000, 0xb8fa4a2c, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1765,7 +1765,7 @@ static struct BurnRomInfo Tetris3RomDesc[] = {
 STD_ROM_PICK(Tetris3)
 STD_ROM_FN(Tetris3)
 
-static struct BurnRomInfo Timesca1RomDesc[] = {
+static struct BurnRomInfo Timescan1RomDesc[] = {
 	{ "epr10540a.43",  0x08000, 0x76848b0b, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10537a.26",  0x08000, 0x4ddc434a, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
 	{ "epr10541.42",   0x08000, 0xcc6d945e, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1796,8 +1796,8 @@ static struct BurnRomInfo Timesca1RomDesc[] = {
 };
 
 
-STD_ROM_PICK(Timesca1)
-STD_ROM_FN(Timesca1)
+STD_ROM_PICK(Timescan1)
+STD_ROM_FN(Timescan1)
 
 static struct BurnRomInfo Wb31RomDesc[] = {
 	{ "epr12084.bin",  0x10000, 0xb6deb654, SYS16_ROM_PROG | BRF_ESS | BRF_PRG },
@@ -1980,47 +1980,47 @@ void __fastcall System16AWriteByte(unsigned int a, unsigned char d)
 #endif
 }
 
-static short AceattaaTrack1X = 0;
-static short AceattaaTrack1Y = 0;
-static short AceattaaTrack2X = 0;
-static short AceattaaTrack2Y = 0;
-static char AceattaaDial1 = 0;
-static char AceattaaDial2 = 0;
+static short AceattacaTrack1X = 0;
+static short AceattacaTrack1Y = 0;
+static short AceattacaTrack2X = 0;
+static short AceattacaTrack2Y = 0;
+static char AceattacaDial1 = 0;
+static char AceattacaDial2 = 0;
 
-void AceattaaMakeAnalogInputs()
+void AceattacaMakeAnalogInputs()
 {
-	if (System16InputPort3[0]) AceattaaTrack1X += 0x40;
-	if (System16InputPort3[1]) AceattaaTrack1X -= 0x40;
-	if (AceattaaTrack1X >= 0x100) AceattaaTrack1X = 0;
-	if (AceattaaTrack1X < 0) AceattaaTrack1X = 0xfd;
+	if (System16InputPort3[0]) AceattacaTrack1X += 0x40;
+	if (System16InputPort3[1]) AceattacaTrack1X -= 0x40;
+	if (AceattacaTrack1X >= 0x100) AceattacaTrack1X = 0;
+	if (AceattacaTrack1X < 0) AceattacaTrack1X = 0xfd;
 	
-	if (System16InputPort3[2]) AceattaaTrack1Y -= 0x40;
-	if (System16InputPort3[3]) AceattaaTrack1Y += 0x40;
-	if (AceattaaTrack1Y >= 0x100) AceattaaTrack1Y = 0;
-	if (AceattaaTrack1Y < 0) AceattaaTrack1Y = 0xfd;
+	if (System16InputPort3[2]) AceattacaTrack1Y -= 0x40;
+	if (System16InputPort3[3]) AceattacaTrack1Y += 0x40;
+	if (AceattacaTrack1Y >= 0x100) AceattacaTrack1Y = 0;
+	if (AceattacaTrack1Y < 0) AceattacaTrack1Y = 0xfd;
 	
-	if (System16InputPort4[0]) AceattaaDial1 += 0x01;
-	if (System16InputPort4[1]) AceattaaDial1 -= 0x01;
-	if (AceattaaDial1 >= 0x10) AceattaaDial1 = 0;
-	if (AceattaaDial1 < 0) AceattaaDial1 = 0x0f;
+	if (System16InputPort4[0]) AceattacaDial1 += 0x01;
+	if (System16InputPort4[1]) AceattacaDial1 -= 0x01;
+	if (AceattacaDial1 >= 0x10) AceattacaDial1 = 0;
+	if (AceattacaDial1 < 0) AceattacaDial1 = 0x0f;
 	
-	if (System16InputPort3[4]) AceattaaTrack2X += 0x40;
-	if (System16InputPort3[5]) AceattaaTrack2X -= 0x40;
-	if (AceattaaTrack2X >= 0x100) AceattaaTrack2X = 0;
-	if (AceattaaTrack2X < 0) AceattaaTrack2X = 0xfd;
+	if (System16InputPort3[4]) AceattacaTrack2X += 0x40;
+	if (System16InputPort3[5]) AceattacaTrack2X -= 0x40;
+	if (AceattacaTrack2X >= 0x100) AceattacaTrack2X = 0;
+	if (AceattacaTrack2X < 0) AceattacaTrack2X = 0xfd;
 	
-	if (System16InputPort3[6]) AceattaaTrack2Y -= 0x40;
-	if (System16InputPort3[7]) AceattaaTrack2Y += 0x40;
-	if (AceattaaTrack2Y >= 0x100) AceattaaTrack2Y = 0;
-	if (AceattaaTrack2Y < 0) AceattaaTrack2Y = 0xfd;
+	if (System16InputPort3[6]) AceattacaTrack2Y -= 0x40;
+	if (System16InputPort3[7]) AceattacaTrack2Y += 0x40;
+	if (AceattacaTrack2Y >= 0x100) AceattacaTrack2Y = 0;
+	if (AceattacaTrack2Y < 0) AceattacaTrack2Y = 0xfd;
 	
-	if (System16InputPort4[2]) AceattaaDial2 += 0x01;
-	if (System16InputPort4[3]) AceattaaDial2 -= 0x01;
-	if (AceattaaDial2 >= 0x10) AceattaaDial2 = 0;
-	if (AceattaaDial2 < 0) AceattaaDial2 = 0x0f;
+	if (System16InputPort4[2]) AceattacaDial2 += 0x01;
+	if (System16InputPort4[3]) AceattacaDial2 -= 0x01;
+	if (AceattacaDial2 >= 0x10) AceattacaDial2 = 0;
+	if (AceattacaDial2 < 0) AceattacaDial2 = 0x0f;
 }
 
-unsigned char __fastcall AceattaaReadByte(unsigned int a)
+unsigned char __fastcall AceattacaReadByte(unsigned int a)
 {
 	switch (a) {
 		case 0xc41001: {
@@ -2029,20 +2029,20 @@ unsigned char __fastcall AceattaaReadByte(unsigned int a)
 		
 		case 0xc41003: {
 			if (System16VideoControl == 0x10) return 0xff - System16Input[1];
-			if (System16VideoControl == 0x14) return AceattaaTrack1X;
-			if (System16VideoControl == 0x18) return AceattaaTrack1Y;
+			if (System16VideoControl == 0x14) return AceattacaTrack1X;
+			if (System16VideoControl == 0x18) return AceattacaTrack1Y;
 			if (System16VideoControl == 0x1c) return System16Input[2];
 			return 0xff;
 		}
 		
 		case 0xc41005: {
-			return AceattaaDial1 | (AceattaaDial2 << 4);
+			return AceattacaDial1 | (AceattacaDial2 << 4);
 		}
 		
 		case 0xc41007: {
 			if (System16VideoControl == 0x10) return 0xff - System16Input[5];
-			if (System16VideoControl == 0x14) return AceattaaTrack2X;
-			if (System16VideoControl == 0x18) return AceattaaTrack2Y;
+			if (System16VideoControl == 0x14) return AceattacaTrack2X;
+			if (System16VideoControl == 0x18) return AceattacaTrack2Y;
 			if (System16VideoControl == 0x1c) return System16Input[6];
 			return 0xff;
 		}
@@ -2167,7 +2167,7 @@ unsigned char __fastcall MjleagueReadByte(unsigned int a)
 	return 0xff;
 }
 
-unsigned char __fastcall Pshot16aReadByte(unsigned int a)
+unsigned char __fastcall Passsht16aReadByte(unsigned int a)
 {
 	static int PortNum = 0;
 	
@@ -2357,15 +2357,15 @@ void __fastcall Sjryuko1WriteByte(unsigned int a, unsigned char d)
 Driver Inits
 ====================================================*/
 
-static int AceattaaInit()
+static int AceattacaInit()
 {
-	System16MakeAnalogInputsDo = AceattaaMakeAnalogInputs;
+	System16MakeAnalogInputsDo = AceattacaMakeAnalogInputs;
 	
 	int nRet = System16Init();
 	
 	if (!nRet) {
 		SekOpen(0);
-		SekSetReadByteHandler(0, AceattaaReadByte);
+		SekSetReadByteHandler(0, AceattacaReadByte);
 		SekClose();
 		
 		// Handle different sprite rom layout
@@ -2389,37 +2389,37 @@ static int AceattaaInit()
 	return nRet;
 }
 
-static int AceattaaExit()
+static int AceattacaExit()
 {
-	AceattaaTrack1X = 0;
-	AceattaaTrack1Y = 0;
-	AceattaaTrack2X = 0;
-	AceattaaTrack2Y = 0;
-	AceattaaDial1 = 0;
-	AceattaaDial2 = 0;
+	AceattacaTrack1X = 0;
+	AceattacaTrack1Y = 0;
+	AceattacaTrack2X = 0;
+	AceattacaTrack2Y = 0;
+	AceattacaDial1 = 0;
+	AceattacaDial2 = 0;
 
 	return System16Exit();
 }
 
-static int AceattaaScan(int nAction,int *pnMin)
+static int AceattacaScan(int nAction,int *pnMin)
 {
 	if (pnMin != NULL) {					// Return minimum compatible version
 		*pnMin =  0x029660;
 	}
 	
 	if (nAction & ACB_DRIVER_DATA) {
-		SCAN_VAR(AceattaaTrack1X);
-		SCAN_VAR(AceattaaTrack1Y);
-		SCAN_VAR(AceattaaTrack2X);
-		SCAN_VAR(AceattaaTrack2Y);
-		SCAN_VAR(AceattaaDial1);
-		SCAN_VAR(AceattaaDial2);
+		SCAN_VAR(AceattacaTrack1X);
+		SCAN_VAR(AceattacaTrack1Y);
+		SCAN_VAR(AceattacaTrack2X);
+		SCAN_VAR(AceattacaTrack2Y);
+		SCAN_VAR(AceattacaDial1);
+		SCAN_VAR(AceattacaDial2);
 	}
 	
 	return System16Scan(nAction, pnMin);;
 }
 
-static int Aliensy1Init()
+static int Aliensyn1Init()
 {
 	int nRet = System16Init();
 	
@@ -2445,7 +2445,7 @@ static int Aliensy1Init()
 	return nRet;
 }
 
-static int Aliensy5Init()
+static int Aliensyn5Init()
 {
 	int nRet = System16Init();
 	
@@ -2582,7 +2582,7 @@ void Quartet_Sim8751()
 	*((unsigned short*)(System16TextRam + 0xe9c)) = ((System16Ram[0x0d1e + 1] << 8) | System16Ram[0x0d1e + 0]);
 }
 
-static int Pshot16aInit()
+static int Passsht16aInit()
 {
 	// Start off with some sprite rom and let the load routine add on the rest
 	System16SpriteRomSize = 0x70000 - 0x60000;
@@ -2591,7 +2591,7 @@ static int Pshot16aInit()
 	
 	if (!nRet) {
 		SekOpen(0);
-		SekSetReadByteHandler(0, Pshot16aReadByte);
+		SekSetReadByteHandler(0, Passsht16aReadByte);
 		SekClose();
 
 		// Handle different sprite rom layout
@@ -2795,14 +2795,14 @@ static int Wb31Init()
 Driver defs
 ====================================================*/
 
-struct BurnDriver BurnDrvAceattaa = {
-	"aceattaa", "aceattac", NULL, "1986",
+struct BurnDriver BurnDrvAceattaca = {
+	"aceattaca", "aceattac", NULL, "1986",
 	"Ace Attacker (Japan, System 16A, FD1094 317-0060)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1094_ENC, GBF_SPORTSMISC, 0,
-	NULL, AceattaaRomInfo, AceattaaRomName, AceattaaInputInfo, AceattaaDIPInfo,
-	AceattaaInit, AceattaaExit, System16AFrame, NULL, AceattaaScan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	NULL, AceattacaRomInfo, AceattacaRomName, AceattacaInputInfo, AceattacaDIPInfo,
+	AceattacaInit, AceattacaExit, System16AFrame, NULL, AceattacaScan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvAFighter = {
@@ -2812,7 +2812,7 @@ struct BurnDriver BurnDrvAFighter = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1089A_ENC, GBF_RACING, 0,
 	NULL, AfighterRomInfo, AfighterRomName, System16aInputInfo, AfighterDIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvAlexkidd = {
@@ -2822,47 +2822,47 @@ struct BurnDriver BurnDrvAlexkidd = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16A, GBF_PLATFORM, 0,
 	NULL, AlexkiddRomInfo, AlexkiddRomName, System16aInputInfo, AlexkiddDIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAlexkid1 = {
-	"alexkid1", "alexkidd", NULL, "1986",
+struct BurnDriver BurnDrvAlexkidd1 = {
+	"alexkidd1", "alexkidd", NULL, "1986",
 	"Alex Kidd: The Lost Stars (set 1, FD1089A 317-unknown)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1089A_ENC, GBF_PLATFORM, 0,
-	NULL, Alexkid1RomInfo, Alexkid1RomName, System16aInputInfo, AlexkiddDIPInfo,
+	NULL, Alexkidd1RomInfo, Alexkidd1RomName, System16aInputInfo, AlexkiddDIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAliensy1 = {
-	"aliensy1", "aliensyn", NULL, "1987",
+struct BurnDriver BurnDrvAliensyn1 = {
+	"aliensyn1", "aliensyn", NULL, "1987",
 	"Alien Syndrome (set 1, System 16A, FD1089A 317-0033)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1089A_ENC, GBF_MAZE, 0,
-	NULL, Aliensy1RomInfo, Aliensy1RomName, System16afire1InputInfo, AliensynDIPInfo,
-	Aliensy1Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Aliensyn1RomInfo, Aliensyn1RomName, System16afire1InputInfo, AliensynDIPInfo,
+	Aliensyn1Init, System16Exit, System16AFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAliensy2 = {
-	"aliensy2", "aliensyn", NULL, "1987",
+struct BurnDriver BurnDrvAliensyn2 = {
+	"aliensyn2", "aliensyn", NULL, "1987",
 	"Alien Syndrome (set 2, System 16A, FD1089A 317-0033)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1089A_ENC, GBF_MAZE, 0,
-	NULL, Aliensy2RomInfo, Aliensy2RomName, System16afire1InputInfo, AliensynDIPInfo,
-	Aliensy1Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Aliensyn2RomInfo, Aliensyn2RomName, System16afire1InputInfo, AliensynDIPInfo,
+	Aliensyn1Init, System16Exit, System16AFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvAliensy5 = {
-	"aliensy5", "aliensyn", NULL, "1987",
+struct BurnDriver BurnDrvAliensyn5 = {
+	"aliensyn5", "aliensyn", NULL, "1987",
 	"Alien Syndrome (set 5, System 16A, FD1089B 317-0037)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1089B_ENC, GBF_MAZE, 0,
-	NULL, Aliensy5RomInfo, Aliensy5RomName, System16afire1InputInfo, AliensynDIPInfo,
-	Aliensy5Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	NULL, Aliensyn5RomInfo, Aliensyn5RomName, System16afire1InputInfo, AliensynDIPInfo,
+	Aliensyn5Init, System16Exit, System16AFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvBodyslam = {
@@ -2872,7 +2872,7 @@ struct BurnDriver BurnDrvBodyslam = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16A, GBF_VSFIGHT, 0,
 	NULL, BodyslamRomInfo, BodyslamRomName, System16aInputInfo, BodyslamDIPInfo,
 	BodyslamInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvDumpmtmt = {
@@ -2882,7 +2882,7 @@ struct BurnDriver BurnDrvDumpmtmt = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A, GBF_VSFIGHT, 0,
 	NULL, DumpmtmtRomInfo, DumpmtmtRomName, System16aInputInfo, BodyslamDIPInfo,
 	BodyslamInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFantzone = {
@@ -2892,17 +2892,17 @@ struct BurnDriver BurnDrvFantzone = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16A, GBF_HORSHOOT, 0,
 	NULL, FantzoneRomInfo, FantzoneRomName, System16aInputInfo, FantzoneDIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvFantzon1 = {
-	"fantzon1", "fantzone", NULL, "1986",
+struct BurnDriver BurnDrvFantzone1 = {
+	"fantzone1", "fantzone", NULL, "1986",
 	"Fantasy Zone (set 1, unprotected)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A, GBF_HORSHOOT, 0,
-	NULL, Fantzon1RomInfo, Fantzon1RomName, System16aInputInfo, FantzoneDIPInfo,
+	NULL, Fantzone1RomInfo, Fantzone1RomName, System16aInputInfo, FantzoneDIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvMjleague = {
@@ -2912,17 +2912,17 @@ struct BurnDriver BurnDrvMjleague = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16A, GBF_SPORTSMISC, 0,
 	NULL, MjleagueRomInfo, MjleagueRomName, MjleagueInputInfo, MjleagueDIPInfo,
 	MjleagueInit, MjleagueExit, System16AFrame, NULL, MjleagueScan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
-struct BurnDriver BurnDrvPshot16a = {
-	"pshot16a", "passsht", NULL, "1988",
+struct BurnDriver BurnDrvPasssht16a = {
+	"passsht16a", "passsht", NULL, "1988",
 	"Passing Shot (Japan, 4 Players, System 16A, FD1094 317-0071)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 4, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1094_ENC, GBF_SPORTSMISC, 0,
-	NULL, Pshot16aRomInfo, Pshot16aRomName, Pshot16aInputInfo, Pshot16aDIPInfo,
-	Pshot16aInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	NULL, Passsht16aRomInfo, Passsht16aRomName, Passsht16aInputInfo, Passsht16aDIPInfo,
+	Passsht16aInit, System16Exit, System16AFrame, NULL, System16Scan,
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvQuartet = {
@@ -2932,37 +2932,37 @@ struct BurnDriver BurnDrvQuartet = {
 	BDF_GAME_WORKING, 4, HARDWARE_SEGA_SYSTEM16A, GBF_PLATFORM, 0,
 	NULL, QuartetRomInfo, QuartetRomName, QuartetInputInfo, QuartetDIPInfo,
 	QuartetInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvQuartet1 = {
-	"quartet1", "quartet", NULL, "1986",
+struct BurnDriver BurnDrvQuarteta = {
+	"quarteta", "quartet", NULL, "1986",
 	"Quartet (8751 315-5194)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_SEGA_SYSTEM16A, GBF_PLATFORM, 0,
-	NULL, Quartet1RomInfo, Quartet1RomName, QuartetInputInfo, QuartetDIPInfo,
+	NULL, QuartetaRomInfo, QuartetaRomName, QuartetInputInfo, QuartetDIPInfo,
 	QuartetInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvQuart21 = {
-	"quart21", "quartet", NULL, "1986",
+struct BurnDriver BurnDrvQuartet2 = {
+	"quartet2", "quartet", NULL, "1986",
 	"Quartet 2 (8751 317-0010)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A, GBF_PLATFORM, 0,
-	NULL, Quart21RomInfo, Quart21RomName, System16aInputInfo, Quart2DIPInfo,
+	NULL, Quartet2RomInfo, Quartet2RomName, System16aInputInfo, Quart2DIPInfo,
 	QuartetInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvQuart2 = {
-	"quart2", "quartet", NULL, "1986",
+struct BurnDriver BurnDrvQuartet2a = {
+	"quartet2a", "quartet", NULL, "1986",
 	"Quartet 2 (unprotected)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A, GBF_PLATFORM, 0,
-	NULL, Quart2RomInfo, Quart2RomName, System16aInputInfo, Quart2DIPInfo,
+	NULL, Quartet2aRomInfo, Quartet2aRomName, System16aInputInfo, Quart2DIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSdi = {
@@ -2972,7 +2972,7 @@ struct BurnDriver BurnDrvSdi = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1089B_ENC, GBF_SHOOT, 0,
 	NULL, SdiRomInfo, SdiRomName, SdiInputInfo, SdiDIPInfo,
 	SdiInit, SdiExit, System16AFrame, NULL, SdiScan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvShinobi = {
@@ -2982,7 +2982,7 @@ struct BurnDriver BurnDrvShinobi = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16A, GBF_PLATFORM, 0,
 	NULL, ShinobiRomInfo, ShinobiRomName, System16afire3InputInfo, ShinobiDIPInfo,
 	ShinobiInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvShinobi1 = {
@@ -2992,7 +2992,7 @@ struct BurnDriver BurnDrvShinobi1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, Shinobi1RomInfo, Shinobi1RomName, System16afire3InputInfo, ShinobiDIPInfo,
 	ShinobiInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvShinobls = {
@@ -3002,7 +3002,7 @@ struct BurnDriver BurnDrvShinobls = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_SEGA_SYSTEM16A, GBF_PLATFORM, 0,
 	NULL, ShinoblsRomInfo, ShinoblsRomName, System16afire3InputInfo, ShinobiDIPInfo,
 	ShinobiInit, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSjryuko1 = {
@@ -3012,7 +3012,7 @@ struct BurnDriver BurnDrvSjryuko1 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1089B_ENC, GBF_MAHJONG, 0,
 	NULL, Sjryuko1RomInfo, Sjryuko1RomName, Sjryuko1InputInfo, Sjryuko1DIPInfo,
 	Sjryuko1Init, Sjryuko1Exit, System16AFrame, NULL, Sjryuko1Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTetris = {
@@ -3022,7 +3022,7 @@ struct BurnDriver BurnDrvTetris = {
 	BDF_GAME_WORKING, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, TetrisRomInfo, TetrisRomName, System16afire1InputInfo, TetrisDIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvTetris3 = {
@@ -3032,17 +3032,17 @@ struct BurnDriver BurnDrvTetris3 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1094_ENC, GBF_PUZZLE, 0,
 	NULL, Tetris3RomInfo, Tetris3RomName, System16afire1InputInfo, TetrisDIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };
 
-struct BurnDriver BurnDrvTimesca1 = {
-	"timesca1", "timescan", NULL, "1987",
+struct BurnDriver BurnDrvTimescan1 = {
+	"timescan1", "timescan", NULL, "1987",
 	"Time Scanner (set 1, System 16A, FD1089B 317-0024)\0", NULL, "Sega", "System 16A",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1089B_ENC, GBF_PINBALL, 0,
-	NULL, Timesca1RomInfo, Timesca1RomName, System16aDip3InputInfo, TimescanDIPInfo,
+	NULL, Timescan1RomInfo, Timescan1RomName, System16aDip3InputInfo, TimescanDIPInfo,
 	System16Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 224, 320, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x1800, 224, 320, 3, 4
 };
 
 struct BurnDriver BurnDrvWb31 = {
@@ -3052,5 +3052,5 @@ struct BurnDriver BurnDrvWb31 = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SEGA_SYSTEM16A | HARDWARE_SEGA_FD1094_ENC, GBF_PLATFORM, 0,
 	NULL, Wb31RomInfo, Wb31RomName, System16aInputInfo, Wb31DIPInfo,
 	Wb31Init, System16Exit, System16AFrame, NULL, System16Scan,
-	0, NULL, NULL, NULL, NULL, 320, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x1800, 320, 224, 4, 3
 };

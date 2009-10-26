@@ -90,8 +90,8 @@ K053260_INLINE int limit( int val, int max, int min ) {
 	return val;
 }
 
-#define MAXOUT 0x7fff
-#define MINOUT -0x8000
+#define MAXOUT 0x3fff
+#define MINOUT -0x4000
 
 void K053260Update(int chip, short *pBuf, int length)
 {

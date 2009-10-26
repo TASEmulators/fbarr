@@ -49,6 +49,8 @@ int nMaxPlayers;
 
 bool bSaveCRoms = 0;
 
+unsigned int *pBurnDrvPalette;
+
 bool BurnCheckMMXSupport()
 {
 	unsigned int nSignatureEAX = 0, nSignatureEBX = 0, nSignatureECX = 0, nSignatureEDX = 0;
@@ -567,7 +569,7 @@ extern "C" int BurnDrvInit()
 	nReturnValue = pDriver[nBurnDrvSelect]->Init();	// Forward to drivers function
 
 	nMaxPlayers = pDriver[nBurnDrvSelect]->players;
-
+	
 #if defined (FBA_DEBUG)
 	if (!nReturnValue) {
 		starttime = clock();
@@ -604,7 +606,9 @@ extern "C" int BurnDrvExit()
 	HiscoreExit();
 	BurnStateExit();
 
-	nBurnCPUSpeedAdjust = 0x0100;	
+	nBurnCPUSpeedAdjust = 0x0100;
+	
+	pBurnDrvPalette = NULL;	
 
 	return pDriver[nBurnDrvSelect]->Exit();			// Forward to drivers function
 }
@@ -689,6 +693,11 @@ extern "C" int BurnDoGameListLocalisation()
 #endif
 	
 	return 0;
+}
+
+extern "C" int BurnDrvGetPaletteEntries()
+{
+	return pDriver[nBurnDrvSelect]->nPaletteEntries;
 }
 
 // Jukebox functions
@@ -886,6 +895,13 @@ int BurnTransferCopy(UINT32* pPalette)
 {
 	UINT16* pSrc = pTransDraw;
 	UINT8* pDest = pBurnDraw;
+	
+	if (!nTransWidth || !nTransHeight || !pTransDraw) {
+		bprintf(PRINT_NORMAL, _T("BurnTransferCopy called without BurnTransferInit!\n"));
+		return 1;
+	}
+	
+	pBurnDrvPalette = pPalette;
 
 	switch (nBurnBpp) {
 		case 2: {

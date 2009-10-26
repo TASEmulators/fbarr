@@ -1,5 +1,13 @@
  * Changes
  *
+ * 10-19-2009
+ *  Fixed kov2106 thanks to the FBA Shuffle team :)
+ *  Added a few small speedups
+ *  - Only recalculate the whole palette when needed now rather than every frame
+ *  - Clear all video buffers in one loop
+ *  Fixed a crash when doing line scroll (see kovsh intro - fire stage background)
+ *  Fixed sound after save state load
+ *
  * 04-24-2009
  *  Updated a set few names
  *

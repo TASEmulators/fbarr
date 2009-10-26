@@ -978,7 +978,7 @@ struct BurnDriver BurnDrvBiomtoy = {
 	BDF_GAME_WORKING,2,HARDWARE_MISC_POST90S, GBF_PLATFORM, 0,
 	NULL,BiomtoyRomInfo,BiomtoyRomName,BiomtoyInputInfo,BiomtoyDIPInfo,
 	BiomtoyInit,BiomtoyExit,BiomtoyFrame,NULL,BiomtoyScan,
-	0, NULL, NULL, NULL, NULL,320,240,4,3
+	0, NULL, NULL, NULL, NULL, 0x400, 320,240,4,3
 };
 
 // Maniac Square
@@ -1006,5 +1006,5 @@ struct BurnDriverD BurnDrvManiacsp = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_PROTOTYPE,2,HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL,ManiacspRomInfo,ManiacspRomName,BiomtoyInputInfo,ManiacspDIPInfo,
 	BiomtoyInit,BiomtoyExit,BiomtoyFrame,NULL,BiomtoyScan,
-	0, NULL, NULL, NULL, NULL, 320, 240, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x400, 320, 240, 4, 3
 };

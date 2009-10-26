@@ -1825,7 +1825,7 @@ struct BurnDriver BurnDrvGalpanic = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, GalpanicRomInfo, GalpanicRomName, GalpanicInputInfo, GalpanicDIPInfo,
-	GalpanicInit, GalpanicExit, GalpanicFrame, GalpanicDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	GalpanicInit, GalpanicExit, GalpanicFrame, GalpanicDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	224, 256, 3, 4
 };
 
@@ -1835,7 +1835,7 @@ struct BurnDriver BurnDrvFantasia = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, FantasiaRomInfo, FantasiaRomName, GalpanicInputInfo, FantasiaDIPInfo,
-	FantasiaInit, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	FantasiaInit, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	224, 256, 3, 4
 };
 
@@ -1845,7 +1845,7 @@ struct BurnDriver BurnDrvSupmodel = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, SupmodelRomInfo, SupmodelRomName, GalpanicInputInfo, FantasiaDIPInfo,
-	FantasiaInit, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	FantasiaInit, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	224, 256, 3, 4
 };
 
@@ -1855,7 +1855,7 @@ struct BurnDriver BurnDrvNewfant = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, NewfantRomInfo, NewfantRomName, GalpanicInputInfo, FantasiaDIPInfo,
-	FantasiaInit, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	FantasiaInit, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	224, 256, 3, 4
 };
 
@@ -1865,7 +1865,7 @@ struct BurnDriver BurnDrvFantsy95 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, Fantsy95RomInfo, Fantsy95RomName, GalpanicInputInfo, FantasiaDIPInfo,
-	FantasiaInit, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	FantasiaInit, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	224, 256, 3, 4
 };
 
@@ -1875,7 +1875,7 @@ struct BurnDriver BurnDrvMissw96 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, Missw96RomInfo, Missw96RomName, GalpanicInputInfo, Missw96DIPInfo,
-	Missw96Init, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	Missw96Init, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1885,7 +1885,7 @@ struct BurnDriver BurnDrvMissmw96 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, Missmw96RomInfo, Missmw96RomName, GalpanicInputInfo, Missw96DIPInfo,
-	Missw96Init, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	Missw96Init, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1895,17 +1895,17 @@ struct BurnDriver BurnDrvFantsia2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, Fantsia2RomInfo, Fantsia2RomName, GalpanicInputInfo, Missw96DIPInfo,
-	Fantsia2Init, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	Fantsia2Init, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvFntsia2a = {
-	"fntsia2a", "fantsia2", NULL, "1997",
+	"fantsia2a", "fantsia2", NULL, "1997",
 	"Fantasia II (Less Explicit)\0", NULL, "Comad", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_16BIT_ONLY | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_PUZZLE, 0,
 	NULL, Fntsia2aRomInfo, Fntsia2aRomName, GalpanicInputInfo, Missw96DIPInfo,
-	Fantsia2Init, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	Fantsia2Init, GalpanicExit, ComadFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1915,7 +1915,7 @@ struct BurnDriver BurnDrvGalhustl = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_SPORTSMISC, 0,
 	NULL, GalhustlRomInfo, GalhustlRomName, GalhustlInputInfo, GalhustlDIPInfo,
-	GalhustlInit, GalpanicExit, GalhustlFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	GalhustlInit, GalpanicExit, GalhustlFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	256, 224, 4, 3
 };
 
@@ -1925,6 +1925,6 @@ struct BurnDriverD BurnDrvZipzap = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_16BIT_ONLY, 2, HARDWARE_MISC_POST90S, GBF_BREAKOUT, 0,
 	NULL, ZipzapRomInfo, ZipzapRomName, GalhustlInputInfo, ZipzapDIPInfo,
-	ZipzapInit, GalpanicExit, GalhustlFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette,
+	ZipzapInit, GalpanicExit, GalhustlFrame, ComadDraw, GalpanicScan, 0, NULL, NULL, NULL, &RecalcBgPalette, 0x400,
 	224, 256, 3, 4
 };

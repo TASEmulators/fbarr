@@ -31,6 +31,7 @@ int System16RecalcBgAltTileMap = 0;
 int System16RecalcFgTileMap = 0;
 int System16RecalcFgAltTileMap = 0;
 int System16CreateOpaqueTileMaps = 0;
+int System16IgnoreVideoEnable = 0;
 
 bool bSystem16BootlegRender;
 
@@ -3068,9 +3069,11 @@ inline static void System16BUpdateTileValues()
 
 void System16BRender()
 {
-	if (!System16VideoEnable) {
-		BurnTransferClear();
-		return;
+	if (!System16IgnoreVideoEnable) {
+		if (!System16VideoEnable) {
+			BurnTransferClear();
+			return;
+		}
 	}
 	
 	System16BUpdateTileValues();

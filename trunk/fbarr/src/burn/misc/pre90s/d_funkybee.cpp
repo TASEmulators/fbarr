@@ -664,7 +664,7 @@ struct BurnDriver BurnDrvfunkybee = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, funkybeeRomInfo, funkybeeRomName, DrvInputInfo, funkybeeDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x20,
 	224, 232, 3, 4
 };
 
@@ -687,12 +687,12 @@ STD_ROM_PICK(funkbeeb)
 STD_ROM_FN(funkbeeb)
 
 struct BurnDriver BurnDrvfunkbeeb = {
-	"funkbeeb", "funkybee", NULL, "1982",
+	"funkybeeb", "funkybee", NULL, "1982",
 	"Funky Bee (bootleg, harder)\0", NULL, "bootleg", "misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_VERSHOOT, 0,
 	NULL, funkbeebRomInfo, funkbeebRomName, DrvInputInfo, funkbeebDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x20,
 	224, 232, 3, 4
 };
 
@@ -726,7 +726,7 @@ struct BurnDriver BurnDrvskylancr = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, skylancrRomInfo, skylancrRomName, DrvInputInfo, skylancrDIPInfo,
-	skylancrInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	skylancrInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x20,
 	224, 232, 3, 4
 };
 
@@ -748,11 +748,11 @@ STD_ROM_PICK(skylance)
 STD_ROM_FN(skylance)
 
 struct BurnDriver BurnDrvskylance = {
-	"skylance", "skylancr", NULL, "1983",
+	"skylancre", "skylancr", NULL, "1983",
 	"Sky Lancer (Esco Trading Co license)\0", NULL, "Orca (Esco Trading Co license)", "misc",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_SHOOT, 0,
 	NULL, skylanceRomInfo, skylanceRomName, DrvInputInfo, skylanceDIPInfo,
-	skylancrInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal,
+	skylancrInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalcPal, 0x20,
 	224, 232, 3, 4
 };

@@ -754,7 +754,7 @@ struct BurnDriver BurnDrvfnkyfish = {
 	NULL, fnkyfishRomInfo, fnkyfishRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, NULL, 
 	JBF_GAME_WORKING, DrvJukeboxInit, DrvJukeboxExit, DrvJukeboxFrame, 
-	&DrvRecalc, 256, 512, 3, 4
+	&DrvRecalc, 0x08, 256, 512, 3, 4
 };
 
 
@@ -791,7 +791,7 @@ struct BurnDriver BurnDrvkangaroo = {
 	NULL, kangarooRomInfo, kangarooRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, NULL, 
 	JBF_GAME_WORKING, DrvJukeboxInit, DrvJukeboxExit, DrvJukeboxFrame, 
-	&DrvRecalc, 256, 512, 3, 4
+	&DrvRecalc, 0x08, 256, 512, 3, 4
 };
 
 
@@ -820,14 +820,14 @@ STD_ROM_PICK(kangaroa)
 STD_ROM_FN(kangaroa)
 
 struct BurnDriver BurnDrvkangaroa = {
-	"kangaroa", "kangaroo", NULL, "1982",
+	"kangarooa", "kangaroo", NULL, "1982",
 	"Kangaroo (Atari)\0", NULL, "[Sun Electronics] (Atari license)", "Kangaroo",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, kangaroaRomInfo, kangaroaRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, NULL, 
 	JBF_GAME_WORKING, DrvJukeboxInit, DrvJukeboxExit, DrvJukeboxFrame, 
-	&DrvRecalc, 256, 512, 3, 4
+	&DrvRecalc, 0x08, 256, 512, 3, 4
 };
 
 
@@ -853,12 +853,12 @@ STD_ROM_PICK(kangarob)
 STD_ROM_FN(kangarob)
 
 struct BurnDriver BurnDrvkangarob = {
-	"kangarob", "kangaroo", NULL, "1982",
+	"kangaroob", "kangaroo", NULL, "1982",
 	"Kangaroo (bootleg)\0", NULL, "Bootleg", "Kangaroo",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, kangarobRomInfo, kangarobRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, DrvDraw, NULL, 
 	JBF_GAME_WORKING, DrvJukeboxInit, DrvJukeboxExit, DrvJukeboxFrame, 
-	&DrvRecalc, 256, 512, 3, 4
+	&DrvRecalc, 0x08, 256, 512, 3, 4
 };

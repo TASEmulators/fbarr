@@ -55,6 +55,7 @@ void NeoMapBank();
 
 // neo_palette.cpp
 extern unsigned char* NeoPalSrc[2];
+extern unsigned int* NeoPaletteData[2];
 extern int nNeoPaletteBank;
 extern unsigned int* NeoPalette;
 

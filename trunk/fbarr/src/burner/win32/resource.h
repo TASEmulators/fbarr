@@ -225,8 +225,9 @@
 #define IDD_JUKEBOX						230
 #define IDD_IPS							231
 #define IDD_NGSLOTSELECT				232
-#define IDD_REPLAYINP                   233
-#define IDD_RECORDINP                   234
+#define IDD_PALETTEVIEWER				233
+#define IDD_REPLAYINP                   234
+#define IDD_RECORDINP                   235
 
 #define IDS_STRING                      500
 
@@ -492,6 +493,40 @@
 
 #define IDC_IPSMAN_DESELECTALL				20255
 
+#define IDC_GFX_VIEWER_HORI_1				30000
+#define IDC_GFX_VIEWER_HORI_2				30001
+#define IDC_GFX_VIEWER_HORI_3				30002
+#define IDC_GFX_VIEWER_HORI_4				30003
+#define IDC_GFX_VIEWER_HORI_5				30004
+#define IDC_GFX_VIEWER_HORI_6				30005
+#define IDC_GFX_VIEWER_HORI_7				30006
+#define IDC_GFX_VIEWER_HORI_8				30007
+#define IDC_GFX_VIEWER_HORI_9				30008
+#define IDC_GFX_VIEWER_HORI_10				30009
+#define IDC_GFX_VIEWER_HORI_11				30010
+#define IDC_GFX_VIEWER_HORI_12				30011
+#define IDC_GFX_VIEWER_HORI_13				30012
+#define IDC_GFX_VIEWER_HORI_14				30013
+#define IDC_GFX_VIEWER_HORI_15				30014
+#define IDC_GFX_VIEWER_HORI_16				30015
+#define IDC_GFX_VIEWER_VERT_1				30016
+#define IDC_GFX_VIEWER_VERT_2				30017
+#define IDC_GFX_VIEWER_VERT_3				30018
+#define IDC_GFX_VIEWER_VERT_4				30019
+#define IDC_GFX_VIEWER_VERT_5				30020
+#define IDC_GFX_VIEWER_VERT_6				30021
+#define IDC_GFX_VIEWER_VERT_7				30022
+#define IDC_GFX_VIEWER_VERT_8				30023
+#define IDC_GFX_VIEWER_VERT_9				30024
+#define IDC_GFX_VIEWER_VERT_10				30025
+#define IDC_GFX_VIEWER_VERT_11				30026
+#define IDC_GFX_VIEWER_VERT_12				30027
+#define IDC_GFX_VIEWER_VERT_13				30028
+#define IDC_GFX_VIEWER_VERT_14				30029
+#define IDC_GFX_VIEWER_VERT_15				30030
+#define IDC_GFX_VIEWER_VERT_16				30031
+#define IDC_GFX_VIEWER_PREV				30032
+#define IDC_GFX_VIEWER_NEXT				30033
 
 #define MENU_LOAD                       10001
 #define MENU_STARTNET                   10002
@@ -691,7 +726,8 @@
 #define MENU_INP_PLUGIN_6				10669
 #define MENU_INP_PLUGIN_7				10670
 #define MENU_INP_PLUGIN_8				10671
-#define MENU_HOTKEYS                    10672
+#define MENU_PALETTEVIEWER				10672
+#define MENU_HOTKEYS                    10673
 
 #define MENU_NORMAL                     11001
 #define MENU_SCAN                       11002

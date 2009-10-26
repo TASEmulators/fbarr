@@ -10,6 +10,8 @@ static int K053245Mask[2];
 static int K053245_dx[2];
 static int K053245_dy[2];
 
+static unsigned short *K053245Temp = NULL;
+
 static unsigned char K053244Regs[2][0x10];
 static int K053244Bank[2];
 
@@ -54,11 +56,21 @@ void K053245Init(int chip, unsigned char *gfx, int mask, void (*callback)(int *c
 
 	KonamiIC_K053245InUse = 1;
 
+	if (konami_temp_screen == NULL) {
+		int width, height;
+		BurnDrvGetVisibleSize(&width, &height);
+		konami_temp_screen = (unsigned short*)malloc(width * height * 2);
+	}
+
+	K053245Temp = konami_temp_screen;
+
 	K053245Reset();
 }
 
 void K053245Exit()
 {
+	K053245Temp = NULL;
+
 	for (int i = 0; i < K053245Active; i++) {
 		if (K053245Ram[i]) {
 			free (K053245Ram[i]);
@@ -86,8 +98,9 @@ void K053245SetSpriteOffset(int chip,int offsx, int offsy)
 
 void K053245ClearBuffer(int chip)
 {
-	for (int i = 0; i < 0x800; i+=8)
-		K053245Buf[chip][i] = 0;
+	unsigned short *buf = (unsigned short*)K053245Buf[chip];
+
+	for (int i = 0; i < 0x800/2; i+=8) buf[i] = 0;
 }
 
 void K053245UpdateBuffer(int chip)
@@ -117,14 +130,24 @@ unsigned short K053245ReadWord(int chip, int offset)
 {
 	unsigned short *ret = (unsigned short*)K053245Ram[chip];
 
+#if 0
+	int r = ret[offset];
+
+	return (r << 8) | (r >> 8);
+#else
 	return ret[offset];
+#endif
 }
 
 void K053245WriteWord(int chip, int offset, int data)
 {
 	unsigned short *ret = (unsigned short*)K053245Ram[chip];
 
+#if 0
+	ret[offset] = (data << 8) | (data >> 8);
+#else
 	ret[offset] = data;
+#endif
 }
 
 unsigned char K053244Read(int chip, int offset)
@@ -156,7 +179,55 @@ void K053244Write(int chip, int offset, int data)
 
 // Sprite Rendering
 
-void K053245SpritesRender(int chip, unsigned char *gfxdata, int priority, int shadow_color)
+static void RenderZoomedShadowTile(unsigned char *gfx, int code, int color, int sx, int sy, int fx, int fy, int width, int height, int zoomx, int zoomy)
+{
+	int h = ((zoomy << 4) + 0x8000) >> 16;
+	int w = ((zoomx << 4) + 0x8000) >> 16;
+
+	if (!h || !w || sx + w < 0 || sy + h < 0 || sx >= nScreenWidth || sy >= nScreenHeight) return;
+
+	if (fy) fy  = (height-1)*width;
+	if (fx) fy |= (width-1);
+
+	int hz = (height << 12) / h;
+	int wz = (width << 12) / w;
+
+	int starty = 0, startx = 0, endy = h, endx = w;
+	if (sy < 0) starty = 0 - sy;
+	if (sx < 0) startx = 0 - sx;
+	if (sy + h >= nScreenHeight) endy -= (h + sy) - nScreenHeight;
+	if (sx + w >= nScreenWidth ) endx -= (w + sx) - nScreenWidth;
+
+	unsigned char  *src = gfx + (code * width * height);
+	unsigned short *dst = konami_temp_screen + (sy + starty) * nScreenWidth + sx;
+	unsigned short *pTemp = pTransDraw + (sy + starty) * nScreenWidth + sx;
+
+	int or1 = 0x8000;
+
+	for (int y = starty; y < endy; y++)
+	{
+		int zy = ((y * hz) >> 12) * width;
+
+		for (int x = startx; x < endx; x++)
+		{
+			int pxl = src[(zy + ((x * wz) >> 12)) ^ fy];
+
+			if (pxl) {
+				if (pxl == 15) {
+					dst[x] = color | pxl;
+					pTemp[x] |= or1;
+				} else {
+					pTemp[x] = color | pxl;
+				}
+			} 
+		}
+
+		dst += nScreenWidth;
+		pTemp += nScreenWidth;
+	}
+}
+
+void K053245SpritesRender(int chip, unsigned char *gfxdata, int priority)
 {
 #define NUM_SPRITES 128
 	int offs,pri_code,i;
@@ -167,8 +238,6 @@ void K053245SpritesRender(int chip, unsigned char *gfxdata, int priority, int sh
 	flipscreenY = K053244Regs[chip][5] & 0x02;
 	spriteoffsX = (K053244Regs[chip][0] << 8) | K053244Regs[chip][1];
 	spriteoffsY = (K053244Regs[chip][2] << 8) | K053244Regs[chip][3];
-
-	shadow_color >>= 4;
 
 	for (offs = 0;offs < NUM_SPRITES;offs++)
 		sortedlist[offs] = -1;
@@ -183,13 +252,12 @@ void K053245SpritesRender(int chip, unsigned char *gfxdata, int priority, int sh
 		{
 			pri_code &= 0x007f;
 
-			if (offs && pri_code == -1) continue;
+			if (offs && pri_code == K05324xZRejection) continue;
 
 			if (sortedlist[pri_code] == -1) sortedlist[pri_code] = offs;
 		}
 	}
 
-	//for (pri_code = NUM_SPRITES-1;pri_code >= 0;pri_code--)
 	for (pri_code = 0; pri_code < NUM_SPRITES; pri_code++)
 	{
 		int ox,oy,color,code,size,w,h,x,y,flipx,flipy,mirrorx,mirrory,shadow,zoomx,zoomy,pri;
@@ -243,7 +311,6 @@ void K053245SpritesRender(int chip, unsigned char *gfxdata, int priority, int sh
 		if (mirrorx) flipx = 0; // documented and confirmed
 		mirrory = sprbuf[offs+6] & 0x0200;
 		shadow = sprbuf[offs+6] & 0x0080;
-//		if (shadow) color = shadow_color;
 
 		if (flipscreenX)
 		{
@@ -322,42 +389,30 @@ void K053245SpritesRender(int chip, unsigned char *gfxdata, int priority, int sh
 
 				c = (c & 0x3f) | (code & ~0x3f);
 
+				if (shadow) {
+					RenderZoomedShadowTile(gfxdata, c, color << 4, sx, sy, fx, fy, 16, 16, zw << 12, zh << 12);
+					continue;
+				}
+
 				if (zoomx == 0x10000 && zoomy == 0x10000)
 				{
 					if (fy) {
 						if (fx) {
-							Render16x16Tile_Mask_FlipXY_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* no */, 0, gfxdata);
+							Render16x16Tile_Mask_FlipXY_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxdata);
 						} else {
-							Render16x16Tile_Mask_FlipY_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* no */, 0, gfxdata);
+							Render16x16Tile_Mask_FlipY_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxdata);
 						}
 					} else {
 						if (fx) {
-							Render16x16Tile_Mask_FlipX_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* no */, 0, gfxdata);
+							Render16x16Tile_Mask_FlipX_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxdata);
 						} else {
-							Render16x16Tile_Mask_Clip(pTransDraw, c, sx, sy, color, 4, 0 /* no */, 0, gfxdata);
+							Render16x16Tile_Mask_Clip(pTransDraw, c, sx, sy, color, 4, 0, 0, gfxdata);
 						}
 					}
-
-				//	pdrawgfx_transtable(bitmap,cliprect,K053245_gfx[chip],
-				//			c,
-				//			color,
-				//			fx,fy,
-				//			sx,sy,
-				//			priority_bitmap,pri,
-				//			drawmode_table,machine->shadow_table);
 				}
 				else
 				{
-					RenderZoomedTile(pTransDraw, gfxdata, c, color << 4, 0/*fix later*/, sx, sy, fx, fy, 16, 16, zw << 12, zh << 12);
-
-				//	pdrawgfxzoom_transtable(bitmap,cliprect,K053245_gfx[chip],
-				//			c,
-				//			color,
-				//			fx,fy,
-				//			sx,sy,
-				//			,
-				//			priority_bitmap,pri,
-				//			drawmode_table,machine->shadow_table);
+					RenderZoomedTile(pTransDraw, gfxdata, c, color << 4, 0, sx, sy, fx, fy, 16, 16, zw << 12, zh << 12);
 				}
 			}
 		}

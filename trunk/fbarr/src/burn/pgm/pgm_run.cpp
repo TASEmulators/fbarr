@@ -21,7 +21,7 @@ int nPGMSPRMaskMaskLen = 0;
 int nPGMExternalARMLen = 0;
 
 unsigned int *RamBg, *RamTx, *RamCurPal;
-unsigned short *RamRs, *RamPal, *RamVReg, *RamSpr, *RamSprBuf;
+unsigned short *RamRs, *PgmRamPal, *RamVReg, *RamSpr, *RamSprBuf;
 static unsigned char *RamZ80;
 unsigned char *Ram68K;
 
@@ -82,7 +82,7 @@ static int pgmMemIndex()
 	RamCurPal	= (unsigned int *) Next; Next += 0x001220 * sizeof(unsigned int);
 
 	RamRs		= (unsigned short *) Next; Next += 0x0000800;	// Row Scroll
-	RamPal		= (unsigned short *) Next; Next += 0x0001200;	// Palette R5G5B5
+	PgmRamPal		= (unsigned short *) Next; Next += 0x0001200;	// Palette R5G5B5
 	RamVReg		= (unsigned short *) Next; Next += 0x0010000;	// Video Regs inc. Zoom Table
 	RamSprBuf	= (unsigned short *) Next; Next += 0xa00;
 	RamSpr		= (unsigned short *) Ram68K; 
@@ -412,6 +412,37 @@ void __fastcall PgmZ80WriteWord(unsigned int sekAddress, unsigned short wordValu
 	RamZ80[sekAddress+1] = wordValue & 0xFF;
 }
 
+
+inline static unsigned int CalcCol(unsigned short nColour)
+{
+	int r, g, b;
+
+	r = (nColour & 0x7C00) >> 7;  // Red 
+	r |= r >> 5;
+	g = (nColour & 0x03E0) >> 2;	// Green
+	g |= g >> 5;
+	b = (nColour & 0x001F) << 3;	// Blue
+	b |= b >> 5;
+
+	return BurnHighCol(r, g, b, 0);
+}
+
+void __fastcall PgmPaletteWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	sekAddress = (sekAddress - 0xa00000) >> 1;
+	PgmRamPal[sekAddress] = wordValue;
+	RamCurPal[sekAddress] = CalcCol(wordValue);
+}
+
+void __fastcall PgmPaletteWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	sekAddress -= 0xa00000;
+	unsigned char *pal = (unsigned char*)PgmRamPal;
+	pal[sekAddress ^ 1] = byteValue;
+
+	RamCurPal[sekAddress >> 1] = CalcCol(PgmRamPal[sekAddress]);
+}
+
 unsigned char __fastcall PgmZ80PortRead(unsigned short port)
 {
 	switch (port >> 8)
@@ -627,16 +658,20 @@ int pgmInit()
                         SekMapMemory((unsigned char *)RamRs,    0x907000 | i, 0x9077ff | i, SM_RAM);
                 }
 
-		SekMapMemory((unsigned char *)RamPal,		0xa00000, 0xa011ff, SM_RAM);
+		SekMapMemory((unsigned char *)PgmRamPal,	0xa00000, 0xa011ff, SM_RAM); // written in handler
 		SekMapMemory((unsigned char *)RamVReg,		0xb00000, 0xb0ffff, SM_RAM);
 
+		SekMapHandler(1,				0xa00000, 0xa011ff, SM_WRITE);
 		SekMapHandler(2,				0xc10000, 0xc1ffff, SM_READ | SM_WRITE);
-		
+
 		SekSetReadWordHandler(0, PgmReadWord);
 		SekSetReadByteHandler(0, PgmReadByte);
 		SekSetWriteWordHandler(0, PgmWriteWord);
 		SekSetWriteByteHandler(0, PgmWriteByte);
 		
+		SekSetWriteByteHandler(1, PgmPaletteWriteByte);
+		SekSetWriteWordHandler(1, PgmPaletteWriteWord);
+
 		SekSetReadWordHandler(2, PgmZ80ReadWord);
 		SekSetWriteWordHandler(2, PgmZ80WriteWord);
 		
@@ -662,6 +697,8 @@ int pgmInit()
 	pgmInitDraw();
 
 	ics2115_init();
+	
+	pBurnDrvPalette = (unsigned int*)PgmRamPal;
 
 	PgmDoReset();
 
@@ -850,7 +887,7 @@ int pgmScan(int nAction,int *pnMin)
 		ba.szName	= "Row Scroll";
 		BurnAcb(&ba);
 
-		ba.Data		= RamPal;
+		ba.Data		= PgmRamPal;
 		ba.nLen		= 0x0001200;
 		ba.nAddress = 0xA00000;
 		ba.szName	= "Palette";
@@ -885,7 +922,7 @@ int pgmScan(int nAction,int *pnMin)
 		SCAN_VAR(PgmInput);
 
 		SCAN_VAR(nPgmZ80Work);
-	//	ics2115_scan(nAction, pnMin);
+		ics2115_scan(nAction, pnMin);
 	}
 
 	if (pPgmScanCallback) {

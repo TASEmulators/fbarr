@@ -323,6 +323,46 @@ static int CpsLoadOneBootlegType2(unsigned char* Tile, int nNum, int nWord, int 
 	return 0;
 }
 
+static int CpsLoadOneSf2ebbl(unsigned char* Tile, int nNum, int nWord, int nShift)
+{
+	unsigned char *Rom = NULL; int nRomLen=0;
+	unsigned char *pt = NULL, *pr = NULL;
+	int i;
+
+	LoadUp(&Rom, &nRomLen, nNum);
+	if (Rom == NULL) {
+		return 1;
+	}
+	nRomLen &= ~1;								// make sure even
+
+	for (i = 0, pt = Tile, pr = Rom; i < 0x10000; pt += 8) {
+		unsigned int Pix;						// Eight pixels
+		unsigned char b;
+		b = *pr++; i++; Pix = SepTable[b];
+		if (nWord) {
+			b = *pr++; i++; Pix |= SepTable[b] << 1;
+		}
+
+		Pix <<= nShift;
+		*((unsigned int *)pt) |= Pix;
+	}
+
+	for (i = 0, pt = Tile + 4, pr = Rom + 0x10000; i < 0x10000; pt += 8) {
+		unsigned int Pix;						// Eight pixels
+		unsigned char b;
+		b = *pr++; i++; Pix = SepTable[b];
+		if (nWord) {
+			b = *pr++; i++; Pix |= SepTable[b] << 1;
+		}
+
+		Pix <<= nShift;
+		*((unsigned int *)pt) |= Pix;
+	}
+
+	free(Rom);
+	return 0;
+}
+
 int CpsLoadTiles(unsigned char* Tile, int nStart)
 {
 	// left  side of 16x16 tiles
@@ -419,6 +459,16 @@ int CpsLoadTilesPunipic2(unsigned char *Tile, int nStart)
 	CpsLoadOneHack160(Tile + 0 + 0x200000, nStart, 1, 1);
 	CpsLoadOneHack160(Tile + 4 + 0x000000, nStart, 1, 2);
 	CpsLoadOneHack160(Tile + 4 + 0x200000, nStart, 1, 3);
+	
+	return 0;
+}
+
+int CpsLoadTilesSf2ebbl(unsigned char *Tile, int nStart)
+{
+	CpsLoadOneSf2ebbl(Tile, nStart + 0, 0, 0);
+	CpsLoadOneSf2ebbl(Tile, nStart + 1, 0, 2);
+	CpsLoadOneSf2ebbl(Tile, nStart + 2, 0, 1);
+	CpsLoadOneSf2ebbl(Tile, nStart + 3, 0, 3);
 	
 	return 0;
 }

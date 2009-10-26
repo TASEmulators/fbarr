@@ -1255,7 +1255,7 @@ struct BurnDriver BurnDrvFstarfrc = {
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, FstarfrcRomInfo, FstarfrcRomName, FstarfrcInputInfo, FstarfrcDIPInfo,
 	FstarfrcInit, FstarfrcExit, FstarfrcFrame, NULL, FstarfrcScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x2000, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvFstarfrcj = {
@@ -1265,7 +1265,7 @@ struct BurnDriver BurnDrvFstarfrcj = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_MISC_POST90S, GBF_VERSHOOT, 0,
 	NULL, FstarfrcjRomInfo, FstarfrcjRomName, FstarfrcInputInfo, FstarfrcDIPInfo,
 	FstarfrcInit, FstarfrcExit, FstarfrcFrame, NULL, FstarfrcScan,
-	0, NULL, NULL, NULL, NULL, 224, 256, 3, 4
+	0, NULL, NULL, NULL, NULL, 0x2000, 224, 256, 3, 4
 };
 
 struct BurnDriver BurnDrvGinkun = {
@@ -1275,7 +1275,7 @@ struct BurnDriver BurnDrvGinkun = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_MINIGAMES, 0,
 	NULL, GinkunRomInfo, GinkunRomName, FstarfrcInputInfo, GinkunDIPInfo,
 	FstarfrcInit, FstarfrcExit, FstarfrcFrame, NULL, FstarfrcScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvRiot = {
@@ -1285,5 +1285,5 @@ struct BurnDriver BurnDrvRiot = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_SHOOT, 0,
 	NULL, RiotRomInfo, RiotRomName, RiotInputInfo, RiotDIPInfo,
 	FstarfrcInit, FstarfrcExit, FstarfrcFrame, NULL, FstarfrcScan,
-	0, NULL, NULL, NULL, NULL, 256, 224, 4, 3
+	0, NULL, NULL, NULL, NULL, 0x2000, 256, 224, 4, 3
 };

@@ -13,6 +13,8 @@ int CavePalInit(int nPalSize)
 
 	CavePalCopy = (unsigned short*)malloc(nPalSize * sizeof(short));
 	memset(CavePalCopy, 0, nPalSize * sizeof(short));
+	
+	pBurnDrvPalette = CavePalette;
 
 	return 0;
 }

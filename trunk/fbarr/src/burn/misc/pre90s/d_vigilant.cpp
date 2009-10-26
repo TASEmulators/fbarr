@@ -110,7 +110,7 @@ static struct BurnInputInfo BuccanrsInputList[] =
 
 STDINPUTINFO(Buccanrs)
 
-static struct BurnInputInfo BuccanraInputList[] =
+static struct BurnInputInfo BuccanrsaInputList[] =
 {
 	{"Coin 1"            , BIT_DIGITAL  , DrvInputPort0 + 3, "p1 coin"   },
 	{"Start 1"           , BIT_DIGITAL  , DrvInputPort0 + 0, "p1 start"  },
@@ -137,7 +137,7 @@ static struct BurnInputInfo BuccanraInputList[] =
 	{"Dip 3"             , BIT_DIPSWITCH, DrvDip + 2       , "dip"       },
 };
 
-STDINPUTINFO(Buccanra)
+STDINPUTINFO(Buccanrsa)
 
 static struct BurnInputInfo KikcubicInputList[] =
 {
@@ -338,7 +338,7 @@ static struct BurnDIPInfo BuccanrsDIPList[]=
 
 STDDIPINFO(Buccanrs)
 
-static struct BurnDIPInfo BuccanraDIPList[]=
+static struct BurnDIPInfo BuccanrsaDIPList[]=
 {
 	// Default Values
 	{0x11, 0xff, 0xff, 0xf4, NULL                     },
@@ -409,7 +409,7 @@ static struct BurnDIPInfo BuccanraDIPList[]=
 	{0x13, 0x01, 0x80, 0x00, "On"                     },
 };
 
-STDDIPINFO(Buccanra)
+STDDIPINFO(Buccanrsa)
 
 static struct BurnDIPInfo KikcubicDIPList[]=
 {
@@ -608,7 +608,7 @@ static struct BurnRomInfo BuccanrsRomDesc[] = {
 STD_ROM_PICK(Buccanrs)
 STD_ROM_FN(Buccanrs)
 
-static struct BurnRomInfo BuccanraRomDesc[] = {
+static struct BurnRomInfo BuccanrsaRomDesc[] = {
 	{ "bc-011",        0x08000, 0x6b657ef1, BRF_ESS | BRF_PRG },	//  0	Z80 #1 Program Code
 	{ "12.u25",        0x10000, 0x87303ba8, BRF_ESS | BRF_PRG },	//  1
 	
@@ -633,8 +633,8 @@ static struct BurnRomInfo BuccanraRomDesc[] = {
 	{ "prom2.u99",     0x00100, 0xe0aa8869, BRF_GRA },		//  15
 };
 
-STD_ROM_PICK(Buccanra)
-STD_ROM_FN(Buccanra)
+STD_ROM_PICK(Buccanrsa)
+STD_ROM_FN(Buccanrsa)
 
 static struct BurnRomInfo KikcubicRomDesc[] = {
 	{ "mqj-p0",        0x08000, 0x9cef394a, BRF_ESS | BRF_PRG },	//  0	Z80 #1 Program Code
@@ -659,7 +659,7 @@ static struct BurnRomInfo KikcubicRomDesc[] = {
 STD_ROM_PICK(Kikcubic)
 STD_ROM_FN(Kikcubic)
 
-static struct BurnRomInfo KikcubibRomDesc[] = {
+static struct BurnRomInfo KikcubicbRomDesc[] = {
 	{ "1.bin",         0x08000, 0xd3a589ba, BRF_ESS | BRF_PRG },	//  0	Z80 #1 Program Code
 	{ "4.bin",         0x10000, 0x9ae1e1a6, BRF_ESS | BRF_PRG },	//  1
 	{ "5.bin",         0x08000, 0xa5a6bffd, BRF_ESS | BRF_PRG },	//  2
@@ -681,8 +681,8 @@ static struct BurnRomInfo KikcubibRomDesc[] = {
 	{ "7s",            0x00020, 0xface0cbb, BRF_GRA },		//  13
 };
 
-STD_ROM_PICK(Kikcubib)
-STD_ROM_FN(Kikcubib)
+STD_ROM_PICK(Kikcubicb)
+STD_ROM_FN(Kikcubicb)
 
 static int MemIndex()
 {
@@ -742,11 +742,11 @@ static void DrvSetVector(int Status)
 	}
 	
 	if (DrvIrqVector == 0xff) {
-		ZetSetVector(DrvIrqVector);
-		ZetSetIRQLine(0/*DrvIrqVector*/, ZET_IRQSTATUS_NONE);
+//		ZetSetVector(DrvIrqVector);
+		ZetSetIRQLine(0, ZET_IRQSTATUS_NONE);
 	} else {
 		ZetSetVector(DrvIrqVector);
-		ZetSetIRQLine(0/*DrvIrqVector*/, ZET_IRQSTATUS_ACK);
+		ZetSetIRQLine(0, ZET_IRQSTATUS_ACK);
 		nCyclesDone[1] += ZetRun(1000);
 	}
 }
@@ -888,7 +888,7 @@ unsigned char __fastcall BuccanrsZ80PortRead1(unsigned short a)
 	return 0;
 }
 
-unsigned char __fastcall BuccanraZ80PortRead1(unsigned short a)
+unsigned char __fastcall BuccanrsaZ80PortRead1(unsigned short a)
 {
 	a &= 0xff;
 	
@@ -1449,7 +1449,7 @@ static int BuccanrsInit()
 	ZetSetWriteHandler(VigilanteZ80Write1);
 	ZetSetInHandler(BuccanrsZ80PortRead1);
 	ZetSetOutHandler(VigilanteZ80PortWrite1);
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "buccanra")) ZetSetInHandler(BuccanraZ80PortRead1);
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "buccanrsa")) ZetSetInHandler(BuccanrsaZ80PortRead1);
 	ZetMapArea(0x0000, 0x7fff, 0, DrvZ80Rom1             );
 	ZetMapArea(0x0000, 0x7fff, 2, DrvZ80Rom1             );
 	ZetMapArea(0x8000, 0xbfff, 0, DrvZ80Rom1 + 0x10000   );
@@ -1509,7 +1509,7 @@ static int KikcubicInit()
 
 	DrvTempRom = (unsigned char *)malloc(0x80000);
 
-	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "kikcubib")) {
+	if (!strcmp(BurnDrvGetTextA(DRV_NAME), "kikcubicb")) {
 		// Load Z80 #1 Program Roms
 		nRet = BurnLoadRom(DrvZ80Rom1 + 0x00000,  0, 1); if (nRet != 0) return 1;
 		nRet = BurnLoadRom(DrvZ80Rom1 + 0x10000,  1, 1); if (nRet != 0) return 1;
@@ -2025,27 +2025,27 @@ struct BurnDriver BurnDrvVigilant = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, DrvRomInfo, DrvRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 256, 4, 3
+	0, NULL, NULL, NULL, NULL, 544, 256, 256, 4, 3
 };
 
-struct BurnDriver BurnDrvVigilntu = {
-	"vigilntu", "vigilant", NULL, "1988",
+struct BurnDriver BurnDrvVigilantu = {
+	"vigilantu", "vigilant", NULL, "1988",
 	"Vigilante (US)\0", NULL, "Irem (Data East USA License)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, DrvuRomInfo, DrvuRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 256, 4, 3
+	0, NULL, NULL, NULL, NULL, 544, 256, 256, 4, 3
 };
 
-struct BurnDriver BurnDrvVigilntj = {
-	"vigilntj", "vigilant", NULL, "1988",
+struct BurnDriver BurnDrvVigilantj = {
+	"vigilantj", "vigilant", NULL, "1988",
 	"Vigilante (Japan)\0", NULL, "Irem", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, DrvjRomInfo, DrvjRomName, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 256, 4, 3
+	0, NULL, NULL, NULL, NULL, 544, 256, 256, 4, 3
 };
 
 struct BurnDriver BurnDrvKikcubic = {
@@ -2055,17 +2055,17 @@ struct BurnDriver BurnDrvKikcubic = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
 	NULL, KikcubicRomInfo, KikcubicRomName, KikcubicInputInfo, KikcubicDIPInfo,
 	KikcubicInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 384, 256, 4, 3
+	0, NULL, NULL, NULL, NULL, 544, 384, 256, 4, 3
 };
 
-struct BurnDriver BurnDrvKikcubib = {
-	"kikcubib", "kikcubic", NULL, "1988",
+struct BurnDriver BurnDrvKikcubicb = {
+	"kikcubicb", "kikcubic", NULL, "1988",
 	"Kickle Cubele\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_MISC_PRE90S, GBF_MAZE, 0,
-	NULL, KikcubibRomInfo, KikcubibRomName, KikcubicInputInfo, KikcubicDIPInfo,
+	NULL, KikcubicbRomInfo, KikcubicbRomName, KikcubicInputInfo, KikcubicDIPInfo,
 	KikcubicInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 384, 256, 4, 3
+	0, NULL, NULL, NULL, NULL, 544, 384, 256, 4, 3
 };
 
 struct BurnDriver BurnDrvBuccanrs = {
@@ -2075,15 +2075,15 @@ struct BurnDriver BurnDrvBuccanrs = {
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, BuccanrsRomInfo, BuccanrsRomName, BuccanrsInputInfo, BuccanrsDIPInfo,
 	BuccanrsInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 256, 4, 3
+	0, NULL, NULL, NULL, NULL, 544, 256, 256, 4, 3
 };
 
-struct BurnDriver BurnDrvBuccanra = {
-	"buccanra", "buccanrs", NULL, "1989",
+struct BurnDriver BurnDrvBuccanrsa = {
+	"buccanrsa", "buccanrs", NULL, "1989",
 	"Buccaneers (set 2)\0", "No sound", "Duintronic", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
-	NULL, BuccanraRomInfo, BuccanraRomName, BuccanraInputInfo, BuccanraDIPInfo,
+	NULL, BuccanrsaRomInfo, BuccanrsaRomName, BuccanrsaInputInfo, BuccanrsaDIPInfo,
 	BuccanrsInit, DrvExit, DrvFrame, NULL, DrvScan,
-	0, NULL, NULL, NULL, NULL, 256, 256, 4, 3
+	0, NULL, NULL, NULL, NULL, 544, 256, 256, 4, 3
 };

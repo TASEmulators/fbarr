@@ -981,7 +981,7 @@ struct BurnDriver BurnDrvMainevt = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 4, HARDWARE_PREFIX_KONAMI, GBF_SPORTSMISC, 0,
 	NULL, mainevtRomInfo, mainevtRomName, MainevtInputInfo, MainevtDIPInfo,
-	mainevtInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	mainevtInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	288, 224, 4, 3
 };
 
@@ -1017,7 +1017,7 @@ struct BurnDriver BurnDrvMainevto = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_PREFIX_KONAMI, GBF_SPORTSMISC, 0,
 	NULL, mainevtoRomInfo, mainevtoRomName, MainevtInputInfo, MainevtDIPInfo,
-	mainevtInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	mainevtInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	288, 224, 4, 3
 };
 
@@ -1048,12 +1048,12 @@ STD_ROM_PICK(mainev2p)
 STD_ROM_FN(mainev2p)
 
 struct BurnDriver BurnDrvMainev2p = {
-	"mainev2p", "mainevt", NULL, "1988",
+	"mainevt2p", "mainevt", NULL, "1988",
 	"The Main Event (2 Players ver. X)\0", NULL, "Konami", "GX799",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_SPORTSMISC, 0,
 	NULL, mainev2pRomInfo, mainev2pRomName, Mainev2pInputInfo, Mainev2pDIPInfo,
-	mainevtInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	mainevtInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	288, 224, 4, 3
 };
 
@@ -1089,7 +1089,7 @@ struct BurnDriver BurnDrvRingohja = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_KONAMI, GBF_MISC, 0,
 	NULL, ringohjaRomInfo, ringohjaRomName, Mainev2pInputInfo, Mainev2pDIPInfo,
-	mainevtInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	mainevtInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	288, 224, 4, 3
 };
 
@@ -1128,7 +1128,7 @@ struct BurnDriver BurnDrvDevstors = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_PREFIX_KONAMI, GBF_SHOOT, 0,
 	NULL, devstorsRomInfo, devstorsRomName, DevstorsInputInfo, DevstorsDIPInfo,
-	devstorsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	devstorsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	224, 304, 3, 4
 };
 
@@ -1157,12 +1157,12 @@ STD_ROM_PICK(devstor2)
 STD_ROM_FN(devstor2)
 
 struct BurnDriver BurnDrvDevstor2 = {
-	"devstor2", "devstors", NULL, "1988",
+	"devstors2", "devstors", NULL, "1988",
 	"Devastators (ver. X)\0", NULL, "Konami", "GX890",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_PREFIX_KONAMI, GBF_SHOOT, 0,
 	NULL, devstor2RomInfo, devstor2RomName, DevstorsInputInfo, Devstor2DIPInfo,
-	devstorsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	devstorsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	224, 304, 3, 4
 };
 
@@ -1191,12 +1191,12 @@ STD_ROM_PICK(devstor3)
 STD_ROM_FN(devstor3)
 
 struct BurnDriver BurnDrvDevstor3 = {
-	"devstor3", "devstors", NULL, "1988",
+	"devstors3", "devstors", NULL, "1988",
 	"Devastators (ver. V)\0", NULL, "Konami", "GX890",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_PREFIX_KONAMI, GBF_SHOOT, 0,
 	NULL, devstor3RomInfo, devstor3RomName, DevstorsInputInfo, DevstorsDIPInfo,
-	devstorsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	devstorsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	224, 304, 3, 4
 };
 
@@ -1230,6 +1230,6 @@ struct BurnDriver BurnDrvGaruka = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_PREFIX_KONAMI, GBF_SHOOT, 0,
 	NULL, garukaRomInfo, garukaRomName, DevstorsInputInfo, Devstor2DIPInfo,
-	devstorsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	devstorsInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x100,
 	224, 304, 3, 4
 };

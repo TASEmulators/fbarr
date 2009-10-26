@@ -682,6 +682,6 @@ struct BurnDriver BurnDrvUltraman = {
 	L"\uFEFF\u30A6\u30EB\u30c8\u30E9\u30DE\u30f3\0Ultraman (Japan)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_MISC_POST90S, GBF_VSFIGHT, 0,
 	NULL, ultramanRomInfo, ultramanRomName, UltramanInputInfo, UltramanDIPInfo,
-	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc,
+	DrvInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 0, NULL, NULL, NULL, &DrvRecalc, 0x2000,
 	288, 224, 4, 3
 };
