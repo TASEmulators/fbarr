@@ -1901,6 +1901,14 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			}
 			break;
 
+		case ID_RAM_WATCH:
+			HK_ramWatch(0);
+			break;
+
+		case ID_RAM_SEARCH:
+			HK_ramSearch(0);
+			break;
+
 		case MENU_PALETTEVIEWER: {
 			AudBlankSound();
 			InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);

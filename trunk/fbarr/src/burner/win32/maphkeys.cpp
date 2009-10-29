@@ -62,7 +62,8 @@ CustomKey customKeys[] = {
 	{ 0,             MODKEY_NONE,  MENU_AVI_BEGIN,         "Start AVI Capture",         "start-avi",     HK_startAvi,          0, 0 },
 	{ 0,             MODKEY_NONE,  MENU_AVI_END,           "Stop AVI Capture",          "end-avi",       HK_stopAvi,           0, 0 },
 	{ 'C',           MODKEY_CTRL,  MENU_ENABLECHEAT,       "Cheat Editor",              "cheat",         HK_cheatEditor,       0, 0 },
-//	{ VK_F1,         MODKEY_SHIFT, MENU_CHEATSEARCH,       "Cheat Search",              "cheat-search",  HK_cheatSearch,       0, 0 },
+	{ 'F',           MODKEY_CTRL,  ID_RAM_SEARCH,          "RAM Search",                "ram-search",    HK_ramSearch,         0, 0 },
+	{ 'W',           MODKEY_CTRL,  ID_RAM_WATCH,           "RAM Watch",                 "ram-watch",     HK_ramWatch,          0, 0 },
 	{ VK_OEM_MINUS,  MODKEY_CTRL,  0,                      "Volume Down",               "volume-down",   HK_volumeDec,         0, 0 },
 	{ VK_OEM_PLUS,   MODKEY_CTRL,  0,                      "Volume Up",                 "volume-up",     HK_volumeInc,         0, 0 },
 	{ VK_BACK,       MODKEY_NONE,  0,                      "Show FPS",                  "show-fps",      HK_showFps,           0, 0 },
@@ -497,6 +498,8 @@ void HK_prevState(int)
 	TCHAR szString[MAX_PATH];
 	_sntprintf(szString, sizearray(szString), FBALoadStringEx(hAppInst, IDS_STATE_ACTIVESLOT, true), nSavestateSlot);
 	VidSNewShortMsg(szString);
+	VidRedraw();
+	VidPaint(0);
 	MenuEnableItems();
 }
 void HK_nextState(int)
@@ -509,6 +512,8 @@ void HK_nextState(int)
 	TCHAR szString[MAX_PATH];
 	_sntprintf(szString, sizearray(szString), FBALoadStringEx(hAppInst, IDS_STATE_ACTIVESLOT, true), nSavestateSlot);
 	VidSNewShortMsg(szString);
+	VidRedraw();
+	VidPaint(0);
 	MenuEnableItems();
 }
 
@@ -801,16 +806,26 @@ void HK_cheatEditor(int)
 	}
 }
 
-//void HK_cheatSearch(int)
-//{
-//#ifndef NO_CHEATSEARCH
-//	if (UseDialogs()) {
-//		AudBlankSound();
-//		InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
-//		CheatSearchCreate();
-//	}
-//#endif
-//}
+void HK_ramSearch(int)
+{
+	if(!RamSearchHWnd)
+	{
+		reset_address_info();
+		RamSearchHWnd = CreateDialog(hAppInst, MAKEINTRESOURCE(IDD_RAMSEARCH), NULL, (DLGPROC) RamSearchProc);
+	}
+	else
+		SetForegroundWindow(RamSearchHWnd);
+}
+
+void HK_ramWatch(int)
+{
+	if(!RamWatchHWnd)
+	{
+		RamWatchHWnd = CreateDialog(hAppInst, MAKEINTRESOURCE(IDD_RAMWATCH), NULL, (DLGPROC) RamWatchProc);
+	}
+	else
+		SetForegroundWindow(RamWatchHWnd);
+}
 
 void HK_windowSize(int param)
 {

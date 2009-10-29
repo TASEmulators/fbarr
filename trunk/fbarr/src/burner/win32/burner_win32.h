@@ -26,6 +26,9 @@
 #include "resource.h"
 #include "resource_string.h"
 
+#include "ram_search.h"
+#include "ramwatch.h"
+
 // ---------------------------------------------------------------------------
 
 // Macro for releasing a COM object

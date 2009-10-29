@@ -128,7 +128,7 @@ depobj	:= 	main.o splash.o about.o systeminfo.o debugger.o misc_win32.o \
 	   	popup_win32.o scrn.o menu.o replay.o dynhuff.o memcard.o wave.o \
 	   	inpc.o inpd.o inps.o inpcheat.o inpdipsw.o sfactd.o stated.o numdial.o res.o maphkeys.o \
 	   	cona.o localise.o roms.o support_paths.o jukebox.o menugui.o imagebutton.o pngload.o \
-	   	bmp_resize.o placeholderd.o fba_kaillera.o net.o localise_gamelist.o \
+	   	bmp_resize.o placeholderd.o fba_kaillera.o net.o localise_gamelist.o ram_search.o ramwatch.o \
 		\
 		adler32.o compress.o crc32.o deflate.o gzio.o infback.o \
        		inffast.o inflate.o inftrees.o trees.o uncompr.o zutil.o \
