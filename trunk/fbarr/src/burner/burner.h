@@ -44,6 +44,7 @@
 // OS independent functionality
 
 #include "interface.h"
+#include "luaengine.h"
 
 // Macros for parsing text
 #define SKIP_WS(s) while (_istspace(*s)) { s++; }			// Skip whitespace

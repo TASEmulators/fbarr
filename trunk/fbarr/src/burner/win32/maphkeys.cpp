@@ -64,6 +64,10 @@ CustomKey customKeys[] = {
 	{ 'C',           MODKEY_CTRL,  MENU_ENABLECHEAT,       "Cheat Editor",              "cheat",         HK_cheatEditor,       0, 0 },
 	{ 'F',           MODKEY_CTRL,  ID_RAM_SEARCH,          "RAM Search",                "ram-search",    HK_ramSearch,         0, 0 },
 	{ 'W',           MODKEY_CTRL,  ID_RAM_WATCH,           "RAM Watch",                 "ram-watch",     HK_ramWatch,          0, 0 },
+	{ 0,             0,            ID_LUA_OPEN,            "New Lua Script Window",     "lua-open",      HK_luaOpen,           0, 0 },
+	{ 0,             0,            ID_LUA_CLOSE_ALL,       "Stop Lua Script",           "lua-close-all", HK_luaCloseAll,       0, 0 },
+	{ 0,             0,            0,                      "Reload Lua Script",         "lua-reload",    HK_luaReload,         0, 0 },
+
 	{ VK_OEM_MINUS,  MODKEY_CTRL,  0,                      "Volume Down",               "volume-down",   HK_volumeDec,         0, 0 },
 	{ VK_OEM_PLUS,   MODKEY_CTRL,  0,                      "Volume Up",                 "volume-up",     HK_volumeInc,         0, 0 },
 	{ VK_BACK,       MODKEY_NONE,  0,                      "Show FPS",                  "show-fps",      HK_showFps,           0, 0 },
@@ -1008,6 +1012,27 @@ void HK_exitGame(int)
 	}
 }
 
+extern HWND LuaConsoleHWnd;
+extern INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+void HK_luaOpen(int)
+{
+	if(!LuaConsoleHWnd)
+	{
+		LuaConsoleHWnd = CreateDialog(hAppInst, MAKEINTRESOURCE(IDD_LUA), NULL, (DLGPROC) DlgLuaScriptDialog);
+	}
+	else
+		SetForegroundWindow(LuaConsoleHWnd);
+}
+void HK_luaCloseAll(int)
+{
+	if(LuaConsoleHWnd)
+		PostMessage(LuaConsoleHWnd, WM_CLOSE, 0, 0);
+}
+void HK_luaReload(int)
+{
+	FBA_ReloadLuaCode();
+}
 
 // key handle
 static inline bool MHkeysCheckMenuState(const CustomKey* key)

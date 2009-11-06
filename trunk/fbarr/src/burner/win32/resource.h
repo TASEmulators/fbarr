@@ -233,6 +233,7 @@
 #define IDD_EDITWATCH                   238
 #define IDD_PROMPT                      239
 #define IDR_RWACCELERATOR               240
+#define IDD_LUA                         241
 
 #define IDS_STRING                      500
 
@@ -538,6 +539,12 @@
 #define IDC_PROMPT_TEXT                 20306
 #define IDC_PROMPT_TEXT2                20307
 #define IDC_PROMPT_EDIT                 20308
+#define IDC_BUTTON_LUABROWSE            20309
+#define IDC_BUTTON_LUARUN               20310
+#define IDC_BUTTON_LUASTOP              20311
+#define IDC_EDIT_LUAPATH                20312
+#define IDC_LUACONSOLE                  20313
+#define IDC_BUTTON_LUAEDIT              20314
 
 #define IDC_IPSMAN_DESELECTALL          20500
 
@@ -886,6 +893,8 @@
 #define ID_RAM_WATCH                    11809
 #define RW_MENU_FIRST_RECENT_FILE       11810
 #define RW_MENU_LAST_RECENT_FILE        11811
+#define ID_LUA_OPEN                     11812
+#define ID_LUA_CLOSE_ALL                11813
 
 // Next default values for new objects
 //
