@@ -37,40 +37,12 @@
 #include "BaseTsd.h"
 typedef INT_PTR intptr_t;
 
-UINT8* HardwareToSoftwareAddress(HWAddressType address)
-{
-	if(!bDrvOkay)
-		return NULL;
-
-/*	int nActiveCPU = cheat_subptr->active_cpu();
-	if (nActiveCPU >= 0) {
-		cheat_subptr->cpu_close();
-	}
-
-	cheat_subptr->cpu_open(0);
-
-	HWAddressType memorySize = cheat_subptr->nMemorySize;
-//	UINT8 * memptr = (UINT8*) &cheat_subptr->read(address); // does not work, of course
-	UINT8 * memptr = NULL; // we need to get the pointer to hardware memory here?
-
-	cheat_subptr->cpu_close();
-
-	if (nActiveCPU >= 0) {
-		cheat_subptr->cpu_open(nActiveCPU);
-	}
-
-	if (address < memorySize) {
-		return memptr;
-	}
-	else */
-		return NULL;
-}
+#define INVALID_HARDWARE_ADDRESS	((HWAddressType) -1)
 
 struct MemoryRegion
 {
 	HWAddressType hardwareAddress; // hardware address of the start of this region
 	unsigned int size; // number of bytes to the end of this region
-	unsigned char* softwareAddress; // pointer to the start of the live emulator source values for this region
 
 	unsigned int virtualIndex; // index into s_prevValues, s_curValues, and s_numChanges, valid after being initialized in ResetMemoryRegions()
 	unsigned int itemIndex; // index into listbox items, valid when s_itemIndicesInvalid is false
@@ -92,15 +64,6 @@ static char Str_Tmp [1024];
 
 int disableRamSearchUpdate = false;
 
-
-
-//static const MemoryRegion s_prgRegion    = {  0x020000, SEGACD_RAM_PRG_SIZE, (unsigned char*)Ram_Prg,     true};
-//static const MemoryRegion s_word1MRegion = {  0x200000, SEGACD_1M_RAM_SIZE,  (unsigned char*)Ram_Word_1M, true};
-//static const MemoryRegion s_word2MRegion = {  0x200000, SEGACD_2M_RAM_SIZE,  (unsigned char*)Ram_Word_2M, true};
-//static const MemoryRegion s_z80Region    = {  0xA00000, Z80_RAM_SIZE,        (unsigned char*)Ram_Z80,     true};
-//static const MemoryRegion s_68kRegion    = {  0xFF0000, _68K_RAM_SIZE,       (unsigned char*)Ram_68k,     true};
-//static const MemoryRegion s_32xRegion    = {0x06000000, _32X_RAM_SIZE,       (unsigned char*)_32X_Ram,    false};
-
 // list of contiguous uneliminated memory regions
 typedef std::list<MemoryRegion> MemoryList;
 static MemoryList s_activeMemoryRegions;
@@ -120,76 +83,41 @@ void ResetMemoryRegions()
 
 	s_activeMemoryRegions.clear();
 
-	// use HardwareToSoftwareAddress to figure out what all the possible memory regions are,
+	// use IsHardwareAddressValid to figure out what all the possible memory regions are,
 	// split up wherever there's a discontinuity in the address in our software RAM.
-	static const int regionSearchGranularity = 0x100; // if this is too small, we'll waste time (in this function only), but if any region in RAM isn't evenly divisible by this, we might crash.
-	HWAddressType hwRegionStart = 0;
-	UINT8* regionStart = NULL;
-	UINT8* regionEnd = NULL;
-	for(HWAddressType addr = 0; addr != 0x10000000+regionSearchGranularity; addr += regionSearchGranularity)
+	static const int regionSearchGranularity = 1; // if this is too small, we'll waste time (in this function only), but if any region in RAM isn't evenly divisible by this, we might crash.
+	HWAddressType hwRegionStart = INVALID_HARDWARE_ADDRESS;
+	HWAddressType hwRegionEnd = INVALID_HARDWARE_ADDRESS;
+	for(HWAddressType addr = 0; addr != 0x10000+regionSearchGranularity; addr += regionSearchGranularity)
 	{
-		UINT8* swAddr = HardwareToSoftwareAddress(addr);
-		if(regionEnd && swAddr != regionEnd+regionSearchGranularity)
-		{
-			// hit end of region
-			// check to see if it mirrors an existing one (in which case we discard it)
-			bool discard = false;
-			for(MemoryList::iterator iter = s_activeMemoryRegions.begin(); iter != s_activeMemoryRegions.end(); ++iter)
-			{
-				MemoryRegion& region = *iter;
-				if(region.softwareAddress == regionStart)
-				{
-					unsigned int size = regionSearchGranularity + (regionEnd - regionStart);
-					if(size <= region.size)
-					{
-						discard = true;
-					}
-					else
-					{
-						hwRegionStart += region.size;
-						regionStart += region.size;
-					}
-					break;
-				}
-			}
-			
-			// TODO: don't include ROM in our RAM search (it's too huge)
-
+		if (!IsHardwareAddressValid(addr)) {
 			// create the region
-			if(!discard)
-			{
-				MemoryRegion region = { hwRegionStart, regionSearchGranularity + (regionEnd - regionStart), regionStart };
+			if (hwRegionStart != INVALID_HARDWARE_ADDRESS && hwRegionEnd != INVALID_HARDWARE_ADDRESS) {
+				MemoryRegion region = { hwRegionStart, regionSearchGranularity + (hwRegionEnd - hwRegionStart) };
 				s_activeMemoryRegions.push_back(region);
 			}
 
-			hwRegionStart = 0;
-			regionStart = NULL;
-			regionEnd = NULL;
+			hwRegionStart = INVALID_HARDWARE_ADDRESS;
+			hwRegionEnd = INVALID_HARDWARE_ADDRESS;
 		}
-		if(swAddr)
-		{
-			if(regionStart)
-			{
+		else {
+			if (hwRegionStart != INVALID_HARDWARE_ADDRESS) {
 				// continue region
-				regionEnd = swAddr;
+				hwRegionEnd = addr;
 			}
-			else
-			{
+			else {
 				// start new region
 				hwRegionStart = addr;
-				regionStart = swAddr;
-				regionEnd = swAddr;
+				hwRegionEnd = addr;
 			}
 		}
 	}
-
 
 	int nextVirtualIndex = 0;
 	for(MemoryList::iterator iter = s_activeMemoryRegions.begin(); iter != s_activeMemoryRegions.end(); ++iter)
 	{
 		MemoryRegion& region = *iter;
 		region.virtualIndex = nextVirtualIndex;
-		assert(((intptr_t)region.softwareAddress & 1) == 0 && "somebody needs to reimplement ReadValueAtSoftwareAddress()");
 		nextVirtualIndex = region.virtualIndex + region.size;
 	}
 	//assert(nextVirtualIndex <= MAX_RAM_SIZE);
@@ -238,7 +166,6 @@ int DeactivateRegion(MemoryRegion& region, MemoryList::iterator& iter, HWAddress
 		int eraseSize = (hardwareAddress + size) - region.hardwareAddress;
 		region.hardwareAddress += eraseSize;
 		region.size -= eraseSize;
-		region.softwareAddress += eraseSize;
 		region.virtualIndex += eraseSize;
 		return 1;
 	}
@@ -253,7 +180,7 @@ int DeactivateRegion(MemoryRegion& region, MemoryList::iterator& iter, HWAddress
 	{
 		// split region
 		int eraseSize = (hardwareAddress + size) - region.hardwareAddress;
-		MemoryRegion region2 = {region.hardwareAddress + eraseSize, region.size - eraseSize, region.softwareAddress + eraseSize, region.virtualIndex + eraseSize};
+		MemoryRegion region2 = {region.hardwareAddress + eraseSize, region.size - eraseSize, region.virtualIndex + eraseSize};
 		region.size = hardwareAddress - region.hardwareAddress;
 		iter = s_activeMemoryRegions.insert(++iter, region2);
 		s_itemIndicesInvalid = TRUE;
@@ -313,7 +240,7 @@ void UpdateRegionT(const MemoryRegion& region, const MemoryRegion* nextRegionPtr
 	unsigned int startSkipSize = ((unsigned int)(sizeof(stepType) - region.hardwareAddress)) % sizeof(stepType);
 
 
-	unsigned char* sourceAddr = region.softwareAddress - region.virtualIndex;
+	HWAddressType hwSourceAddr = region.hardwareAddress - region.virtualIndex;
 
 	unsigned int indexStart = region.virtualIndex + startSkipSize;
 	unsigned int indexEnd = region.virtualIndex + region.size;
@@ -322,9 +249,9 @@ void UpdateRegionT(const MemoryRegion& region, const MemoryRegion* nextRegionPtr
 	{
 		for(unsigned int i = indexStart; i < indexEnd; i++)
 		{
-			if(s_curValues[i] != sourceAddr[i]) // if value changed
+			if(s_curValues[i] != ReadValueAtHardwareAddress(hwSourceAddr+i, 1)) // if value changed
 			{
-				s_curValues[i] = sourceAddr[i]; // update value
+				s_curValues[i] = ReadValueAtHardwareAddress(hwSourceAddr+i, 1); // update value
 				//if(s_numChanges[i] != 0xFFFF)
 					s_numChanges[i]++; // increase change count
 			}
@@ -353,10 +280,10 @@ void UpdateRegionT(const MemoryRegion& region, const MemoryRegion* nextRegionPtr
 
 		for(unsigned int i = indexStart, j = 0; i < lastIndexToRead; i++, j++)
 		{
-			if(s_curValues[i] != sourceAddr[i]) // if value of this byte changed
+			if(s_curValues[i] != ReadValueAtHardwareAddress(hwSourceAddr+i, 1)) // if value of this byte changed
 			{
 				if(i < lastIndexToCopy)
-					s_curValues[i] = sourceAddr[i]; // update value
+					s_curValues[i] = ReadValueAtHardwareAddress(hwSourceAddr+i, 1); // update value
 				for(int k = 0; k < sizeof(compareType); k++) // loop through the previous entries that contain this byte
 				{
 					if(i >= indexEnd+k)
@@ -440,7 +367,6 @@ void ItemIndexToVirtualRegion(unsigned int itemIndex, MemoryRegion& virtualRegio
 	
 	virtualRegion.size = sizeof(compareType);
 	virtualRegion.hardwareAddress = region.hardwareAddress + bytesWithinRegion;
-	virtualRegion.softwareAddress = region.softwareAddress + bytesWithinRegion;
 	virtualRegion.virtualIndex = region.virtualIndex + bytesWithinRegion;
 	virtualRegion.itemIndex = itemIndex;
 	return;
@@ -999,18 +925,10 @@ void WriteValueAtSoftwareAddress(unsigned char* address, unsigned int value, uns
 		}
 	}
 }
-unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size)
-{
-	return ReadValueAtSoftwareAddress(HardwareToSoftwareAddress(address), size);
-}
 bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsigned int size)
 {
-	WriteValueAtSoftwareAddress(HardwareToSoftwareAddress(address), value, size);
-	return true;
-}
-bool IsHardwareAddressValid(HWAddressType address)
-{
-	return HardwareToSoftwareAddress(address) != NULL;
+	// TODO: NYI
+	return false;
 }
 
 
