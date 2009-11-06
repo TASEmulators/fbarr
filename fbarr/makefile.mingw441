@@ -65,7 +65,7 @@ endif
 # lib	+=	`sdl-config --libs`
 lib	+=	-luser32 -lgdi32 -lcomdlg32 -lcomctl32 -lshell32 -lwinmm \
 		-ladvapi32 -lsetupapi -ldxguid -lddraw -ldsound -ldinput \
-		-lvfw32 -lavifil32 -lacm32 \
+		-lvfw32 -lavifil32 -lacm32 -llua51 \
 		$(srcdir)/libs/pnglib/pnglib.lib \
 		
 drvobj	=   	d_gauntlet.o \
@@ -125,10 +125,10 @@ drvobj	=   	d_gauntlet.o \
 
 depobj	:= 	main.o splash.o about.o systeminfo.o debugger.o misc_win32.o \
 	   	sel.o media.o drv.o load.o run.o progress.o gameinfo.o ips_manager.o paletteviewer.o aviout.o \
-	   	popup_win32.o scrn.o menu.o replay.o dynhuff.o memcard.o wave.o \
+	   	popup_win32.o scrn.o menu.o replay.o dynhuff.o memcard.o wave.o ram_search.o ramwatch.o \
 	   	inpc.o inpd.o inps.o inpcheat.o inpdipsw.o sfactd.o stated.o numdial.o res.o maphkeys.o \
 	   	cona.o localise.o roms.o support_paths.o jukebox.o menugui.o imagebutton.o pngload.o \
-	   	bmp_resize.o placeholderd.o fba_kaillera.o net.o localise_gamelist.o ram_search.o ramwatch.o \
+	   	bmp_resize.o placeholderd.o fba_kaillera.o net.o localise_gamelist.o luaconsole.o luaengine.o \
 		\
 		adler32.o compress.o crc32.o deflate.o gzio.o infback.o \
        		inffast.o inflate.o inftrees.o trees.o uncompr.o zutil.o \

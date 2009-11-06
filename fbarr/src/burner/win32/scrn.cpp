@@ -68,6 +68,8 @@ static int OnDisplayChange(HWND, UINT, UINT, UINT);
 
 int OnNotify(HWND, int, NMHDR* lpnmhdr);
 
+UINT32 mousex,mousey;
+
 bool UseDialogs()
 {
 	if (/*!bDrvOkay ||*/ !nVidFullscreen) {
@@ -495,6 +497,10 @@ static int OnLButtonDblClk(HWND hwnd, BOOL, int, int, UINT)
 
 static int OnMouseMove(HWND hwnd, int x, int y, UINT keyIndicators)
 {
+
+	mousex=x; // TODO: does this work?
+	mousey=y;
+
 	if (bDrag && hwnd == hScrnWnd && keyIndicators == MK_LBUTTON && !nVidFullscreen && !bMenuEnabled) {
 		RECT clientRect;
 
@@ -884,6 +890,13 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 		case MENU_STOPREPLAY:
 			HK_stopRec(0);
+			break;
+
+		case ID_LUA_OPEN:
+			HK_luaOpen(0);
+			break;
+		case ID_LUA_CLOSE_ALL:
+			HK_luaCloseAll(0);
 			break;
 			
 		case MENU_HOTKEYS:
