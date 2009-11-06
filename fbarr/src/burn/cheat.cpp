@@ -652,5 +652,57 @@ void CheatSearchDumptoFile()
 	}
 }
 
+extern int bDrvOkay;
+typedef unsigned int HWAddressType;
+
+bool IsHardwareAddressValid(HWAddressType address)
+{
+	if (!bDrvOkay)
+		return false;
+
+	int nActiveCPU = 0;
+	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
+	
+	nActiveCPU = cheat_subptr->active_cpu();
+	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
+	cheat_subptr->cpu_open(cheat_subptr->nCpu);
+	
+	nMemorySize = cheat_subptr->nMemorySize;
+	
+	cheat_subptr->cpu_close();
+	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
+
+	if (address <= nMemorySize)
+		return true;
+	else
+		return false;
+}
+
+unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size)
+{
+	unsigned int value = 0;
+
+	// read as little endian
+	for(unsigned int i = 0; i < size; i++)
+	{
+		int nActiveCPU = 0;
+		cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
+		
+		nActiveCPU = cheat_subptr->active_cpu();
+		if (nActiveCPU >= 0) cheat_subptr->cpu_close();
+		cheat_subptr->cpu_open(cheat_subptr->nCpu);
+	
+		unsigned char memByte = cheat_subptr->read(address);
+		
+		cheat_subptr->cpu_close();
+		if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
+
+		value <<= 8;
+		value |= (IsHardwareAddressValid(address) ? memByte : 0);
+		address++;
+	}
+	return value;
+}
+
 #undef NOT_IN_RESULTS
 #undef IN_RESULTS

@@ -291,7 +291,7 @@ void AviBegin()
 	free(wfex);
 
 #ifdef _DEBUG
-	printf("*** AVI recording started to file %s.\n", szChoice);
+	printf("*** AVI recording started to file %s.\n", _TtoA(szChoice));
 #endif
 }
 

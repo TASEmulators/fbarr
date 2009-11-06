@@ -973,7 +973,9 @@ int CpsExit()
 	Scroll2TileMask = 0;
 	Scroll3TileMask = 0;
 
-	if (CpsCode) free(CpsCode);
+	if (CpsCode != (CpsRom + nCpsRomLen)) {
+		free(CpsCode);
+	}
 	
 	nCpsCodeLen = nCpsRomLen = nCpsGfxLen = nCpsZRomLen = nCpsQSamLen = nCpsAdLen = 0;
 	CpsCode = CpsRom = CpsZRom = CpsAd = CpsStar = NULL;
