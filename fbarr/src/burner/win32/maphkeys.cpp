@@ -65,8 +65,9 @@ CustomKey customKeys[] = {
 	{ 'F',           MODKEY_CTRL,  ID_RAM_SEARCH,          "RAM Search",                "ram-search",    HK_ramSearch,         0, 0 },
 	{ 'W',           MODKEY_CTRL,  ID_RAM_WATCH,           "RAM Watch",                 "ram-watch",     HK_ramWatch,          0, 0 },
 	{ 0,             0,            ID_LUA_OPEN,            "New Lua Script Window",     "lua-open",      HK_luaOpen,           0, 0 },
-	{ 0,             0,            ID_LUA_CLOSE_ALL,       "Stop Lua Script",           "lua-close-all", HK_luaCloseAll,       0, 0 },
+	{ 0,             0,            ID_LUA_CLOSE_ALL,       "Close All Script Windows",  "lua-close-all", HK_luaCloseAll,       0, 0 },
 	{ 0,             0,            0,                      "Reload Lua Script",         "lua-reload",    HK_luaReload,         0, 0 },
+	{ 0,             0,            0,                      "Stop Lua Script",           "lua-stop",      HK_luaStop,           0, 0 },
 
 	{ VK_OEM_MINUS,  MODKEY_CTRL,  0,                      "Volume Down",               "volume-down",   HK_volumeDec,         0, 0 },
 	{ VK_OEM_PLUS,   MODKEY_CTRL,  0,                      "Volume Up",                 "volume-up",     HK_volumeInc,         0, 0 },
@@ -1032,6 +1033,10 @@ void HK_luaCloseAll(int)
 void HK_luaReload(int)
 {
 	FBA_ReloadLuaCode();
+}
+void HK_luaStop(int)
+{
+	FBA_LuaStop();
 }
 
 // key handle
