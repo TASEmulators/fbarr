@@ -682,70 +682,70 @@ int fba_lagged(lua_State *L) {
 
 static int memory_readbyte(lua_State *L)
 {
-//	lua_pushinteger(L, psxMu8(luaL_checkinteger(L,1))); TODO
+	lua_pushinteger(L, ReadValueAtHardwareAddress(luaL_checkinteger(L,1),1));
 	return 1;
 }
 
 static int memory_readbytesigned(lua_State *L) {
-//	signed char c = psxMs8(luaL_checkinteger(L,1)); TODO
-//	lua_pushinteger(L, c);
+	signed char c = (signed char)ReadValueAtHardwareAddress(luaL_checkinteger(L,1),1);
+	lua_pushinteger(L, c);
 	return 1;
 }
 
 static int memory_readword(lua_State *L)
 {
-//	lua_pushinteger(L, psxMu16(luaL_checkinteger(L,1))); TODO
+	lua_pushinteger(L, ReadValueAtHardwareAddress(luaL_checkinteger(L,1),2));
 	return 1;
 }
 
 static int memory_readwordsigned(lua_State *L) {
-//	signed short c = psxMs16(luaL_checkinteger(L,1)); TODO
-//	lua_pushinteger(L, c);
+	signed short c = (signed short)ReadValueAtHardwareAddress(luaL_checkinteger(L,1),2);
+	lua_pushinteger(L, c);
 	return 1;
 }
 
 static int memory_readdword(lua_State *L)
 {
-//	UINT32 addr = luaL_checkinteger(L,1);
-//	UINT32 val = psxMu32(addr); TODO
+	UINT32 addr = luaL_checkinteger(L,1);
+	UINT32 val = ReadValueAtHardwareAddress(addr,4);
 
 	// lua_pushinteger doesn't work properly for 32bit system, does it?
-//	if (val >= 0x80000000 && sizeof(int) <= 4)
-//		lua_pushnumber(L, val);
-//	else
-//		lua_pushinteger(L, val);
+	if (val >= 0x80000000 && sizeof(int) <= 4)
+		lua_pushnumber(L, val);
+	else
+		lua_pushinteger(L, val);
 	return 1;
 }
 
 static int memory_readdwordsigned(lua_State *L) {
-//	UINT32 addr = luaL_checkinteger(L,1);
-//	int32 val = psxMs32(addr); TODO
+	UINT32 addr = luaL_checkinteger(L,1);
+	INT32 val = (INT32)ReadValueAtHardwareAddress(addr,4);
 
-//	lua_pushinteger(L, val);
+	lua_pushinteger(L, val);
 	return 1;
 }
 
 static int memory_readbyterange(lua_State *L) {
-//	int a,n;
-//	UINT32 address = luaL_checkinteger(L,1);
-//	int length = luaL_checkinteger(L,2);
-//
-//	if(length < 0)
-//	{
-//		address += length;
-//		length = -length;
-//	}
-//
-//	// push the array
-//	lua_createtable(L, abs(length), 0);
-//
-//	// put all the values into the (1-based) array
-//	for(a = address, n = 1; n <= length; a++, n++)
-//	{
-//		unsigned char value = psxMu8(a); TODO
-//		lua_pushinteger(L, value);
-//		lua_rawseti(L, -2, n);
-//	}
+	int a,n;
+	UINT32 address = luaL_checkinteger(L,1);
+	int length = luaL_checkinteger(L,2);
+
+	if(length < 0)
+	{
+		address += length;
+		length = -length;
+	}
+
+	// push the array
+	lua_createtable(L, abs(length), 0);
+
+	// put all the values into the (1-based) array
+	for(a = address, n = 1; n <= length; a++, n++)
+	{
+		unsigned char value = ReadValueAtHardwareAddress(a,1);
+		lua_pushinteger(L, value);
+		lua_rawseti(L, -2, n);
+	}
 
 	return 1;
 }
