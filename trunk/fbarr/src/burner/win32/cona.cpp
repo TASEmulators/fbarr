@@ -246,9 +246,9 @@ int ConfigAppLoad()
 
 		// Hotkeys
 		for (i = 0; !lastCustomKey(customKeys[i]); i++) {
-			_stprintf(szName,_T("customKeys[%d].key"), i);
+			_stprintf(szName,_T("hk[%s].key"), _AtoT(customKeys[i].config_code));
 			VARZ(szName,customKeys[i].key);
-			_stprintf(szName,_T("customKeys[%d].modkey"), i);
+			_stprintf(szName,_T("hk[%s].modkey"), _AtoT(customKeys[i].config_code));
 			VARZ(szName,customKeys[i].keymod);
 		}
 
@@ -571,8 +571,8 @@ int ConfigAppSave()
 
 	_ftprintf(h, _T("\n// Hotkeys, use the configuration dialog to change them\n"));
 	for (i = 0; !lastCustomKey(customKeys[i]); i++) {
-		_ftprintf(h, _T("customKeys[%d].key %d\n"), i, customKeys[i].key);
-		_ftprintf(h, _T("customKeys[%d].modkey %d\n"), i, customKeys[i].keymod);
+		_ftprintf(h, _T("hk[%s].key %d\n"), _AtoT(customKeys[i].config_code), customKeys[i].key);
+		_ftprintf(h, _T("hk[%s].modkey %d\n"), _AtoT(customKeys[i].config_code), customKeys[i].keymod);
 	}
 
 	_ftprintf(h, _T("\n\n\n"));

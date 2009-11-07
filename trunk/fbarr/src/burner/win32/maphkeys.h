@@ -74,5 +74,6 @@ void HK_exitGame(int);
 void HK_luaOpen(int);
 void HK_luaCloseAll(int);
 void HK_luaReload(int);
+void HK_luaStop(int);
 
 #endif /* __MAPHKEYS_H__ */
