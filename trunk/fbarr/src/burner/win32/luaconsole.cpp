@@ -55,7 +55,7 @@ void PrintToWindowConsole(int hDlgAsInt, const char* str)
 	//LuaPerWindowInfo& info = LuaWindowInfo[hDlg];
 
 	{
-		SendMessage(hConsole, EM_REPLACESEL, false, (LPARAM)str);
+		SendMessage(hConsole, EM_REPLACESEL, false, (LPARAM)_AtoT(str));
 	}
 }
 
@@ -238,17 +238,18 @@ INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			case IDC_BUTTON_LUAEDIT:
 			{
-				char Str_Tmp [1024]; // shadow added because the global one is unreliable
+				TCHAR Str_Tmp [1024]; // shadow added because the global one is unreliable
 				SendDlgItemMessage(hDlg,IDC_EDIT_LUAPATH,WM_GETTEXT,(WPARAM)512,(LPARAM)Str_Tmp);
 				// tell the OS to open the file with its associated editor,
 				// without blocking on it or leaving a command window open.
-				if((int)ShellExecute(NULL, _T("edit"), _AtoT(Str_Tmp), NULL, NULL, SW_SHOWNORMAL) == SE_ERR_NOASSOC)
-					if((int)ShellExecute(NULL, _T("open"), _AtoT(Str_Tmp), NULL, NULL, SW_SHOWNORMAL) == SE_ERR_NOASSOC)
-						ShellExecute(NULL, NULL, _T("notepad"), _AtoT(Str_Tmp), NULL, SW_SHOWNORMAL);
+				if((int)ShellExecuteA(NULL, "edit", _TtoA(Str_Tmp), NULL, NULL, SW_SHOWNORMAL) == SE_ERR_NOASSOC)
+					if((int)ShellExecuteA(NULL, "open", _TtoA(Str_Tmp), NULL, NULL, SW_SHOWNORMAL) == SE_ERR_NOASSOC)
+						ShellExecuteA(NULL, NULL, "notepad", _TtoA(Str_Tmp), NULL, SW_SHOWNORMAL);
 			}	break;
 
 			case IDC_BUTTON_LUABROWSE:
 			{
+				AudBlankSound();
 				OPENFILENAME  luaofn;
 				TCHAR szFileName[MAX_PATH];
 				szFileName[0] = '\0';

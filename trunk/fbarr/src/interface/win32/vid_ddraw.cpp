@@ -963,7 +963,8 @@ int vidFrame(bool bRedraw)			// bRedraw = 0
 	if (bDrvOkay) {
 		if (bRedraw) {				// Redraw current frame
 			if (BurnDrvRedraw()) {
-				BurnDrvFrame();		// No redraw function provided, advance one frame
+				// mz: I commented this line out. If we can't redraw, we'll just leave a dirty screen, but don't advance one frame.
+//				BurnDrvFrame();		// No redraw function provided, advance one frame
 			}
 		} else {
 			BurnDrvFrame();			// Run one frame and draw the screen

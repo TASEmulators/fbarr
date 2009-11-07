@@ -24,7 +24,7 @@ int FBA_LuaSpeed();
 //int FBA_LuaFrameskip();
 int FBA_LuaRerecordCountSkip();
 
-void FBA_LuaGui(void *s, int width, int height, int bpp, int pitch);
+void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch);
 
 void FBA_LuaWriteInform();
 

@@ -78,6 +78,8 @@ static int RunFrame(int bDraw, int bPause)
 
 	extern bool bDoPostInitialize;
 
+	CallRegisteredLuaFunctions(LUACALL_BEFOREEMULATION); //TODO: find proper place
+
 	// Exit Jukebox properly
 	
 	if(bDoPostInitialize == true && bJukeboxInUse == true) {
@@ -168,6 +170,9 @@ static int RunFrame(int bDraw, int bPause)
 			}
 		}
 	}
+
+	FBA_LuaFrameBoundary();
+	CallRegisteredLuaFunctions(LUACALL_AFTEREMULATION); //TODO: find proper place
 
 	bPrevPause = bPause;
 	bPrevDraw = bDraw;
