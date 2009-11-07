@@ -25,7 +25,8 @@ extern "C" {
 #include "burner.h"
 #ifdef WIN32
 #include <direct.h>
-#include "Win32/resource.h"
+#include "win32/resource.h"
+#include "win32/maphkeys.h"
 #endif
 #include "luaengine.h"
 
@@ -136,6 +137,8 @@ static void FBA_LuaOnStop() {
 	luaRunning = FALSE;
 	lua_joypads_used = 0;
 	gui_used = GUI_CLEAR;
+	VidRedraw();
+	VidPaint(0);
 }
 
 
@@ -188,45 +191,45 @@ int FBA_LuaFrameSkip() {
  * (not necessarily worth informing Lua), call this.
  */
 void FBA_LuaWriteInform() {
-	if (!LUA || !luaRunning || !usingMemoryRegister) return;
-	// Nuke the stack, just in case.
-	lua_settop(LUA,0);
-
-	lua_getfield(LUA, LUA_REGISTRYINDEX, memoryWatchTable);
-	lua_pushnil(LUA);
-	while (lua_next(LUA, 1) != 0)
-	{
-		unsigned int addr = luaL_checkinteger(LUA, 2);
-		lua_Integer value;
-		lua_getfield(LUA, LUA_REGISTRYINDEX, memoryValueTable);
-		lua_pushvalue(LUA, 2);
-		lua_gettable(LUA, 4);
-		value = luaL_checkinteger(LUA, 5);
+//	if (!LUA || !luaRunning || !usingMemoryRegister) return;
+//	// Nuke the stack, just in case.
+//	lua_settop(LUA,0);
+//
+//	lua_getfield(LUA, LUA_REGISTRYINDEX, memoryWatchTable);
+//	lua_pushnil(LUA);
+//	while (lua_next(LUA, 1) != 0)
+//	{
+//		unsigned int addr = luaL_checkinteger(LUA, 2);
+//		lua_Integer value;
+//		lua_getfield(LUA, LUA_REGISTRYINDEX, memoryValueTable);
+//		lua_pushvalue(LUA, 2);
+//		lua_gettable(LUA, 4);
+//		value = luaL_checkinteger(LUA, 5);
 //		if (psxMu8(addr) != value) TODO
-		{
-			int res;
-
-			// Value changed; update & invoke the Lua callback
-			lua_pushinteger(LUA, addr);
+//		{
+//			int res;
+//
+//			// Value changed; update & invoke the Lua callback
+//			lua_pushinteger(LUA, addr);
 //			lua_pushinteger(LUA, psxMs8(addr)); TODO
-			lua_settable(LUA, 4);
-			lua_pop(LUA, 2);
-
-			numTries = 1000;
-			res = lua_pcall(LUA, 0, 0, 0);
-			if (res) {
-				const char *err = lua_tostring(LUA, -1);
-				
-#ifdef WIN32
-				MessageBoxA(hScrnWnd, err, "Lua Engine", MB_OK);
-#else
-				fprintf(stderr, "Lua error: %s\n", err);
-#endif
-			}
-		}
-		lua_settop(LUA, 2);
-	}
-	lua_settop(LUA, 0);
+//			lua_settable(LUA, 4);
+//			lua_pop(LUA, 2);
+//
+//			numTries = 1000;
+//			res = lua_pcall(LUA, 0, 0, 0);
+//			if (res) {
+//				const char *err = lua_tostring(LUA, -1);
+//				
+//#ifdef WIN32
+//				MessageBoxA(hScrnWnd, err, "Lua Engine", MB_OK);
+//#else
+//				fprintf(stderr, "Lua error: %s\n", err);
+//#endif
+//			}
+//		}
+//		lua_settop(LUA, 2);
+//	}
+//	lua_settop(LUA, 0);
 }
 
 ///////////////////////////
@@ -245,13 +248,13 @@ static int fba_speedmode(lua_State *L) {
 	
 	if (strcasecmp(mode, "normal")==0) {
 		speedmode = SPEED_NORMAL;
-//		SetEmulationSpeed(EMUSPEED_NORMAL); TODO
+		HK_speedNormal(0);
 	} else if (strcasecmp(mode, "nothrottle")==0) {
 		speedmode = SPEED_NOTHROTTLE;
-//		SetEmulationSpeed(EMUSPEED_FASTEST);
+//		SetEmulationSpeed(EMUSPEED_FASTEST); // TODO
 	} else if (strcasecmp(mode, "turbo")==0) {
 		speedmode = SPEED_TURBO;
-//		SetEmulationSpeed(EMUSPEED_TURBO);
+		HK_speedTurbo(0);
 	} else if (strcasecmp(mode, "maximum")==0) {
 		speedmode = SPEED_MAXIMUM;
 //		SetEmulationSpeed(EMUSPEED_MAXIMUM);
@@ -669,10 +672,10 @@ int fba_lagcount(lua_State *L) {
 
 // boolean fba.lagged()
 int fba_lagged(lua_State *L) {
-	int lagged = 0;
+//	int lagged = 0;
 //	if(iJoysToPoll == 2) TODO
-		lagged = 1;
-	lua_pushboolean(L, lagged);
+//		lagged = 1;
+//	lua_pushboolean(L, lagged);
 	return 1;
 }
 
@@ -703,7 +706,7 @@ static int memory_readwordsigned(lua_State *L) {
 
 static int memory_readdword(lua_State *L)
 {
-	UINT32 addr = luaL_checkinteger(L,1);
+//	UINT32 addr = luaL_checkinteger(L,1);
 //	UINT32 val = psxMu32(addr); TODO
 
 	// lua_pushinteger doesn't work properly for 32bit system, does it?
@@ -715,7 +718,7 @@ static int memory_readdword(lua_State *L)
 }
 
 static int memory_readdwordsigned(lua_State *L) {
-	UINT32 addr = luaL_checkinteger(L,1);
+//	UINT32 addr = luaL_checkinteger(L,1);
 //	int32 val = psxMs32(addr); TODO
 
 //	lua_pushinteger(L, val);
@@ -723,26 +726,26 @@ static int memory_readdwordsigned(lua_State *L) {
 }
 
 static int memory_readbyterange(lua_State *L) {
-	int a,n;
-	UINT32 address = luaL_checkinteger(L,1);
-	int length = luaL_checkinteger(L,2);
-
-	if(length < 0)
-	{
-		address += length;
-		length = -length;
-	}
-
-	// push the array
-	lua_createtable(L, abs(length), 0);
-
-	// put all the values into the (1-based) array
-	for(a = address, n = 1; n <= length; a++, n++)
-	{
+//	int a,n;
+//	UINT32 address = luaL_checkinteger(L,1);
+//	int length = luaL_checkinteger(L,2);
+//
+//	if(length < 0)
+//	{
+//		address += length;
+//		length = -length;
+//	}
+//
+//	// push the array
+//	lua_createtable(L, abs(length), 0);
+//
+//	// put all the values into the (1-based) array
+//	for(a = address, n = 1; n <= length; a++, n++)
+//	{
 //		unsigned char value = psxMu8(a); TODO
 //		lua_pushinteger(L, value);
-		lua_rawseti(L, -2, n);
-	}
+//		lua_rawseti(L, -2, n);
+//	}
 
 	return 1;
 }
@@ -773,29 +776,29 @@ static int memory_writedword(lua_State *L)
 //  written to. No args are given to the function. The write has already
 //  occurred, so the new address is readable.
 static int memory_registerwrite(lua_State *L) {
-	// Check args
-	unsigned int addr = luaL_checkinteger(L, 1);
-	if (lua_type(L,2) != LUA_TNIL && lua_type(L,2) != LUA_TFUNCTION)
-		luaL_error(L, "function or nil expected in arg 2 to memory.register");
-	
-	
-	// Check the address range
-	if (addr > 0x200000)
-		luaL_error(L, "arg 1 should be between 0x0000 and 0x200000");
-
-	// Commit it to the registery
-	lua_getfield(L, LUA_REGISTRYINDEX, memoryWatchTable);
-	lua_pushvalue(L,1);
-	lua_pushvalue(L,2);
-	lua_settable(L, -3);
-	lua_getfield(L, LUA_REGISTRYINDEX, memoryValueTable);
-	lua_pushvalue(L,1);
-	if (lua_isnil(L,2)) lua_pushnil(L);
+//	// Check args
+//	unsigned int addr = luaL_checkinteger(L, 1);
+//	if (lua_type(L,2) != LUA_TNIL && lua_type(L,2) != LUA_TFUNCTION)
+//		luaL_error(L, "function or nil expected in arg 2 to memory.register");
+//	
+//	
+//	// Check the address range
+//	if (addr > 0x200000)
+//		luaL_error(L, "arg 1 should be between 0x0000 and 0x200000");
+//
+//	// Commit it to the registery
+//	lua_getfield(L, LUA_REGISTRYINDEX, memoryWatchTable);
+//	lua_pushvalue(L,1);
+//	lua_pushvalue(L,2);
+//	lua_settable(L, -3);
+//	lua_getfield(L, LUA_REGISTRYINDEX, memoryValueTable);
+//	lua_pushvalue(L,1);
+//	if (lua_isnil(L,2)) lua_pushnil(L);
 //	else lua_pushinteger(L, psxMu8(addr)); TODO
-	lua_settable(L, -3);
-	
-	if(!usingMemoryRegister)
-		usingMemoryRegister=1;
+//	lua_settable(L, -3);
+//	
+//	if(!usingMemoryRegister)
+//		usingMemoryRegister=1;
 	return 0;
 }
 
@@ -3177,6 +3180,8 @@ int FBA_LoadLuaCode(const char *filename) {
 
 	// And run it right now. :)
 	FBA_LuaFrameBoundary();
+	VidRedraw();
+	VidPaint(0);
 
 	// Set up our protection hook to be executed once every 10,000 bytecode instructions.
 	lua_sethook(thread, FBA_LuaHookFunction, LUA_MASKCOUNT, 10000);
@@ -3276,24 +3281,17 @@ int FBA_LuaRerecordCountSkip() {
  *
  * Currently we only support 256x* resolutions.
  */
-void FBA_LuaGui(void *s, int width, int height, int bpp, int pitch) {
-	int x,y;
-	UINT8 r,g,b,gui_alpha,gui_red,gui_green,gui_blue;
-
+void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch) {
 	XBuf = (UINT8 *)s;
 	iScreenWidth = width;
 	iScreenHeight = height;
-	if (pitch >=3) {
-		LUA_SCREEN_WIDTH  = 1024;
-		LUA_SCREEN_HEIGHT = 1024;
-	}
-	else {
-		LUA_SCREEN_WIDTH  = 640;
-		LUA_SCREEN_HEIGHT = 512;
-	}
+		LUA_SCREEN_WIDTH  = width; //TODO: get correct values
+		LUA_SCREEN_HEIGHT = height;
 
-	if (!LUA/* || !luaRunning*/)
+	if (!LUA || !bDrvOkay/* || !luaRunning*/)
 		return;
+
+//	dprintf(_T("*LUA GUI START*: x:%d y:%d d:%d p:%d\n"),width,height,bpp,pitch);
 
 	// First, check if we're being called by anybody
 	lua_getfield(LUA, LUA_REGISTRYINDEX, guiCallbackTable);
@@ -3324,30 +3322,137 @@ void FBA_LuaGui(void *s, int width, int height, int bpp, int pitch) {
 
 	gui_used = GUI_USED_SINCE_LAST_FRAME;
 
-	for (y = 0; y < LUA_SCREEN_HEIGHT; y++) {
-		for (x=0; x < LUA_SCREEN_WIDTH; x++) {
-			gui_alpha = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+3];
-			if (gui_alpha != 0) {
-				if (gui_alpha == 255) {
-					XBuf[(y*LUA_SCREEN_WIDTH+x)*4+2]=gui_data[(y*LUA_SCREEN_WIDTH+x)*4+2];
-					XBuf[(y*LUA_SCREEN_WIDTH+x)*4+1]=gui_data[(y*LUA_SCREEN_WIDTH+x)*4+1];
-					XBuf[(y*LUA_SCREEN_WIDTH+x)*4]=gui_data[(y*LUA_SCREEN_WIDTH+x)*4];
+	int x, y, x2;
+	int xscale = (width == 512) ? 2 : 1; // TODO: what's this? It was used in Snes9X
+
+	switch(bpp)
+	{
+	case 2:
+	 {
+		UINT16 *screen = (UINT16*) s;
+		int ppl = pitch/2;
+		for (y=0; y < height && y < LUA_SCREEN_HEIGHT; y++) {
+			for (x=0; x < LUA_SCREEN_WIDTH; x++) {
+				const UINT8 gui_alpha = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+3];
+				if (gui_alpha == 0) {
+					// do nothing
+					continue;
 				}
-				else {
-					gui_red   = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+2];
-					gui_green = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+1];
-					gui_blue  = gui_data[(y*LUA_SCREEN_WIDTH+x)*4];
-					r = XBuf[(y*LUA_SCREEN_WIDTH+x)*4+2];
-					g = XBuf[(y*LUA_SCREEN_WIDTH+x)*4+1];
-					b = XBuf[(y*LUA_SCREEN_WIDTH+x)*4];
-					XBuf[(y*LUA_SCREEN_WIDTH+x)*4+2] = ((gui_red   - r) * gui_alpha / 255 + r) & 255;
-					XBuf[(y*LUA_SCREEN_WIDTH+x)*4+1] = ((gui_green - g) * gui_alpha / 255 + g) & 255;
-					XBuf[(y*LUA_SCREEN_WIDTH+x)*4]   = ((gui_blue  - b) * gui_alpha / 255 + b) & 255;
+
+				const UINT8 gui_red   = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+2];
+				const UINT8 gui_green = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+1];
+				const UINT8 gui_blue  = gui_data[(y*LUA_SCREEN_WIDTH+x)*4];
+				int red, green, blue;
+
+				for (x2 = 0; x2 < xscale; x2++) {
+					if (gui_alpha == 255) {
+						// direct copy
+						red = gui_red;
+						green = gui_green;
+						blue = gui_blue;
+					}
+					else {
+						// alpha-blending
+						const UINT8 scr_red   = ((screen[y*ppl + (x*xscale+x2)] >> 11) & 31) << 3;
+						const UINT8 scr_green = ((screen[y*ppl + (x*xscale+x2)] >> 5)  & 63) << 2;
+						const UINT8 scr_blue  = ( screen[y*ppl + (x*xscale+x2)]        & 31) << 3;
+						red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
+						green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
+						blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
+					}
+					screen[y*ppl + (x*xscale+x2)] =  ((red >> 3) << 11) | ((green >> 2) << 5) | (blue >> 3);
 				}
 			}
 		}
-	}
+		break;
+	 }
+	case 3:
+	 {
+		#define bytesPerPixel   3
+		UINT8 *screen = (UINT8*) s;
+		for (y=0; y < height && y < LUA_SCREEN_HEIGHT; y++) {
+			for (x=0; x < LUA_SCREEN_WIDTH; x++) {
+				const UINT8 gui_alpha = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+3];
+				if (gui_alpha == 0) {
+					// do nothing
+					continue;
+				}
 
+				const UINT8 gui_red   = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+2];
+				const UINT8 gui_green = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+1];
+				const UINT8 gui_blue  = gui_data[(y*LUA_SCREEN_WIDTH+x)*4];
+				int red, green, blue;
+
+				for (x2 = 0; x2 < xscale; x2++) {
+					if (gui_alpha == 255) {
+						// direct copy
+						red = gui_red;
+						green = gui_green;
+						blue = gui_blue;
+					}
+					else {
+						// alpha-blending
+						const UINT8 scr_red   = screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 2];
+						const UINT8 scr_green = screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 1];
+						const UINT8 scr_blue  = screen[y*pitch + (x*xscale+x2)*bytesPerPixel];
+						red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
+						green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
+						blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
+					}
+					screen[y*pitch + (x*xscale+x2)*bytesPerPixel] = blue;
+					screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 1] = green;
+					screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 2] = red;
+				}
+			}
+		}
+		#undef bytesPerPixel
+		break;
+	 }
+	case 4:
+	 {
+		#define bytesPerPixel   4
+		UINT8 *screen = (UINT8*) s;
+		for (y=0; y < height && y < LUA_SCREEN_HEIGHT; y++) {
+			for (x=0; x < LUA_SCREEN_WIDTH; x++) {
+				const UINT8 gui_alpha = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+3];
+				if (gui_alpha == 0) {
+					// do nothing
+					continue;
+				}
+
+				const UINT8 gui_red   = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+2];
+				const UINT8 gui_green = gui_data[(y*LUA_SCREEN_WIDTH+x)*4+1];
+				const UINT8 gui_blue  = gui_data[(y*LUA_SCREEN_WIDTH+x)*4];
+				int red, green, blue;
+
+				for (x2 = 0; x2 < xscale; x2++) {
+					if (gui_alpha == 255) {
+						// direct copy
+						red = gui_red;
+						green = gui_green;
+						blue = gui_blue;
+					}
+					else {
+						// alpha-blending
+						const UINT8 scr_red   = screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 2];
+						const UINT8 scr_green = screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 1];
+						const UINT8 scr_blue  = screen[y*pitch + (x*xscale+x2)*bytesPerPixel];
+						red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
+						green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
+						blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
+					}
+					screen[y*pitch + (x*xscale+x2)*bytesPerPixel] = blue;
+					screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 1] = green;
+					screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 2] = red;
+				}
+			}
+		}
+		#undef bytesPerPixel
+		break;
+	 }
+	default:
+		assert(false /* unsupported color-depth */);
+	}
 	return;
 }
 

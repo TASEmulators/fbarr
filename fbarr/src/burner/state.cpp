@@ -225,7 +225,7 @@ int BurnStateLoad(TCHAR* szName, int bAll, int (*pLoadGame)())
 			if(nReplayStatus == 1)
 			{
 				ret = UnfreezeEncode(buf, nChunkSize);
-				++nReplayUndoCount;
+				if(!FBA_LuaRerecordCountSkip()) { ++nReplayUndoCount; }
 			}
 			else if(nReplayStatus == 2)
 			{
