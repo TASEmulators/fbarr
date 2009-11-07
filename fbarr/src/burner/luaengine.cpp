@@ -191,45 +191,45 @@ int FBA_LuaFrameSkip() {
  * (not necessarily worth informing Lua), call this.
  */
 void FBA_LuaWriteInform() {
-//	if (!LUA || !luaRunning || !usingMemoryRegister) return;
-//	// Nuke the stack, just in case.
-//	lua_settop(LUA,0);
-//
-//	lua_getfield(LUA, LUA_REGISTRYINDEX, memoryWatchTable);
-//	lua_pushnil(LUA);
-//	while (lua_next(LUA, 1) != 0)
-//	{
-//		unsigned int addr = luaL_checkinteger(LUA, 2);
-//		lua_Integer value;
-//		lua_getfield(LUA, LUA_REGISTRYINDEX, memoryValueTable);
-//		lua_pushvalue(LUA, 2);
-//		lua_gettable(LUA, 4);
-//		value = luaL_checkinteger(LUA, 5);
-//		if (psxMu8(addr) != value) TODO
-//		{
-//			int res;
-//
-//			// Value changed; update & invoke the Lua callback
-//			lua_pushinteger(LUA, addr);
-//			lua_pushinteger(LUA, psxMs8(addr)); TODO
-//			lua_settable(LUA, 4);
-//			lua_pop(LUA, 2);
-//
-//			numTries = 1000;
-//			res = lua_pcall(LUA, 0, 0, 0);
-//			if (res) {
-//				const char *err = lua_tostring(LUA, -1);
-//				
-//#ifdef WIN32
-//				MessageBoxA(hScrnWnd, err, "Lua Engine", MB_OK);
-//#else
-//				fprintf(stderr, "Lua error: %s\n", err);
-//#endif
-//			}
-//		}
-//		lua_settop(LUA, 2);
-//	}
-//	lua_settop(LUA, 0);
+	if (!LUA || !luaRunning || !usingMemoryRegister) return;
+	// Nuke the stack, just in case.
+	lua_settop(LUA,0);
+
+	lua_getfield(LUA, LUA_REGISTRYINDEX, memoryWatchTable);
+	lua_pushnil(LUA);
+	while (lua_next(LUA, 1) != 0)
+	{
+		unsigned int addr = luaL_checkinteger(LUA, 2);
+		lua_Integer value;
+		lua_getfield(LUA, LUA_REGISTRYINDEX, memoryValueTable);
+		lua_pushvalue(LUA, 2);
+		lua_gettable(LUA, 4);
+		value = luaL_checkinteger(LUA, 5);
+		if (ReadValueAtHardwareAddress(addr,1) != value)
+		{
+			int res;
+
+			// Value changed; update & invoke the Lua callback
+			lua_pushinteger(LUA, addr);
+			lua_pushinteger(LUA, ReadValueAtHardwareAddress(addr,1));
+			lua_settable(LUA, 4);
+			lua_pop(LUA, 2);
+
+			numTries = 1000;
+			res = lua_pcall(LUA, 0, 0, 0);
+			if (res) {
+				const char *err = lua_tostring(LUA, -1);
+				
+#ifdef WIN32
+				MessageBoxA(hScrnWnd, err, "Lua Engine", MB_OK);
+#else
+				fprintf(stderr, "Lua error: %s\n", err);
+#endif
+			}
+		}
+		lua_settop(LUA, 2);
+	}
+	lua_settop(LUA, 0);
 }
 
 ///////////////////////////
@@ -753,19 +753,19 @@ static int memory_readbyterange(lua_State *L) {
 
 static int memory_writebyte(lua_State *L)
 {
-//	psxMemWrite8(luaL_checkinteger(L,1), luaL_checkinteger(L,2)); TODO
+	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),1);
 	return 0;
 }
 
 static int memory_writeword(lua_State *L)
 {
-//	psxMemWrite16(luaL_checkinteger(L,1), luaL_checkinteger(L,2)); TODO
+	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),2);
 	return 0;
 }
 
 static int memory_writedword(lua_State *L)
 {
-//	psxMemWrite32(luaL_checkinteger(L,1), luaL_checkinteger(L,2)); TODO
+	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),4);
 	return 0;
 }
 
@@ -776,29 +776,29 @@ static int memory_writedword(lua_State *L)
 //  written to. No args are given to the function. The write has already
 //  occurred, so the new address is readable.
 static int memory_registerwrite(lua_State *L) {
-//	// Check args
-//	unsigned int addr = luaL_checkinteger(L, 1);
-//	if (lua_type(L,2) != LUA_TNIL && lua_type(L,2) != LUA_TFUNCTION)
-//		luaL_error(L, "function or nil expected in arg 2 to memory.register");
-//	
-//	
-//	// Check the address range
-//	if (addr > 0x200000)
-//		luaL_error(L, "arg 1 should be between 0x0000 and 0x200000");
-//
-//	// Commit it to the registery
-//	lua_getfield(L, LUA_REGISTRYINDEX, memoryWatchTable);
-//	lua_pushvalue(L,1);
-//	lua_pushvalue(L,2);
-//	lua_settable(L, -3);
-//	lua_getfield(L, LUA_REGISTRYINDEX, memoryValueTable);
-//	lua_pushvalue(L,1);
-//	if (lua_isnil(L,2)) lua_pushnil(L);
-//	else lua_pushinteger(L, psxMu8(addr)); TODO
-//	lua_settable(L, -3);
-//	
-//	if(!usingMemoryRegister)
-//		usingMemoryRegister=1;
+	// Check args
+	unsigned int addr = luaL_checkinteger(L, 1);
+	if (lua_type(L,2) != LUA_TNIL && lua_type(L,2) != LUA_TFUNCTION)
+		luaL_error(L, "function or nil expected in arg 2 to memory.register");
+	
+	
+	// Check the address range
+	if (IsHardwareAddressValid(addr))
+		luaL_error(L, "arg 1 is out of range");
+
+	// Commit it to the registery
+	lua_getfield(L, LUA_REGISTRYINDEX, memoryWatchTable);
+	lua_pushvalue(L,1);
+	lua_pushvalue(L,2);
+	lua_settable(L, -3);
+	lua_getfield(L, LUA_REGISTRYINDEX, memoryValueTable);
+	lua_pushvalue(L,1);
+	if (lua_isnil(L,2)) lua_pushnil(L);
+	else lua_pushinteger(L, ReadValueAtHardwareAddress(addr,1));
+	lua_settable(L, -3);
+	
+	if(!usingMemoryRegister)
+		usingMemoryRegister=1;
 	return 0;
 }
 

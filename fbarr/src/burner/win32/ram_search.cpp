@@ -925,11 +925,6 @@ void WriteValueAtSoftwareAddress(unsigned char* address, unsigned int value, uns
 		}
 	}
 }
-bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsigned int size)
-{
-	// TODO: NYI
-	return false;
-}
 
 
 

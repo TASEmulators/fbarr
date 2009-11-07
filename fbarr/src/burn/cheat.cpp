@@ -682,25 +682,49 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 {
 	unsigned int value = 0;
 
-	// read as little endian
+	int nActiveCPU = 0;
+	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
+
+	nActiveCPU = cheat_subptr->active_cpu();
+	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
+	cheat_subptr->cpu_open(cheat_subptr->nCpu);
+
 	for(unsigned int i = 0; i < size; i++)
 	{
-		int nActiveCPU = 0;
-		cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
-		
-		nActiveCPU = cheat_subptr->active_cpu();
-		if (nActiveCPU >= 0) cheat_subptr->cpu_close();
-		cheat_subptr->cpu_open(cheat_subptr->nCpu);
-	
 		unsigned char memByte = cheat_subptr->read(address);
-		
-		cheat_subptr->cpu_close();
-		if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
 
 		value <<= 8;
 		value |= (IsHardwareAddressValid(address) ? memByte : 0);
+		address--;
+	}
+
+	cheat_subptr->cpu_close();
+	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
+
+	return value;
+}
+
+bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsigned int size)
+{
+	int nActiveCPU = 0;
+	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
+
+	nActiveCPU = cheat_subptr->active_cpu();
+	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
+	cheat_subptr->cpu_open(cheat_subptr->nCpu);
+
+	address -= size-1;
+	for(unsigned int i = 0; i < size; i++)
+	{
+		unsigned char memByte = (value >> (8*i))&0xFF;
+		cheat_subptr->write(address,memByte);
+
 		address++;
 	}
+
+	cheat_subptr->cpu_close();
+	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
+
 	return value;
 }
 
