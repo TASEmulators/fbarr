@@ -18,8 +18,8 @@ void FBA_ReloadLuaCode();
 void FBA_LuaStop();
 int FBA_LuaRunning();
 
-int FBA_LuaUsingJoypad(int);
-UINT32 FBA_LuaReadJoypad(int);
+int FBA_LuaUsingJoypad();
+UINT32 FBA_LuaReadJoypad();
 int FBA_LuaSpeed();
 //int FBA_LuaFrameskip();
 int FBA_LuaRerecordCountSkip();

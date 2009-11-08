@@ -55,7 +55,12 @@ static lua_State *LUA;
 
 // Screen
 static UINT8 *XBuf;
-static int iScreenWidth,iScreenHeight;
+static int iScreenWidth  = 320;
+static int iScreenHeight = 240;
+static int iScreenBpp    = 4;
+static int iScreenPitch  = 1024;
+static int LUA_SCREEN_WIDTH  = 320;
+static int LUA_SCREEN_HEIGHT = 240;
 
 // Current working directory of the script
 static char luaCWD [_MAX_PATH] = {0};
@@ -88,7 +93,7 @@ static int frameAdvanceWaiting = FALSE;
 static int transparencyModifier = 255;
 
 // Our joypads.
-static UINT32 lua_joypads[2];
+static UINT32 lua_joypads;
 static UINT8 lua_joypads_used;
 
 static UINT8 gui_enabled = TRUE;
@@ -99,12 +104,6 @@ static UINT8 *gui_data = NULL;
 // We set this to a big number like 1000 and decrement it
 // over time. The script gets knifed once this reaches zero.
 static int numTries;
-
-// Look in TODO.h for macros named like JOY_UP to determine the order.
-static const char *button_mappings[] = {
-	"select", "l3", "r3", "start", "up", "right", "down", "left",
-	"l2", "r2", "l1", "r1", "triangle", "circle", "x", "square"
-};
 
 #ifdef _MSC_VER
 	#define snprintf _snprintf
@@ -319,7 +318,7 @@ static void toCStringConverter(lua_State* L, int i, char*& ptr, int& remaining)
 	if(remaining <= 0)
 		return;
 
-//	const char* str = ptr; // for debugging TODO
+	const char* str = ptr; // for debugging
 
 	// if there is a __tostring metamethod then call it
 	int usedMeta = luaL_callmeta(L, i, "__tostring");
@@ -344,7 +343,7 @@ static void toCStringConverter(lua_State* L, int i, char*& ptr, int& remaining)
 		case LUA_TNIL: APPENDPRINT "nil" END break;
 		case LUA_TBOOLEAN: APPENDPRINT lua_toboolean(L,i) ? "true" : "false" END break;
 		case LUA_TSTRING: APPENDPRINT "%s",lua_tostring(L,i) END break;
-//		case LUA_TNUMBER: APPENDPRINT "%.12Lg",lua_tonumber(L,i) END break; TODO
+		case LUA_TNUMBER: APPENDPRINT "%.12Lg",lua_tonumber(L,i) END break;
 		case LUA_TFUNCTION: 
 			if((L->base + i-1)->value.gc->cl.c.isC)
 			{
@@ -394,7 +393,7 @@ defcase:default: APPENDPRINT "%s:%p",luaL_typename(L,i),lua_topointer(L,i) END b
 			else
 			{
 				s_tableAddressStack.push_back(lua_topointer(L,i));
-//				struct Scope { ~Scope(){ s_tableAddressStack.pop_back(); } } scope; TODO
+				struct Scope { ~Scope(){ s_tableAddressStack.pop_back(); } } scope;
 
 				APPENDPRINT "{" END
 
@@ -663,21 +662,21 @@ static int fba_registerexit(lua_State *L) {
 }
 
 
-// int fba.lagcount()
-int fba_lagcount(lua_State *L) {
-//	lua_pushinteger(L, Movie.lagCounter); TODO
-	return 1;
-}
+// int fba.lagcount() TODO
+//int fba_lagcount(lua_State *L) {
+//	lua_pushinteger(L, Movie.lagCounter);
+//	return 1;
+//}
 
 
 // boolean fba.lagged()
-int fba_lagged(lua_State *L) {
+//int fba_lagged(lua_State *L) { TODO
 //	int lagged = 0;
-//	if(iJoysToPoll == 2) TODO
+//	if(iJoysToPoll == 2)
 //		lagged = 1;
 //	lua_pushboolean(L, lagged);
-	return 1;
-}
+//	return 1;
+//}
 
 
 static int memory_readbyte(lua_State *L)
@@ -803,39 +802,47 @@ static int memory_registerwrite(lua_State *L) {
 }
 
 
-// table joypad.read(int which = 1)
+// table joypad.read()
 //
 //  Reads the joypads as inputted by the user.
 //  This is really the only way to get input to the system.
 static int joypad_read(lua_State *L) {
-//	unsigned short buttons=0; TODO
-//	int which;
-//	int i;
-//	
-//	// Reads the joypads as inputted by the user
-//	which = luaL_checkinteger(L,1);
-//	if(which == 1) {
-//		PadDataS padd;
-//		PAD1_readPort1(&padd);
-//		buttons = padd.buttonStatus^0xffff;
-//	}
-//	else if(which == 2) {
-//		PadDataS padd;
-//		PAD2_readPort2(&padd);
-//		buttons = padd.buttonStatus^0xffff;
-//	}
-//	else
-//		luaL_error(L,"Invalid input port (valid range 1-2, specified %d)", which);
-//
-//	lua_newtable(L);
-//	
-//	for (i = 0; i < 16; i++) {
-//		if (buttons & (1<<i)) {
-//			lua_pushinteger(L,1);
-//			lua_setfield(L, -2, button_mappings[i]);
-//		}
-//	}
+	unsigned int i = 0;
+	struct GameInp* pgi = NULL;
+	unsigned short nThisVal;
 	
+	lua_newtable(L);
+	
+
+	// Update the values of all the inputs
+	for (i = 0, pgi = GameInp; i < nGameInpCount; i++, pgi++) {
+		if (pgi->nType == 0) {
+			continue;
+		}
+		struct BurnInputInfo bii;
+
+		if (bRunPause) {
+			nThisVal = pgi->Input.nVal;
+		} else {
+			nThisVal = *pgi->Input.pVal;
+		}
+		// Get the name of the input
+		bii.szName = NULL;
+		BurnDrvGetInputInfo(&bii, i);
+
+		// skip unused inputs
+		if (bii.pVal == NULL) {
+			continue;
+		}
+		if (bii.szName == NULL)	{
+			bii.szName = "";
+		}
+
+		if (nThisVal != 0) {
+			lua_pushinteger(L,nThisVal);
+			lua_setfield(L, -2, bii.szName);
+		}
+	}
 	return 1;
 }
 
@@ -847,26 +854,61 @@ static int joypad_read(lua_State *L) {
 //   keys (no pun intended) set.
 static int joypad_set(lua_State *L) {
 	int which;
-	int i;
+	unsigned int i;
 
 	// Which joypad we're tampering with
 	which = luaL_checkinteger(L,1);
-	if (which < 1 || which > 2) {
-		luaL_error(L,"Invalid output port (valid range 1-2, specified %d)", which);
-	}
 
 	// And the table of buttons.
 	luaL_checktype(L,2,LUA_TTABLE);
 
 	// Set up for taking control of the indicated controller
-	lua_joypads_used |= 1 << (which-1);
-	lua_joypads[which-1] = 0;
+	lua_joypads_used = 1;
+	lua_joypads = 0;
 
-	for (i=0; i < 16; i++) {
-		lua_getfield(L, 2, button_mappings[i]);
-		if (!lua_isnil(L,-1))
-			lua_joypads[which-1] |= 1 << i;
-		lua_pop(L,1);
+//	for (i=0; i < nGameInpCount; i++) {
+//		lua_getfield(L, 2, button_mappings[i]);
+//		if (!lua_isnil(L,-1))
+//			lua_joypads |= 1 << i;
+//		lua_pop(L,1);
+//	}
+	struct GameInp* pgi = NULL;
+	unsigned short nThisVal;
+	
+	lua_newtable(L);
+
+	// Update the values of all the inputs
+	for (i = 0, pgi = GameInp; i < nGameInpCount; i++, pgi++) {
+		if (pgi->nType == 0) {
+			continue;
+		}
+		struct BurnInputInfo bii;
+
+		if (bRunPause) {
+			nThisVal = pgi->Input.nVal;
+		} else {
+			nThisVal = *pgi->Input.pVal;
+		}
+		// Get the name of the input
+		bii.szName = NULL;
+		BurnDrvGetInputInfo(&bii, i);
+
+		// skip unused inputs
+		if (bii.pVal == NULL) {
+			continue;
+		}
+		if (bii.szName == NULL)	{
+			bii.szName = "";
+		}
+
+		if (nThisVal != 0) {
+			lua_pushinteger(L,nThisVal);
+			lua_setfield(L, -2, bii.szName);
+		}
+//		lua_getfield(L, 2, button_mappings[i]);
+//		if (!lua_isnil(L,-1))
+//			lua_joypads |= 1 << i;
+//		lua_pop(L,1);
 	}
 	
 	return 0;
@@ -1053,9 +1095,6 @@ static int movie_stop(lua_State *L) {
 	return 0;
 
 }
-
-int LUA_SCREEN_WIDTH  = 640;
-int LUA_SCREEN_HEIGHT = 512;
 
 // Common code by the gui library: make sure the screen array is ready
 static void gui_prepare() {
@@ -1658,10 +1697,39 @@ static int gui_getpixel(lua_State *L) {
 	}
 	else
 	{
-		UINT8 *screen = (UINT8*) XBuf;
-		lua_pushinteger(L, screen[y*x*4 + 2]); // red
-		lua_pushinteger(L, screen[y*x*4 + 1]); // green
-		lua_pushinteger(L, screen[y*x*4 + 0]); // blue
+		switch(iScreenBpp)
+		{
+		case 2:
+			{
+				UINT16 *screen = (UINT16*) XBuf;
+				UINT16 pix = screen[y*(iScreenPitch/2) + x];
+				lua_pushinteger(L, (pix >> 8) & 0xF8); // red
+				lua_pushinteger(L, (pix >> 3) & 0xFC); // green
+				lua_pushinteger(L, (pix << 3) & 0xF8); // blue
+			}
+			break;
+		case 3:
+			{
+				UINT8 *screen = XBuf;
+				lua_pushinteger(L, screen[y*iScreenPitch + x*3 + 2]); // red
+				lua_pushinteger(L, screen[y*iScreenPitch + x*3 + 1]); // green
+				lua_pushinteger(L, screen[y*iScreenPitch + x*3 + 0]); // blue
+			}
+			break;
+		case 4:
+			{
+				UINT8 *screen = XBuf;
+				lua_pushinteger(L, screen[y*iScreenPitch + x*4 + 2]); // red
+				lua_pushinteger(L, screen[y*iScreenPitch + x*4 + 1]); // green
+				lua_pushinteger(L, screen[y*iScreenPitch + x*4 + 0]); // blue
+			}
+			break;
+		default:
+			lua_pushinteger(L, 0);
+			lua_pushinteger(L, 0);
+			lua_pushinteger(L, 0);
+			break;
+		}
 	}
 
 	return 3;
@@ -1688,7 +1756,6 @@ static int gui_gdscreenshot(lua_State *L) {
 	int size = 11 + width * height * 4;
 	char* str = (char*)malloc(size+1);
 	unsigned char* ptr;
-	UINT8 *screen;
 
 	str[size] = 0;
 	ptr = (unsigned char*)str;
@@ -1706,13 +1773,37 @@ static int gui_gdscreenshot(lua_State *L) {
 	*ptr++ = 255;
 	*ptr++ = 255;
 
-	screen=XBuf;
 	for(y=0; y<height; y++){
 		for(x=0; x<width; x++){
 			UINT32 r, g, b;
-			r = screen[(y*LUA_SCREEN_WIDTH+x)*4+2];
-			g = screen[(y*LUA_SCREEN_WIDTH+x)*4+1];
-			b = screen[(y*LUA_SCREEN_WIDTH+x)*4];
+			switch(iScreenBpp)
+			{
+			case 2:
+				{
+					UINT16 *screen = (UINT16*) XBuf;
+					r = ((screen[y*(iScreenPitch/2) + x] >> 11) & 31) << 3;
+					g = ((screen[y*(iScreenPitch/2) + x] >> 5)  & 63) << 2;
+					b = ( screen[y*(iScreenPitch/2) + x]        & 31) << 3;
+				}
+				break;
+			case 3:
+				{
+					UINT8 *screen = XBuf;
+					r = screen[y*iScreenPitch + x*3+2];
+					g = screen[y*iScreenPitch + x*3+1];
+					b = screen[y*iScreenPitch + x*3];
+				}
+				break;
+			case 4:
+			default:
+				{
+					UINT8 *screen = XBuf;
+					r = screen[y*iScreenPitch + x*4+2];
+					g = screen[y*iScreenPitch + x*4+1];
+					b = screen[y*iScreenPitch + x*4];
+				}
+				break;
+			}
 
 			// overlay uncommited Lua drawings if needed
 			if (gui_used != GUI_CLEAR && gui_enabled) {
@@ -2902,8 +2993,8 @@ static const struct luaL_reg fbalib [] = {
 	{"pause", fba_pause},
 	{"unpause", fba_unpause},
 	{"framecount", movie_framecount},
-	{"lagcount", fba_lagcount},
-	{"lagged", fba_lagged},
+//	{"lagcount", fba_lagcount},
+//	{"lagged", fba_lagged},
 	{"registerbefore", fba_registerbefore},
 	{"registerafter", fba_registerafter},
 	{"registerexit", fba_registerexit},
@@ -3246,10 +3337,10 @@ int FBA_LuaRunning() {
 /**
  * Returns true if Lua would like to steal the given joypad control.
  */
-int FBA_LuaUsingJoypad(int which) {
+int FBA_LuaUsingJoypad() {
 	if (!FBA_LuaRunning())
 		return 0;
-	return lua_joypads_used & (1 << which);
+	return lua_joypads_used;
 }
 
 
@@ -3260,11 +3351,11 @@ int FBA_LuaUsingJoypad(int which) {
  * This function must not be called more than once per frame. Ideally exactly once
  * per frame (if FBA_LuaUsingJoypad says it's safe to do so)
  */
-UINT32 FBA_LuaReadJoypad(int which) {
+UINT32 FBA_LuaReadJoypad() {
 	if (!FBA_LuaRunning())
 		return 0;
-	if (lua_joypads_used & (1 << which)) {
-		return lua_joypads[which];
+	if (lua_joypads_used) {
+		return lua_joypads;
 	}
 	else
 		return 0; // disconnected
@@ -3291,10 +3382,14 @@ int FBA_LuaRerecordCountSkip() {
  */
 void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch) {
 	XBuf = (UINT8 *)s;
-	iScreenWidth = width;
+
+	iScreenWidth  = width;
 	iScreenHeight = height;
-		LUA_SCREEN_WIDTH  = width; //TODO: get correct values
-		LUA_SCREEN_HEIGHT = height;
+	iScreenBpp    = bpp;
+	iScreenPitch  = pitch;
+
+	LUA_SCREEN_WIDTH  = width;
+	LUA_SCREEN_HEIGHT = height;
 
 	if (!LUA || !bDrvOkay/* || !luaRunning*/)
 		return;
@@ -3330,8 +3425,7 @@ void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch) {
 
 	gui_used = GUI_USED_SINCE_LAST_FRAME;
 
-	int x, y, x2;
-	int xscale = (width == 512) ? 2 : 1; // TODO: what's this? It was used in Snes9X
+	int x, y;
 
 	switch(bpp)
 	{
@@ -3352,24 +3446,22 @@ void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch) {
 				const UINT8 gui_blue  = gui_data[(y*LUA_SCREEN_WIDTH+x)*4];
 				int red, green, blue;
 
-				for (x2 = 0; x2 < xscale; x2++) {
-					if (gui_alpha == 255) {
-						// direct copy
-						red = gui_red;
-						green = gui_green;
-						blue = gui_blue;
-					}
-					else {
-						// alpha-blending
-						const UINT8 scr_red   = ((screen[y*ppl + (x*xscale+x2)] >> 11) & 31) << 3;
-						const UINT8 scr_green = ((screen[y*ppl + (x*xscale+x2)] >> 5)  & 63) << 2;
-						const UINT8 scr_blue  = ( screen[y*ppl + (x*xscale+x2)]        & 31) << 3;
-						red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
-						green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
-						blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
-					}
-					screen[y*ppl + (x*xscale+x2)] =  ((red >> 3) << 11) | ((green >> 2) << 5) | (blue >> 3);
+				if (gui_alpha == 255) {
+					// direct copy
+					red = gui_red;
+					green = gui_green;
+					blue = gui_blue;
 				}
+				else {
+					// alpha-blending
+					const UINT8 scr_red   = ((screen[y*ppl + x] >> 11) & 31) << 3;
+					const UINT8 scr_green = ((screen[y*ppl + x] >> 5)  & 63) << 2;
+					const UINT8 scr_blue  = ( screen[y*ppl + x]        & 31) << 3;
+					red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
+					green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
+					blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
+				}
+				screen[y*ppl + x] =  ((red >> 3) << 11) | ((green >> 2) << 5) | (blue >> 3);
 			}
 		}
 		break;
@@ -3391,26 +3483,24 @@ void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch) {
 				const UINT8 gui_blue  = gui_data[(y*LUA_SCREEN_WIDTH+x)*4];
 				int red, green, blue;
 
-				for (x2 = 0; x2 < xscale; x2++) {
-					if (gui_alpha == 255) {
-						// direct copy
-						red = gui_red;
-						green = gui_green;
-						blue = gui_blue;
-					}
-					else {
-						// alpha-blending
-						const UINT8 scr_red   = screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 2];
-						const UINT8 scr_green = screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 1];
-						const UINT8 scr_blue  = screen[y*pitch + (x*xscale+x2)*bytesPerPixel];
-						red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
-						green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
-						blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
-					}
-					screen[y*pitch + (x*xscale+x2)*bytesPerPixel] = blue;
-					screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 1] = green;
-					screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 2] = red;
+				if (gui_alpha == 255) {
+					// direct copy
+					red = gui_red;
+					green = gui_green;
+					blue = gui_blue;
 				}
+				else {
+					// alpha-blending
+					const UINT8 scr_red   = screen[y*pitch + x*bytesPerPixel + 2];
+					const UINT8 scr_green = screen[y*pitch + x*bytesPerPixel + 1];
+					const UINT8 scr_blue  = screen[y*pitch + x*bytesPerPixel];
+					red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
+					green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
+					blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
+				}
+				screen[y*pitch + x*bytesPerPixel] = blue;
+				screen[y*pitch + x*bytesPerPixel + 1] = green;
+				screen[y*pitch + x*bytesPerPixel + 2] = red;
 			}
 		}
 		#undef bytesPerPixel
@@ -3433,26 +3523,24 @@ void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch) {
 				const UINT8 gui_blue  = gui_data[(y*LUA_SCREEN_WIDTH+x)*4];
 				int red, green, blue;
 
-				for (x2 = 0; x2 < xscale; x2++) {
-					if (gui_alpha == 255) {
-						// direct copy
-						red = gui_red;
-						green = gui_green;
-						blue = gui_blue;
-					}
-					else {
-						// alpha-blending
-						const UINT8 scr_red   = screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 2];
-						const UINT8 scr_green = screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 1];
-						const UINT8 scr_blue  = screen[y*pitch + (x*xscale+x2)*bytesPerPixel];
-						red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
-						green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
-						blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
-					}
-					screen[y*pitch + (x*xscale+x2)*bytesPerPixel] = blue;
-					screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 1] = green;
-					screen[y*pitch + (x*xscale+x2)*bytesPerPixel + 2] = red;
+				if (gui_alpha == 255) {
+					// direct copy
+					red = gui_red;
+					green = gui_green;
+					blue = gui_blue;
 				}
+				else {
+					// alpha-blending
+					const UINT8 scr_red   = screen[y*pitch + x*bytesPerPixel + 2];
+					const UINT8 scr_green = screen[y*pitch + x*bytesPerPixel + 1];
+					const UINT8 scr_blue  = screen[y*pitch + x*bytesPerPixel];
+					red   = (((int) gui_red   - scr_red)   * gui_alpha / 255 + scr_red)   & 255;
+					green = (((int) gui_green - scr_green) * gui_alpha / 255 + scr_green) & 255;
+					blue  = (((int) gui_blue  - scr_blue)  * gui_alpha / 255 + scr_blue)  & 255;
+				}
+				screen[y*pitch + x*bytesPerPixel] = blue;
+				screen[y*pitch + x*bytesPerPixel + 1] = green;
+				screen[y*pitch + x*bytesPerPixel + 2] = red;
 			}
 		}
 		#undef bytesPerPixel
