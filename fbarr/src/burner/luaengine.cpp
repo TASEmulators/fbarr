@@ -205,7 +205,7 @@ void FBA_LuaWriteInform() {
 		lua_pushvalue(LUA, 2);
 		lua_gettable(LUA, 4);
 		value = luaL_checkinteger(LUA, 5);
-		if (ReadValueAtHardwareAddress(addr,1) != value)
+		if (value != (lua_Integer)ReadValueAtHardwareAddress(addr,1))
 		{
 			int res;
 
@@ -873,6 +873,16 @@ static int joypad_set(lua_State *L) {
 }
 
 
+#ifdef WIN32
+char szSavestateFilename[MAX_PATH];
+
+char *GetSavestateFilename(int nSlot) {
+	sprintf(szSavestateFilename, ".\\savestates\\%s slot %02x.fs", _TtoA(BurnDrvGetText(DRV_NAME)), nSlot);
+	return szSavestateFilename;
+}
+#endif
+
+
 // Helper function to convert a savestate object to the filename it represents.
 static char *savestateobj2filename(lua_State *L, int offset) {
 	
@@ -914,7 +924,6 @@ static int savestate_gc(lua_State *L) {
 	return 0;
 }
 
-
 // object savestate.create(int which = nil)
 //
 //  Creates an object used for savestates.
@@ -936,7 +945,7 @@ static int savestate_create(lua_State *L) {
 		// Find an appropriate filename. This is OS specific, unfortunately.
 		// So I turned the filename selection code into my bitch. :)
 		// Numbers are 0 through 9 though.
-//		filename = GetSavestateFilename(which -1); TODO
+		filename = GetSavestateFilename(which);
 	}
 	else {
 		filename = tempnam(NULL, "snlua");
@@ -984,7 +993,7 @@ static int savestate_save(lua_State *L) {
 	// Save states are very expensive. They take time.
 	numTries--;
 
-//	SaveState(filename); TODO
+	BurnStateSave(_AtoT(filename), 1);
 	return 0;
 }
 
@@ -996,9 +1005,8 @@ static int savestate_load(lua_State *L) {
 
 	numTries--;
 
-//	LoadState(filename); TODO
+	BurnStateLoad(_AtoT(filename), 1, &DrvInitCallback);
 	return 0;
-
 }
 
 
@@ -1424,7 +1432,7 @@ s_colorMapping [] =
  * The user may construct their own RGB value, given a simple colour name,
  * or an HTML-style "#09abcd" colour. 16 bit reduction doesn't occur at this time.
  */
-static inline UINT8 str2colour(UINT32 *colour, lua_State *L, const char *str) {
+static inline UINT8 str2colour(UINT32 *colour, const char *str) {
 	if (str[0] == '#') {
 		unsigned int color;
 		int len;
@@ -1459,7 +1467,7 @@ static inline UINT32 gui_getcolour_wrapped(lua_State *L, int offset, UINT8 hasDe
 			const char *str = lua_tostring(L,offset);
 			UINT32 colour;
 
-			if (str2colour(&colour, L, str))
+			if (str2colour(&colour, str))
 				return colour;
 			else {
 				if (hasDefaultValue)
