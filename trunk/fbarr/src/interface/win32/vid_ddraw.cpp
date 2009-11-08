@@ -936,6 +936,8 @@ static int vidBurnToSurf()
 		}
 	}
 
+	FBA_LuaGui((unsigned char*)ddsd.lpSurface,nVidImageWidth,nVidImageHeight,nVidImageBPP,ddsd.lPitch);
+
 	pddsDtos->Unlock(NULL);
 
 	return 0;

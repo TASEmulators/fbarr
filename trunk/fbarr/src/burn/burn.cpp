@@ -891,8 +891,6 @@ void BurnTransferClear()
 	memset((void*)pTransDraw, 0, nTransWidth * nTransHeight * sizeof(short));
 }
 
-extern void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch);
-
 int BurnTransferCopy(UINT32* pPalette)
 {
 	UINT16* pSrc = pTransDraw;
@@ -935,8 +933,6 @@ int BurnTransferCopy(UINT32* pPalette)
 			break;
 		}
 	}
-
-	FBA_LuaGui(pBurnDraw,nTransWidth,nTransHeight,nBurnBpp,nBurnPitch);
 
 	return 0;
 }

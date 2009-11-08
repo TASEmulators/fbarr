@@ -78,8 +78,6 @@ static int RunFrame(int bDraw, int bPause)
 
 	extern bool bDoPostInitialize;
 
-	CallRegisteredLuaFunctions(LUACALL_BEFOREEMULATION); //TODO: find proper place
-
 	// Exit Jukebox properly
 	
 	if(bDoPostInitialize == true && bJukeboxInUse == true) {
@@ -122,7 +120,9 @@ static int RunFrame(int bDraw, int bPause)
 		if (bPause != bPrevPause) {
 			VidPaint(2);                        // Redraw the screen (to ensure mode indicators are updated)
 		}
-	} else {
+	}
+	else {
+		CallRegisteredLuaFunctions(LUACALL_BEFOREEMULATION); //TODO: find proper place
 
 		nFramesEmulated++;
 		nCurrentFrame++;
@@ -169,10 +169,10 @@ static int RunFrame(int bDraw, int bPause)
 				nDoFPS = nFramesRendered + 30;
 			}
 		}
-	}
 
-	FBA_LuaFrameBoundary();
-	CallRegisteredLuaFunctions(LUACALL_AFTEREMULATION); //TODO: find proper place
+		FBA_LuaFrameBoundary();
+		CallRegisteredLuaFunctions(LUACALL_AFTEREMULATION); //TODO: find proper place
+	}
 
 	bPrevPause = bPause;
 	bPrevDraw = bDraw;
