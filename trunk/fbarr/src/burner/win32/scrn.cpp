@@ -498,7 +498,7 @@ static int OnLButtonDblClk(HWND hwnd, BOOL, int, int, UINT)
 static int OnMouseMove(HWND hwnd, int x, int y, UINT keyIndicators)
 {
 
-	mousex=x; // TODO: does this work?
+	mousex=x;
 	mousey=y;
 
 	if (bDrag && hwnd == hScrnWnd && keyIndicators == MK_LBUTTON && !nVidFullscreen && !bMenuEnabled) {
