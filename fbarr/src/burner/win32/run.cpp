@@ -174,6 +174,7 @@ static int RunFrame(int bDraw, int bPause)
 		}
 
 		FBA_LuaFrameBoundary();
+		Update_RAM_Search();
 		CallRegisteredLuaFunctions(LUACALL_AFTEREMULATION); //TODO: find proper place
 	}
 
