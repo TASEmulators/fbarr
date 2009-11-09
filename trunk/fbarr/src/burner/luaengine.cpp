@@ -204,13 +204,13 @@ void FBA_LuaWriteInform() {
 		lua_pushvalue(LUA, 2);
 		lua_gettable(LUA, 4);
 		value = luaL_checkinteger(LUA, 5);
-		if (value != (lua_Integer)ReadValueAtHardwareAddress(addr,1))
+		if (value != (lua_Integer)ReadValueAtHardwareAddress(addr,1,0))
 		{
 			int res;
 
 			// Value changed; update & invoke the Lua callback
 			lua_pushinteger(LUA, addr);
-			lua_pushinteger(LUA, ReadValueAtHardwareAddress(addr,1));
+			lua_pushinteger(LUA, ReadValueAtHardwareAddress(addr,1,0));
 			lua_settable(LUA, 4);
 			lua_pop(LUA, 2);
 
@@ -662,26 +662,36 @@ static int fba_registerexit(lua_State *L) {
 }
 
 
+static int is_little_endian(lua_State *L,int argn)
+{
+	int littleEndian;
+	if(lua_gettop(L) >= argn)
+		littleEndian = lua_toboolean(L,argn);
+	else
+		littleEndian = 0;
+	return littleEndian;
+}
+
 static int memory_readbyte(lua_State *L)
 {
-	lua_pushinteger(L, ReadValueAtHardwareAddress(luaL_checkinteger(L,1),1));
+	lua_pushinteger(L, ReadValueAtHardwareAddress(luaL_checkinteger(L,1),1,0));
 	return 1;
 }
 
 static int memory_readbytesigned(lua_State *L) {
-	signed char c = (signed char)ReadValueAtHardwareAddress(luaL_checkinteger(L,1),1);
+	signed char c = (signed char)ReadValueAtHardwareAddress(luaL_checkinteger(L,1),1,0);
 	lua_pushinteger(L, c);
 	return 1;
 }
 
 static int memory_readword(lua_State *L)
 {
-	lua_pushinteger(L, ReadValueAtHardwareAddress(luaL_checkinteger(L,1),2));
+	lua_pushinteger(L, ReadValueAtHardwareAddress(luaL_checkinteger(L,1),2,is_little_endian(L,2)));
 	return 1;
 }
 
 static int memory_readwordsigned(lua_State *L) {
-	signed short c = (signed short)ReadValueAtHardwareAddress(luaL_checkinteger(L,1),2);
+	signed short c = (signed short)ReadValueAtHardwareAddress(luaL_checkinteger(L,1),2,is_little_endian(L,2));
 	lua_pushinteger(L, c);
 	return 1;
 }
@@ -689,7 +699,7 @@ static int memory_readwordsigned(lua_State *L) {
 static int memory_readdword(lua_State *L)
 {
 	UINT32 addr = luaL_checkinteger(L,1);
-	UINT32 val = ReadValueAtHardwareAddress(addr,4);
+	UINT32 val = ReadValueAtHardwareAddress(addr,4,is_little_endian(L,2));
 
 	// lua_pushinteger doesn't work properly for 32bit system, does it?
 	if (val >= 0x80000000 && sizeof(int) <= 4)
@@ -701,7 +711,7 @@ static int memory_readdword(lua_State *L)
 
 static int memory_readdwordsigned(lua_State *L) {
 	UINT32 addr = luaL_checkinteger(L,1);
-	INT32 val = (INT32)ReadValueAtHardwareAddress(addr,4);
+	INT32 val = (INT32)ReadValueAtHardwareAddress(addr,4,is_little_endian(L,2));
 
 	lua_pushinteger(L, val);
 	return 1;
@@ -724,7 +734,7 @@ static int memory_readbyterange(lua_State *L) {
 	// put all the values into the (1-based) array
 	for(a = address, n = 1; n <= length; a++, n++)
 	{
-		unsigned char value = ReadValueAtHardwareAddress(a,1);
+		unsigned char value = ReadValueAtHardwareAddress(a,1,0);
 		lua_pushinteger(L, value);
 		lua_rawseti(L, -2, n);
 	}
@@ -732,22 +742,21 @@ static int memory_readbyterange(lua_State *L) {
 	return 1;
 }
 
-
 static int memory_writebyte(lua_State *L)
 {
-	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),1);
+	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),1,0);
 	return 0;
 }
 
 static int memory_writeword(lua_State *L)
 {
-	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),2);
+	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),2,is_little_endian(L,3));
 	return 0;
 }
 
 static int memory_writedword(lua_State *L)
 {
-	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),4);
+	WriteValueAtHardwareAddress(luaL_checkinteger(L,1), luaL_checkinteger(L,2),4,is_little_endian(L,3));
 	return 0;
 }
 
@@ -776,7 +785,7 @@ static int memory_registerwrite(lua_State *L) {
 	lua_getfield(L, LUA_REGISTRYINDEX, memoryValueTable);
 	lua_pushvalue(L,1);
 	if (lua_isnil(L,2)) lua_pushnil(L);
-	else lua_pushinteger(L, ReadValueAtHardwareAddress(addr,1));
+	else lua_pushinteger(L, ReadValueAtHardwareAddress(addr,1,0));
 	lua_settable(L, -3);
 	
 	if(!usingMemoryRegister)

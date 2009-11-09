@@ -678,7 +678,7 @@ bool IsHardwareAddressValid(HWAddressType address)
 		return false;
 }
 
-unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size)
+unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size, int isLittleEndian)
 {
 	unsigned int value = 0;
 
@@ -695,7 +695,10 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 
 		value <<= 8;
 		value |= (IsHardwareAddressValid(address) ? memByte : 0);
-		address--;
+		if(isLittleEndian)
+			address--;
+		else
+			address++;
 	}
 
 	cheat_subptr->cpu_close();
@@ -704,7 +707,7 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 	return value;
 }
 
-bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsigned int size)
+bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsigned int size, int isLittleEndian)
 {
 	int nActiveCPU = 0;
 	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
@@ -713,13 +716,15 @@ bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsi
 	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
 	cheat_subptr->cpu_open(cheat_subptr->nCpu);
 
-	address -= size-1;
-	for(unsigned int i = 0; i < size; i++)
+	for(int i = (int)size-1; i >= 0; i--)
 	{
 		unsigned char memByte = (value >> (8*i))&0xFF;
 		cheat_subptr->write(address,memByte);
 
-		address++;
+		if(isLittleEndian)
+			address--;
+		else
+			address++;
 	}
 
 	cheat_subptr->cpu_close();

@@ -56,7 +56,7 @@ bool ResetWatches();
 
 unsigned int GetCurrentValue(AddressWatcher& watch)
 {
-	return ReadValueAtHardwareAddress(watch.Address, watch.Size == 'd' ? 4 : watch.Size == 'w' ? 2 : 1);
+	return ReadValueAtHardwareAddress(watch.Address, watch.Size == 'd' ? 4 : watch.Size == 'w' ? 2 : 1,0);
 }
 
 bool IsSameWatch(const AddressWatcher& l, const AddressWatcher& r)
