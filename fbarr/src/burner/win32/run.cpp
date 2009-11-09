@@ -143,7 +143,10 @@ static int RunFrame(int bDraw, int bPause)
 					InputSetCooperativeLevel(false, false);
 				}
 			} else {
-				GetInput(true);					// Update inputs
+				GetInput(true); // Update inputs
+				if (FBA_LuaUsingJoypad()) {
+					FBA_LuaReadJoypad();
+				}
 			}
 		}
 

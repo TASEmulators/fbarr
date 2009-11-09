@@ -93,7 +93,7 @@ static int frameAdvanceWaiting = FALSE;
 static int transparencyModifier = 255;
 
 // Our joypads.
-static UINT32 lua_joypads;
+static short lua_joypads[0x0100];
 static UINT8 lua_joypads_used;
 
 static UINT8 gui_enabled = TRUE;
@@ -318,7 +318,7 @@ static void toCStringConverter(lua_State* L, int i, char*& ptr, int& remaining)
 	if(remaining <= 0)
 		return;
 
-	const char* str = ptr; // for debugging
+//	const char* str = ptr; // for debugging
 
 	// if there is a __tostring metamethod then call it
 	int usedMeta = luaL_callmeta(L, i, "__tostring");
@@ -343,7 +343,7 @@ static void toCStringConverter(lua_State* L, int i, char*& ptr, int& remaining)
 		case LUA_TNIL: APPENDPRINT "nil" END break;
 		case LUA_TBOOLEAN: APPENDPRINT lua_toboolean(L,i) ? "true" : "false" END break;
 		case LUA_TSTRING: APPENDPRINT "%s",lua_tostring(L,i) END break;
-		case LUA_TNUMBER: APPENDPRINT "%.12Lg",lua_tonumber(L,i) END break;
+		case LUA_TNUMBER: APPENDPRINT "%.12g",lua_tonumber(L,i) END break;
 		case LUA_TFUNCTION: 
 			if((L->base + i-1)->value.gc->cl.c.isC)
 			{
@@ -393,7 +393,7 @@ defcase:default: APPENDPRINT "%s:%p",luaL_typename(L,i),lua_topointer(L,i) END b
 			else
 			{
 				s_tableAddressStack.push_back(lua_topointer(L,i));
-				struct Scope { ~Scope(){ s_tableAddressStack.pop_back(); } } scope;
+//				struct Scope { ~Scope(){ s_tableAddressStack.pop_back(); } } scope;
 
 				APPENDPRINT "{" END
 
@@ -662,23 +662,6 @@ static int fba_registerexit(lua_State *L) {
 }
 
 
-// int fba.lagcount() TODO
-//int fba_lagcount(lua_State *L) {
-//	lua_pushinteger(L, Movie.lagCounter);
-//	return 1;
-//}
-
-
-// boolean fba.lagged()
-//int fba_lagged(lua_State *L) { TODO
-//	int lagged = 0;
-//	if(iJoysToPoll == 2)
-//		lagged = 1;
-//	lua_pushboolean(L, lagged);
-//	return 1;
-//}
-
-
 static int memory_readbyte(lua_State *L)
 {
 	lua_pushinteger(L, ReadValueAtHardwareAddress(luaL_checkinteger(L,1),1));
@@ -810,9 +793,8 @@ static int joypad_read(lua_State *L) {
 	unsigned int i = 0;
 	struct GameInp* pgi = NULL;
 	unsigned short nThisVal;
-	
+
 	lua_newtable(L);
-	
 
 	// Update the values of all the inputs
 	for (i = 0, pgi = GameInp; i < nGameInpCount; i++, pgi++) {
@@ -847,35 +829,21 @@ static int joypad_read(lua_State *L) {
 }
 
 
-// joypad.set(int which, table buttons)
+// joypad.set(table buttons)
 //
 //   Sets the given buttons to be pressed during the next
 //   frame advance. The table should have the right 
 //   keys (no pun intended) set.
 static int joypad_set(lua_State *L) {
-	int which;
+	struct GameInp* pgi = NULL;
 	unsigned int i;
 
-	// Which joypad we're tampering with
-	which = luaL_checkinteger(L,1);
-
-	// And the table of buttons.
-	luaL_checktype(L,2,LUA_TTABLE);
+	// table of buttons.
+	luaL_checktype(L,1,LUA_TTABLE);
 
 	// Set up for taking control of the indicated controller
 	lua_joypads_used = 1;
-	lua_joypads = 0;
-
-//	for (i=0; i < nGameInpCount; i++) {
-//		lua_getfield(L, 2, button_mappings[i]);
-//		if (!lua_isnil(L,-1))
-//			lua_joypads |= 1 << i;
-//		lua_pop(L,1);
-//	}
-	struct GameInp* pgi = NULL;
-	unsigned short nThisVal;
-	
-	lua_newtable(L);
+	memset(lua_joypads,0,0x0100);
 
 	// Update the values of all the inputs
 	for (i = 0, pgi = GameInp; i < nGameInpCount; i++, pgi++) {
@@ -884,11 +852,6 @@ static int joypad_set(lua_State *L) {
 		}
 		struct BurnInputInfo bii;
 
-		if (bRunPause) {
-			nThisVal = pgi->Input.nVal;
-		} else {
-			nThisVal = *pgi->Input.pVal;
-		}
 		// Get the name of the input
 		bii.szName = NULL;
 		BurnDrvGetInputInfo(&bii, i);
@@ -900,15 +863,18 @@ static int joypad_set(lua_State *L) {
 		if (bii.szName == NULL)	{
 			bii.szName = "";
 		}
-
-		if (nThisVal != 0) {
-			lua_pushinteger(L,nThisVal);
-			lua_setfield(L, -2, bii.szName);
+//		dprintf(_T("*JOY*: '%s' : "),_AtoT(bii.szName));
+		lua_getfield(L, 1, bii.szName);
+//		dprintf(_T("*GETFIELD*: works\n"));
+		if (!lua_isnil(L,-1)) {
+			if (bii.nType & BIT_GROUP_ANALOG) {
+				lua_joypads[i] = (luaL_checkinteger(L, -2) << 8) | luaL_checkinteger(L, -1);
+			}
+			else {
+				lua_joypads[i] = luaL_checkinteger(L, -1);
+			}
 		}
-//		lua_getfield(L, 2, button_mappings[i]);
-//		if (!lua_isnil(L,-1))
-//			lua_joypads |= 1 << i;
-//		lua_pop(L,1);
+//		dprintf(_T("%d\n"),lua_joypads[i]);
 	}
 	
 	return 0;
@@ -2993,8 +2959,6 @@ static const struct luaL_reg fbalib [] = {
 	{"pause", fba_pause},
 	{"unpause", fba_unpause},
 	{"framecount", movie_framecount},
-//	{"lagcount", fba_lagcount},
-//	{"lagged", fba_lagged},
 	{"registerbefore", fba_registerbefore},
 	{"registerafter", fba_registerafter},
 	{"registerexit", fba_registerexit},
@@ -3121,8 +3085,6 @@ void FBA_LuaFrameBoundary() {
 	// Lua calling C must know that we're busy inside a frame boundary
 	frameBoundary = TRUE;
 	frameAdvanceWaiting = FALSE;
-
-	lua_joypads_used = 0;
 
 	numTries = 1000;
 	chdir(luaCWD);
@@ -3353,12 +3315,40 @@ int FBA_LuaUsingJoypad() {
  */
 UINT32 FBA_LuaReadJoypad() {
 	if (!FBA_LuaRunning())
-		return 0;
+		return 1;
+
 	if (lua_joypads_used) {
-		return lua_joypads;
+		// Update the values of all the inputs
+		struct GameInp* pgi = NULL;
+		unsigned int i;
+		for (i = 0, pgi = GameInp; i < nGameInpCount; i++, pgi++) {
+			if (pgi->nType == 0) {
+				continue;
+			}
+			struct BurnInputInfo bii;
+
+			// Get the name of the input
+			BurnDrvGetInputInfo(&bii, i);
+
+			// skip unused inputs
+			if (bii.pVal == NULL) {
+				continue;
+			}
+			if (bii.nType & BIT_GROUP_ANALOG) {
+				*bii.pShortVal = lua_joypads[i];
+			}
+			else {
+				*bii.pVal = lua_joypads[i];
+			}
+//			dprintf(_T("*READ_JOY*: '%s' %d: "),_AtoT(bii.szName),lua_joypads[i]);
+		}
+
+		lua_joypads_used = 0;
+		memset(lua_joypads,0,0x0100);
+		return 0;
 	}
 	else
-		return 0; // disconnected
+		return 1; // disconnected
 }
 
 
