@@ -545,6 +545,8 @@
 #define IDC_EDIT_LUAPATH                20312
 #define IDC_LUACONSOLE                  20313
 #define IDC_BUTTON_LUAEDIT              20314
+#define IDC_LUACONSOLE_CLEAR            20315
+#define IDC_LUACONSOLE_CHOOSEFONT       20316
 
 #define IDC_IPSMAN_DESELECTALL          20500
 
