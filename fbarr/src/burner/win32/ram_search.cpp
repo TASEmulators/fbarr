@@ -250,9 +250,9 @@ void UpdateRegionT(const MemoryRegion& region, const MemoryRegion* nextRegionPtr
 	{
 		for(unsigned int i = indexStart; i < indexEnd; i++)
 		{
-			if(s_curValues[i] != ReadValueAtHardwareAddress(hwSourceAddr+i, 1)) // if value changed
+			if(s_curValues[i] != ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0)) // if value changed
 			{
-				s_curValues[i] = ReadValueAtHardwareAddress(hwSourceAddr+i, 1); // update value
+				s_curValues[i] = ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0); // update value
 				//if(s_numChanges[i] != 0xFFFF)
 					s_numChanges[i]++; // increase change count
 			}
@@ -281,10 +281,10 @@ void UpdateRegionT(const MemoryRegion& region, const MemoryRegion* nextRegionPtr
 
 		for(unsigned int i = indexStart, j = 0; i < lastIndexToRead; i++, j++)
 		{
-			if(s_curValues[i] != ReadValueAtHardwareAddress(hwSourceAddr+i, 1)) // if value of this byte changed
+			if(s_curValues[i] != ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0)) // if value of this byte changed
 			{
 				if(i < lastIndexToCopy)
-					s_curValues[i] = ReadValueAtHardwareAddress(hwSourceAddr+i, 1); // update value
+					s_curValues[i] = ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0); // update value
 				for(int k = 0; k < (int)sizeof(compareType); k++) // loop through the previous entries that contain this byte
 				{
 					if(i >= indexEnd+k)
