@@ -90,11 +90,14 @@ void EEPROMInit(const eeprom_interface *interface)
 
 	int len = ((1 << intf->address_bits) * (intf->data_bits >> 3)) & (MEMORY_SIZE-1);
 
-	FILE *fz = fopen(output, "rb");
-	if (fz != NULL) {
-		neeprom_available = 1;
-		fread (eeprom_data, len, 1, fz);
-		fclose (fz);
+	extern int nSkipNvram;
+	if(!nSkipNvram) {
+		FILE *fz = fopen(output, "rb");
+		if (fz != NULL) {
+			neeprom_available = 1;
+			fread (eeprom_data, len, 1, fz);
+			fclose (fz);
+		}
 	}
 }
 
