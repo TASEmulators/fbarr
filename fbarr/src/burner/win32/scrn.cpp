@@ -12,6 +12,8 @@ int nActiveGame;
 
 bool bLoading = 0;
 
+int nSkipNvram = 0;
+
 int OnMenuSelect(HWND, HMENU, int, HMENU, UINT);
 int OnInitMenuPopup(HWND, HMENU, UINT, BOOL);
 int OnUnInitMenuPopup(HWND, HMENU, UINT, BOOL);
@@ -3011,8 +3013,10 @@ int StartFromReset()
 	SplashDestroy(1);
 	StopReplay();
 	
-	DrvExit();
+//	DrvExit();
+	nSkipNvram = 1;
 	DrvInit(nOldDrvSelect, false);	// Init the game driver, without loading SRAM
+	nSkipNvram = 0;
 	MenuEnableItems();
 	bAltPause = 0;
 	AudSoundPlay();			// Restart sound
