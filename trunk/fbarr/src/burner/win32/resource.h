@@ -234,6 +234,7 @@
 #define IDD_PROMPT                      239
 #define IDR_RWACCELERATOR               240
 #define IDD_LUA                         241
+#define IDD_RAMWATCHOLD                 242
 
 #define IDS_STRING                      500
 
@@ -385,6 +386,32 @@
 #define IDC_CHECKTAITO                  20135
 #define IDC_CHECKMEGADRIVE              20136
 #define IDC_INPD_SAVE_AS_PRESET         20137
+#define MW_ValueLabel1                  20138
+#define MW_ValueLabel2                  20139
+#define MW_ADDR00                       1001
+#define MW_ADDR01                       1004
+#define MW_ADDR02                       1007
+#define MW_ADDR03                       1010
+#define MW_ADDR04                       1013
+#define MW_ADDR05                       1016
+#define MW_ADDR06                       1019
+#define MW_ADDR07                       1022
+#define MW_ADDR08                       1025
+#define MW_ADDR09                       1028
+#define MW_ADDR10                       1031
+#define MW_ADDR11                       1034
+#define MW_ADDR12                       1037
+#define MW_ADDR13                       1040
+#define MW_ADDR14                       1043
+#define MW_ADDR15                       1046
+#define MW_ADDR16                       1049
+#define MW_ADDR17                       1052
+#define MW_ADDR18                       1055
+#define MW_ADDR19                       1058
+#define MW_ADDR20                       1061
+#define MW_ADDR21                       1064
+#define MW_ADDR22                       1067
+#define MW_ADDR23                       1070
 
 #define IDC_SUPPORTDIR_EDIT1            20150
 #define IDC_SUPPORTDIR_EDIT2            20151
@@ -785,6 +812,7 @@
 #define MENU_INP_PLUGIN_8               10671
 #define MENU_PALETTEVIEWER              10672
 #define MENU_HOTKEYS                    10673
+#define ID_RAM_WATCH_OLD                10674
 
 #define MENU_NORMAL                     11001
 #define MENU_SCAN                       11002

@@ -175,6 +175,7 @@ static int RunFrame(int bDraw, int bPause)
 
 		FBA_LuaFrameBoundary();
 		Update_RAM_Search();
+		UpdateMemWatch();
 		CallRegisteredLuaFunctions(LUACALL_AFTEREMULATION); //TODO: find proper place
 	}
 
@@ -375,9 +376,7 @@ int RunMessageLoop()
 				}
 
 				// process key message
-				if (RunKeyMsg(Msg)) {
-					continue;
-				}
+				RunKeyMsg(Msg);
 
 				if (Msg.message == WM_SYSKEYDOWN || Msg.message == WM_KEYDOWN) {
 					if (Msg.lParam & 0x20000000) {

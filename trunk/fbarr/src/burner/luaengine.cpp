@@ -44,7 +44,6 @@ static void(*info_onstart)(int uid);
 static void(*info_onstop)(int uid);
 static int info_uid;
 #ifdef WIN32
-extern HWND LuaConsoleHWnd;
 extern INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern void PrintToWindowConsole(int hDlgAsInt, const char* str);
 extern void WinLuaOnStart(int hDlgAsInt);

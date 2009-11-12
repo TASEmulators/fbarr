@@ -519,3 +519,12 @@ void AviSoundUpdate();
 
 // maphkeys.cpp
 int MHkeysCreate();
+
+// memwatch.cpp
+void UpdateMemWatch();
+void CreateMemWatch();
+void AddMemWatch();
+extern HWND hwndMemWatch;
+
+// luaconsole.cpp
+extern HWND LuaConsoleHWnd;
