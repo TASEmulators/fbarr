@@ -94,6 +94,7 @@ int StatedLoad(int nSlot)
 	VidSNewShortMsg(L"state loaded");
 	VidRedraw();
 	VidPaint(0);
+	UpdateMemWatch();
 
 	if (nSlot) {
 		return nRet;

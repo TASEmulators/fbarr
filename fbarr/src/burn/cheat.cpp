@@ -682,6 +682,9 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 {
 	unsigned int value = 0;
 
+	if (!bDrvOkay)
+		return 0;
+
 	int nActiveCPU = 0;
 	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
 

@@ -62,6 +62,7 @@ void HK_setDips(int);
 void HK_cheatEditor(int);
 void HK_ramSearch(int);
 void HK_ramWatch(int);
+void HK_ramWatchOld(int);
 void HK_windowSize(int param);
 void HK_windowSizeMax(int);
 void HK_fullscreen(int);

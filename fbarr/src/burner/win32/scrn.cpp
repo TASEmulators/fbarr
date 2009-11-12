@@ -573,7 +573,7 @@ static void OnActivateApp(HWND hwnd, BOOL fActivate, DWORD /* dwThreadId */)
 	}
 
 	if (fActivate) {
-		if (hInpdDlg || hInpCheatDlg || hInpDIPSWDlg || hDbgDlg) {
+		if (hInpdDlg || hInpCheatDlg || hInpDIPSWDlg || hDbgDlg || hwndMemWatch || LuaConsoleHWnd) {
 			InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
 		} else {
 			GameInpCheckMouse();
@@ -1917,7 +1917,8 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case ID_RAM_WATCH:
-			HK_ramWatch(0);
+//			HK_ramWatch(0);
+			HK_ramWatchOld(0);
 			break;
 
 		case ID_RAM_SEARCH:
@@ -3013,7 +3014,6 @@ int StartFromReset()
 	SplashDestroy(1);
 	StopReplay();
 	
-//	DrvExit();
 	nSkipNvram = 1;
 	DrvInit(nOldDrvSelect, false);	// Init the game driver, without loading SRAM
 	nSkipNvram = 0;

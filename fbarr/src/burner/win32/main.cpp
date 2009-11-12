@@ -598,10 +598,12 @@ void AppCleanup()
 
 int AppMessage(MSG *pMsg)
 {
-	if (IsDialogMessage(hInpdDlg, pMsg))	 return 0;
+	if (IsDialogMessage(hInpdDlg, pMsg)) return 0;
 	if (IsDialogMessage(hInpCheatDlg, pMsg)) return 0;
 	if (IsDialogMessage(hInpDIPSWDlg, pMsg)) return 0;
-	if (IsDialogMessage(hDbgDlg, pMsg))		 return 0;
+	if (IsDialogMessage(hDbgDlg, pMsg)) return 0;
+	if (IsDialogMessage(hwndMemWatch, pMsg)) return 0;
+	if (IsDialogMessage(LuaConsoleHWnd, pMsg)) return 0;
 
 	if (IsDialogMessage(hInpsDlg, pMsg))	 return 0;
 	if (IsDialogMessage(hInpcDlg, pMsg))	 return 0;
