@@ -75,6 +75,7 @@ extern HANDLE hMainThread;							// Handle to the main thread
 extern long int nMainThreadID;						// ID of the main thread
 extern int nAppThreadPriority;
 extern int nAppShowCmd;
+extern TCHAR szCurrentPath[MAX_PATH];
 
 extern HACCEL hAccel;
 

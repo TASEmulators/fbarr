@@ -8,8 +8,8 @@ bool bSaveInputs = true;
 static TCHAR* GameConfigName()
 {
 	// Return the path of the config file for this game
-	static TCHAR szName[32];
-	_stprintf(szName, _T("config\\games\\%s.ini"), BurnDrvGetText(DRV_NAME));
+	static TCHAR szName[MAX_PATH];
+	_stprintf(szName, _T("%sconfig\\games\\%s.ini"), szCurrentPath, BurnDrvGetText(DRV_NAME));
 	return szName;
 }
 

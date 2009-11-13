@@ -904,7 +904,7 @@ static int joypad_set(lua_State *L) {
 char szSavestateFilename[MAX_PATH];
 
 char *GetSavestateFilename(int nSlot) {
-	sprintf(szSavestateFilename, ".\\savestates\\%s slot %02x.fs", _TtoA(BurnDrvGetText(DRV_NAME)), nSlot);
+	sprintf(szSavestateFilename, "%ssavestates\\%s slot %02x.fs", _TtoA(szCurrentPath), BurnDrvGetTextA(DRV_NAME), nSlot);
 	return szSavestateFilename;
 }
 #endif
