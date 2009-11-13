@@ -42,7 +42,7 @@ struct InitRamWatch
 } initRamWatch;
 
 HWND RamWatchHWnd;
-#define gamefilename _TtoA(BurnDrvGetText(DRV_NAME))
+#define gamefilename BurnDrvGetTextA(DRV_NAME)
 #define hWnd hScrnWnd
 #define hInst hAppInst
 static char Str_Tmp [1024];

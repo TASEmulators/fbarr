@@ -5,8 +5,6 @@
 #define SSHOT_LIBPNG_ERROR 2
 #define SSHOT_OTHER_ERROR 3
 
-#define SSHOT_DIRECTORY "screenshots\\"
-
 static unsigned char* pSShot = NULL;
 static unsigned char* pConvertedImage = NULL;
 static png_bytep* pSShotImageRows = NULL;
@@ -224,7 +222,7 @@ int MakeScreenShot()
 	png_convert_from_time_t(&png_time, currentTime);
 
 	// construct our filename -> "romname-mm-dd-hms.png"
-    sprintf(szSShotName,"%s%s-%.2d-%.2d-%.2d%.2d%.2d.png", SSHOT_DIRECTORY, BurnDrvGetTextA(DRV_NAME), tmTime->tm_mon + 1, tmTime->tm_mday, tmTime->tm_hour, tmTime->tm_min, tmTime->tm_sec);
+    sprintf(szSShotName,"%sscreenshots\\%s-%.2d-%.2d-%.2d%.2d%.2d.png", _TtoA(szCurrentPath), BurnDrvGetTextA(DRV_NAME), tmTime->tm_mon + 1, tmTime->tm_mday, tmTime->tm_hour, tmTime->tm_min, tmTime->tm_sec);
 
 	ff = fopen(szSShotName, "wb");
 	if (ff == NULL) {

@@ -27,7 +27,7 @@ int StatedAuto(int bSave)
 	static TCHAR szName[32] = _T("");
 	int nRet;
 
-	_stprintf(szName, _T("config\\games\\%s.fs"), BurnDrvGetText(DRV_NAME));
+	_stprintf(szName, _T("%sconfig\\games\\%s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME));
 
 	if (bSave == 0) {
 		nRet = BurnStateLoad(szName, bDrvSaveAll, NULL);		// Load ram
@@ -43,7 +43,7 @@ int StatedAuto(int bSave)
 
 static void CreateStateName(int nSlot)
 {
-	_stprintf(szChoice, _T(".\\savestates\\%s slot %02x.fs"), BurnDrvGetText(DRV_NAME), nSlot);
+	_stprintf(szChoice, _T("%ssavestates\\%s slot %02x.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), nSlot);
 }
 
 int StatedLoad(int nSlot)

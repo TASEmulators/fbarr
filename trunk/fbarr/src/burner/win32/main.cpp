@@ -27,6 +27,7 @@ HANDLE hMainThread;
 long int nMainThreadID;
 int nAppThreadPriority = THREAD_PRIORITY_NORMAL;
 int nAppShowCmd;
+TCHAR szCurrentPath[MAX_PATH];
 
 static TCHAR szCmdLine[1024] = _T("");
 
@@ -169,6 +170,23 @@ char *utf8_from_wstring(const WCHAR *wstring)
 		WideCharToMultiByte(CP_UTF8, 0, wstring, -1, result, char_count, NULL, NULL);
 
 	return result;
+}
+
+void GetCurrentPath()
+{
+	TCHAR szPath[MAX_PATH];
+	TCHAR szDrive[MAX_PATH];
+	TCHAR szDirectory[MAX_PATH];
+	TCHAR szFilename[MAX_PATH];
+	TCHAR szExt[MAX_PATH];
+	szDrive[0] = '\0';
+	szDirectory[0] = '\0';
+	szFilename[0] = '\0';
+	szExt[0] = '\0';
+	GetModuleFileName(NULL, szPath, MAX_PATH);
+	_wsplitpath(szPath, szDrive, szDirectory, szFilename, szExt);
+
+	swprintf(szCurrentPath,_T("%s%s") + '\0',szDrive, szDirectory);
 }
 
 #if defined (FBA_DEBUG)
@@ -757,6 +775,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCmd
 	SetUnhandledExceptionFilter(ExceptionFilter);
 
 	hAppInst = hInstance;
+
+	GetCurrentPath();
 
 	// Make version string
 	if (nBurnVer & 0xFF) {
