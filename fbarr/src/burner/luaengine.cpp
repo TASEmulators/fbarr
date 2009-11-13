@@ -887,18 +887,13 @@ static int joypad_set(lua_State *L) {
 		if (bii.szName == NULL)	{
 			bii.szName = "";
 		}
-//		dprintf(_T("*JOY*: '%s' : "),_AtoT(bii.szName));
+
 		lua_getfield(L, 1, bii.szName);
-//		dprintf(_T("*GETFIELD*: works\n"));
 		if (!lua_isnil(L,-1)) {
-			if (bii.nType & BIT_GROUP_ANALOG) {
-				lua_joypads[i] = (luaL_checkinteger(L, -2) << 8) | luaL_checkinteger(L, -1);
-			}
-			else {
-				lua_joypads[i] = luaL_checkinteger(L, -1);
-			}
+			lua_joypads[i] = lua_tonumber(L, -1);
+//			dprintf(_T("*JOYPAD*: '%s' : %d\n"),_AtoT(bii.szName),lua_joypads[i]);
+			lua_pop(L,1);
 		}
-//		dprintf(_T("%d\n"),lua_joypads[i]);
 	}
 	
 	return 0;
