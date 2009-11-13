@@ -1387,10 +1387,6 @@ void MenuEnableItems()
 			if (pCheatInfo) {
 				EnableMenuItem(hMenu, MENU_ENABLECHEAT,	MF_ENABLED | MF_BYCOMMAND);
 			}
-			
-			if (CheatSearchInit()) {
-				EnableMenuItem(hMenu, MENU_CHEATSEARCH_START, MF_ENABLED | MF_BYCOMMAND);
-			}
 
 #if defined (FBA_DEBUG)
 			EnableMenuItem(hMenu, MENU_DEBUG,			MF_ENABLED | MF_BYCOMMAND);

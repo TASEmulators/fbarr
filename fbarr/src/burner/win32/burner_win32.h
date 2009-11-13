@@ -523,8 +523,14 @@ int MHkeysCreate();
 // memwatch.cpp
 void UpdateMemWatch();
 void CreateMemWatch();
-void AddMemWatch();
+void AddMemWatch(char memaddress[32]);
 extern HWND hwndMemWatch;
 
 // luaconsole.cpp
 extern HWND LuaConsoleHWnd;
+
+// cheatsearch.cpp
+extern HWND cheatSearchDlg;
+int CheatSearchCreate();
+void CheatSearchDestroy();
+void UpdateCheatSearch();

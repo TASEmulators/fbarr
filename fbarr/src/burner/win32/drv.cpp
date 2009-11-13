@@ -187,6 +187,8 @@ int DrvExit()
 		DestroyWindow(hInpdDlg);		// Make sure the Input Dialog is exited
 		DestroyWindow(hInpDIPSWDlg);	// Make sure the DipSwitch Dialog is exited
 		DestroyWindow(hInpCheatDlg);	// Make sure the Cheat Dialog is exited
+		DestroyWindow(cheatSearchDlg);
+		CheatSearchDestroy();
 
 		if (nBurnDrvSelect < nBurnDrvCount) {
 

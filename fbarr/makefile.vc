@@ -144,7 +144,7 @@ depobj	:= 	main.o splash.o about.o systeminfo.o debugger.o misc_win32.o \
 	   	inpc.o inpd.o inps.o inpcheat.o inpdipsw.o sfactd.o stated.o numdial.o res.o \
 	   	cona.o localise.o roms.o support_paths.o jukebox.o menugui.o imagebutton.o pngload.o \
 	   	bmp_resize.o placeholderd.o fba_kaillera.o net.o localise_gamelist.o \
-	   	maphkeys.o ram_search.o ramwatch.o luaconsole.o luaengine.o memwatch.o \
+	   	maphkeys.o ram_search.o ramwatch.o luaconsole.o luaengine.o memwatch.o cheatsearch.o \
 		\
 		adler32.o compress.o crc32.o deflate.o gzio.o infback.o \
        		inffast.o inflate.o inftrees.o trees.o uncompr.o zutil.o \

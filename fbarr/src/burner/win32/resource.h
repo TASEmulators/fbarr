@@ -235,6 +235,7 @@
 #define IDR_RWACCELERATOR               240
 #define IDD_LUA                         241
 #define IDD_RAMWATCHOLD                 242
+#define IDD_CHEAT_SEARCH                243
 
 #define IDS_STRING                      500
 
@@ -574,8 +575,24 @@
 #define IDC_BUTTON_LUAEDIT              20314
 #define IDC_LUACONSOLE_CLEAR            20315
 #define IDC_LUACONSOLE_CHOOSEFONT       20316
-
 #define IDC_IPSMAN_DESELECTALL          20500
+#define IDC_ADDYS                       20501
+#define IDC_C_ADD                       20503
+#define IDC_LESS_THAN                   20504
+#define IDC_GREATER_THAN                20505
+#define IDC_LESS_THAN_EQUAL             20506
+#define IDC_GREATER_THAN_EQUAL          20507
+#define IDC_ENTER_LABEL                 20508
+#define IDC_EQUAL                       20509
+#define IDC_NOT_EQUAL                   20510
+#define IDC_PREV                        20511
+#define IDC_ENTERED                     20512
+#define IDC_ENTEREDADDRESS              20513
+#define IDC_VALUE_ENTER                 20514
+#define IDC_C_REFRESH                   20515
+#define IDC_2_BYTE                      20516
+#define IDC_3_BYTE                      20517
+#define IDC_4_BYTE                      20518
 
 #define IDC_GFX_VIEWER_HORI_1           30000
 #define IDC_GFX_VIEWER_HORI_2           30001
@@ -766,13 +783,6 @@
 #define MENU_PREVIOUSGAMES9             10625
 #define MENU_PREVIOUSGAMES10            10626
 #define MENU_SAVECROMS                  10627
-#define MENU_CHEATSEARCH_START          10628
-#define MENU_CHEATSEARCH_NOCHANGE       10629
-#define MENU_CHEATSEARCH_CHANGE         10630
-#define MENU_CHEATSEARCH_DECREASE       10631
-#define MENU_CHEATSEARCH_INCREASE       10632
-#define MENU_CHEATSEARCH_DUMPFILE       10633
-#define MENU_CHEATSEARCH_EXIT           10634
 #define MENU_LANGUAGE_RESET             10635
 #define MENU_DISABLETHEMES              10636
 #define MENU_DEFAULTTHEME               10637
@@ -812,7 +822,6 @@
 #define MENU_INP_PLUGIN_8               10671
 #define MENU_PALETTEVIEWER              10672
 #define MENU_HOTKEYS                    10673
-#define ID_RAM_WATCH_OLD                10674
 
 #define MENU_NORMAL                     11001
 #define MENU_SCAN                       11002

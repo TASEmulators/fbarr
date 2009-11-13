@@ -603,6 +603,7 @@ int AppMessage(MSG *pMsg)
 	if (IsDialogMessage(hInpDIPSWDlg, pMsg)) return 0;
 	if (IsDialogMessage(hDbgDlg, pMsg)) return 0;
 	if (IsDialogMessage(hwndMemWatch, pMsg)) return 0;
+	if (IsDialogMessage(cheatSearchDlg, pMsg)) return 0;
 	if (IsDialogMessage(LuaConsoleHWnd, pMsg)) return 0;
 
 	if (IsDialogMessage(hInpsDlg, pMsg))	 return 0;
