@@ -573,7 +573,7 @@ static void OnActivateApp(HWND hwnd, BOOL fActivate, DWORD /* dwThreadId */)
 	}
 
 	if (fActivate) {
-		if (hInpdDlg || hInpCheatDlg || hInpDIPSWDlg || hDbgDlg || hwndMemWatch || LuaConsoleHWnd) {
+		if (hInpdDlg || hInpCheatDlg || hInpDIPSWDlg || hDbgDlg || hwndMemWatch || cheatSearchDlg || LuaConsoleHWnd) {
 			InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
 		} else {
 			GameInpCheckMouse();
@@ -1922,7 +1922,8 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case ID_RAM_SEARCH:
-			HK_ramSearch(0);
+//			HK_ramSearch(0);
+			HK_ramSearchOld(0);
 			break;
 
 		case MENU_PALETTEVIEWER: {
@@ -1944,100 +1945,6 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 		case MENU_SNAPFACT:
 			HK_shotFactory(0);
 			break;
-			
-		case MENU_CHEATSEARCH_START: {
-			CheatSearchStart();
-			VidSAddChatMsg(NULL, 0xFFFFFF, _T("New cheat search started"), 0xFFBFBF);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_NOCHANGE, MF_ENABLED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_CHANGE, MF_ENABLED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_DECREASE, MF_ENABLED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_INCREASE, MF_ENABLED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_DUMPFILE, MF_ENABLED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_EXIT, MF_ENABLED | MF_BYCOMMAND);
-			break;
-		}
-		
-		case MENU_CHEATSEARCH_NOCHANGE: {
-			TCHAR tmpmsg[256];
-			unsigned int nValues = CheatSearchValueNoChange();
-
-			_sntprintf(tmpmsg, 256, _T("%i Addresses Matched"), nValues);
-			VidSAddChatMsg(NULL, 0xFFFFFF, tmpmsg, 0xFFBFBF);
-			
-			if (nValues <= CHEATSEARCH_SHOWRESULTS) {
-				for (unsigned int i = 0; i < nValues; i++) {
-					_sntprintf(tmpmsg, 256, _T("Address %08X Value %02X"), CheatSearchShowResultAddresses[i], CheatSearchShowResultValues[i]);
-					VidSAddChatMsg(NULL, 0xFFFFFF, tmpmsg, 0xFFBFBF);
-				}
-			}
-			break;
-		}
-		
-		case MENU_CHEATSEARCH_CHANGE: {
-			TCHAR tmpmsg[256];
-			unsigned int nValues = CheatSearchValueChange();
-
-			_sntprintf(tmpmsg, 256, _T("%i Addresses Matched"), nValues);
-			VidSAddChatMsg(NULL, 0xFFFFFF, tmpmsg, 0xFFBFBF);
-			
-			if (nValues <= CHEATSEARCH_SHOWRESULTS) {
-				for (unsigned int i = 0; i < nValues; i++) {
-					_sntprintf(tmpmsg, 256, _T("Address %08X Value %02X"), CheatSearchShowResultAddresses[i], CheatSearchShowResultValues[i]);
-					VidSAddChatMsg(NULL, 0xFFFFFF, tmpmsg, 0xFFBFBF);
-				}
-			}
-			break;
-		}
-		
-		case MENU_CHEATSEARCH_DECREASE: {
-			TCHAR tmpmsg[256];
-			unsigned int nValues = CheatSearchValueDecreased();
-
-			_sntprintf(tmpmsg, 256, _T("%i Addresses Matched"), nValues);
-			VidSAddChatMsg(NULL, 0xFFFFFF, tmpmsg, 0xFFBFBF);
-			
-			if (nValues <= CHEATSEARCH_SHOWRESULTS) {
-				for (unsigned int i = 0; i < nValues; i++) {
-					_sntprintf(tmpmsg, 256, _T("Address %08X Value %02X"), CheatSearchShowResultAddresses[i], CheatSearchShowResultValues[i]);
-					VidSAddChatMsg(NULL, 0xFFFFFF, tmpmsg, 0xFFBFBF);
-				}
-			}
-			break;
-		}
-		
-		case MENU_CHEATSEARCH_INCREASE: {
-			TCHAR tmpmsg[256];
-
-			unsigned int nValues = CheatSearchValueIncreased();
-
-			_sntprintf(tmpmsg, 256, _T("%i Addresses Matched"), nValues);
-			VidSAddChatMsg(NULL, 0xFFFFFF, tmpmsg, 0xFFBFBF);
-			
-			if (nValues <= CHEATSEARCH_SHOWRESULTS) {
-				for (unsigned int i = 0; i < nValues; i++) {
-					_sntprintf(tmpmsg, 256, _T("Address %08X Value %02X"), CheatSearchShowResultAddresses[i], CheatSearchShowResultValues[i]);
-					VidSAddChatMsg(NULL, 0xFFFFFF, tmpmsg, 0xFFBFBF);
-				}
-			}
-			break;
-		}
-		
-		case MENU_CHEATSEARCH_DUMPFILE: {
-			CheatSearchDumptoFile();
-			break;
-		}
-		
-		case MENU_CHEATSEARCH_EXIT: {
-			CheatSearchExit();
-			VidSAddChatMsg(NULL, 0xFFFFFF, _T("Cheat search exited"), 0xFFBFBF);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_NOCHANGE, MF_GRAYED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_CHANGE, MF_GRAYED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_DECREASE, MF_GRAYED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_INCREASE, MF_GRAYED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_DUMPFILE, MF_GRAYED | MF_BYCOMMAND);
-			EnableMenuItem(hMenu, MENU_CHEATSEARCH_EXIT, MF_GRAYED | MF_BYCOMMAND);
-			break;
-		}
 
 		case MENU_ASSOCIATE:
 			RegisterExtensions(true);

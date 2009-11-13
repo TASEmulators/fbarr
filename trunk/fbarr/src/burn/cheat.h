@@ -47,3 +47,18 @@ unsigned int CheatSearchValueChange();
 unsigned int CheatSearchValueDecreased();
 unsigned int CheatSearchValueIncreased();
 void CheatSearchDumptoFile();
+
+// Cheat search
+struct CheatSearchInfo {
+	unsigned int size;
+	unsigned char* RAM;
+	unsigned char* CRAM;
+	int* ALL_BITS;
+};
+
+extern CheatSearchInfo cheatSearchInfo;
+
+int CheatSearchInit();
+void CheatSearchExit();
+unsigned char CheatSearchGet(unsigned int address);
+void CheatSearchCopyRAM(unsigned char* ram);

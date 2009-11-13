@@ -62,9 +62,10 @@ CustomKey customKeys[] = {
 	{ 0,             MODKEY_NONE,  MENU_AVI_BEGIN,         "Start AVI Capture",         "start-avi",     HK_startAvi,          0, 0 },
 	{ 0,             MODKEY_NONE,  MENU_AVI_END,           "Stop AVI Capture",          "end-avi",       HK_stopAvi,           0, 0 },
 	{ 'C',           MODKEY_CTRL,  MENU_ENABLECHEAT,       "Cheat Editor",              "cheat",         HK_cheatEditor,       0, 0 },
-	{ 'F',           MODKEY_CTRL,  ID_RAM_SEARCH,          "RAM Search",                "ram-search",    HK_ramSearch,         0, 0 },
+//	{ 'F',           MODKEY_CTRL,  ID_RAM_SEARCH,          "RAM Search",                "ram-search",    HK_ramSearch,         0, 0 },
+	{ 'F',           MODKEY_CTRL,  ID_RAM_SEARCH,          "RAM Search",                "ram-search",    HK_ramSearchOld,      0, 0 },
 //	{ 'W',           MODKEY_CTRL,  ID_RAM_WATCH,           "RAM Watch",                 "ram-watch",     HK_ramWatch,          0, 0 },
-	{ 'W',           MODKEY_CTRL,  ID_RAM_WATCH_OLD,       "RAM Watch",                 "ram-watch-old", HK_ramWatchOld,       0, 0 },
+	{ 'W',           MODKEY_CTRL,  ID_RAM_WATCH,           "RAM Watch",                 "ram-watch",     HK_ramWatchOld,       0, 0 },
 	{ 0,             0,            ID_LUA_OPEN,            "New Lua Script Window",     "lua-open",      HK_luaOpen,           0, 0 },
 	{ 0,             0,            ID_LUA_CLOSE_ALL,       "Close All Script Windows",  "lua-close-all", HK_luaCloseAll,       0, 0 },
 	{ 0,             0,            0,                      "Reload Lua Script",         "lua-reload",    HK_luaReload,         0, 0 },
@@ -821,6 +822,15 @@ void HK_ramSearch(int)
 	}
 	else
 		SetForegroundWindow(RamSearchHWnd);
+}
+
+void HK_ramSearchOld(int)
+{
+	if (UseDialogs()) {
+		AudBlankSound();
+		InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
+		CheatSearchCreate();
+	}
 }
 
 void HK_ramWatch(int)

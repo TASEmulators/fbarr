@@ -11,7 +11,7 @@
 #include "konami_intf.h"
 #include "arm7_intf.h"
 
-bool bCheatsAllowed;
+bool bCheatsAllowed = true;
 CheatInfo* pCheatInfo = NULL;
 
 static bool bCheatsEnabled = false;
@@ -20,8 +20,6 @@ static bool bCheatsEnabled = false;
 // Cpu interface for cheat application
 
 #define MAX_CHEAT_CPU	8	// enough?
-
-static int nActiveCheatCpus;
 
 struct cheat_subs {
 	int nCpu;	// Which cpu is this? (SekOpen(#), ZetOpen(#))
@@ -35,6 +33,7 @@ struct cheat_subs {
 
 struct cheat_subs cheat_sub_block[MAX_CHEAT_CPU];
 struct cheat_subs *cheat_subptr;
+static int nActiveCheatCpus = 0;
 
 //---------------------------------------------------
 // Dummy handlers
@@ -78,6 +77,14 @@ CHEAT_WRITE(konami, konami_write_rom(a,d))
 
 //------------------------------------------------
 // Central cpu registry for functions necessary for cheats
+static inline void ExitCpuCheatRegister()
+{
+	nActiveCheatCpus = 0;
+	for (int i = 0; i < MAX_CHEAT_CPU; i++) {
+		CpuCheatRegister(-1, i); // set them all to dummy...
+	}
+	nActiveCheatCpus = 0;
+}
 
 void CpuCheatRegister(int type, int nNum)
 {
@@ -414,8 +421,6 @@ int CheatApply()
 
 int CheatInit()
 {
-	CheatExit();
-
 	bCheatsEnabled = false;
 
 	return 0;
@@ -436,221 +441,92 @@ void CheatExit()
 		} while ((pCurrentCheat = pNextCheat) != 0);
 	}
 
-	nActiveCheatCpus = 0;
-	for (int i = 0; i < MAX_CHEAT_CPU; i++) {
-		CpuCheatRegister(-1, i); // set them all to dummy...
-	}
-	nActiveCheatCpus = 0;
-
 	pCheatInfo = NULL;
+
+	ExitCpuCheatRegister();
 }
 
 // Cheat search
 
-static unsigned char *MemoryValues = NULL;
-static unsigned char *MemoryStatus = NULL;
-static UINT32 nMemorySize = 0;
-
-#define NOT_IN_RESULTS	0
-#define IN_RESULTS	1
-
-unsigned int CheatSearchShowResultAddresses[CHEATSEARCH_SHOWRESULTS];
-unsigned int CheatSearchShowResultValues[CHEATSEARCH_SHOWRESULTS];
-
-int CheatSearchInit()
-{
-	return 1;
-}
+CheatSearchInfo cheatSearchInfo;
+static int nActiveCPU = -1;
 
 void CheatSearchExit()
 {
-	free(MemoryValues);
-	MemoryValues = NULL;
-	free(MemoryStatus);
-	MemoryStatus = NULL;
-	
-	nMemorySize = 0;
-	
-	memset(CheatSearchShowResultAddresses, 0, CHEATSEARCH_SHOWRESULTS);
-	memset(CheatSearchShowResultValues, 0, CHEATSEARCH_SHOWRESULTS);
+	delete [] cheatSearchInfo.RAM;
+	cheatSearchInfo.RAM = NULL;
+	delete [] cheatSearchInfo.CRAM;
+	cheatSearchInfo.CRAM = NULL;
+	delete [] cheatSearchInfo.ALL_BITS;
+	cheatSearchInfo.ALL_BITS = NULL;
+
+	cheatSearchInfo.size = 0;
 }
 
-void CheatSearchStart()
+int CheatSearchInit()
 {
-	UINT32 nAddress;
-	
-	int nActiveCPU = 0;
-	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
-	
-	nActiveCPU = cheat_subptr->active_cpu();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
-	cheat_subptr->cpu_open(cheat_subptr->nCpu);
-	nMemorySize = cheat_subptr->nMemorySize;
+	cheat_subptr = &cheat_sub_block[0]; // first cpu only (ok?)
 
-	MemoryValues = (unsigned char*)malloc(nMemorySize);
-	MemoryStatus = (unsigned char*)malloc(nMemorySize);
+	cheatSearchInfo.size = cheat_subptr->nMemorySize;
 
-	for (nAddress = 0; nAddress < nMemorySize; nAddress++) {
-		MemoryValues[nAddress] = cheat_subptr->read(nAddress);
+	cheatSearchInfo.RAM = new unsigned char[cheatSearchInfo.size];
+	cheatSearchInfo.CRAM = new unsigned char[cheatSearchInfo.size];
+	cheatSearchInfo.ALL_BITS = new int[(cheatSearchInfo.size >> 5)];
+	if (!cheatSearchInfo.RAM || !cheatSearchInfo.CRAM || !cheatSearchInfo.ALL_BITS) {
+		CheatSearchExit();
+		return 1;
 	}
-	
-	cheat_subptr->cpu_close();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
-			
-	memset(MemoryStatus, IN_RESULTS, nMemorySize);
+
+	CheatSearchCopyRAM(cheatSearchInfo.CRAM);
+	memset(cheatSearchInfo.ALL_BITS, 0xffffffff, sizeof(int) * (cheatSearchInfo.size >> 5));
+
+	return 0;
 }
 
-static void CheatSearchGetResults()
+unsigned char CheatSearchGet(unsigned int address)
 {
-	UINT32 nAddress;
-	unsigned int nResultsPos = 0;
-	
-	memset(CheatSearchShowResultAddresses, 0, CHEATSEARCH_SHOWRESULTS);
-	memset(CheatSearchShowResultValues, 0, CHEATSEARCH_SHOWRESULTS);
-	
-	for (nAddress = 0; nAddress < nMemorySize; nAddress++) {		
-		if (MemoryStatus[nAddress] == IN_RESULTS) {
-			CheatSearchShowResultAddresses[nResultsPos] = nAddress;
-			CheatSearchShowResultValues[nResultsPos] = MemoryValues[nAddress];
-			nResultsPos++;
-		}
-	}
-}
-
-unsigned int CheatSearchValueNoChange()
-{
-	unsigned int nMatchedAddresses = 0;
-	UINT32 nAddress;
-	
-	int nActiveCPU = 0;
-	
 	nActiveCPU = cheat_subptr->active_cpu();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
+	if (nActiveCPU >= 0) {
+		cheat_subptr->cpu_close();
+	}
+
+	static unsigned char value;
+
 	cheat_subptr->cpu_open(0);
-	
-	for (nAddress = 0; nAddress < nMemorySize; nAddress++) {
-		if (MemoryStatus[nAddress] == NOT_IN_RESULTS) continue;
-		if (cheat_subptr->read(nAddress) == MemoryValues[nAddress]) {
-			MemoryValues[nAddress] = cheat_subptr->read(nAddress);
-			nMatchedAddresses++;
-		} else {
-			MemoryStatus[nAddress] = NOT_IN_RESULTS;
-		}
+	value = cheat_subptr->read(address);
+	cheat_subptr->cpu_close();
+
+	if (nActiveCPU >= 0) {
+		cheat_subptr->cpu_open(nActiveCPU);
 	}
 
-	cheat_subptr->cpu_close();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
-	
-	if (nMatchedAddresses <= CHEATSEARCH_SHOWRESULTS) CheatSearchGetResults();
-	
-	return nMatchedAddresses;
+	return value;
 }
 
-unsigned int CheatSearchValueChange()
+void CheatSearchCopyRAM(unsigned char* ram)
 {
-	unsigned int nMatchedAddresses = 0;
-	UINT32 nAddress;
-	
-	int nActiveCPU = 0;
-	
-	nActiveCPU = cheat_subptr->active_cpu();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
-	cheat_subptr->cpu_open(0);
-	
-	for (nAddress = 0; nAddress < nMemorySize; nAddress++) {
-		if (MemoryStatus[nAddress] == NOT_IN_RESULTS) continue;
-		if (cheat_subptr->read(nAddress) != MemoryValues[nAddress]) {
-			MemoryValues[nAddress] = cheat_subptr->read(nAddress);
-			nMatchedAddresses++;
-		} else {
-			MemoryStatus[nAddress] = NOT_IN_RESULTS;
-		}
+	if (!ram) {
+		return;
 	}
-	
-	cheat_subptr->cpu_close();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
-	
-	if (nMatchedAddresses <= CHEATSEARCH_SHOWRESULTS) CheatSearchGetResults();
-	
-	return nMatchedAddresses;
-}
 
-unsigned int CheatSearchValueDecreased()
-{
-	unsigned int nMatchedAddresses = 0;
-	UINT32 nAddress;
-	
-	int nActiveCPU = 0;
-	
 	nActiveCPU = cheat_subptr->active_cpu();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
+	if (nActiveCPU >= 0) {
+		cheat_subptr->cpu_close();
+	}
+
 	cheat_subptr->cpu_open(0);
 
-	for (nAddress = 0; nAddress < nMemorySize; nAddress++) {
-		if (MemoryStatus[nAddress] == NOT_IN_RESULTS) continue;
-		if (cheat_subptr->read(nAddress) < MemoryValues[nAddress]) {
-			MemoryValues[nAddress] = cheat_subptr->read(nAddress);
-			nMatchedAddresses++;
-		} else {
-			MemoryStatus[nAddress] = NOT_IN_RESULTS;
-		}
+	for (UINT32 nAddress = 0; nAddress < cheatSearchInfo.size; nAddress++) {
+		ram[nAddress] = cheat_subptr->read(nAddress);
 	}
-
 	cheat_subptr->cpu_close();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
-	
-	if (nMatchedAddresses <= CHEATSEARCH_SHOWRESULTS) CheatSearchGetResults();
-	
-	return nMatchedAddresses;
-}
 
-unsigned int CheatSearchValueIncreased()
-{
-	unsigned int nMatchedAddresses = 0;
-	UINT32 nAddress;
-	
-	int nActiveCPU = 0;
-	
-	nActiveCPU = cheat_subptr->active_cpu();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
-	cheat_subptr->cpu_open(0);
-
-	for (nAddress = 0; nAddress < nMemorySize; nAddress++) {
-		if (MemoryStatus[nAddress] == NOT_IN_RESULTS) continue;
-		if (cheat_subptr->read(nAddress) > MemoryValues[nAddress]) {
-			MemoryValues[nAddress] = cheat_subptr->read(nAddress);
-			nMatchedAddresses++;
-		} else {
-			MemoryStatus[nAddress] = NOT_IN_RESULTS;
-		}
-	}
-	
-	cheat_subptr->cpu_close();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
-	
-	if (nMatchedAddresses <= CHEATSEARCH_SHOWRESULTS) CheatSearchGetResults();
-	
-	return nMatchedAddresses;
-}
-
-void CheatSearchDumptoFile()
-{
-	FILE *fp = fopen("cheatsearchdump.txt", "wt");
-	UINT32 nAddress;
-	
-	if (fp) {
-		char Temp[256];
-		
-		for (nAddress = 0; nAddress < nMemorySize; nAddress++) {
-			if (MemoryStatus[nAddress] == IN_RESULTS) {
-				sprintf(Temp, "Address %08X Value %02X\n", nAddress, MemoryValues[nAddress]);
-				fwrite(Temp, 1, strlen(Temp), fp);
-			}
-		}
-		
-		fclose(fp);
+	if (nActiveCPU >= 0) {
+		cheat_subptr->cpu_open(nActiveCPU);
 	}
 }
+
+
 
 extern int bDrvOkay;
 typedef unsigned int HWAddressType;
@@ -660,14 +536,14 @@ bool IsHardwareAddressValid(HWAddressType address)
 	if (!bDrvOkay)
 		return false;
 
-	int nActiveCPU = 0;
+	nActiveCPU = 0;
 	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
 	
 	nActiveCPU = cheat_subptr->active_cpu();
 	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
 	cheat_subptr->cpu_open(cheat_subptr->nCpu);
 	
-	nMemorySize = cheat_subptr->nMemorySize;
+	UINT32 nMemorySize = cheat_subptr->nMemorySize;
 	
 	cheat_subptr->cpu_close();
 	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
@@ -685,7 +561,7 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 	if (!bDrvOkay)
 		return 0;
 
-	int nActiveCPU = 0;
+	nActiveCPU = 0;
 	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
 
 	nActiveCPU = cheat_subptr->active_cpu();
@@ -694,10 +570,8 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 
 	for(unsigned int i = 0; i < size; i++)
 	{
-		unsigned char memByte = cheat_subptr->read(address);
-
 		value <<= 8;
-		value |= (IsHardwareAddressValid(address) ? memByte : 0);
+		value |= (IsHardwareAddressValid(address) ? cheat_subptr->read(address) : 0);
 		if(isLittleEndian)
 			address--;
 		else
@@ -712,7 +586,7 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 
 bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsigned int size, int isLittleEndian)
 {
-	int nActiveCPU = 0;
+	nActiveCPU = 0;
 	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
 
 	nActiveCPU = cheat_subptr->active_cpu();
@@ -735,6 +609,3 @@ bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsi
 
 	return value;
 }
-
-#undef NOT_IN_RESULTS
-#undef IN_RESULTS
