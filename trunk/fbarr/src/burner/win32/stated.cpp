@@ -92,8 +92,6 @@ int StatedLoad(int nSlot)
 	nRet = BurnStateLoad(szChoice, 1, &DrvInitCallback);
 
 	VidSNewShortMsg(L"state loaded");
-	VidRedraw();
-	VidPaint(0);
 	UpdateMemWatch();
 
 	if (nSlot) {
@@ -165,8 +163,6 @@ int StatedSave(int nSlot)
 	}
 
 	VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
-	VidRedraw();
-	VidPaint(0);
 
 	return nRet;
 }

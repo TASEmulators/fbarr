@@ -120,6 +120,8 @@ static int RunFrame(int bDraw, int bPause)
 		if (bPause != bPrevPause) {
 			VidPaint(2);                        // Redraw the screen (to ensure mode indicators are updated)
 		}
+		VidRedraw();
+		VidPaint(0);
 	}
 	else {
 		CallRegisteredLuaFunctions(LUACALL_BEFOREEMULATION); //TODO: find proper place
@@ -274,12 +276,6 @@ int RunIdle()
 		RunFrame(!bAlwaysDrawFrames, 0);
 	}
 	RunFrame(1, 0);							// End-frame
-
-	if (bAppDoStep) {
-		VidRedraw();
-		VidPaint(0);
-	}
-	bAppDoStep = 0;
 
 	return 0;
 }

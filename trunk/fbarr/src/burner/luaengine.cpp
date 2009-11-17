@@ -135,8 +135,6 @@ static void FBA_LuaOnStop() {
 	luaRunning = FALSE;
 	lua_joypads_used = 0;
 	gui_used = GUI_CLEAR;
-	VidRedraw();
-	VidPaint(0);
 }
 
 
@@ -3306,8 +3304,6 @@ int FBA_LoadLuaCode(const char *filename) {
 
 	// And run it right now. :)
 	FBA_LuaFrameBoundary();
-	VidRedraw();
-	VidPaint(0);
 
 	// Set up our protection hook to be executed once every 10,000 bytecode instructions.
 	lua_sethook(thread, FBA_LuaHookFunction, LUA_MASKCOUNT, 10000);

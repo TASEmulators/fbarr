@@ -505,8 +505,6 @@ void HK_prevState(int)
 	TCHAR szString[MAX_PATH];
 	_sntprintf(szString, sizearray(szString), FBALoadStringEx(hAppInst, IDS_STATE_ACTIVESLOT, true), nSavestateSlot);
 	VidSNewShortMsg(szString);
-	VidRedraw();
-	VidPaint(0);
 	MenuEnableItems();
 }
 void HK_nextState(int)
@@ -519,8 +517,6 @@ void HK_nextState(int)
 	TCHAR szString[MAX_PATH];
 	_sntprintf(szString, sizearray(szString), FBALoadStringEx(hAppInst, IDS_STATE_ACTIVESLOT, true), nSavestateSlot);
 	VidSNewShortMsg(szString);
-	VidRedraw();
-	VidPaint(0);
 	MenuEnableItems();
 }
 
@@ -530,8 +526,6 @@ void HK_selectState(int param)
 	TCHAR szString[MAX_PATH];
 	_sntprintf(szString, sizearray(szString), FBALoadStringEx(hAppInst, IDS_STATE_ACTIVESLOT, true), nSavestateSlot);
 	VidSNewShortMsg(szString);
-	VidRedraw();
-	VidPaint(0);
 	MenuEnableItems();
 }
 
@@ -588,8 +582,6 @@ void HK_playRec(int)
 		StartReplay();
 		GameInpCheckMouse();
 		AudSoundPlay();
-		VidRedraw();
-		VidPaint(0);
 
 		MenuEnableItems();
 	}
@@ -602,8 +594,6 @@ void HK_startRec(int)
 		StopReplay();
 		StartRecord();
 		GameInpCheckMouse();
-		VidRedraw();
-		VidPaint(0);
 
 		MenuEnableItems();
 	}
@@ -611,8 +601,6 @@ void HK_startRec(int)
 void HK_stopRec(int)
 {
 	StopReplay();
-	VidRedraw();
-	VidPaint(0);
 
 	MenuEnableItems();
 }
@@ -648,8 +636,6 @@ void HK_toggleReadOnly(int)
 		VidSNewShortMsg(_T("read-only"));
 	else
 		VidSNewShortMsg(_T("read+write"));
-	VidRedraw();
-	VidPaint(0);
 }
 
 void HK_frameCounter(int)
@@ -663,8 +649,6 @@ void HK_speedInc(int)
 {
 	// TO-DO: fix this
 	VidSNewTinyMsg(_T("disabled function"));
-	VidRedraw();
-	VidPaint(0);
 	return;
 
 	if (kNetGame) {
@@ -687,8 +671,6 @@ void HK_speedInc(int)
 	TCHAR buffer[15];
 	_stprintf(buffer, _T("speed %02i %%"), nFpsScale);
 	VidSNewShortMsg(buffer);
-	VidRedraw();
-	VidPaint(0);
 
 	MediaChangeFps(nFpsScale);
 }
@@ -696,8 +678,6 @@ void HK_speedDec(int)
 {
 	// TO-DO: fix this
 	VidSNewTinyMsg(_T("disabled function"));
-	VidRedraw();
-	VidPaint(0);
 	return;
 
 	if (kNetGame) {
@@ -720,8 +700,6 @@ void HK_speedDec(int)
 	TCHAR buffer[15];
 	_stprintf(buffer, _T("speed %02i %%"), nFpsScale);
 	VidSNewShortMsg(buffer);
-	VidRedraw();
-	VidPaint(0);
 
 	MediaChangeFps(nFpsScale);
 }
@@ -731,8 +709,6 @@ void HK_speedNormal(int)
 	nFpsScale = 100;
 	bAppDoFast = 0;
 	VidSNewShortMsg(_T("normal speed"));
-	VidRedraw();
-	VidPaint(0);
 	MediaChangeFps(nFpsScale);
 }
 
@@ -741,8 +717,6 @@ void HK_speedTurbo(int)
 	nFpsScale = 100;
 	bAppDoFast = 1;
 	VidSNewShortMsg(_T("turbo speed"));
-	VidRedraw();
-	VidPaint(0);
 	MediaChangeFps(nFpsScale);
 }
 
@@ -892,8 +866,6 @@ void HK_screenShot(int)
 			VidSNewShortMsg(tmpmsg, 0xFF3F3F);
 		}
 	}
-	VidRedraw();
-	VidPaint(0);
 }
 void HK_shotFactory(int)
 {
