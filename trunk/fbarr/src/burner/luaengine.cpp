@@ -892,8 +892,8 @@ static int joypad_set(lua_State *L) {
 		if (!lua_isnil(L,-1)) {
 			lua_joypads[i] = lua_tonumber(L, -1);
 //			dprintf(_T("*JOYPAD*: '%s' : %d\n"),_AtoT(bii.szName),lua_joypads[i]);
-			lua_pop(L,1);
 		}
+		lua_pop(L,1);
 	}
 	
 	return 0;
