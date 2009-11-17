@@ -469,12 +469,7 @@ void HK_callMenu(int)
 
 void HK_pause(int)
 {
-	if (bDrvOkay && !kNetGame) {
-		SetPauseMode(!bRunPause);
-	} else {
-		SetPauseMode(0);
-	}
-	MenuEnableItems();
+	bRunPause^=1;
 }
 
 void HK_fastFowardKeyDown(int)

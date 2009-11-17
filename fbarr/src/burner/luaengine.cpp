@@ -3083,7 +3083,6 @@ static const struct luaL_reg savestatelib[] = {
 };
 
 static const struct luaL_reg movielib[] = {
-
 	{"framecount", movie_framecount},
 	{"mode", movie_mode},
 	{"rerecordcounting", movie_rerecordcounting},
