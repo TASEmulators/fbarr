@@ -845,7 +845,7 @@ static struct BurnRomInfo hcastleRomDesc[] = {
 STD_ROM_PICK(hcastle)
 STD_ROM_FN(hcastle)
 
-struct BurnDriverD BurnDrvHcastle = {
+struct BurnDriver BurnDrvHcastle = {
 	"hcastle", NULL, NULL, "1988",
 	"Haunted Castle (version M)\0", NULL, "Konami", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
@@ -883,7 +883,7 @@ static struct BurnRomInfo hcastleoRomDesc[] = {
 STD_ROM_PICK(hcastleo)
 STD_ROM_FN(hcastleo)
 
-struct BurnDriverD BurnDrvHcastleo = {
+struct BurnDriver BurnDrvHcastleo = {
 	"hcastleo", "hcastle", NULL, "1988",
 	"Haunted Castle (version K)\0", NULL, "Konami", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
@@ -921,7 +921,7 @@ static struct BurnRomInfo hcastlejRomDesc[] = {
 STD_ROM_PICK(hcastlej)
 STD_ROM_FN(hcastlej)
 
-struct BurnDriverD BurnDrvHcastlej = {
+struct BurnDriver BurnDrvHcastlej = {
 	"hcastlej", "hcastle", NULL, "1988",
 	"Akuma-Jou Dracula (Japan version P)\0", NULL, "Konami", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
@@ -959,7 +959,7 @@ static struct BurnRomInfo hcastljoRomDesc[] = {
 STD_ROM_PICK(hcastljo)
 STD_ROM_FN(hcastljo)
 
-struct BurnDriverD BurnDrvHcastljo = {
+struct BurnDriver BurnDrvHcastljo = {
 	"hcastljo", "hcastle", NULL, "1988",
 	"Akuma-Jou Dracula (Japan version N)\0", NULL, "Konami", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
