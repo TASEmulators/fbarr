@@ -1706,19 +1706,19 @@ IDB_DOWNARROW			BITMAP	DISCARDABLE		"resource/downarrow.bmp"
 // Accelerator
 //
 
-IDR_ACCELERATOR ACCELERATORS DISCARDABLE
-BEGIN
-    "N",            RAMMENU_FILE_NEW,       VIRTKEY, CONTROL
-    "O",            RAMMENU_FILE_OPEN,      VIRTKEY, CONTROL
-    "S",            RAMMENU_FILE_SAVE,      VIRTKEY, CONTROL
-    "S",            RAMMENU_FILE_SAVEAS,    VIRTKEY, SHIFT, CONTROL
-    "A",            IDC_C_WATCH_DUPLICATE,  VIRTKEY 
-    "E",            IDC_C_WATCH_EDIT,       VIRTKEY 
-    "D",            IDC_C_WATCH_DOWN,       VIRTKEY 
-    "U",            IDC_C_WATCH_UP,         VIRTKEY 
-    "N",            IDC_C_WATCH,            VIRTKEY 
-    "R",            IDC_C_WATCH_REMOVE,     VIRTKEY 
-END
+//IDR_ACCELERATOR ACCELERATORS DISCARDABLE
+//BEGIN
+//    "N",            RAMMENU_FILE_NEW,       VIRTKEY, CONTROL
+//    "O",            RAMMENU_FILE_OPEN,      VIRTKEY, CONTROL
+//    "S",            RAMMENU_FILE_SAVE,      VIRTKEY, CONTROL
+//    "S",            RAMMENU_FILE_SAVEAS,    VIRTKEY, SHIFT, CONTROL
+//    "A",            IDC_C_WATCH_DUPLICATE,  VIRTKEY 
+//    "E",            IDC_C_WATCH_EDIT,       VIRTKEY 
+//    "D",            IDC_C_WATCH_DOWN,       VIRTKEY 
+//    "U",            IDC_C_WATCH_UP,         VIRTKEY 
+//    "N",            IDC_C_WATCH,            VIRTKEY 
+//    "R",            IDC_C_WATCH_REMOVE,     VIRTKEY 
+//END
 
 /////////////////////////////////////////////////////////////////////////////
 //
