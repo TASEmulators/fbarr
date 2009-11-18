@@ -522,7 +522,7 @@ static inline void DrvMakeInputs()
 		DrvInput[1] |= (DrvInputPort1[i] & 1) << i;
 		DrvInput[2] |= (DrvInputPort2[i] & 1) << i;
 		DrvInput[3] |= (DrvInputPort3[i] & 1) << i;
-		DrvInput[4] |= (DrvInputPort3[i] & 1) << i;
+		DrvInput[4] |= (DrvInputPort4[i] & 1) << i;
 		DrvInput[5] |= (DrvInputPort5[i] & 1) << i;
 	}
 
