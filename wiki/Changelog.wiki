@@ -1,5 +1,13 @@
 #summary Record of changes made to FBA-RR since v0.0.0.
 
+*v0.0.4.01* ,,(2009-11-17),,
+  * Disabled unused RAM Watch accelerators, which were opening a dialog every time the R key was pressed.
+  * Reverted to the old Pause behavior.
+  * The screen is now automatically refreshed when emulation is paused. This makes some Lua scripts, such as FatRatKnight's "Multi-track rerecording", work better with gui.register.
+  * Added "Haunted Castle" driver to the release build.
+  * Fixed the input for player 4 in the TMNT driver.
+  * Fixed the Lua function joypad.set().
+
 *v0.0.4* ,,(2009-11-13),,
   * Updated core to FB Alpha v0.2.97.07.
   * Added Lua scripting.
