@@ -1,5 +1,4 @@
 // Memory card support module
-
 #include "burner.h"
 
 static TCHAR szMemoryCardFile[MAX_PATH];

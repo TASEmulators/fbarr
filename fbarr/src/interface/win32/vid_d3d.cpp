@@ -1,7 +1,6 @@
 // DirectD3D blitter
 
 // #define USE_D3D_REFERENCE_DEVICE
-
 #include "burner.h"
 // #include "vid_directx_support.h"
 #include "vid_softfx.h"

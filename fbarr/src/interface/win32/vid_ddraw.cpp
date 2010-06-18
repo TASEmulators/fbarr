@@ -1,5 +1,4 @@
 // DirectDraw blitter
-
 #include "burner.h"
 #include "vid_directx_support.h"
 

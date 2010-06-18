@@ -1,4 +1,3 @@
-
 #include "burner.h"
 #include "resource.h"
 

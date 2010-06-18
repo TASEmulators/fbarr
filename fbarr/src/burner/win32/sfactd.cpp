@@ -8,7 +8,6 @@
 // Swiching anything causes the frame to advance
 //
 // "ghosting" that appears on screen is not captured (this is a good thing)
-
 #include "burner.h"
 
 static HWND hSFactdlg=NULL;
