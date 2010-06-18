@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\nec;.\s2650;.\sh2;.\libs\zlib;.\burn\misc"
+				AdditionalIncludeDirectories=".\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\nec;.\s2650;.\sh2;.\libs\zlib;.\burn\misc;.\burn"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -112,7 +112,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\hd6309;.\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\nec;.\s2650;.\sh2;.\libs\zlib"
+				AdditionalIncludeDirectories=".\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\nec;.\s2650;.\sh2;.\libs\zlib;.\burn\misc;.\burn"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
