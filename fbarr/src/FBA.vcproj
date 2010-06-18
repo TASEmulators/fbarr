@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\burner;.\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\cpu\nec;.\cpu\s2650;.\cpu\sh2;.\libs\zlib;.\burn\misc;.\lua"
+				AdditionalIncludeDirectories=".\interface\win32;.\kaillera\client;.\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\cpu\nec;.\cpu\s2650;.\cpu\sh2;.\libs\zlib;.\burn\misc;.\lua;.\libs\libpng;.\burner\win32"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -187,10 +187,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\interface\aud_dsp.h"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\ay8910.h"
 				>
 			</File>
@@ -244,10 +240,6 @@
 			</File>
 			<File
 				RelativePath=".\burn\burn_ymf278b.h"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\burner.h"
 				>
 			</File>
 			<File
@@ -339,10 +331,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\burner\gameinp.h"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\sega\genesis_vid.h"
 				>
 			</File>
@@ -356,18 +344,6 @@
 			</File>
 			<File
 				RelativePath=".\burn\hiscore.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq2xs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq3xs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq_shared32.h"
 				>
 			</File>
 			<File
@@ -400,18 +376,6 @@
 			</File>
 			<File
 				RelativePath=".\libs\zlib\inftrees.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\inp_keys.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\interface.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\interp.h"
 				>
 			</File>
 			<File
@@ -452,14 +416,6 @@
 			</File>
 			<File
 				RelativePath=".\burn\konami\konamiic.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\lowpass2.h"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\luaengine.h"
 				>
 			</File>
 			<File
@@ -643,18 +599,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\interface\scale2x.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\scale2x_vc.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\scale3x.h"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\segapcm.h"
 				>
 			</File>
@@ -711,10 +655,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\burner\title.h"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\misc\pre90s\tnzs_prot.h"
 				>
 			</File>
@@ -739,10 +679,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\burner\unzip.h"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\upd7759.h"
 				>
 			</File>
@@ -756,14 +692,6 @@
 			</File>
 			<File
 				RelativePath=".\interface\win32\vid_directx_support.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\vid_softfx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\vid_support.h"
 				>
 			</File>
 			<File
@@ -847,22 +775,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\interface\2xpm.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\2xsai.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\2xsaimmx.asm"
-				>
-			</File>
-			<File
-				RelativePath=".\cpu\hd6309\6309tbl.c"
-				>
-			</File>
-			<File
 				RelativePath=".\cpu\m6800\6800ops.c"
 				>
 			</File>
@@ -908,14 +820,6 @@
 			</File>
 			<File
 				RelativePath=".\interface\win32\aud_dsound3.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\aud_dsp.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\aud_interface.cpp"
 				>
 			</File>
 			<File
@@ -1032,14 +936,6 @@
 			</File>
 			<File
 				RelativePath=".\burner\win32\cona.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\conc.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\cong.cpp"
 				>
 			</File>
 			<File
@@ -1891,10 +1787,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\burner\dat.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\burner\win32\debugger.cpp"
 				>
 			</File>
@@ -1923,15 +1815,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\interface\eagle_fm.asm"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\eeprom.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\epx.cpp"
 				>
 			</File>
 			<File
@@ -1983,15 +1867,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\burner\gamc.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\burner\win32\gameinfo.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\gami.cpp"
 				>
 			</File>
 			<File
@@ -2012,34 +1888,6 @@
 			</File>
 			<File
 				RelativePath=".\burn\hiscore.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq2x32.asm"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq2xs.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq2xs_16.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq3x32.asm"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq3xs.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq4x32.asm"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\hq_shared32.cpp"
 				>
 			</File>
 			<File
@@ -2075,10 +1923,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\interface\inp_interface.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\burner\win32\inpc.cpp"
 				>
 			</File>
@@ -2096,10 +1940,6 @@
 			</File>
 			<File
 				RelativePath=".\burner\win32\inps.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\interface.cpp"
 				>
 			</File>
 			<File
@@ -2203,15 +2043,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\interface\lowpass2.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\burner\win32\luaconsole.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\luaengine.cpp"
 				>
 			</File>
 			<File
@@ -2292,10 +2124,6 @@
 			</File>
 			<File
 				RelativePath=".\libs\zlib\minigzip.c"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\misc.cpp"
 				>
 			</File>
 			<File
@@ -2475,10 +2303,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\interface\prf_interface.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\interface\win32\prf_performance_counter.cpp"
 				>
 			</File>
@@ -2603,23 +2427,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\burner\sshot.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\state.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\statec.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\burner\win32\stated.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\superscale.asm"
 				>
 			</File>
 			<File
@@ -2735,10 +2543,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\burner\unzip.c"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\upd7759.cpp"
 				>
 			</File>
@@ -2764,18 +2568,6 @@
 			</File>
 			<File
 				RelativePath=".\interface\win32\vid_directx_support.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\vid_interface.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\vid_softfx.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\interface\vid_support.cpp"
 				>
 			</File>
 			<File
@@ -2816,10 +2608,6 @@
 			</File>
 			<File
 				RelativePath=".\burn\zet.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\burner\zipfn.cpp"
 				>
 			</File>
 			<File
