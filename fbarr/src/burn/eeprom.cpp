@@ -64,9 +64,9 @@ int EEPROMAvailable()
 	return neeprom_available;
 }
 
-void EEPROMInit(const eeprom_interface *interface)
+void EEPROMInit(const eeprom_interface *iface)
 {
-	intf = interface;
+	intf = iface;
 
 	if ((1 << intf->address_bits) * intf->data_bits / 8 > MEMORY_SIZE)
 	{

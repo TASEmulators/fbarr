@@ -565,12 +565,12 @@ Z80_INLINE void BURNODD(int cycles, int opcodes, int cyclesum)
 /***************************************************************
  * Input a byte from given I/O port
  ***************************************************************/
-#define IN(port)   ((UINT8)Z80IORead(port))
+#define IOIN(port)   ((UINT8)Z80IORead(port))
 
 /***************************************************************
  * Output a byte to given I/O port
  ***************************************************************/
-#define OUT(port,value) Z80IOWrite(port,value)
+#define IOOUT(port,value) Z80IOWrite(port,value)
 
 /***************************************************************
  * Read a byte from given memory location
@@ -1359,7 +1359,7 @@ Z80_INLINE UINT8 SET(UINT8 bit, UINT8 value)
  ***************************************************************/
 #define INI {													\
 	unsigned t;													\
-	UINT8 io = IN(BC);											\
+	UINT8 io = IOIN(BC);											\
 	B--;														\
 	WM( HL, io );												\
 	HL++;														\
@@ -1377,7 +1377,7 @@ Z80_INLINE UINT8 SET(UINT8 bit, UINT8 value)
 	unsigned t;													\
 	UINT8 io = RM(HL);											\
 	B--;														\
-	OUT( BC, io );												\
+	IOOUT( BC, io );												\
 	HL++;														\
 	F = SZ[B];													\
 	t = (unsigned)L + (unsigned)io;								\
@@ -1418,7 +1418,7 @@ Z80_INLINE UINT8 SET(UINT8 bit, UINT8 value)
  ***************************************************************/
 #define IND {													\
 	unsigned t;													\
-	UINT8 io = IN(BC);											\
+	UINT8 io = IOIN(BC);											\
 	B--;														\
 	WM( HL, io );												\
 	HL--;														\
@@ -1436,7 +1436,7 @@ Z80_INLINE UINT8 SET(UINT8 bit, UINT8 value)
 	unsigned t;													\
 	UINT8 io = RM(HL);											\
 	B--;														\
-	OUT( BC, io );												\
+	IOOUT( BC, io );												\
 	HL--;														\
 	F = SZ[B];													\
 	t = (unsigned)L + (unsigned)io;								\
@@ -2794,8 +2794,8 @@ OP(ed,3d) { illegal_2();										} /* DB   ED          */
 OP(ed,3e) { illegal_2();										} /* DB   ED          */
 OP(ed,3f) { illegal_2();										} /* DB   ED          */
 
-OP(ed,40) { B = IN(BC); F = (F & CF) | SZP[B];					} /* IN   B,(C)       */
-OP(ed,41) { OUT(BC, B);											} /* OUT  (C),B       */
+OP(ed,40) { B = IOIN(BC); F = (F & CF) | SZP[B];					} /* IN   B,(C)       */
+OP(ed,41) { IOOUT(BC, B);											} /* OUT  (C),B       */
 OP(ed,42) { SBC16( bc );										} /* SBC  HL,BC       */
 OP(ed,43) { EA = ARG16(); WM16( EA, &Z80.bc );					} /* LD   (w),BC      */
 OP(ed,44) { NEG;												} /* NEG              */
@@ -2803,8 +2803,8 @@ OP(ed,45) { RETN;												} /* RETN;            */
 OP(ed,46) { IM = 0;												} /* IM   0           */
 OP(ed,47) { LD_I_A;												} /* LD   I,A         */
 
-OP(ed,48) { C = IN(BC); F = (F & CF) | SZP[C];					} /* IN   C,(C)       */
-OP(ed,49) { OUT(BC, C);											} /* OUT  (C),C       */
+OP(ed,48) { C = IOIN(BC); F = (F & CF) | SZP[C];					} /* IN   C,(C)       */
+OP(ed,49) { IOOUT(BC, C);											} /* OUT  (C),C       */
 OP(ed,4a) { ADC16( bc );										} /* ADC  HL,BC       */
 OP(ed,4b) { EA = ARG16(); RM16( EA, &Z80.bc );					} /* LD   BC,(w)      */
 OP(ed,4c) { NEG;												} /* NEG              */
@@ -2812,8 +2812,8 @@ OP(ed,4d) { RETI;												} /* RETI             */
 OP(ed,4e) { IM = 0;												} /* IM   0           */
 OP(ed,4f) { LD_R_A;												} /* LD   R,A         */
 
-OP(ed,50) { D = IN(BC); F = (F & CF) | SZP[D];					} /* IN   D,(C)       */
-OP(ed,51) { OUT(BC, D);											} /* OUT  (C),D       */
+OP(ed,50) { D = IOIN(BC); F = (F & CF) | SZP[D];					} /* IN   D,(C)       */
+OP(ed,51) { IOOUT(BC, D);											} /* OUT  (C),D       */
 OP(ed,52) { SBC16( de );										} /* SBC  HL,DE       */
 OP(ed,53) { EA = ARG16(); WM16( EA, &Z80.de );					} /* LD   (w),DE      */
 OP(ed,54) { NEG;												} /* NEG              */
@@ -2821,8 +2821,8 @@ OP(ed,55) { RETN;												} /* RETN;            */
 OP(ed,56) { IM = 1;												} /* IM   1           */
 OP(ed,57) { LD_A_I;												} /* LD   A,I         */
 
-OP(ed,58) { E = IN(BC); F = (F & CF) | SZP[E];					} /* IN   E,(C)       */
-OP(ed,59) { OUT(BC, E);											} /* OUT  (C),E       */
+OP(ed,58) { E = IOIN(BC); F = (F & CF) | SZP[E];					} /* IN   E,(C)       */
+OP(ed,59) { IOOUT(BC, E);											} /* OUT  (C),E       */
 OP(ed,5a) { ADC16( de );										} /* ADC  HL,DE       */
 OP(ed,5b) { EA = ARG16(); RM16( EA, &Z80.de );					} /* LD   DE,(w)      */
 OP(ed,5c) { NEG;												} /* NEG              */
@@ -2830,8 +2830,8 @@ OP(ed,5d) { RETI;												} /* RETI             */
 OP(ed,5e) { IM = 2;												} /* IM   2           */
 OP(ed,5f) { LD_A_R;												} /* LD   A,R         */
 
-OP(ed,60) { H = IN(BC); F = (F & CF) | SZP[H];					} /* IN   H,(C)       */
-OP(ed,61) { OUT(BC, H);											} /* OUT  (C),H       */
+OP(ed,60) { H = IOIN(BC); F = (F & CF) | SZP[H];					} /* IN   H,(C)       */
+OP(ed,61) { IOOUT(BC, H);											} /* OUT  (C),H       */
 OP(ed,62) { SBC16( hl );										} /* SBC  HL,HL       */
 OP(ed,63) { EA = ARG16(); WM16( EA, &Z80.hl );					} /* LD   (w),HL      */
 OP(ed,64) { NEG;												} /* NEG              */
@@ -2839,8 +2839,8 @@ OP(ed,65) { RETN;												} /* RETN;            */
 OP(ed,66) { IM = 0;												} /* IM   0           */
 OP(ed,67) { RRD;												} /* RRD  (HL)        */
 
-OP(ed,68) { L = IN(BC); F = (F & CF) | SZP[L];					} /* IN   L,(C)       */
-OP(ed,69) { OUT(BC, L);											} /* OUT  (C),L       */
+OP(ed,68) { L = IOIN(BC); F = (F & CF) | SZP[L];					} /* IN   L,(C)       */
+OP(ed,69) { IOOUT(BC, L);											} /* OUT  (C),L       */
 OP(ed,6a) { ADC16( hl );										} /* ADC  HL,HL       */
 OP(ed,6b) { EA = ARG16(); RM16( EA, &Z80.hl );					} /* LD   HL,(w)      */
 OP(ed,6c) { NEG;												} /* NEG              */
@@ -2848,8 +2848,8 @@ OP(ed,6d) { RETI;												} /* RETI             */
 OP(ed,6e) { IM = 0;												} /* IM   0           */
 OP(ed,6f) { RLD;												} /* RLD  (HL)        */
 
-OP(ed,70) { UINT8 res = IN(BC); F = (F & CF) | SZP[res];		} /* IN   0,(C)       */
-OP(ed,71) { OUT(BC, 0);											} /* OUT  (C),0       */
+OP(ed,70) { UINT8 res = IOIN(BC); F = (F & CF) | SZP[res];		} /* IN   0,(C)       */
+OP(ed,71) { IOOUT(BC, 0);											} /* OUT  (C),0       */
 OP(ed,72) { SBC16( sp );										} /* SBC  HL,SP       */
 OP(ed,73) { EA = ARG16(); WM16( EA, &Z80.sp );					} /* LD   (w),SP      */
 OP(ed,74) { NEG;												} /* NEG              */
@@ -2857,8 +2857,8 @@ OP(ed,75) { RETN;												} /* RETN;            */
 OP(ed,76) { IM = 1;												} /* IM   1           */
 OP(ed,77) { illegal_2();										} /* DB   ED,77       */
 
-OP(ed,78) { A = IN(BC); F = (F & CF) | SZP[A];					} /* IN   E,(C)       */
-OP(ed,79) { OUT(BC, A);											} /* OUT  (C),A       */
+OP(ed,78) { A = IOIN(BC); F = (F & CF) | SZP[A];					} /* IN   E,(C)       */
+OP(ed,79) { IOOUT(BC, A);											} /* OUT  (C),A       */
 OP(ed,7a) { ADC16( sp );										} /* ADC  HL,SP       */
 OP(ed,7b) { EA = ARG16(); RM16( EA, &Z80.sp );					} /* LD   SP,(w)      */
 OP(ed,7c) { NEG;												} /* NEG              */
@@ -3251,7 +3251,7 @@ OP(op,cf) { RST(0x08);											} /* RST  1           */
 OP(op,d0) { RET_COND( !(F & CF), 0xd0 );						} /* RET  NC          */
 OP(op,d1) { POP( de );											} /* POP  DE          */
 OP(op,d2) { JP_COND( !(F & CF) );								} /* JP   NC,a        */
-OP(op,d3) { unsigned n = ARG() | (A << 8); OUT( n, A );			} /* OUT  (n),A       */
+OP(op,d3) { unsigned n = ARG() | (A << 8); IOOUT( n, A );			} /* OUT  (n),A       */
 OP(op,d4) { CALL_COND( !(F & CF), 0xd4 );						} /* CALL NC,a        */
 OP(op,d5) { PUSH( de );											} /* PUSH DE          */
 OP(op,d6) { SUB(ARG());											} /* SUB  n           */
@@ -3260,7 +3260,7 @@ OP(op,d7) { RST(0x10);											} /* RST  2           */
 OP(op,d8) { RET_COND( F & CF, 0xd8 );							} /* RET  C           */
 OP(op,d9) { EXX;												} /* EXX              */
 OP(op,da) { JP_COND( F & CF );									} /* JP   C,a         */
-OP(op,db) { unsigned n = ARG() | (A << 8); A = IN( n );			} /* IN   A,(n)       */
+OP(op,db) { unsigned n = ARG() | (A << 8); A = IOIN( n );			} /* IN   A,(n)       */
 OP(op,dc) { CALL_COND( F & CF, 0xdc );							} /* CALL C,a         */
 OP(op,dd) { R++; EXEC(dd,ROP());								} /* **** DD xx       */
 OP(op,de) { SBC(ARG());											} /* SBC  A,n         */

@@ -11,9 +11,9 @@
 #endif
 
 // For version macros
-#include "version.h"
+#include "burn/version.h"
 // For APP_TITLE and APP_DESCRIPTION macros (both include quotes)
-#include "title.h"
+#include "burner/title.h"
 
 // String IDs
 #include "resource_string.h"
@@ -31,7 +31,7 @@
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "resource/manifest.xml"
 
 // License (we need to use a custom resource type, since Windres doesn't understand rcdata strings
-ID_LICENSE 256 "license.rtf"
+//ID_LICENSE 256 "license.rtf"
 
 // DirectX 9 blitter effects/shaders
 #ifdef _MSC_VER

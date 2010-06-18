@@ -31,7 +31,7 @@ struct BurnArea { void *Data; unsigned int nLen; int nAddress; char *szName; };
 extern int (__cdecl *BurnAcb) (struct BurnArea* pba);
 
 /* Scan a small variable or structure */
-inline static void ScanVar(void* pv, int nSize, char* szName)
+INLINE void ScanVar(void* pv, int nSize, char* szName)
 {
 	struct BurnArea ba;
 	memset(&ba, 0, sizeof(ba));

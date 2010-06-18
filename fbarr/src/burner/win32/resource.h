@@ -935,6 +935,9 @@
 #define ID_LUA_OPEN                     11812
 #define ID_LUA_CLOSE_ALL                11813
 
+#define	ES_NOIME				0x00080000
+#define ES_EX_NOCALLOLEINIT		0x00000000
+
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED

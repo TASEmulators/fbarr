@@ -32,7 +32,7 @@ const eeprom_interface eeprom_interface_93C46 =
 #define EEPROM_ASSERT_LINE	1
 #define EEPROM_PULSE_LINE	2
 
-void EEPROMInit(const eeprom_interface *interface);
+void EEPROMInit(const eeprom_interface *);
 void EEPROMReset();
 void EEPROMExit();
 

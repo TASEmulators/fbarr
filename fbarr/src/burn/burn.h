@@ -11,10 +11,20 @@
  #define __cdecl
 #endif
 
+#ifdef _MSC_VER
+#define INLINE static __inline
+#endif
+
 #include <time.h>
 #include "cheat.h"
 #include "state.h"
 #include "hiscore.h"
+
+#ifdef _MSC_VER
+#define WINVER 0x0501
+#define _WIN32_WINNT 0x0501
+#include <windows.h>
+#endif
 
 #ifndef MAX_PATH
  #define MAX_PATH (260)

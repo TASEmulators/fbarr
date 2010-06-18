@@ -2237,7 +2237,7 @@ unsigned char __fastcall JumppopZ80PortRead(unsigned short a)
 		
 		case 0x03: {
 			bprintf(PRINT_IMPORTANT, _T("Latch Read %02X\n"), DrvSoundLatch);
-			ZetLowerIrq();
+			ZetLowerIrq(0);
 			return DrvSoundLatch;
 		}
 		

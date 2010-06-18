@@ -40,15 +40,16 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\libs\pnglib;.\interface\win32;.\kaillera\client;.\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\cpu\nec;.\cpu\s2650;.\cpu\sh2;.\libs\zlib;.\burn\misc;.\lua;.\libs\libpng;.\burner\win32;.\burner;.\interface;.\libs\ddk"
+				AdditionalIncludeDirectories=".\libs\pnglib;.\interface\win32;.\kaillera\client;.\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\cpu\nec;.\cpu\s2650;.\cpu\sh2;.\libs\zlib;.\burn\misc;.\lua;.\libs\libpng;.\burner\win32;.\burner;.\interface;.\libs\ddk;.\vc\directx;.\vc\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;BUILD_WIN32"
-				MinimalRebuild="true"
+				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4996;4244;4800;4065;4305;4267;4060;4804;4311;4333;4312"
 			/>
@@ -766,10 +767,6 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\burner\win32\app.rc"
-				>
-			</File>
-			<File
 				RelativePath=".\burner\win32\resource.rc"
 				>
 			</File>
@@ -787,22 +784,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\cpu\m6800\6800ops.c"
-				>
-			</File>
-			<File
-				RelativePath=".\cpu\m6800\6800tbl.c"
-				>
-			</File>
-			<File
-				RelativePath=".\cpu\m6809\6809ops.c"
-				>
-			</File>
-			<File
-				RelativePath=".\cpu\m6809\6809tbl.c"
-				>
-			</File>
 			<File
 				RelativePath=".\burn\8255ppi.cpp"
 				>
@@ -824,14 +805,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\cpu\arm7\arm7core.c"
-				>
-			</File>
-			<File
-				RelativePath=".\cpu\arm7\arm7exec.c"
-				>
-			</File>
-			<File
 				RelativePath=".\interface\win32\aud_dsound3.cpp"
 				>
 			</File>
@@ -849,10 +822,6 @@
 			</File>
 			<File
 				RelativePath=".\burner\win32\bmp_resize.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\scripts\build_details.cpp"
 				>
 			</File>
 			<File
@@ -1017,10 +986,6 @@
 			</File>
 			<File
 				RelativePath=".\burn\capcom\ctv.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\burn\capcom\ctv_make.cpp"
 				>
 			</File>
 			<File
@@ -1840,10 +1805,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\cpu\a68k\fba_make68k.c"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\sega\fd1089.cpp"
 				>
 			</File>
@@ -2036,14 +1997,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\cpu\konami\konamops.c"
-				>
-			</File>
-			<File
-				RelativePath=".\cpu\konami\konamtbl.c"
-				>
-			</File>
-			<File
 				RelativePath=".\burn\load.cpp"
 				>
 			</File>
@@ -2084,19 +2037,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\cpu\m68k\m68k_in.c"
-				>
-			</File>
-			<File
 				RelativePath=".\cpu\m68k\m68kcpu.c"
 				>
 			</File>
 			<File
 				RelativePath=".\cpu\m68k\m68kdasm.c"
-				>
-			</File>
-			<File
-				RelativePath=".\cpu\m68k\m68kmake.c"
 				>
 			</File>
 			<File
@@ -2133,10 +2078,6 @@
 			</File>
 			<File
 				RelativePath=".\burner\win32\menugui.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\libs\zlib\minigzip.c"
 				>
 			</File>
 			<File
