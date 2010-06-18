@@ -1454,7 +1454,7 @@ int s2650Run(int cycles)
 	return cycles - s2650_ICount;
 }
 
-int s2650Scan(int nAction,int */*pnMin*/)
+int s2650Scan(int nAction,int * /*pnMin*/)
 {
 	struct BurnArea ba;
 

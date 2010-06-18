@@ -46,7 +46,7 @@ int s2650GetPc();
 
 int s2650GetActive();
 
-int s2650Scan(int nAction,int */*pnMin*/);
+int s2650Scan(int nAction,int * /*pnMin*/);
 
 /* fake control port   M/~IO=0 D/~C=0 E/~NE=0 */
 #define S2650_CTRL_PORT 0x100

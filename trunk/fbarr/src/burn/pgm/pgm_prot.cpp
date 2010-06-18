@@ -6,12 +6,12 @@ static unsigned char *USER1, *USER2;
 static unsigned short *olds_sharedprotram;
 static unsigned char PGMARM7Latch;
 
-int pstarsScan(int nAction,int */*pnMin*/);
-int killbldtScan(int nAction,int */*pnMin*/);
-int asic28Scan(int nAction,int */*pnMin*/);
-int asic3Scan(int nAction,int */*pnMin*/);
+int pstarsScan(int nAction,int * /*pnMin*/);
+int killbldtScan(int nAction,int * /*pnMin*/);
+int asic28Scan(int nAction,int * /*pnMin*/);
+int asic3Scan(int nAction,int * /*pnMin*/);
 int asic27AScan(int nAction,int *);
-int oldsScan(int nAction, int */*pnMin*/);
+int oldsScan(int nAction, int * /*pnMin*/);
 int kovshScan(int nAction,int *);
 
 //-----------------------------------------------------------------------------------------------------
@@ -1435,7 +1435,7 @@ void install_protection_olds()
 //-----------------------------------------------------------------------------------------------------
 // Save states
 
-int asic28Scan(int nAction, int */*pnMin*/)
+int asic28Scan(int nAction, int * /*pnMin*/)
 {
 	if (nAction & ACB_DRIVER_DATA) {
 		SCAN_VAR(ASIC28KEY);
@@ -1448,7 +1448,7 @@ int asic28Scan(int nAction, int */*pnMin*/)
 	return 0;
 }
 
-int asic3Scan(int nAction, int */*pnMin*/)
+int asic3Scan(int nAction, int * /*pnMin*/)
 {
 	if (nAction & ACB_DRIVER_DATA) {
 		SCAN_VAR(asic3_reg);
@@ -1464,7 +1464,7 @@ int asic3Scan(int nAction, int */*pnMin*/)
 	return 0;
 }
 
-int killbldtScan(int nAction, int */*pnMin*/)
+int killbldtScan(int nAction, int * /*pnMin*/)
 {
 	struct BurnArea ba;
 
@@ -1485,7 +1485,7 @@ int killbldtScan(int nAction, int */*pnMin*/)
 	return 0;
 }
 
-int pstarsScan(int nAction, int */*pnMin*/)
+int pstarsScan(int nAction, int * /*pnMin*/)
 {
 	if (nAction & ACB_DRIVER_DATA) {
 		SCAN_VAR(PSTARSKEY);
@@ -1541,7 +1541,7 @@ int asic27AScan(int nAction,int *)
  	return 0;
 }
 
-int oldsScan(int nAction, int */*pnMin*/)
+int oldsScan(int nAction, int * /*pnMin*/)
 {
 	struct BurnArea ba;
 

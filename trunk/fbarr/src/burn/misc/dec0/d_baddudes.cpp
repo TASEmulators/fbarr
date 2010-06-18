@@ -458,7 +458,7 @@ int baddudesFrame()
 	return 0;
 }
 
-static int baddudesScan(int /*nAction*/,int */*pnMin*/)
+static int baddudesScan(int /*nAction*/,int * /*pnMin*/)
 {
 
 	return 0;

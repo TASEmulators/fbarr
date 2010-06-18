@@ -4058,7 +4058,7 @@ static void K052109MiaCallback(int Layer, int Bank, int *Code, int *Colour, int 
 	}
 }
 
-static void K052109CuebrickCallback(int Layer, int /*Bank*/, int *Code, int *Colour, int */*xFlip*/, int *)
+static void K052109CuebrickCallback(int Layer, int /*Bank*/, int *Code, int *Colour, int * /*xFlip*/, int *)
 {
 	if (K052109RMRDLine == 0 && Layer == 0) {
 		*Code |= ((*Colour & 0x01) << 8);
@@ -4069,7 +4069,7 @@ static void K052109CuebrickCallback(int Layer, int /*Bank*/, int *Code, int *Col
 	}
 }
 
-static void K052109BlswhstlCallback(int Layer, int Bank, int *Code, int *Colour, int */*Flags*/, int */*Priority*/)
+static void K052109BlswhstlCallback(int Layer, int Bank, int *Code, int *Colour, int * /*Flags*/, int * /*Priority*/)
 {
 	*Code |= ((*Colour & 0x01) << 8) | ((*Colour & 0x10) << 5) | ((*Colour & 0x0c) << 8) | (Bank << 12) | (BlswhstlTileRomBank << 14);
 	*Colour = LayerColourBase[Layer] + ((*Colour & 0xe0) >> 5);
@@ -4129,7 +4129,7 @@ static void K053245BlswhstlCallback(int *Code, int *Colour, int *Priority)
 	*Colour = SpriteColourBase + (*Colour & 0x1f);
 }
 
-static void K053245SsridersCallback(int */*Code*/, int *Colour, int *Priority)
+static void K053245SsridersCallback(int * /*Code*/, int *Colour, int *Priority)
 {
 	int Pri = 0x20 | ((*Colour & 0x60) >> 2);
 	if (Pri <= LayerPri[2])                           	*Priority = 0;

@@ -292,7 +292,7 @@ void Wr6502(unsigned short address, unsigned char data)
 	}
 }
 
-byte Patch6502(register byte Op,register M6502 */*R*/)
+byte Patch6502(register byte Op,register M6502 * /*R*/)
 {
 	bprintf(PRINT_NORMAL, _T("Patch6502: %x:\n"),Op);
 
