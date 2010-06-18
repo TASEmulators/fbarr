@@ -24,7 +24,6 @@
 // during these sporadic "setup" steps to achieve an all-around faster per-update speed.
 // (You can test this case by performing the search: Modulo 2 Is Specific Address 0)
 
-
 #include "burner.h"
 
 #include "resource.h"

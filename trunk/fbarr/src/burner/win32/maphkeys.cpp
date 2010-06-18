@@ -1,5 +1,4 @@
 // based on FBA shuffle, which was based on FBA-RR, which was based on PCSX-RR
-
 #include "burner.h"
 #include "maphkeys.h"
 #include "tracklst.h"

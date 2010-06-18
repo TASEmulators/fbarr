@@ -1,5 +1,4 @@
 #ifndef NO_CHEATSEARCH
-
 #include "burner.h"
 
 // definitions
