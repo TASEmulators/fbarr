@@ -282,18 +282,18 @@ void uPD4990AWrite(unsigned char CLK, unsigned char STB, unsigned char DATA)
 
 unsigned char uPD4990ARead(unsigned int nTicks)
 {
-	unsigned char OUT;
+	unsigned char zOUT;
 
 	uPD4990AUpdate(nTicks);
 
 	if (uPD4990A.nMode == 0) {								// 1Hz pulse appears at output
-		OUT = (uPD4990A.nCount >= (nOneSecond >> 1));
+		zOUT = (uPD4990A.nCount >= (nOneSecond >> 1));
 	} else {												// LSB of the shift register appears at output
-		OUT = uPD4990A.nRegister[0] & 1;
+		zOUT = uPD4990A.nRegister[0] & 1;
 	}
 
 //	bprintf(PRINT_NORMAL, _T("  - uPD4990A read: OUT %i, TP %i.\n"), OUT, uPD4990A.TP);
 
-	return (OUT << 1) | uPD4990A.TP;
+	return (zOUT << 1) | uPD4990A.TP;
 }
 

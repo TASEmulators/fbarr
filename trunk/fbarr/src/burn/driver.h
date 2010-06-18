@@ -15,7 +15,11 @@
 #endif
 
 #ifndef INLINE
+#ifdef _MSC_VER
+#define INLINE __inline 
+#else
  #define INLINE __inline static
+#endif
 #endif
 
 #define FBA

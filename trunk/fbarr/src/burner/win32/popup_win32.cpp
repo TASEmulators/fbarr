@@ -1,6 +1,19 @@
 // Display a dialog containing error messages
 #include "burner.h"
 #include <richedit.h>
+#include <winuser.h>
+
+//WTF - THIS - IS - GROSS
+#ifdef _MSC_VER
+#define OIC_SAMPLE          32512
+#define OIC_HAND            32513
+#define OIC_QUES            32514
+#define OIC_BANG            32515
+#define OIC_NOTE            32516
+#define OIC_WARNING         OIC_BANG
+#define OIC_ERROR           OIC_HAND
+#define OIC_INFORMATION     OIC_NOTE
+#endif
 
 static TCHAR* pszBufferEnglish = NULL;
 static TCHAR* pszBufferLocal = NULL;

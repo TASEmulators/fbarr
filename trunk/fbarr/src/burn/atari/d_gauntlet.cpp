@@ -27,7 +27,12 @@ struct slapstic_params
 #define IGNORE_MASK  0x007f
 #define UNKNOWN      0xffff
 
-enum state_type { ENABLED, DISABLED, IGNORE, SPECIAL };
+enum state_type {
+	ENABLED, 
+	DISABLED, 
+	XIGNORE, 
+	SPECIAL 
+};
 
 #define LOG_SLAPSTIC 0
 
@@ -195,7 +200,7 @@ int slapstic_tweak(int offset)
 			}
 			else if ((offset & IGNORE_MASK) == slapstic->ignore)
 			{
-				state = IGNORE;
+				state = XIGNORE;
 			}
 			else if (offset == slapstic->bank0)
 			{
@@ -252,8 +257,8 @@ int slapstic_tweak(int offset)
 			}
 			break;
 
-		/* IGNORE state: next access is interpreted differently */
-		case IGNORE:
+		/* XIGNORE state: next access is interpreted differently */
+		case XIGNORE:
 			if (offset == slapstic->senable)
 			{
 				state = SPECIAL;

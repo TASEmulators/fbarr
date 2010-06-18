@@ -172,7 +172,11 @@
  * NOTE: not enabling inline functions will SEVERELY slow down emulation.
  */
 #ifndef INLINE
+#ifdef _MSC_VER
+#define INLINE __inline
+#else
 #define INLINE static __inline__
+#endif
 #endif /* INLINE */
 
 /* --------------------------- FB Alpha handlers -------------------------- */

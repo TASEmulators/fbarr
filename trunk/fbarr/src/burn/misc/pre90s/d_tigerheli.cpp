@@ -874,7 +874,7 @@ void __fastcall tigerhOutCPU0(unsigned short a, unsigned char /* d */)
 //			bprintf(PRINT_NORMAL, "Interrupts disabled.\n");
 
 			bInterruptEnable = false;
-			ZetLowerIrq();
+			ZetLowerIrq(0);
 			break;
 		case 0x07:					// Enable interrupts
 //			bprintf(PRINT_NORMAL, "Interrupts enabled.\n");

@@ -107,7 +107,7 @@ void __fastcall mrflea_write(unsigned short a, unsigned char d)
 }
 
 
-void _fastcall mrflea_out_port(unsigned short a, unsigned char data)
+void __fastcall mrflea_out_port(unsigned short a, unsigned char data)
 {
 	switch (a & 0xff)
 	{
@@ -134,7 +134,7 @@ void _fastcall mrflea_out_port(unsigned short a, unsigned char data)
 	}
 }
 
-unsigned char _fastcall mrflea_in_port(unsigned short a)
+unsigned char __fastcall mrflea_in_port(unsigned short a)
 {
 	switch (a & 0xff)
 	{
@@ -152,7 +152,7 @@ unsigned char _fastcall mrflea_in_port(unsigned short a)
 	return 0;
 }
 
-void _fastcall mrflea_cpu1_out_port(unsigned short a, unsigned char data)
+void __fastcall mrflea_cpu1_out_port(unsigned short a, unsigned char data)
 {
 	switch (a & 0xff)
 	{
