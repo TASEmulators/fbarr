@@ -301,7 +301,7 @@ static void K052109Callback(int layer, int bank, int *code, int *color, int *, i
 	*color = layer_colorbase[layer] + ((*color & 0xf0) >> 4);
 }
 
-static void K051960Callback(int */*code*/, int *color, int *priority, int *)
+static void K051960Callback(int * /*code*/, int *color, int *priority, int *)
 {
 	*priority = (*color & 0x20) >> 5;
 	*color = 32 + (*color & 0x0f);

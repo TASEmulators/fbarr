@@ -516,7 +516,7 @@ int konamiRun(int cycles)
 	return cycles - konami_ICount;
 }
 
-int konamiCpuScan(int nAction,int */*pnMin*/)
+int konamiCpuScan(int nAction,int * /*pnMin*/)
 {
 	struct BurnArea ba;
 

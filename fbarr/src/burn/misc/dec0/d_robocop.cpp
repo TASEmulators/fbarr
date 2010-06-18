@@ -480,7 +480,7 @@ int robocopFrame()
 	return 0;
 }
 
-static int robocopScan(int /*nAction*/,int */*pnMin*/)
+static int robocopScan(int /*nAction*/,int * /*pnMin*/)
 {
 
 	return 0;
