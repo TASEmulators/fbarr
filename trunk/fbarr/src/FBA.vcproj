@@ -122,7 +122,7 @@
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 				DisableSpecificWarnings="4996;4244;4800;4065;4305;4267;4060;4804;4311;4333;4312;4146;4309"
 			/>
@@ -2974,6 +2974,14 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Outputs=""
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
 						/>
 					</FileConfiguration>
 				</File>
