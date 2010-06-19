@@ -22,7 +22,7 @@ static int nCurrentItem;
 static int nCurrentItemFlags;
 
 int nMenuHeight = 0;
-int nWindowSize = 0;
+int nWindowSize = 1;
 int nScreenSize = 0;
 int nScreenSizeHor = 0;
 int nScreenSizeVer = 0;
