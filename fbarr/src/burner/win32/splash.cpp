@@ -1,7 +1,7 @@
 // Splash screen code
 #include "burner.h"
 
-int nSplashTime = 1500;
+int nSplashTime = 0;
 
 static HWND hSplashDlg = NULL;
 static HANDLE hSplashThread = NULL;
