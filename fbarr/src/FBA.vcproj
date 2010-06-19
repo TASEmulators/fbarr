@@ -46,7 +46,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;BUILD_WIN32"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
@@ -64,7 +64,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="setupapi.lib wininet.lib Comctl32.lib comdlg32.lib dxguid.lib dinput.lib winmm.lib ddraw.lib dsound.lib Vfw32.lib libs\pnglib\pnglib.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="vc/directx"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -785,6 +787,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\2xpm.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\2xsai.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\2xsaimmx.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(InputName).obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\burn\8255ppi.cpp"
 				>
 			</File>
@@ -806,6 +829,18 @@
 			</File>
 			<File
 				RelativePath=".\interface\win32\aud_dsound3.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\aud_dsp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\aud_dsp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\aud_interface.cpp"
 				>
 			</File>
 			<File
@@ -839,6 +874,15 @@
 			<File
 				RelativePath=".\burn\burn_sound_a.asm"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\burn\burn_sound_c.cpp"
@@ -918,6 +962,14 @@
 			</File>
 			<File
 				RelativePath=".\burner\win32\cona.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\conc.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\cong.cpp"
 				>
 			</File>
 			<File
@@ -1765,6 +1817,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\dat.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\burner\win32\debugger.cpp"
 				>
 			</File>
@@ -1793,7 +1849,24 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\eagle_fm.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\burn\eeprom.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\epx.cpp"
 				>
 			</File>
 			<File
@@ -1841,7 +1914,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\gamc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\burner\win32\gameinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\gami.cpp"
 				>
 			</File>
 			<File
@@ -1862,6 +1943,73 @@
 			</File>
 			<File
 				RelativePath=".\burn\hiscore.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq2x32.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq2xs.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq2xs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq2xs_16.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq3x32.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq3xs.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq3xs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq4x32.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq_shared32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq_shared32.h"
 				>
 			</File>
 			<File
@@ -1897,6 +2045,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\inp_interface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\inp_keys.h"
+				>
+			</File>
+			<File
 				RelativePath=".\burner\win32\inpc.cpp"
 				>
 			</File>
@@ -1914,6 +2070,18 @@
 			</File>
 			<File
 				RelativePath=".\burner\win32\inps.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\interface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\interface.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\interp.h"
 				>
 			</File>
 			<File
@@ -2009,7 +2177,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\lowpass2.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\lowpass2.h"
+				>
+			</File>
+			<File
 				RelativePath=".\burner\win32\luaconsole.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\luaengine.cpp"
 				>
 			</File>
 			<File
@@ -2037,11 +2217,35 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\cpu\m68k\m68kcpu.c"
+				>
+			</File>
+			<File
 				RelativePath=".\cpu\m68k\m68kcpu.c"
 				>
 			</File>
 			<File
 				RelativePath=".\cpu\m68k\m68kdasm.c"
+				>
+			</File>
+			<File
+				RelativePath=".\generated\m68kopac.c"
+				>
+			</File>
+			<File
+				RelativePath=".\generated\m68kopdm.c"
+				>
+			</File>
+			<File
+				RelativePath=".\generated\m68kopnz.c"
+				>
+			</File>
+			<File
+				RelativePath=".\generated\m68kops.c"
+				>
+			</File>
+			<File
+				RelativePath=".\generated\m68kops.h"
 				>
 			</File>
 			<File
@@ -2078,6 +2282,10 @@
 			</File>
 			<File
 				RelativePath=".\burner\win32\menugui.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\misc.cpp"
 				>
 			</File>
 			<File
@@ -2225,10 +2433,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\libs\libpng\pngtest.c"
-				>
-			</File>
-			<File
 				RelativePath=".\libs\libpng\pngtrans.c"
 				>
 			</File>
@@ -2254,6 +2458,10 @@
 			</File>
 			<File
 				RelativePath=".\burner\win32\popup_win32.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\prf_interface.cpp"
 				>
 			</File>
 			<File
@@ -2345,6 +2553,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\scale2x.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\scale2x_vc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\scale3x.h"
+				>
+			</File>
+			<File
 				RelativePath=".\burner\win32\scrn.cpp"
 				>
 			</File>
@@ -2354,6 +2574,10 @@
 			</File>
 			<File
 				RelativePath=".\burn\seibusnd.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burn\sek.cpp"
 				>
 			</File>
 			<File
@@ -2381,8 +2605,33 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\sshot.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\state.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\statec.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\burner\win32\stated.cpp"
 				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\superscale.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\burner\win32\support_paths.cpp"
@@ -2497,6 +2746,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\libs\zlib\unzip.c"
+				>
+			</File>
+			<File
+				RelativePath=".\libs\zlib\unzip.h"
+				>
+			</File>
+			<File
 				RelativePath=".\burn\upd7759.cpp"
 				>
 			</File>
@@ -2522,6 +2779,26 @@
 			</File>
 			<File
 				RelativePath=".\interface\win32\vid_directx_support.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_interface.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_softfx.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_softfx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_support.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_support.h"
 				>
 			</File>
 			<File
@@ -2561,9 +2838,47 @@
 				>
 			</File>
 			<File
+				RelativePath=".\burn\zet.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\fbarr49\fbarr\src\burner\zipfn.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\libs\zlib\zutil.c"
 				>
 			</File>
+			<Filter
+				Name="asm"
+				>
+				<File
+					RelativePath=".\vc\a68k.asm"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="nasm -f win32 -Xvc $(InputPath)"
+							Outputs="$(InputDir)\a68k.obj"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\vc\a68k_tab.asm"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							Outputs=""
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

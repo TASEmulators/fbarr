@@ -935,7 +935,7 @@ static int vidBurnToSurf()
 		}
 	}
 
-	FBA_LuaGui((unsigned char*)ddsd.lpSurface,nVidImageWidth,nVidImageHeight,nVidImageBPP,ddsd.lPitch);
+	//FBA_LuaGui((unsigned char*)ddsd.lpSurface,nVidImageWidth,nVidImageHeight,nVidImageBPP,ddsd.lPitch); //LUAHACK
 
 	pddsDtos->Unlock(NULL);
 

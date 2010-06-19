@@ -124,7 +124,7 @@ static int RunFrame(int bDraw, int bPause)
 		VidPaint(0);
 	}
 	else {
-		CallRegisteredLuaFunctions(LUACALL_BEFOREEMULATION); //TODO: find proper place
+		//CallRegisteredLuaFunctions(LUACALL_BEFOREEMULATION); //TODO: find proper place //LUAHACK
 
 		nFramesEmulated++;
 		nCurrentFrame++;
@@ -145,10 +145,10 @@ static int RunFrame(int bDraw, int bPause)
 					InputSetCooperativeLevel(false, false);
 				}
 			} else {
-				GetInput(true); // Update inputs
-				if (FBA_LuaUsingJoypad()) {
-					FBA_LuaReadJoypad();
-				}
+				GetInput(true); // Update inputs 
+				//if (FBA_LuaUsingJoypad()) { //LUAHACK
+				//	FBA_LuaReadJoypad(); //LUAHACK
+				//} //LUAHACK
 			}
 		}
 
@@ -175,10 +175,10 @@ static int RunFrame(int bDraw, int bPause)
 			}
 		}
 
-		FBA_LuaFrameBoundary();
+		//FBA_LuaFrameBoundary(); //LUAHACK
 		Update_RAM_Search();
 		UpdateMemWatch();
-		CallRegisteredLuaFunctions(LUACALL_AFTEREMULATION); //TODO: find proper place
+		//CallRegisteredLuaFunctions(LUACALL_AFTEREMULATION); //TODO: find proper place  //LUAHACK
 	}
 
 	bPrevPause = bPause;

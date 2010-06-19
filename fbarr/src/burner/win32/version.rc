@@ -21,8 +21,8 @@
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION VER_MAJOR,VER_MINOR,VER_BETA,VER_ALPHA
- PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_BETA,VER_ALPHA
+ FILEVERSION 99,99,99,99
+ PRODUCTVERSION 99,99,99,99
  FILEFLAGSMASK 0x3FL
 #ifdef SPECIALBUILD
  #define SPECIALFLAG VS_FF_SPECIALBUILD
@@ -39,8 +39,8 @@ VS_VERSION_INFO VERSIONINFO
 #else
  FILEFLAGS SPECIALFLAG | DEBUGFLAG
 #endif
- FILEOS VOS__WINDOWS32
- FILETYPE VFT_APP
+ FILEOS 1
+ FILETYPE 1
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
@@ -49,7 +49,7 @@ BEGIN
         BEGIN
             VALUE "Comments", "built on " MAKE_STRING(BUILD_DATE) ", " MAKE_STRING(BUILD_TIME) " (" MAKE_STRING(BUILD_CHAR) ", " MAKE_STRING(BUILD_COMP) ", " MAKE_STRING(BUILD_CPU) MMX_VER ").\0"
             VALUE "CompanyName", "Team FB Alpha\0"
-            VALUE "FileDescription", APP_DESCRIPTION "\0"
+            VALUE "FileDescription", "FBARR" "\0"
             VALUE "FileVersion", MAKE_STRING(VER_MAJOR) "," MAKE_STRING(VER_MINOR) "," MAKE_STRING(VER_BETA) "," MAKE_STRING(VER_ALPHA) "\0"
             VALUE "InternalName", MAKE_STRING(FILENAME) "\0"
             VALUE "LegalCopyright", "© 2004-2009 Team FB Alpha\0"
@@ -66,7 +66,7 @@ BEGIN
             VALUE "PrivateBuild", "Pre-release build\0"
  #endif
 #endif
-            VALUE "ProductName", APP_TITLE "\0"
+            VALUE "ProductName", "FBARR" "\0"
 #if VER_BETA == 99 && VER_ALPHA > 90
             VALUE "ProductVersion", "Release Candidate (v" MAKE_STRING(VER_MAJOR) "." MAKE_STRING(VER_MINOR) "." MAKE_STRING(VER_BETA) "." MAKE_STRING(VER_ALPHA) ")\0"
 #else

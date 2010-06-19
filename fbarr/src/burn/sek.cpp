@@ -15,15 +15,15 @@ int nSekCyclesTotal, nSekCyclesScanline, nSekCyclesSegment, nSekCyclesDone, nSek
 
 int nSekCPUType[SEK_MAX], nSekCycles[SEK_MAX], nSekIRQPending[SEK_MAX];
 
+unsigned int (*SekDbgFetchByteDisassembler)(unsigned int);
+unsigned int (*SekDbgFetchWordDisassembler)(unsigned int);
+unsigned int (*SekDbgFetchLongDisassembler)(unsigned int);
+
 #if defined (FBA_DEBUG)
 
 void (*SekDbgBreakpointHandlerRead)(unsigned int, int);
 void (*SekDbgBreakpointHandlerFetch)(unsigned int, int);
 void (*SekDbgBreakpointHandlerWrite)(unsigned int, int);
-
-unsigned int (*SekDbgFetchByteDisassembler)(unsigned int);
-unsigned int (*SekDbgFetchWordDisassembler)(unsigned int);
-unsigned int (*SekDbgFetchLongDisassembler)(unsigned int);
 
 static struct { unsigned int address; int id; } BreakpointDataRead[9]  = { { 0, 0 }, };
 static struct { unsigned int address; int id; } BreakpointDataWrite[9] = { { 0, 0 }, };

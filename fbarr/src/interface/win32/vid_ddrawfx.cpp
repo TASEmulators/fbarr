@@ -394,7 +394,7 @@ static int MemToSurf()
 
 		pd = VidSurf; ps = Surf;
 
-		FBA_LuaGui((unsigned char*)ddsd.lpSurface,ddsd.dwWidth,ddsd.dwHeight,nVidImageBPP,ddsd.lPitch);
+		//FBA_LuaGui((unsigned char*)ddsd.lpSurface,ddsd.dwWidth,ddsd.dwHeight,nVidImageBPP,ddsd.lPitch);  //LUAHACK
 
 		for (int y = 0; y < nHeight; y++, pd += nVidPitch, ps += nPitch) {
 			memcpy(pd, ps, nPitch);
