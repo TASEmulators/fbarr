@@ -51,7 +51,7 @@
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4996;4244;4800;4065;4305;4267;4060;4804;4311;4333;4312"
+				DisableSpecificWarnings="4996;4244;4800;4065;4305;4267;4060;4804;4311;4333;4312;4146;4309"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -802,7 +802,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -879,7 +879,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -1856,7 +1856,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -1953,7 +1953,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -1978,7 +1978,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -1999,7 +1999,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -2595,6 +2595,14 @@
 			<File
 				RelativePath=".\cpu\sh2\sh2.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						DisableSpecificWarnings="4146"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\burn\sn76496.cpp"
@@ -2628,7 +2636,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -2780,6 +2788,14 @@
 			<File
 				RelativePath=".\interface\win32\vid_directx_support.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						DisableSpecificWarnings="4146"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\interface\vid_interface.cpp"
@@ -2816,6 +2832,14 @@
 			<File
 				RelativePath=".\burn\ym2413.c"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						DisableSpecificWarnings="4018;4146"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\burn\ymdeltat.c"
@@ -2860,7 +2884,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="nasm -f win32 -Xvc $(InputPath)"
+							CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 							Outputs="$(InputDir)\a68k.obj"
 						/>
 					</FileConfiguration>
