@@ -1,3 +1,4 @@
+#if 0
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -3618,3 +3619,5 @@ lua_State* FBA_GetLuaState() {
 char* FBA_GetLuaScriptName() {
 	return luaScriptName;
 }
+
+#endif
