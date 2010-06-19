@@ -1097,19 +1097,20 @@ TCHAR* FBALoadStringEx(HINSTANCE hInstance, UINT uID, bool bTranslate)
 		dprintf(_T("string %5i: \"%ls\"\n"), uID, *pwsz ? pwsz + 1 : pwsz);
 #endif
 
-#if defined (UNICODE) && defined (_MSC_VER)
-		return *pwsz ? pwsz + 1 : pwsz;
-#else
-		{
-#if !defined (UNICODE)
-			static char szStringBuffer[5120];
-//			memset(szStringBuffer, 0, sizeof(szStringBuffer));
-
-			if (WideCharToMultiByte(CP_ACP, 0, *pwsz ? pwsz + 1 : pwsz, *pwsz, szStringBuffer, 5120, NULL, NULL)) {
-				szStringBuffer[*pwsz] = '\0';
-				return szStringBuffer;
-			}
-#else
+		//all this ifdef bypassed by zeromus 19-jun-2010
+//#if defined (UNICODE) && defined (_MSC_VER)
+//		return *pwsz ? pwsz + 1 : pwsz;
+//#else
+//		{
+//#if !defined (UNICODE)
+//			static char szStringBuffer[5120];
+////			memset(szStringBuffer, 0, sizeof(szStringBuffer));
+//
+//			if (WideCharToMultiByte(CP_ACP, 0, *pwsz ? pwsz + 1 : pwsz, *pwsz, szStringBuffer, 5120, NULL, NULL)) {
+//				szStringBuffer[*pwsz] = '\0';
+//				return szStringBuffer;
+//			}
+//#else
 			static wchar_t szStringBuffer[5120];
 
 			// When using GCC, copy the string since Windres can't zero-terminate strings in resource files
@@ -1119,10 +1120,11 @@ TCHAR* FBALoadStringEx(HINSTANCE hInstance, UINT uID, bool bTranslate)
 			szStringBuffer[*pwsz] = '\0';
 			return szStringBuffer;
 
-#endif
-			return NULL;
-		}
-#endif
+			//all this ifdef bypassed by zeromus 19-jun-2010
+//#endif
+//			return NULL;
+//		}
+//#endif
 	}
 }
 
