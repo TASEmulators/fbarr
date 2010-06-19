@@ -1020,11 +1020,11 @@ void HK_luaCloseAll(int)
 }
 void HK_luaReload(int)
 {
-	FBA_ReloadLuaCode();
+	//FBA_ReloadLuaCode(); //LUAHACK
 }
 void HK_luaStop(int)
 {
-	FBA_LuaStop();
+	//FBA_LuaStop();  //LUAHACK
 }
 
 // key handle
