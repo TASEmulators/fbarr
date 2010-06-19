@@ -518,10 +518,10 @@ static int AppInit()
 
 #if 1 || !defined (FBA_DEBUG)
 	// print a warning if we're running for the 1st time
-	if (nIniVersion < nBurnVer) {
+	if (nIniVersion < nBurnVer) {	
 		ScrnInit();
 		//SplashDestroy(1);
-		FirstUsageCreate();
+		//FirstUsageCreate();	//adelikat: it is my pleasure and duty to rip this out
 
 		ConfigAppSave();								// Create initial config file
 	}
