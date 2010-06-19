@@ -787,15 +787,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\2xpm.cpp"
+				RelativePath=".\interface\2xpm.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\2xsai.cpp"
+				RelativePath=".\interface\2xsai.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\2xsaimmx.asm"
+				RelativePath=".\interface\2xsaimmx.asm"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -832,15 +832,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\aud_dsp.cpp"
+				RelativePath=".\interface\aud_dsp.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\aud_dsp.h"
+				RelativePath=".\interface\aud_dsp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\aud_interface.cpp"
+				RelativePath=".\interface\aud_interface.cpp"
 				>
 			</File>
 			<File
@@ -965,11 +965,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\conc.cpp"
+				RelativePath=".\burner\conc.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\cong.cpp"
+				RelativePath=".\burner\cong.cpp"
 				>
 			</File>
 			<File
@@ -1817,7 +1817,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\dat.cpp"
+				RelativePath=".\burner\dat.cpp"
 				>
 			</File>
 			<File
@@ -1849,7 +1849,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\eagle_fm.asm"
+				RelativePath=".\interface\eagle_fm.asm"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1866,7 +1866,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\epx.cpp"
+				RelativePath=".\interface\epx.cpp"
 				>
 			</File>
 			<File
@@ -1914,7 +1914,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\gamc.cpp"
+				RelativePath=".\burner\gamc.cpp"
 				>
 			</File>
 			<File
@@ -1922,7 +1922,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\gami.cpp"
+				RelativePath=".\burner\gami.cpp"
 				>
 			</File>
 			<File
@@ -1946,7 +1946,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq2x32.asm"
+				RelativePath=".\interface\hq2x32.asm"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1959,40 +1959,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq2xs.cpp"
+				RelativePath=".\interface\hq2xs.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq2xs.h"
+				RelativePath=".\interface\hq2xs.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq2xs_16.cpp"
+				RelativePath=".\interface\hq2xs_16.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq3x32.asm"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
-						Outputs="$(InputDir)\$(SafeInputName).obj"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq3xs.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq3xs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq4x32.asm"
+				RelativePath=".\interface\hq3x32.asm"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -2005,11 +1984,32 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq_shared32.cpp"
+				RelativePath=".\interface\hq3xs.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\hq_shared32.h"
+				RelativePath=".\interface\hq3xs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\interface\hq4x32.asm"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\interface\hq_shared32.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\interface\hq_shared32.h"
 				>
 			</File>
 			<File
@@ -2045,11 +2045,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\inp_interface.cpp"
+				RelativePath=".\interface\inp_interface.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\inp_keys.h"
+				RelativePath=".\interface\inp_keys.h"
 				>
 			</File>
 			<File
@@ -2073,15 +2073,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\interface.cpp"
+				RelativePath=".\interface\interface.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\interface.h"
+				RelativePath=".\interface\interface.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\interp.h"
+				RelativePath=".\interface\interp.h"
 				>
 			</File>
 			<File
@@ -2177,11 +2177,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\lowpass2.cpp"
+				RelativePath=".\interface\lowpass2.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\lowpass2.h"
+				RelativePath=".\interface\lowpass2.h"
 				>
 			</File>
 			<File
@@ -2189,7 +2189,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\luaengine.cpp"
+				RelativePath=".\burner\luaengine.cpp"
 				>
 			</File>
 			<File
@@ -2217,7 +2217,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\cpu\m68k\m68kcpu.c"
+				RelativePath=".\cpu\m68k\m68kcpu.c"
 				>
 			</File>
 			<File
@@ -2285,7 +2285,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\misc.cpp"
+				RelativePath=".\burner\misc.cpp"
 				>
 			</File>
 			<File
@@ -2461,7 +2461,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\prf_interface.cpp"
+				RelativePath=".\interface\prf_interface.cpp"
 				>
 			</File>
 			<File
@@ -2553,15 +2553,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\scale2x.h"
+				RelativePath=".\interface\scale2x.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\scale2x_vc.h"
+				RelativePath=".\interface\scale2x_vc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\scale3x.h"
+				RelativePath=".\interface\scale3x.h"
 				>
 			</File>
 			<File
@@ -2577,7 +2577,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burn\sek.cpp"
+				RelativePath=".\burn\sek.cpp"
 				>
 			</File>
 			<File
@@ -2605,15 +2605,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\sshot.cpp"
+				RelativePath=".\burner\sshot.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\state.cpp"
+				RelativePath=".\burner\state.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\statec.cpp"
+				RelativePath=".\burner\statec.cpp"
 				>
 			</File>
 			<File
@@ -2621,7 +2621,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\superscale.asm"
+				RelativePath=".\interface\superscale.asm"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -2782,23 +2782,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_interface.cpp"
+				RelativePath=".\interface\vid_interface.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_softfx.cpp"
+				RelativePath=".\interface\vid_softfx.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_softfx.h"
+				RelativePath=".\interface\vid_softfx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_support.cpp"
+				RelativePath=".\interface\vid_support.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\interface\vid_support.h"
+				RelativePath=".\interface\vid_support.h"
 				>
 			</File>
 			<File
@@ -2842,7 +2842,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\fbarr49\fbarr\src\burner\zipfn.cpp"
+				RelativePath=".\burner\zipfn.cpp"
 				>
 			</File>
 			<File
