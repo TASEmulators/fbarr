@@ -98,6 +98,7 @@
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="1"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -116,14 +117,14 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\nec;.\s2650;.\sh2;.\libs\zlib;.\burn\misc;.\burn"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;"
+				AdditionalIncludeDirectories=".\libs\pnglib;.\interface\win32;.\kaillera\client;.\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\cpu\nec;.\cpu\s2650;.\cpu\sh2;.\libs\zlib;.\burn\misc;.\lua;.\libs\libpng;.\burner\win32;.\burner;.\interface;.\libs\ddk;.\vc\directx;.\vc\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;BUILD_WIN32"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4996;4244;4800"
+				DisableSpecificWarnings="4996;4244;4800;4065;4305;4267;4060;4804;4311;4333;4312;4146;4309"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -136,7 +137,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="setupapi.lib wininet.lib Comctl32.lib comdlg32.lib dxguid.lib dinput.lib winmm.lib ddraw.lib dsound.lib Vfw32.lib libs\pnglib\pnglib.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="vc/directx"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -806,6 +809,15 @@
 						Outputs="$(InputDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(InputName).obj"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\burn\8255ppi.cpp"
@@ -880,6 +892,15 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						CommandLine="nasm -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -1860,6 +1881,15 @@
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\burn\eeprom.cpp"
@@ -1957,6 +1987,15 @@
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\interface\hq2xs.cpp"
@@ -1982,6 +2021,15 @@
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\interface\hq3xs.cpp"
@@ -2000,6 +2048,15 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -2640,6 +2697,15 @@
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						Outputs="$(InputDir)\$(SafeInputName).obj"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\burner\win32\support_paths.cpp"
@@ -2885,6 +2951,15 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
+							Outputs="$(InputDir)\a68k.obj"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
 							Outputs="$(InputDir)\a68k.obj"
 						/>
 					</FileConfiguration>
