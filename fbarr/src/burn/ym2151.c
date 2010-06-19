@@ -1493,7 +1493,7 @@ int YM2151Init(int num, int clock, int rate)
 
 	init_tables();
 
-	for (i=0 ; i<YMNumChips; i++)
+	for (i=0 ; i<(int)YMNumChips; i++)
 	{
 		YMPSG[i].clock = clock;
 		/*rate = clock/64;*/
@@ -2027,7 +2027,7 @@ INLINE void advance_eg(void)
 				{
 					op->volume += eg_inc[op->eg_sel_d1r + ((PSG->eg_cnt>>op->eg_sh_d1r)&7)];
 
-					if ( op->volume >= op->d1l )
+					if ( op->volume >= (int)op->d1l )
 						op->state = EG_SUS;
 
 				}

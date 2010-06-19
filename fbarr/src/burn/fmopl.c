@@ -770,7 +770,7 @@ INLINE void advance(FM_OPL *OPL)
 				{
 					op->volume += eg_inc[op->eg_sel_dr + ((OPL->eg_cnt>>op->eg_sh_dr)&7)];
 
-					if ( op->volume >= op->sl )
+					if ( op->volume >= (int)op->sl )
 						op->state = EG_SUS;
 
 				}
