@@ -1,3 +1,4 @@
+#include "driver.h"
 #ifndef _LUAENGINE_H
 #define _LUAENGINE_H
 

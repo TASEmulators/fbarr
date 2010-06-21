@@ -1041,7 +1041,7 @@ int DinpGetControlName(int nCode, TCHAR* pszDeviceName, TCHAR* pszControlName)
 
 		unsigned int nSubCode = nCode & 0xFF;
 
-		if ((nSubCode >> 1) < ((nDeviceType == 0x4000) ? MAX_JOYAXIS : MAX_MOUSEAXIS)) {
+		if ((int)(nSubCode >> 1) < ((nDeviceType == 0x4000) ? MAX_JOYAXIS : MAX_MOUSEAXIS)) {
 			if ((pdwAxisType[nSubCode >> 1] & DIDFT_AXIS) != 0) {
 				dwObj = pdwAxisType[nSubCode >> 1];
 			}

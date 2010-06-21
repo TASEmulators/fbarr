@@ -64,9 +64,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="setupapi.lib wininet.lib Comctl32.lib comdlg32.lib dxguid.lib dinput.lib winmm.lib ddraw.lib dsound.lib Vfw32.lib libs\pnglib\pnglib.lib"
+				AdditionalDependencies="setupapi.lib wininet.lib Comctl32.lib comdlg32.lib dxguid.lib dinput.lib winmm.lib ddraw.lib dsound.lib Vfw32.lib libs\pnglib\pnglib.lib lua\lua51.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="vc/directx"
+				AdditionalLibraryDirectories="vc/directx;lua"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -814,7 +814,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -900,7 +900,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -1886,7 +1886,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -1992,7 +1992,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -2026,7 +2026,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -2056,7 +2056,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -2702,7 +2702,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="nasm -f win32 -Xvc $(InputPath)"
+						CommandLine="nasm -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 						Outputs="$(InputDir)\$(SafeInputName).obj"
 					/>
 				</FileConfiguration>
@@ -2959,7 +2959,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)"
+							CommandLine="nasm -w-orphan-labels -f win32 -Xvc $(InputPath)&#x0D;&#x0A;"
 							Outputs="$(InputDir)\a68k.obj"
 						/>
 					</FileConfiguration>
