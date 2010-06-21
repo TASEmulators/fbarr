@@ -91,6 +91,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy /y /d &quot;$(ProjectDir)\lua\lua51.dll&quot; &quot;$(OutDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -137,9 +138,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="setupapi.lib wininet.lib Comctl32.lib comdlg32.lib dxguid.lib dinput.lib winmm.lib ddraw.lib dsound.lib Vfw32.lib libs\pnglib\pnglib.lib"
+				AdditionalDependencies="setupapi.lib wininet.lib Comctl32.lib comdlg32.lib dxguid.lib dinput.lib winmm.lib ddraw.lib dsound.lib Vfw32.lib libs\pnglib\pnglib.lib lua\lua51.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="vc/directx"
+				AdditionalLibraryDirectories="vc/directx;lua"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -166,6 +167,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy /y /d &quot;$(ProjectDir)\lua\lua51.dll&quot; &quot;$(OutDir)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
