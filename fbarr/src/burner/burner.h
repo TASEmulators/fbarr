@@ -1,6 +1,5 @@
 // FB Alpha - Emulator for MC68000/Z80 based arcade games
 //            Refer to the "license.txt" file for more info
-
 #include <limits.h>
 #include <stdarg.h>
 #include <stdio.h>

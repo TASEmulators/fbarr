@@ -1,4 +1,3 @@
-#if 0
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -243,16 +242,16 @@ void FBA_LuaWriteInform() {
 static int fba_speedmode(lua_State *L) {
 	const char *mode = luaL_checkstring(L,1);
 	
-	if (strcasecmp(mode, "normal")==0) {
+	if (stricmp(mode, "normal")==0) {
 		speedmode = SPEED_NORMAL;
 		HK_speedNormal(0);
-	} else if (strcasecmp(mode, "nothrottle")==0) {
+	} else if (stricmp(mode, "nothrottle")==0) {
 		speedmode = SPEED_NOTHROTTLE;
 //		SetEmulationSpeed(EMUSPEED_FASTEST); // TODO
-	} else if (strcasecmp(mode, "turbo")==0) {
+	} else if (stricmp(mode, "turbo")==0) {
 		speedmode = SPEED_TURBO;
 		HK_speedTurbo(0);
-	} else if (strcasecmp(mode, "maximum")==0) {
+	} else if (stricmp(mode, "maximum")==0) {
 		speedmode = SPEED_MAXIMUM;
 //		SetEmulationSpeed(EMUSPEED_MAXIMUM);
 	} else
@@ -3619,5 +3618,3 @@ lua_State* FBA_GetLuaState() {
 char* FBA_GetLuaScriptName() {
 	return luaScriptName;
 }
-
-#endif
