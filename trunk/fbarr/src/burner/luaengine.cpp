@@ -14,7 +14,7 @@ using std::max;
 #include <sys/types.h>
 #include <sys/wait.h>
 #endif
-
+ 
 extern "C" {
 	#include <lua.h>
 	#include <lauxlib.h>
