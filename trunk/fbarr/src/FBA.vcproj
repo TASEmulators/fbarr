@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories=".\libs\pnglib;.\interface\win32;.\kaillera\client;.\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\cpu\nec;.\cpu\s2650;.\cpu\sh2;.\libs\zlib;.\burn\misc;.\lua;.\libs\libpng;.\burner\win32;.\burner;.\interface;.\libs\ddk;.\vc\directx;.\vc\include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;BUILD_WIN32"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
