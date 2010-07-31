@@ -203,7 +203,7 @@ Note that this function can return colors that have already been written to the 
 
 Returns the separate RGBA components of the given color.
 
-For example, you can say local r,g,b,a = gui.parsecolor('orange') to retrieve the red/green/blue values of the preset color orange. (You could also omit the a in cases like this.) This uses the same conversion method that Gens uses internally to support the different representations of colors that the GUI library uses. Overriding this function will not change how Gens interprets color values, however. 
+For example, you can say local r,g,b,a = gui.parsecolor('orange') to retrieve the red/green/blue values of the preset color orange. (You could also omit the a in cases like this.) This uses the same conversion method that FBA uses internally to support the different representations of colors that the GUI library uses. Overriding this function will not change how FBA interprets color values, however. 
 
 ===`gui.gdoverlay([int dx=0, int dy=0,] string str [, sx=0, sy=0, sw, sh] [, float alphamul=1.0])`===
 
