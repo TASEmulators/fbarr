@@ -901,7 +901,10 @@ static int joy_get_internal(lua_State *L, bool reportUp, bool reportDown) {
 		nThisVal = *pgi->Input.pVal;
 		bool pressed = nThisVal != 0;
 		if ((pressed && reportDown) || (!pressed && reportUp)) {
-			lua_pushinteger(L,nThisVal);
+			if (bii.nType & BIT_DIGITAL && !(bii.nType & BIT_GROUP_CONSTANT))
+				lua_pushboolean(L,pressed);
+			else
+				lua_pushinteger(L,nThisVal);
 			lua_setfield(L, -2, bii.szName);
 		}
 	}
@@ -966,7 +969,15 @@ static int joypad_set(lua_State *L) {
 
 		lua_getfield(L, 1, bii.szName);
 		if (!lua_isnil(L,-1)) {
-			lua_joypads[i] = lua_tonumber(L, -1);
+			if (bii.nType & BIT_DIGITAL && !(bii.nType & BIT_GROUP_CONSTANT)) {
+				if (lua_toboolean(L,-1))
+					lua_joypads[i] = 1; // pressed
+				else
+					lua_joypads[i] = 2; // unpressed
+			}
+			else {
+				lua_joypads[i] = lua_tonumber(L, -1);
+			}
 //			dprintf(_T("*JOYPAD*: '%s' : %d\n"),_AtoT(bii.szName),lua_joypads[i]);
 		}
 		lua_pop(L,1);
@@ -3613,7 +3624,15 @@ UINT32 FBA_LuaReadJoypad() {
 				*bii.pShortVal = lua_joypads[i];
 			}
 			else {
-				*bii.pVal = lua_joypads[i];
+				if (bii.nType & BIT_DIGITAL && !(bii.nType & BIT_GROUP_CONSTANT)) {
+					if(lua_joypads[i] == 1)
+						*bii.pVal = 1;
+					if(lua_joypads[i] == 2)
+						*bii.pVal = 0;
+				}
+				else {
+					*bii.pVal = lua_joypads[i];
+				}
 			}
 //			dprintf(_T("*READ_JOY*: '%s' %d: "),_AtoT(bii.szName),lua_joypads[i]);
 		}
