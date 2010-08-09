@@ -38,7 +38,7 @@ CustomKey customKeys[] = {
 	{ VK_F6,         MODKEY_SHIFT, 0,                      "Save State 6",              "savestate6",    HK_saveState,         0, 6 },
 	{ VK_F7,         MODKEY_SHIFT, 0,                      "Save State 7",              "savestate7",    HK_saveState,         0, 7 },
 	{ VK_F8,         MODKEY_SHIFT, 0,                      "Save State 8",              "savestate8",    HK_saveState,         0, 8 },
-	{ VK_F9,         MODKEY_SHIFT, 0,                      "Save State 9",              "savestate9",    HK_selectState,       0, 9 },
+	{ VK_F9,         MODKEY_SHIFT, 0,                      "Save State 9",              "savestate9",    HK_saveState,         0, 9 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 1",            "sel-state1",    HK_selectState,       0, 1 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 2",            "sel-state2",    HK_selectState,       0, 2 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 3",            "sel-state3",    HK_selectState,       0, 3 },
@@ -66,10 +66,16 @@ CustomKey customKeys[] = {
 	{ 'F',           MODKEY_CTRL,  ID_RAM_SEARCH,          "RAM Search",                "ram-search",    HK_ramSearchOld,      0, 0 },
 //	{ 'W',           MODKEY_CTRL,  ID_RAM_WATCH,           "RAM Watch",                 "ram-watch",     HK_ramWatch,          0, 0 },
 	{ 'W',           MODKEY_CTRL,  ID_RAM_WATCH,           "RAM Watch",                 "ram-watch",     HK_ramWatchOld,       0, 0 },
+
 	{ 0,             0,            ID_LUA_OPEN,            "New Lua Script Window",     "lua-open",      HK_luaOpen,           0, 0 },
 	{ 0,             0,            ID_LUA_CLOSE_ALL,       "Close All Script Windows",  "lua-close-all", HK_luaCloseAll,       0, 0 },
 	{ 0,             0,            0,                      "Reload Lua Script",         "lua-reload",    HK_luaReload,         0, 0 },
 	{ 0,             0,            0,                      "Stop Lua Script",           "lua-stop",      HK_luaStop,           0, 0 },
+	{ 0,             MODKEY_NONE,  0,                      "Lua Custom Hotkey 1",       "lua-hotkey1",   HK_luaHotkey,         0, 1 },
+	{ 0,             MODKEY_NONE,  0,                      "Lua Custom Hotkey 2",       "lua-hotkey2",   HK_luaHotkey,         0, 2 },
+	{ 0,             MODKEY_NONE,  0,                      "Lua Custom Hotkey 3",       "lua-hotkey3",   HK_luaHotkey,         0, 3 },
+	{ 0,             MODKEY_NONE,  0,                      "Lua Custom Hotkey 4",       "lua-hotkey4",   HK_luaHotkey,         0, 4 },
+	{ 0,             MODKEY_NONE,  0,                      "Lua Custom Hotkey 5",       "lua-hotkey5",   HK_luaHotkey,         0, 5 },
 
 	{ VK_OEM_MINUS,  MODKEY_CTRL,  0,                      "Volume Down",               "volume-down",   HK_volumeDec,         0, 0 },
 	{ VK_OEM_PLUS,   MODKEY_CTRL,  0,                      "Volume Up",                 "volume-up",     HK_volumeInc,         0, 0 },
@@ -1026,6 +1032,10 @@ void HK_luaReload(int)
 void HK_luaStop(int)
 {
 	FBA_LuaStop();
+}
+void HK_luaHotkey(int param)
+{
+	CallRegisteredLuaFunctions(LUACALL_HOTKEY_1+param-1);
 }
 
 // key handle
