@@ -118,6 +118,13 @@ static const char* luaCallIDStrings [] =
 	"CALL_BEFOREEMULATION",
 	"CALL_AFTEREMULATION",
 	"CALL_BEFOREEXIT",
+	"CALL_ONSTART",
+
+	"CALL_HOTKEY_1",
+	"CALL_HOTKEY_2",
+	"CALL_HOTKEY_3",
+	"CALL_HOTKEY_4",
+	"CALL_HOTKEY_5",
 };
 
 static char* rawToCString(lua_State* L, int idx=0);
@@ -230,7 +237,49 @@ void FBA_LuaWriteInform() {
 
 ///////////////////////////
 
+// fba.hardreset()
+static int fba_hardreset(lua_State *L) {
+	StartFromReset();
+	return 1;
+}
 
+// string fba.romname()
+//
+//   Returns the name of the running game.
+static int fba_romname(lua_State *L) {
+	lua_pushstring(L, BurnDrvGetTextA(DRV_NAME));
+	return 1;
+}
+
+// string fba.gamename()
+//
+//   Returns the name of the source file for the running game.
+static int fba_gamename(lua_State *L) {
+	lua_pushstring(L, BurnDrvGetTextA(DRV_FULLNAME));
+	return 1;
+}
+
+// string fba.parentname()
+//
+//   Returns the name of the source file for the running game.
+static int fba_parentname(lua_State *L) {
+	if (BurnDrvGetTextA(DRV_PARENT))
+		lua_pushstring(L, BurnDrvGetTextA(DRV_PARENT));
+	else
+		lua_pushstring(L, "0");
+	return 1;
+}
+
+// string fba.sourcename()
+//
+//   Returns the name of the source file for the running game.
+static int fba_sourcename(lua_State *L) {
+	if (BurnDrvGetTextA(DRV_BOARDROM))
+		lua_pushstring(L, BurnDrvGetTextA(DRV_BOARDROM));
+	else
+		lua_pushstring(L, BurnDrvGetTextA(DRV_SYSTEM));
+	return 1;
+}
 
 // fba.speedmode(string mode)
 //
@@ -298,6 +347,21 @@ static int fba_unpause(lua_State *L) {
 	SetPauseMode(0);
 
 	return lua_yield(L, 0);
+}
+
+// int fba.screenwidth()
+//
+//   Gets the screen width
+int fba_screenwidth(lua_State *L) {
+	lua_pushinteger(L, iScreenWidth);
+	return 1;
+}
+// int fba.screenheight()
+//
+//   Gets the screen height
+int fba_screenheight(lua_State *L) {
+	lua_pushinteger(L, iScreenHeight);
+	return 1;
 }
 
 static inline bool isalphaorunderscore(char c)
@@ -655,6 +719,19 @@ static int fba_registerexit(lua_State *L) {
 	lua_getfield(L, LUA_REGISTRYINDEX, luaCallIDStrings[LUACALL_BEFOREEXIT]);
 	lua_insert(L,1);
 	lua_setfield(L, LUA_REGISTRYINDEX, luaCallIDStrings[LUACALL_BEFOREEXIT]);
+	return 1;
+}
+
+static int fba_registerstart(lua_State *L) {
+	if (!lua_isnil(L,1))
+		luaL_checktype(L, 1, LUA_TFUNCTION);
+	lua_settop(L,1);
+	lua_getfield(L, LUA_REGISTRYINDEX, luaCallIDStrings[LUACALL_ONSTART]);
+	lua_insert(L,1);
+	lua_pushvalue(L,-1); // copy the function so we can also call it
+	lua_setfield(L, LUA_REGISTRYINDEX, luaCallIDStrings[LUACALL_ONSTART]);
+	if (!lua_isnil(L,-1))
+		lua_call(L,0,0); // call the function now since the game has already started and this start function hasn't been called yet
 	return 1;
 }
 
@@ -3016,6 +3093,11 @@ void CallRegisteredLuaFunctions(int calltype)
 
 
 static const struct luaL_reg fbalib [] = {
+	{"hardreset", fba_hardreset},
+	{"romname", fba_romname},
+	{"gamename", fba_gamename},
+	{"parentname", fba_parentname},
+	{"sourcename", fba_sourcename},
 	{"speedmode", fba_speedmode},
 	{"frameadvance", fba_frameadvance},
 	{"pause", fba_pause},
@@ -3024,8 +3106,11 @@ static const struct luaL_reg fbalib [] = {
 	{"registerbefore", fba_registerbefore},
 	{"registerafter", fba_registerafter},
 	{"registerexit", fba_registerexit},
+	{"registerstart", fba_registerstart},
 	{"message", fba_message},
 	{"print", print}, // sure, why not
+	{"screenwidth", fba_screenwidth},
+	{"screenheight", fba_screenheight},
 	{NULL,NULL}
 };
 
