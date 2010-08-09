@@ -521,7 +521,7 @@ static int AppInit()
 	if (nIniVersion < nBurnVer) {
 		ScrnInit();
 		//SplashDestroy(1);
-		FirstUsageCreate();
+		//FirstUsageCreate();	//adelikat: it is my pleasure and duty to rip this out
 
 		ConfigAppSave();								// Create initial config file
 	}
