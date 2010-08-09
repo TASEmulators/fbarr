@@ -39,6 +39,7 @@ void FBA_LuaClearGui();
 void FBA_LuaEnableGui(UINT8 enabled);
 
 char* FBA_GetLuaScriptName();
+struct lua_State* FBA_GetLuaState();
 
 void luasav_save(const char *filename);
 void luasav_load(const char *filename);

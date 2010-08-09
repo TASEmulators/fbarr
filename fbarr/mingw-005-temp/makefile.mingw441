@@ -130,7 +130,7 @@ depobj	:= 	main.o splash.o about.o systeminfo.o debugger.o misc_win32.o \
 	   	inpc.o inpd.o inps.o inpcheat.o inpdipsw.o sfactd.o stated.o numdial.o res.o \
 	   	cona.o localise.o roms.o support_paths.o jukebox.o menugui.o imagebutton.o pngload.o \
 	   	bmp_resize.o placeholderd.o fba_kaillera.o net.o localise_gamelist.o numpluscommas.o \
-	   	maphkeys.o ram_search.o ramwatch.o luaconsole.o luaengine.o memwatch.o cheatsearch.o \
+	   	maphkeys.o ram_search.o ramwatch.o luaconsole.o luaengine.o luasav.o memwatch.o cheatsearch.o \
 		\
 		adler32.o compress.o crc32.o deflate.o gzio.o infback.o \
        		inffast.o inflate.o inftrees.o trees.o uncompr.o zutil.o \
@@ -260,7 +260,7 @@ CFLAGS	 = -pipe \
 	   -mno-cygwin -mwindows \
 	   -fforce-addr -finline-limit=1200 -fthread-jumps \
 	   -fexpensive-optimizations \
-	   -Wall -Wno-long-long -Wno-sign-compare -Wno-uninitialized -Wno-unused \
+	   -Wall -Wno-unused-parameter -Wno-long-long -Wno-sign-compare -Wno-uninitialized -Wno-unused \
 	   $(DEF) $(incdir) # `sdl-config --cflags`
 
 CXXFLAGS = -pipe \
@@ -268,7 +268,7 @@ CXXFLAGS = -pipe \
 	   -mno-cygwin -mwindows \
 	   -fforce-addr -finline-limit=1200 -fthread-jumps \
 	   -fexpensive-optimizations \
-	   -Wall -W -pedantic -Wshadow -Wno-long-long -Wno-write-strings \
+	   -Wall -W -pedantic -Wshadow -Wno-unused-parameter -Wno-long-long -Wno-write-strings \
 	   -Wunknown-pragmas -Wundef -Wno-conversion -Wno-missing-braces \
 	   -Wuninitialized -Wpointer-arith -Wno-inline -Wno-address  -Wno-unused-value\
 	   $(DEF) $(incdir) # `sdl-config --cflags`

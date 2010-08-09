@@ -29,6 +29,7 @@ extern "C" {
 #include "win32/maphkeys.h"
 #endif
 #include "luaengine.h"
+#include "luasav.h"
 
 #ifndef TRUE
 #define TRUE 1
@@ -985,9 +986,59 @@ char *GetSavestateFilename(int nSlot) {
 #endif
 
 
+void luasav_save(const char *filename) {
+	LuaSaveData saveData;
+	char luaSaveFilename[512];
+	char slotnum[512];
+	char* filenameEnd;
+
+	sprintf(luaSaveFilename, "%s.luasav", filename);
+
+	strncpy( slotnum, strrchr(filename, '\\')+1, strlen(strrchr(filename, '\\')) );
+	filenameEnd = strrchr(slotnum, '.');
+	filenameEnd[0] = '\0';
+	strcpy(slotnum, filenameEnd-1);
+
+	// call savestate.save callback if any and store the results in a luasav file if any
+	CallRegisteredLuaSaveFunctions(slotnum, saveData);
+	if (saveData.recordList) {
+		FILE* luaSaveFile = fopen(luaSaveFilename, "wb");
+		if(luaSaveFile) {
+			saveData.ExportRecords(luaSaveFile);
+			fclose(luaSaveFile);
+		}
+	}
+	else {
+		unlink(luaSaveFilename);
+	}
+}
+
+void luasav_load(const char *filename) {
+	LuaSaveData saveData;
+	char luaSaveFilename[512];
+	char slotnum[512];
+	char* filenameEnd;
+
+	sprintf(luaSaveFilename, "%s.luasav", filename);
+
+	strncpy( slotnum, strrchr(filename, '\\')+1, strlen(strrchr(filename, '\\')) );
+	filenameEnd = strrchr(slotnum, '.');
+	filenameEnd[0] = '\0';
+	strcpy(slotnum, filenameEnd-1);
+
+	// call savestate.registerload callback if any
+	// and pass it the result from the previous savestate.registerload callback to the same state if any
+	FILE* luaSaveFile = fopen(luaSaveFilename, "rb");
+	if (luaSaveFile) {
+		saveData.ImportRecords(luaSaveFile);
+		fclose(luaSaveFile);
+	}
+	CallRegisteredLuaLoadFunctions(slotnum, saveData);
+}
+
+
 // Helper function to convert a savestate object to the filename it represents.
 static char *savestateobj2filename(lua_State *L, int offset) {
-	
 	// First we get the metatable of the indicated object
 	int result = lua_getmetatable(L, offset);
 
@@ -1032,25 +1083,14 @@ static int savestate_gc(lua_State *L) {
 //  The object can be associated with a player-accessible savestate
 //  ("which" between 1 and 10) or not (which == nil).
 static int savestate_create(lua_State *L) {
-	int which = -1;
-	char *filename;
+	const char *filename;
+	bool anonymous = false;
 
-	if (lua_gettop(L) >= 1) {
-		which = luaL_checkinteger(L, 1);
-		if (which < 1 || which > 10) {
-			luaL_error(L, "invalid player's savestate %d", which);
-		}
-	}
-	
-
-	if (which > 0) {
-		// Find an appropriate filename. This is OS specific, unfortunately.
-		// So I turned the filename selection code into my bitch. :)
-		// Numbers are 0 through 9 though.
-		filename = GetSavestateFilename(which);
-	}
+	if (lua_gettop(L) >= 1)
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
 	else {
 		filename = tempnam(NULL, "snlua");
+		anonymous = true;
 	}
 	
 	// Our "object". We don't care about the type, we just need the memory and GC services.
@@ -1069,20 +1109,16 @@ static int savestate_create(lua_State *L) {
 	lua_setfield(L, -2, "filename");
 	
 	// If it's an anonymous savestate, we must delete the file from disk should it be gargage collected
-	if (which < 0) {
+	if (anonymous) {
 		lua_pushcfunction(L, savestate_gc);
 		lua_setfield(L, -2, "__gc");
 	}
 	
 	// Set the metatable
 	lua_setmetatable(L, -2);
-
-	// The filename was allocated using malloc. Do something about that.
-	free(filename);
 	
 	// Awesome. Return the object
 	return 1;
-	
 }
 
 
@@ -1090,7 +1126,12 @@ static int savestate_create(lua_State *L) {
 //
 //   Saves a state to the given object.
 static int savestate_save(lua_State *L) {
-	char *filename = savestateobj2filename(L,1);
+	const char *filename;
+
+	if (lua_type(L,1) == LUA_TUSERDATA)
+		filename = savestateobj2filename(L,1);
+	else
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
 
 	// Save states are very expensive. They take time.
 	numTries--;
@@ -1103,11 +1144,73 @@ static int savestate_save(lua_State *L) {
 //
 //   Loads the given state
 static int savestate_load(lua_State *L) {
-	char *filename = savestateobj2filename(L,1);
+	const char *filename;
+
+	if (lua_type(L,1) == LUA_TUSERDATA)
+		filename = savestateobj2filename(L,1);
+	else
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
 
 	numTries--;
 
 	BurnStateLoad(_AtoT(filename), 1, &DrvInitCallback);
+	return 0;
+}
+
+static int savestate_registersave(lua_State *L) {
+	lua_settop(L,1);
+	if (!lua_isnil(L,1))
+		luaL_checktype(L, 1, LUA_TFUNCTION);
+	lua_getfield(L, LUA_REGISTRYINDEX, LUA_SAVE_CALLBACK_STRING);
+	lua_pushvalue(L,1);
+	lua_setfield(L, LUA_REGISTRYINDEX, LUA_SAVE_CALLBACK_STRING);
+	return 1;
+}
+
+static int savestate_registerload(lua_State *L) {
+	lua_settop(L,1);
+	if (!lua_isnil(L,1))
+		luaL_checktype(L, 1, LUA_TFUNCTION);
+	lua_getfield(L, LUA_REGISTRYINDEX, LUA_LOAD_CALLBACK_STRING);
+	lua_pushvalue(L,1);
+	lua_setfield(L, LUA_REGISTRYINDEX, LUA_LOAD_CALLBACK_STRING);
+	return 1;
+}
+
+static int savestate_loadscriptdata(lua_State *L) {
+	const char *filename;
+	LuaSaveData saveData;
+	char luaSaveFilename[512];
+	FILE* luaSaveFile;
+
+	if (lua_type(L,1) == LUA_TUSERDATA)
+		filename = savestateobj2filename(L,1);
+	else
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
+
+	sprintf(luaSaveFilename, "%s.luasav", filename);
+	luaSaveFile = fopen(luaSaveFilename, "rb");
+	if(luaSaveFile)
+	{
+		saveData.ImportRecords(luaSaveFile);
+		fclose(luaSaveFile);
+
+		lua_settop(L, 0);
+		saveData.LoadRecord(L, LUA_DATARECORDKEY, (unsigned int)-1);
+		return lua_gettop(L);
+	}
+	return 0;
+}
+
+static int savestate_savescriptdata(lua_State *L) {
+	const char *filename;
+
+	if (lua_type(L,1) == LUA_TUSERDATA)
+		filename = savestateobj2filename(L,1);
+	else
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
+
+	luasav_save(filename);
 	return 0;
 }
 
@@ -3163,6 +3266,11 @@ static const struct luaL_reg savestatelib[] = {
 	{"create", savestate_create},
 	{"save", savestate_save},
 	{"load", savestate_load},
+
+	{"registersave", savestate_registersave},
+	{"registerload", savestate_registerload},
+	{"savescriptdata", savestate_savescriptdata},
+	{"loadscriptdata", savestate_loadscriptdata},
 
 	{NULL,NULL}
 };
