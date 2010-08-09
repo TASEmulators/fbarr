@@ -6,6 +6,13 @@ enum LuaCallID
 	LUACALL_BEFOREEMULATION,
 	LUACALL_AFTEREMULATION,
 	LUACALL_BEFOREEXIT,
+	LUACALL_ONSTART,
+
+	LUACALL_HOTKEY_1,
+	LUACALL_HOTKEY_2,
+	LUACALL_HOTKEY_3,
+	LUACALL_HOTKEY_4,
+	LUACALL_HOTKEY_5,
 
 	LUACALL_COUNT
 };
@@ -32,5 +39,8 @@ void FBA_LuaClearGui();
 void FBA_LuaEnableGui(UINT8 enabled);
 
 char* FBA_GetLuaScriptName();
+
+void luasav_save(const char *filename);
+void luasav_load(const char *filename);
 
 #endif

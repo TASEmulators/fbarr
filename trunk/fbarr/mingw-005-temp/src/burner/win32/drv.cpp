@@ -163,6 +163,7 @@ int DrvInit(int nDrvNum, bool bRestore)
 
 	VidExit();
 	POST_INITIALISE_MESSAGE;
+	CallRegisteredLuaFunctions(LUACALL_ONSTART);
 
 	return 0;
 }
