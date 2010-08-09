@@ -3362,7 +3362,7 @@ void FBA_LuaFrameBoundary() {
 	int result;
 
 	// HA!
-	if (!LUA || !luaRunning)
+	if (!LUA || !luaRunning || !bDrvOkay)
 		return;
 
 	// Our function needs calling
