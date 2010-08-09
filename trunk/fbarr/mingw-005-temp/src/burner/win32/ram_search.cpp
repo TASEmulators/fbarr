@@ -37,8 +37,6 @@
 #include "BaseTsd.h"
 typedef INT_PTR intptr_t;
 
-#define INVALID_HARDWARE_ADDRESS	((HWAddressType) -1)
-
 struct MemoryRegion
 {
 	HWAddressType hardwareAddress; // hardware address of the start of this region
@@ -83,35 +81,10 @@ void ResetMemoryRegions()
 
 	s_activeMemoryRegions.clear();
 
-	// use IsHardwareAddressValid to figure out what all the possible memory regions are,
-	// split up wherever there's a discontinuity in the address in our software RAM.
+	// figure out what all the possible memory regions are
 	static const int regionSearchGranularity = 1; // if this is too small, we'll waste time (in this function only), but if any region in RAM isn't evenly divisible by this, we might crash.
-	HWAddressType hwRegionStart = INVALID_HARDWARE_ADDRESS;
-	HWAddressType hwRegionEnd = INVALID_HARDWARE_ADDRESS;
-	for(HWAddressType addr = 0; addr != 0x10000+regionSearchGranularity; addr += regionSearchGranularity)
-	{
-		if (!IsHardwareAddressValid(addr)) {
-			// create the region
-			if (hwRegionStart != INVALID_HARDWARE_ADDRESS && hwRegionEnd != INVALID_HARDWARE_ADDRESS) {
-				MemoryRegion region = { hwRegionStart, regionSearchGranularity + (hwRegionEnd - hwRegionStart) };
-				s_activeMemoryRegions.push_back(region);
-			}
-
-			hwRegionStart = INVALID_HARDWARE_ADDRESS;
-			hwRegionEnd = INVALID_HARDWARE_ADDRESS;
-		}
-		else {
-			if (hwRegionStart != INVALID_HARDWARE_ADDRESS) {
-				// continue region
-				hwRegionEnd = addr;
-			}
-			else {
-				// start new region
-				hwRegionStart = addr;
-				hwRegionEnd = addr;
-			}
-		}
-	}
+	MemoryRegion region = { 0, regionSearchGranularity + GetMemorySize() };
+	s_activeMemoryRegions.push_back(region);
 
 
 	int nextVirtualIndex = 0;
@@ -248,11 +221,13 @@ void UpdateRegionT(const MemoryRegion& region, const MemoryRegion* nextRegionPtr
 
 	if(sizeof(compareType) == 1)
 	{
+		unsigned int valueAtAddress;
 		for(unsigned int i = indexStart; i < indexEnd; i++)
 		{
-			if(s_curValues[i] != ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0)) // if value changed
+			valueAtAddress = ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0);
+			if(s_curValues[i] != valueAtAddress) // if value changed
 			{
-				s_curValues[i] = ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0); // update value
+				s_curValues[i] = valueAtAddress; // update value
 				//if(s_numChanges[i] != 0xFFFF)
 					s_numChanges[i]++; // increase change count
 			}
@@ -279,12 +254,14 @@ void UpdateRegionT(const MemoryRegion& region, const MemoryRegion* nextRegionPtr
 		for(unsigned int i = 0; i < sizeof(compareType); i++)
 			nextValidChange[i] = indexStart + i;
 
+		unsigned int valueAtAddress;
 		for(unsigned int i = indexStart, j = 0; i < lastIndexToRead; i++, j++)
 		{
-			if(s_curValues[i] != ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0)) // if value of this byte changed
+			valueAtAddress = ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0);
+			if(s_curValues[i] != valueAtAddress) // if value of this byte changed
 			{
 				if(i < lastIndexToCopy)
-					s_curValues[i] = ReadValueAtHardwareAddress(hwSourceAddr+i, 1, 0); // update value
+					s_curValues[i] = valueAtAddress; // update value
 				for(int k = 0; k < (int)sizeof(compareType); k++) // loop through the previous entries that contain this byte
 				{
 					if(i >= indexEnd+k)
@@ -819,12 +796,12 @@ bool Set_RS_Val()
 			break;
 		case 'a':
 			rs_val = ReadControlInt(IDC_EDIT_COMPAREADDRESS, true, success);
-			if(!success || rs_val < 0 || rs_val > 0x06040000)
+			if(!success || rs_val < 0 || rs_val > 0xFFFFFFFF)
 				return false;
 			break;
 		case 'n': {
 			rs_val = ReadControlInt(IDC_EDIT_COMPARECHANGES, false, success);
-			if(!success || rs_val < 0 || rs_val > 0xFFFF)
+			if(!success || rs_val < 0 || rs_val > 0xFFFFFFFF)
 				return false;
 		}	break;
 	}
@@ -932,8 +909,12 @@ void CompactAddrs()
 		ListView_SetItemCount(GetDlgItem(RamSearchHWnd,IDC_RAMLIST),ResultCount);
 }
 
-void soft_reset_address_info ()
+void soft_reset_address_info (bool resetPrevValues = false)
 {
+	if (resetPrevValues) {
+		memcpy(s_prevValues, s_curValues, sizeof(s_prevValues));
+		s_prevValuesNeedUpdate = false;
+	}
 	ResetMemoryRegions();
 	if(s_numChanges)
 		memset(s_numChanges, 0, (sizeof(*s_numChanges)*(MAX_RAM_SIZE)));
@@ -1045,7 +1026,6 @@ void RefreshRamListSelectedCountControlStatus(HWND hDlg)
 		if(selCount < 2 || prevSelCount < 2)
 		{
 			EnableWindow(GetDlgItem(hDlg, IDC_C_WATCH), (selCount == 1 && WatchCount < MAX_WATCH_COUNT) ? TRUE : FALSE);
-			EnableWindow(GetDlgItem(hDlg, IDC_C_ADDCHEAT), (selCount == 1) ? TRUE : FALSE);
 			EnableWindow(GetDlgItem(hDlg, IDC_C_ELIMINATE), (selCount >= 1) ? TRUE : FALSE);
 		}
 		prevSelCount = selCount;
@@ -1073,9 +1053,11 @@ void signal_new_size ()
 
 	unsigned int itemsPerPage = ListView_GetCountPerPage(lv);
 	unsigned int oldTopIndex = ListView_GetTopIndex(lv);
-//	unsigned int oldSelectionIndex = ListView_GetSelectionMark(lv);
+	unsigned int oldSelectionIndex = ListView_GetSelectionMark(lv);
 	unsigned int oldTopAddr = CALL_WITH_T_SIZE_TYPES_1(GetHardwareAddressFromItemIndex, rs_last_type_size,rs_t=='s',rs_last_no_misalign, oldTopIndex);
-//	unsigned int oldSelectionAddr = CALL_WITH_T_SIZE_TYPES_1(GetHardwareAddressFromItemIndex, rs_last_type_size,rs_t=='s',rs_last_no_misalign, oldSelectionIndex);
+	unsigned int oldSelectionAddr = CALL_WITH_T_SIZE_TYPES_1(GetHardwareAddressFromItemIndex, rs_last_type_size,rs_t=='s',rs_last_no_misalign, oldSelectionIndex);
+
+	oldSelectionAddr = oldSelectionAddr;
 
 	std::vector<AddrRange> selHardwareAddrs;
 	if(numberOfItemsChanged)
@@ -1149,6 +1131,7 @@ void signal_new_size ()
 	{
 		ListView_Update(lv, -1);
 	}
+	InvalidateRect(lv, NULL, TRUE);
 }
 
 
@@ -1305,7 +1288,7 @@ LRESULT CALLBACK RamSearchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 	RECT r;
 	RECT r2;
 	int dx1, dy1, dx2, dy2;
-//	static int watchIndex=0;
+	static int watchIndex=0;
 
 	switch(uMsg)
 	{
@@ -1412,7 +1395,7 @@ LRESULT CALLBACK RamSearchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			SendDlgItemMessage(hDlg,IDC_C_AUTOSEARCH,BM_SETCHECK,AutoSearch?BST_CHECKED:BST_UNCHECKED,0);
 			//const char* names[5] = {"Address","Value","Previous","Changes","Notes"};
 			//int widths[5] = {62,64,64,55,55};
-			const char* names[] = {"Address","Value","Previous","Changes"};
+			const WCHAR* names[] = {L"Address",L"Value",L"Previous",L"Changes"};
 			int widths[4] = {68,76,76,68};
 			if (!ResultCount)
 				reset_address_info();
@@ -1421,7 +1404,6 @@ LRESULT CALLBACK RamSearchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 				signal_new_frame();
 				CompactAddrs();
 			}
-			void init_list_box(HWND Box, const char* Strs[], int numColumns, int *columnWidths);
 			init_list_box(GetDlgItem(hDlg,IDC_RAMLIST),names,4,widths);
 			//ListView_SetItemCount(GetDlgItem(hDlg,IDC_RAMLIST),ResultCount);
 			if (!noMisalign) SendDlgItemMessage(hDlg, IDC_MISALIGN, BM_SETCHECK, BST_CHECKED, 0);
@@ -1443,7 +1425,8 @@ LRESULT CALLBACK RamSearchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			
 			rs_val_valid = Set_RS_Val();
 
-			ListView_SetCallbackMask(GetDlgItem(hDlg,IDC_RAMLIST), LVIS_FOCUSED|LVIS_SELECTED);
+//			ListView_SetCallbackMask(GetDlgItem(hDlg,IDC_RAMLIST), LVIS_FOCUSED|LVIS_SELECTED); // <- this doesn't highlight
+			ListView_SetCallbackMask(GetDlgItem(hDlg,IDC_RAMLIST), LVIS_FOCUSED);
 
 			return true;
 		}	break;
@@ -1465,52 +1448,52 @@ LRESULT CALLBACK RamSearchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 				case LVN_GETDISPINFO:
 				{
-					LV_DISPINFO *Item = (LV_DISPINFO *)lParam;
-					Item->item.mask = LVIF_TEXT;
+					NMLVDISPINFO *Item = (NMLVDISPINFO *)lParam;
+//					Item->item.mask = LVIF_TEXT;
 					Item->item.state = 0;
 					Item->item.iImage = 0;
 					const unsigned int iNum = Item->item.iItem;
-					static char num[11];
+					static WCHAR num[22];
 					switch (Item->item.iSubItem)
 					{
 						case 0:
 						{
 							int addr = CALL_WITH_T_SIZE_TYPES_1(GetHardwareAddressFromItemIndex, rs_type_size,rs_t=='s',noMisalign, iNum);
-							sprintf(num,"%04X",addr);
-							Item->item.pszText = _AtoT(num);
+							wsprintf(num,L"%08X",addr);
+							Item->item.pszText = num;
 						}	return true;
 						case 1:
 						{
 							int i = CALL_WITH_T_SIZE_TYPES_1(GetCurValueFromItemIndex, rs_type_size,rs_t=='s',noMisalign, iNum);
-							const char* formatString = ((rs_t=='s') ? "%d" : (rs_t=='u') ? "%u" : (rs_type_size=='d' ? "%08X" : rs_type_size=='w' ? "%04X" : "%02X"));
+							const WCHAR* formatString = ((rs_t=='s') ? L"%d" : (rs_t=='u') ? L"%u" : (rs_type_size=='d' ? L"%08X" : rs_type_size=='w' ? L"%04X" : L"%02X"));
 							switch (rs_type_size)
 							{
 								case 'b':
-								default: sprintf(num, formatString, rs_t=='s' ? (char)(i&0xff) : (unsigned char)(i&0xff)); break;
-								case 'w': sprintf(num, formatString, rs_t=='s' ? (short)(i&0xffff) : (unsigned short)(i&0xffff)); break;
-								case 'd': sprintf(num, formatString, rs_t=='s' ? (long)(i&0xffffffff) : (unsigned long)(i&0xffffffff)); break;
+								default: wsprintf(num, formatString, rs_t=='s' ? (char)(i&0xff) : (unsigned char)(i&0xff)); break;
+								case 'w': wsprintf(num, formatString, rs_t=='s' ? (short)(i&0xffff) : (unsigned short)(i&0xffff)); break;
+								case 'd': wsprintf(num, formatString, rs_t=='s' ? (long)(i&0xffffffff) : (unsigned long)(i&0xffffffff)); break;
 							}
-							Item->item.pszText = _AtoT(num);
+							Item->item.pszText = num;
 						}	return true;
 						case 2:
 						{
 							int i = CALL_WITH_T_SIZE_TYPES_1(GetPrevValueFromItemIndex, rs_type_size,rs_t=='s',noMisalign, iNum);
-							const char* formatString = ((rs_t=='s') ? "%d" : (rs_t=='u') ? "%u" : (rs_type_size=='d' ? "%08X" : rs_type_size=='w' ? "%04X" : "%02X"));
+							const WCHAR* formatString = ((rs_t=='s') ? L"%d" : (rs_t=='u') ? L"%u" : (rs_type_size=='d' ? L"%08X" : rs_type_size=='w' ? L"%04X" : L"%02X"));
 							switch (rs_type_size)
 							{
 								case 'b':
-								default: sprintf(num, formatString, rs_t=='s' ? (char)(i&0xff) : (unsigned char)(i&0xff)); break;
-								case 'w': sprintf(num, formatString, rs_t=='s' ? (short)(i&0xffff) : (unsigned short)(i&0xffff)); break;
-								case 'd': sprintf(num, formatString, rs_t=='s' ? (long)(i&0xffffffff) : (unsigned long)(i&0xffffffff)); break;
+								default: wsprintf(num, formatString, rs_t=='s' ? (char)(i&0xff) : (unsigned char)(i&0xff)); break;
+								case 'w': wsprintf(num, formatString, rs_t=='s' ? (short)(i&0xffff) : (unsigned short)(i&0xffff)); break;
+								case 'd': wsprintf(num, formatString, rs_t=='s' ? (long)(i&0xffffffff) : (unsigned long)(i&0xffffffff)); break;
 							}
-							Item->item.pszText = _AtoT(num);
+							Item->item.pszText = num;
 						}	return true;
 						case 3:
 						{
 							int i = CALL_WITH_T_SIZE_TYPES_1(GetNumChangesFromItemIndex, rs_type_size,rs_t=='s',noMisalign, iNum);
-							sprintf(num,"%d",i);
+							wsprintf(num,L"%d",i);
 
-							Item->item.pszText = _AtoT(num);
+							Item->item.pszText = num;
 						}	return true;
 						//case 4:
 						//	Item->item.pszText = rsaddrs[rsresults[iNum].Index].comment ? rsaddrs[rsresults[iNum].Index].comment : "";
@@ -1657,38 +1640,12 @@ LRESULT CALLBACK RamSearchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 					if(!SelectingByKeyboard())
 						SelectEditControl(IDC_EDIT_COMPARECHANGES);
 				}	{rv = true; break;}
-				case IDC_C_ADDCHEAT:
-				{
-					int watchItemIndex = ListView_GetSelectionMark(GetDlgItem(hDlg,IDC_RAMLIST));
-					if(watchItemIndex >= 0)
-					{
-//						unsigned long address = CALL_WITH_T_SIZE_TYPES_1(GetHardwareAddressFromItemIndex, rs_type_size,rs_t=='s',noMisalign, watchItemIndex);
-
-						int sizeType = -1;
-						if(rs_type_size == 'b')
-							sizeType = 0;
-						else if(rs_type_size == 'w')
-							sizeType = 1;
-						else if(rs_type_size == 'd')
-							sizeType = 2;
-
-						int numberType = -1;
-						if(rs_t == 's')
-							numberType = 0;
-						else if(rs_t == 'u')
-							numberType = 1;
-						else if(rs_t == 'h')
-							numberType = 2;
-
-						// TODO: open add-cheat dialog
-					}
-				}	{rv = true; break;}
 				case IDC_C_RESET:
 				{
 					RamSearchSaveUndoStateIfNotTooBig(RamSearchHWnd);
 					int prevNumItems = last_rs_possible;
 
-					soft_reset_address_info();
+					soft_reset_address_info(true);
 
 					if(prevNumItems == last_rs_possible)
 						SetRamSearchUndoType(RamSearchHWnd, 0); // nothing to undo
@@ -1798,7 +1755,7 @@ invalid_field:
 					HWND ramListControl = GetDlgItem(hDlg,IDC_RAMLIST);
 					int size = (rs_type_size=='b' || !noMisalign) ? 1 : 2;
 					int selCount = ListView_GetSelectedCount(ramListControl);
-					int watchIndex = -1;
+					watchIndex = -1;
 
 					// time-saving trick #1:
 					// condense the selected items into an array of address ranges
@@ -1981,7 +1938,7 @@ struct InitRamSearch
 } initRamSearch;
 
 
-void init_list_box(HWND Box, const char* Strs[], int numColumns, int *columnWidths) //initializes the ram search and/or ram watch listbox
+void init_list_box(HWND Box, const WCHAR* Strs[], int numColumns, int *columnWidths) //initializes the ram search and/or ram watch listbox
 {
 	LVCOLUMN Col;
 	Col.mask = LVCF_FMT | LVCF_ORDER | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
@@ -1990,7 +1947,7 @@ void init_list_box(HWND Box, const char* Strs[], int numColumns, int *columnWidt
 	{
 		Col.iOrder = i;
 		Col.iSubItem = i;
-		Col.pszText = _AtoT((LPSTR)(Strs[i]));
+		Col.pszText = (LPWSTR)(Strs[i]);
 		Col.cx = columnWidths[i];
 		ListView_InsertColumn(Box,i,&Col);
 	}
