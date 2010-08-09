@@ -2708,6 +2708,27 @@ use_console:
 
 }
 
+static int input_registerhotkey(lua_State *L)
+{
+	int hotkeyNumber = luaL_checkinteger(L,1);
+	if(hotkeyNumber < 1 || hotkeyNumber > 5)
+	{
+		luaL_error(L, "input.registerhotkey(n,func) requires 1 <= n <= 5, but got n = %d.", hotkeyNumber);
+		return 0;
+	}
+	else
+	{
+		const char* key = luaCallIDStrings[LUACALL_HOTKEY_1 + hotkeyNumber-1];
+		lua_getfield(L, LUA_REGISTRYINDEX, key);
+		lua_replace(L,1);
+		if (!lua_isnil(L,2))
+			luaL_checktype(L, 2, LUA_TFUNCTION);
+		lua_settop(L,2);
+		lua_setfield(L, LUA_REGISTRYINDEX, key);
+		return 1;
+	}
+}
+
 // string gui.popup(string message, string type = "ok", string icon = "message")
 // string input.popup(string message, string type = "yesno", string icon = "question")
 static int gui_popup(lua_State *L)
@@ -3317,6 +3338,7 @@ static const struct luaL_reg guilib[] = {
 
 static const struct luaL_reg inputlib[] = {
 	{"get", input_getcurrentinputstatus},
+	{"registerhotkey", input_registerhotkey},
 	{"popup", input_popup},
 	// alternative names
 	{"read", input_getcurrentinputstatus},
