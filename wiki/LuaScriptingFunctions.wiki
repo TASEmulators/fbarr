@@ -49,6 +49,30 @@ Unpauses emulator.
 
 Returns the frame count for the movie, or the number of frames from last reset otherwise.
 
+===`string emu.romname()`===
+
+The name of the ROM currently loaded. (ex: "mslug")
+
+===`string emu.gamename()`===
+
+The full name of the game currently loaded. (ex: "Metal Slug - Super Vehicle-001")
+
+===`string emu.parentname()`===
+
+The ROM name of the parent of the currently loaded game. This returns 0 if the game IS the parent of the set.
+
+===`string emu.sourcename()`===
+
+This one is for the sake of compatibility with MAME-RR scripts. It tries to return the system that the game is running on, but most of the times it's very random. (ex: for Metal Slug, this would return "neogeo".)
+
+===`int emu.screenwidth()`===
+
+Returns the width of the internal resolution that the game uses.
+
+===`int emu.screenheight()`===
+
+Returns the height of the internal resolution that the game uses.
+
 ===`emu.registerbefore(function func)`===
 
 Registers a callback function to run immediately before each frame gets emulated. This runs after the next frame's input is known but before it's used, so this is your only chance to set the next frame's input using the next frame's would-be input. For example, if you want to make a script that filters or modifies ongoing user input, such as making the game think "left" is pressed whenever you press "right", you can do it easily with this.
@@ -60,6 +84,10 @@ Like other callback-registering functions provided by FBA-RR, there is only one 
 ===`emu.registerafter(function func)`===
 
 Registers a callback function to run immediately after each frame gets emulated. It runs at a similar time as (and slightly before) gui.register callbacks, except unlike with gui.register it doesn't also get called again whenever the screen gets redrawn. Similar caveats as those mentioned in emu.registerbefore apply.
+
+===`emu.registerstart(function func)`===
+
+Registers a function that runs once immediately if emulation has already started, and also runs again whenever the game is reset. A soft reset or movie playback will not cause the entire script to restart, so if you have some code that needs to run when the game starts in addition to when the script starts, then register it with this.
 
 ===`emu.registerexit(function func)`===
 
@@ -102,40 +130,68 @@ Before the next frame is emulated, one may set keys to be pressed. The buffer is
 
 ===`table joypad.get()`===
 
-Returns a table of every game button, where each entry is 1 if that button is currently held (as of the last time the emulation checked), or 0 if it is not held. If a movie is playing, this will read the input actually being received from the movie instead of what the user is pressing. Other controllers (such as analogs or dipswitches) might return different numbers.
+Returns a table of every game button, where each entry is true if that button is currently held (as of the last time the emulation checked), or false if it is not held. If a movie is playing, this will read the input actually being received from the movie instead of what the user is pressing. Other controllers (such as analogs or dipswitches) return numbers.
 
 The keys for joypad table can be found in each game's input configuration dialog. Keys are case-sensitive.
 
 ===`table joypad.getdown()`===
 
-Returns a table of only the game buttons that are currently held. Each entry is 1 if that button is currently held (as of the last time the emulation checked), or nil if it is not held. If a movie is playing, this will read the input actually being received from the movie instead of what the user is pressing.
+Returns a table of only the game buttons that are currently held. Each entry is true if that button is currently held (as of the last time the emulation checked), or nil if it is not held. If a movie is playing, this will read the input actually being received from the movie instead of what the user is pressing.
 
 The keys for joypad table can be found in each game's input configuration dialog. Keys are case-sensitive.
 
 ===`table joypad.getup()`===
 
-Returns a table of only the game buttons that are not currently held. Each entry is nil if that button is currently held (as of the last time the emulation checked), or 0 if it is not held. If a movie is playing, this will read the input actually being received from the movie instead of what the user is pressing.
+Returns a table of only the game buttons that are not currently held. Each entry is nil if that button is currently held (as of the last time the emulation checked), or false if it is not held. If a movie is playing, this will read the input actually being received from the movie instead of what the user is pressing.
 
 The keys for joypad table can be found in each game's input configuration dialog. Keys are case-sensitive.
 
 ===`joypad.set(table buttons)`===
 
-Sets the buttons to be pressed next frame. Generally, 1 for pressed, nil or 0 for not pressed.
+Sets the buttons to be pressed next frame. true for pressed, nil or false for not pressed. Analogs and dipswitches use numbers instead.
 
 ----
 =savestate=
 
-===`object savestate.create(int slot=nil)`===
+===`object savestate.create(int location=nil)`===
 
-Creates a savestate object. If any argument is given, it must be from 1 to 9, and it corresponds with the numbered savestate slots. If no argument is given, the savestate can only be accessed by Lua.
+Creates a savestate object, but doesn't save anything in it yet.
 
-===`savestate.save(object savestate)`===
+By default this creates an anonymous savestate object (allocated in memory) and returns it. However, if location is a number, this function will instead return a handle to the non-anonymous savestate file that has the given save slot number.
 
-Saves the current state to the savestate object.
+If, for example, filename is 1, this savestate can then be loaded by the emulator by using the "Load State 1" hotkey.
 
-===`savestate.load(object savestate)`===
+If no argument is given, the savestate can only be accessed by Lua.
 
-Loads the state of the savestate object as the current state.
+===`savestate.save(savestate)`===
+
+Saves the current state to the savestate object. You are allowed to use slot numbers outside of the normal 0 to 9 range (including negative numbers) and you may pass a number directly into this function without calling savestate.create first.
+
+===`savestate.load(savestate)`===
+
+Loads the state of the savestate object as the current state. For non-anonymous savestates it is allowed to be a save slot number instead.
+
+===`savestate.registersave(function func)`===
+
+Registers a function to get called whenever the emulation state is saved to any save slot (either by the user or by a script). In addition, whatever your callback function returns will get saved alongside the savestate file, so you can use this to effectively save extra data of your choosing with each savestate the user saves. 
+
+Currently the following types are allowed to be saved (returned by your callback): boolean, number, string, table, nil. If your callback returns multiple values they will all be saved, although you don't technically need to use this because you could also put them all inside a table and return that as a single value. 
+
+The callback function func will receive the save slot number as an argument when it is called, although you can make the callback take no arguments if you don't care what number slot it is.
+
+===`savestate.registerload(function func)`===
+
+Registers a function to get called whenever the emulation state is loaded from any save slot (either by the user or by a script). 
+
+The callback function func will receive the save slot number as its first argument when it is called. It will also receive as additional arguments whatever data was returned by a callback registered by savestate.registersave when the state being loaded was last saved. If you don't need to use that data now then don't define your load callback with any additional arguments.
+
+===`savestate.savescriptdata(int location)`===
+
+Calls any registered save callbacks and saves the return values alongside the savestate that's at the given location. location should be a save slot.
+
+===`savestate.loadscriptdata(int location)`===
+
+Returns the data associated with the given savestate (data that was earlier returned by a registered save callback) without actually loading the rest of that savestate or calling any callbacks. location should be a save slot.
 
 ----
 =movie=
@@ -240,3 +296,9 @@ Returns a table of which keyboard buttons are pressed as well as mouse status. K
 numlock, scrolllock, semicolon, plus, comma, minus, period, slash, tilde, leftbracket, backslash, rightbracket, quote)
 
 Keys are case-sensitive. Keys for keyboard buttons are for buttons, *not* ASCII characters, so there is no need to hold down shift. Key names may differ depending on keyboard layout. On US keyboard layouts, "slash" is /?, "tilde" is ```~, "leftbracket" is `[``{`, "backslash" is \|, "rightbracket" is `]``}`, "quote" is '".
+
+===`input.registerhotkey(int which, function func)`===
+
+Registers a callback function to run when a certain hotkey is pressed. which is the hotkey number, and currently must be a number between 1 and 5. This range corresponds with the user-configurable hotkeys "Lua Custom Hotkey 1" through "Lua Custom Hotkey 5", which will do nothing when pressed except trigger the aforementioned callback. These hotkeys must be configured by the user in the input settings beforehand. 
+
+The only real advantage this has over other methods of checking input is that it works even if FBA-RR is paused. There is no alternative way of allowing user-controlled activation of script code during a pause, except for using gui.register or other similarly hacky ways.
