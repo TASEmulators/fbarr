@@ -1,5 +1,11 @@
 #summary Record of changes made to FBA-RR since v0.0.0.
 
+*v0.0.5* ,,(2010-08-09),,
+  * Updated core to FB Alpha v0.2.97.08.
+  * 77% less crashes.
+  * Added a lot of new Lua functions.
+  * Added RAM Watch and RAM Search from Gens. RAM Search is very slow because FBA-RR can't filter addresses, so you may want to use MAME-RR to find them (.wch files are 100% compatible between both emulators.)
+
 *v0.0.4.01* ,,(2009-11-17),,
   * Disabled unused RAM Watch accelerators, which were opening a dialog every time the R key was pressed.
   * Reverted to the old Pause behavior.
