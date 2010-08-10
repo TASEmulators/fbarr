@@ -2015,13 +2015,13 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case ID_RAM_WATCH:
-//			HK_ramWatch(0);
-			HK_ramWatchOld(0);
+			HK_ramWatch(0);
+//			HK_ramWatchOld(0);
 			break;
 
 		case ID_RAM_SEARCH:
-//			HK_ramSearch(0);
-			HK_ramSearchOld(0);
+			HK_ramSearch(0);
+//			HK_ramSearchOld(0);
 			break;
 
 		case MENU_PALETTEVIEWER: {
