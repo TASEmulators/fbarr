@@ -436,6 +436,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\burner\luasav.h"
+				>
+			</File>
+			<File
 				RelativePath=".\cpu\m6502\m6502.h"
 				>
 			</File>
@@ -2249,6 +2253,10 @@
 			</File>
 			<File
 				RelativePath=".\burner\luaengine.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\burner\luasav.cpp"
 				>
 			</File>
 			<File
