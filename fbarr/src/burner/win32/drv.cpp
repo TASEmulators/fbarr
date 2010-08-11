@@ -163,6 +163,7 @@ int DrvInit(int nDrvNum, bool bRestore)
 
 	VidExit();
 	POST_INITIALISE_MESSAGE;
+	CallRegisteredLuaFunctions(LUACALL_ONSTART);
 
 	return 0;
 }
@@ -192,14 +193,17 @@ int DrvExit()
 
 		if (nBurnDrvSelect < nBurnDrvCount) {
 
-			MemCardEject();				// Eject memory card if present
-
-			if (bSaveRAM) {
-				StatedAuto(1);			// Save NV (or full) RAM
-				bSaveRAM = false;
+			if(!bJukeboxInUse)
+			{
+				MemCardEject();				// Eject memory card if present
+	
+				if (bSaveRAM) {
+					StatedAuto(1);			// Save NV (or full) RAM
+					bSaveRAM = false;
+				}
+	
+				ConfigGameSave(bSaveInputs);
 			}
-
-			ConfigGameSave(bSaveInputs);
 
 			GameInpExit();				// Exit game input
 			if (bJukeboxInUse) {
