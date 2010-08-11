@@ -4,6 +4,8 @@
 #include "maphkeys.h"
 #include <string>
 
+#include "../../utils/xstring.h"
+
 using namespace std;
 
 #define		HORIZONTAL_ORIENTED_RES		0
@@ -426,6 +428,7 @@ static int OnDropFiles(HWND, HDROP hdrop)
 	{
 		DragQueryFileA(hdrop,0,ftmp,len); 
 		string fileDropped = ftmp;
+		wstring fileDroppedW = mbstowcs(fileDropped);
 		
 		//adelikat:  Drag and Drop only checks file extension, the internal functions are responsible for file error checking
 		
@@ -434,10 +437,12 @@ static int OnDropFiles(HWND, HDROP hdrop)
 		//-------------------------------------------------------
 		if (!(fileDropped.find(".fbm") == string::npos) && (fileDropped.find(".fbm") == fileDropped.length()-4))	 //ROM is already loaded and .fbm in filename
 		{
+			
 			//if (!GameInfo)				//If no game is loaded, load the Open Game dialog
 			//	LoadNewGamey(hWnd, 0);
 			//if (GameInfo && !(fileDropped.find(".fbm") == string::npos)) { //.fbm is at the end of the filename so that must be the extension		
-			//	FCEUI_LoadMovie(ftmp, 1, false, false);		 //We are convinced it is a movie file, attempt to load it
+			
+			StartReplay(fileDroppedW.c_str());		 //We are convinced it is a movie file, attempt to load it
 			//}
 		}
 		//-------------------------------------------------------

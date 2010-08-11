@@ -288,6 +288,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\utils\ConvertUTF.h"
+				>
+			</File>
+			<File
 				RelativePath=".\burn\capcom\cps.h"
 				>
 			</File>
@@ -724,6 +728,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\utils\xstring.h"
+				>
+			</File>
+			<File
 				RelativePath=".\burn\ym2151.h"
 				>
 			</File>
@@ -997,6 +1005,10 @@
 			</File>
 			<File
 				RelativePath=".\burner\cong.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\utils\ConvertUTF.c"
 				>
 			</File>
 			<File
@@ -2899,6 +2911,10 @@
 			</File>
 			<File
 				RelativePath=".\burn\x1010.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\utils\xstring.cpp"
 				>
 			</File>
 			<File
