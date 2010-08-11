@@ -4,7 +4,7 @@
 
 extern char rs_type_size;
 extern int ResultCount;
-typedef unsigned int HWAddressType;
+typedef UINT32 HWAddressType;
 
 unsigned int sizeConv(unsigned int index,char size, char *prevSize = &rs_type_size, bool usePrev = false);
 unsigned int GetRamValue(unsigned int Addr,char Size);
@@ -18,6 +18,7 @@ void SetRamSearchUndoType(HWND hDlg, int type);
 unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size, int isLittleEndian);
 bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsigned int size, int isLittleEndian);
 bool IsHardwareAddressValid(HWAddressType address);
+HWAddressType GetMemorySize();
 extern int curr_ram_size;
 extern bool noMisalign;
 
@@ -28,5 +29,7 @@ void Update_RAM_Search(); //keeps RAM values up to date in the search and watch 
 
 extern HWND RamSearchHWnd;
 extern LRESULT CALLBACK RamSearchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+void init_list_box(HWND Box, const WCHAR* Strs[], int numColumns, int *columnWidths);
 
 #endif
