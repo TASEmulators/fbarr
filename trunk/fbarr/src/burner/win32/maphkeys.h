@@ -77,5 +77,6 @@ void HK_luaOpen(int);
 void HK_luaCloseAll(int);
 void HK_luaReload(int);
 void HK_luaStop(int);
+void HK_luaHotkey(int);
 
 #endif /* __MAPHKEYS_H__ */
