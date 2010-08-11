@@ -20,7 +20,7 @@ extern bool RWfileChanged;
 // AddressWatcher is self-contained now
 struct AddressWatcher
 {
-	unsigned int Address; // hardware address
+	UINT32 Address; // hardware address
 	char Size;
 	char Type;
 	char* comment; // NULL means no comment, non-NULL means allocated comment

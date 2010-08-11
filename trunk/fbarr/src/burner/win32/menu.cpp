@@ -1,4 +1,5 @@
 // Menu handling
+
 #include "burner.h"
 
 #ifdef _MSC_VER
