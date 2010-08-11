@@ -3235,6 +3235,27 @@ void CallRegisteredLuaFunctions(int calltype)
 	}
 }
 
+static const struct luaL_reg emulib [] = {
+	{"hardreset", fba_hardreset},
+	{"romname", fba_romname},
+	{"gamename", fba_gamename},
+	{"parentname", fba_parentname},
+	{"sourcename", fba_sourcename},
+	{"speedmode", fba_speedmode},
+	{"frameadvance", fba_frameadvance},
+	{"pause", fba_pause},
+	{"unpause", fba_unpause},
+	{"framecount", movie_framecount},
+	{"registerbefore", fba_registerbefore},
+	{"registerafter", fba_registerafter},
+	{"registerexit", fba_registerexit},
+	{"registerstart", fba_registerstart},
+	{"message", fba_message},
+	{"print", print}, // sure, why not
+	{"screenwidth", fba_screenwidth},
+	{"screenheight", fba_screenheight},
+
+};
 
 static const struct luaL_reg fbalib [] = {
 	{"hardreset", fba_hardreset},
