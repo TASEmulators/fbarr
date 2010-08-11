@@ -231,12 +231,12 @@ INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 				char filename[MAX_PATH];
 				GetDlgItemTextA(hDlg, IDC_EDIT_LUAPATH, filename, MAX_PATH);
-				//FBA_LoadLuaCode(filename); //LUAHACK
+				FBA_LoadLuaCode(filename);
 			}	break;
 
 			case IDC_BUTTON_LUASTOP:
 			{
-				//FBA_LuaStop(); //LUAHACK
+				FBA_LuaStop();
 			}	break;
 
 			case IDC_BUTTON_LUAEDIT:
