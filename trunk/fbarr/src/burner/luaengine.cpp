@@ -21,7 +21,7 @@ extern "C" {
 	#include <lualib.h>
 	#include <lstate.h>
 }
-
+ 
 #include "burner.h"
 #ifdef WIN32
 #include <direct.h>

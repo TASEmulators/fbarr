@@ -527,28 +527,26 @@ void CheatSearchCopyRAM(unsigned char* ram)
 }
 
 
-
 extern int bDrvOkay;
-typedef unsigned int HWAddressType;
+typedef UINT32 HWAddressType;
+
+HWAddressType GetMemorySize()
+{
+	if (!bDrvOkay)
+		return 0;
+
+	cheat_subptr = &cheat_sub_block[0]; // first cpu only (ok?)
+	return cheat_subptr->nMemorySize;
+}
 
 bool IsHardwareAddressValid(HWAddressType address)
 {
 	if (!bDrvOkay)
 		return false;
 
-	nActiveCPU = 0;
-	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
-	
-	nActiveCPU = cheat_subptr->active_cpu();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
-	cheat_subptr->cpu_open(cheat_subptr->nCpu);
-	
-	UINT32 nMemorySize = cheat_subptr->nMemorySize;
-	
-	cheat_subptr->cpu_close();
-	if (nActiveCPU >= 0) cheat_subptr->cpu_open(nActiveCPU);
+	cheat_subptr = &cheat_sub_block[0]; // first cpu only (ok?)
 
-	if (address <= nMemorySize)
+	if (address <= cheat_subptr->nMemorySize)
 		return true;
 	else
 		return false;
@@ -561,8 +559,7 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 	if (!bDrvOkay)
 		return 0;
 
-	nActiveCPU = 0;
-	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
+	cheat_subptr = &cheat_sub_block[0]; // first cpu only (ok?)
 
 	nActiveCPU = cheat_subptr->active_cpu();
 	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
@@ -586,15 +583,13 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 
 bool WriteValueAtHardwareAddress(HWAddressType address, unsigned int value, unsigned int size, int isLittleEndian)
 {
-	nActiveCPU = 0;
-	cheat_subptr = &cheat_sub_block[nActiveCPU]; // first cpu only (ok?)
+	cheat_subptr = &cheat_sub_block[0]; // first cpu only (ok?)
 
 	nActiveCPU = cheat_subptr->active_cpu();
 	if (nActiveCPU >= 0) cheat_subptr->cpu_close();
 	cheat_subptr->cpu_open(cheat_subptr->nCpu);
 
-	for(int i = (int)size-1; i >= 0; i--)
-	{
+	for(int i = (int)size-1; i >= 0; i--) {
 		unsigned char memByte = (value >> (8*i))&0xFF;
 		cheat_subptr->write(address,memByte);
 
