@@ -2,11 +2,15 @@
 #include "burner.h"
 #include "tracklst.h"
 #include "maphkeys.h"
+#include <string>
+
+using namespace std;
 
 #define		HORIZONTAL_ORIENTED_RES		0
 #define		VERTICAL_ORIENTED_RES		1
 
 extern HWND hJukeboxDlg;
+extern void UpdateLuaConsole(const char* fname);
 
 int nActiveGame;
 
@@ -67,6 +71,8 @@ static int OnRButtonUp(HWND, int, int, UINT);
 static int OnRButtonDown(HWND, BOOL, int, int, UINT);
 
 static int OnDisplayChange(HWND, UINT, UINT, UINT);
+
+static int OnDropFiles(HWND, HDROP);
 
 int OnNotify(HWND, int, NMHDR* lpnmhdr);
 
@@ -393,6 +399,8 @@ static LRESULT CALLBACK ScrnProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 		HANDLE_MSG(hWnd, WM_UNINITMENUPOPUP,OnUnInitMenuPopup);
 
 		HANDLE_MSG(hWnd, WM_DISPLAYCHANGE,	OnDisplayChange);
+
+		HANDLE_MSG(hWnd, WM_DROPFILES,		OnDropFiles);
 	}
 
 	return DefWindowProc(hWnd, Msg, wParam, lParam);
@@ -406,6 +414,50 @@ void SimpleReinitScrn(const bool& reinitVid)
 	if (reinitVid || VidInitNeeded()) {
 		VidReInitialise();
 	}
+}
+
+static int OnDropFiles(HWND, HDROP hdrop)
+{
+	UINT len;
+	char *ftmp;
+
+	len=DragQueryFile(hdrop,0,(LPWSTR)0,0)+1; 
+	if((ftmp=(char*)malloc(len))) 
+	{
+		DragQueryFile(hdrop,0,(LPWSTR)ftmp,len); 
+		string fileDropped = ftmp;
+		//adelikat:  Drag and Drop only checks file extension, the internal functions are responsible for file error checking
+		
+		//-------------------------------------------------------
+		//Check if Movie file
+		//-------------------------------------------------------
+		if (!(fileDropped.find(".fbm") == string::npos) && (fileDropped.find(".fbm") == fileDropped.length()-4))	 //ROM is already loaded and .fbm in filename
+		{
+			//if (!GameInfo)				//If no game is loaded, load the Open Game dialog
+			//	LoadNewGamey(hWnd, 0);
+			//if (GameInfo && !(fileDropped.find(".fbm") == string::npos)) { //.fbm is at the end of the filename so that must be the extension		
+			//	FCEUI_LoadMovie(ftmp, 1, false, false);		 //We are convinced it is a movie file, attempt to load it
+			//}
+		}
+		//-------------------------------------------------------
+		//Check if Lua file
+		//-------------------------------------------------------
+		else if (!(fileDropped.find(".lua") == string::npos) && (fileDropped.find(".lua") == fileDropped.length()-4))	
+		{
+			FBA_LoadLuaCode(ftmp);
+			UpdateLuaConsole(fileDropped.c_str());
+		}
+		//-------------------------------------------------------
+		//If not a movie, Load it as a ROM file
+		//-------------------------------------------------------
+		else
+		{
+			//ALoad(ftmp);
+			//free(ftmp);
+		}			
+	}
+
+	return 0;
 }
 
 static int OnDisplayChange(HWND, UINT, UINT, UINT)
@@ -2868,7 +2920,9 @@ int ScrnInit()
 			nMenuHeight = rect.bottom - rect.top;
 
 		}
-
+		
+		DragAcceptFiles(hScrnWnd, 1);
+		
 		ScrnTitle();
 		ScrnSize();
 	}
