@@ -145,7 +145,7 @@ INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 		}
 
 		DragAcceptFiles(hDlg, true);
-		//SetDlgItemTextA(hDlg, IDC_EDIT_LUAPATH, FBA_GetLuaScriptName());  //LUAHACK
+		SetDlgItemTextA(hDlg, IDC_EDIT_LUAPATH, FBA_GetLuaScriptName());
 
 		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &LuaConsoleLogFont, 0); // reset with an acceptable font
 		return true;
@@ -312,7 +312,7 @@ INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_CLOSE: {
-		//FBA_LuaStop(); //LUAHACK
+		FBA_LuaStop();
 		DragAcceptFiles(hDlg, FALSE);
 		if (hFont) {
 			DeleteObject(hFont);
