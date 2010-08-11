@@ -1,5 +1,6 @@
 // Driver Save State module
 #include "burner.h"
+#include "luasav.h"
 
 // from dynhuff.cpp
 int FreezeDecode(unsigned char **buffer, int *size);
@@ -225,7 +226,7 @@ int BurnStateLoad(TCHAR* szName, int bAll, int (*pLoadGame)())
 			if(nReplayStatus == 1)
 			{
 				ret = UnfreezeEncode(buf, nChunkSize);
-				//if(!FBA_LuaRerecordCountSkip()) { ++nReplayUndoCount; } //LUAHACK
+				if(!FBA_LuaRerecordCountSkip()) { ++nReplayUndoCount; }
 			}
 			else if(nReplayStatus == 2)
 			{
@@ -253,6 +254,8 @@ int BurnStateLoad(TCHAR* szName, int bAll, int (*pLoadGame)())
 	}
 
 	fclose(fp);
+
+	luasav_load(_TtoA(szName));
 
 	if (nRet < 0) {
 		return -nRet;
@@ -446,6 +449,8 @@ int BurnStateSave(TCHAR* szName, int bAll)
 	}
 
 	fclose(fp);
+
+	luasav_save(_TtoA(szName));
 
 	if (nRet < 0) {
 		return 1;

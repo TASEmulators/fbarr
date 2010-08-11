@@ -14,7 +14,7 @@ using std::max;
 #include <sys/types.h>
 #include <sys/wait.h>
 #endif
- 
+
 extern "C" {
 	#include <lua.h>
 	#include <lauxlib.h>
@@ -29,6 +29,7 @@ extern "C" {
 #include "win32/maphkeys.h"
 #endif
 #include "luaengine.h"
+#include "luasav.h"
 
 #ifndef TRUE
 #define TRUE 1
@@ -118,6 +119,13 @@ static const char* luaCallIDStrings [] =
 	"CALL_BEFOREEMULATION",
 	"CALL_AFTEREMULATION",
 	"CALL_BEFOREEXIT",
+	"CALL_ONSTART",
+
+	"CALL_HOTKEY_1",
+	"CALL_HOTKEY_2",
+	"CALL_HOTKEY_3",
+	"CALL_HOTKEY_4",
+	"CALL_HOTKEY_5",
 };
 
 static char* rawToCString(lua_State* L, int idx=0);
@@ -230,7 +238,49 @@ void FBA_LuaWriteInform() {
 
 ///////////////////////////
 
+// fba.hardreset()
+static int fba_hardreset(lua_State *L) {
+	StartFromReset();
+	return 1;
+}
 
+// string fba.romname()
+//
+//   Returns the name of the running game.
+static int fba_romname(lua_State *L) {
+	lua_pushstring(L, BurnDrvGetTextA(DRV_NAME));
+	return 1;
+}
+
+// string fba.gamename()
+//
+//   Returns the name of the source file for the running game.
+static int fba_gamename(lua_State *L) {
+	lua_pushstring(L, BurnDrvGetTextA(DRV_FULLNAME));
+	return 1;
+}
+
+// string fba.parentname()
+//
+//   Returns the name of the source file for the running game.
+static int fba_parentname(lua_State *L) {
+	if (BurnDrvGetTextA(DRV_PARENT))
+		lua_pushstring(L, BurnDrvGetTextA(DRV_PARENT));
+	else
+		lua_pushstring(L, "0");
+	return 1;
+}
+
+// string fba.sourcename()
+//
+//   Returns the name of the source file for the running game.
+static int fba_sourcename(lua_State *L) {
+	if (BurnDrvGetTextA(DRV_BOARDROM))
+		lua_pushstring(L, BurnDrvGetTextA(DRV_BOARDROM));
+	else
+		lua_pushstring(L, BurnDrvGetTextA(DRV_SYSTEM));
+	return 1;
+}
 
 // fba.speedmode(string mode)
 //
@@ -298,6 +348,21 @@ static int fba_unpause(lua_State *L) {
 	SetPauseMode(0);
 
 	return lua_yield(L, 0);
+}
+
+// int fba.screenwidth()
+//
+//   Gets the screen width
+int fba_screenwidth(lua_State *L) {
+	lua_pushinteger(L, iScreenWidth);
+	return 1;
+}
+// int fba.screenheight()
+//
+//   Gets the screen height
+int fba_screenheight(lua_State *L) {
+	lua_pushinteger(L, iScreenHeight);
+	return 1;
 }
 
 static inline bool isalphaorunderscore(char c)
@@ -658,6 +723,19 @@ static int fba_registerexit(lua_State *L) {
 	return 1;
 }
 
+static int fba_registerstart(lua_State *L) {
+	if (!lua_isnil(L,1))
+		luaL_checktype(L, 1, LUA_TFUNCTION);
+	lua_settop(L,1);
+	lua_getfield(L, LUA_REGISTRYINDEX, luaCallIDStrings[LUACALL_ONSTART]);
+	lua_insert(L,1);
+	lua_pushvalue(L,-1); // copy the function so we can also call it
+	lua_setfield(L, LUA_REGISTRYINDEX, luaCallIDStrings[LUACALL_ONSTART]);
+	if (!lua_isnil(L,-1))
+		lua_call(L,0,0); // call the function now since the game has already started and this start function hasn't been called yet
+	return 1;
+}
+
 
 static int is_little_endian(lua_State *L,int argn)
 {
@@ -823,7 +901,10 @@ static int joy_get_internal(lua_State *L, bool reportUp, bool reportDown) {
 		nThisVal = *pgi->Input.pVal;
 		bool pressed = nThisVal != 0;
 		if ((pressed && reportDown) || (!pressed && reportUp)) {
-			lua_pushinteger(L,nThisVal);
+			if (bii.nType & BIT_DIGITAL && !(bii.nType & BIT_GROUP_CONSTANT))
+				lua_pushboolean(L,pressed);
+			else
+				lua_pushinteger(L,nThisVal);
 			lua_setfield(L, -2, bii.szName);
 		}
 	}
@@ -888,7 +969,15 @@ static int joypad_set(lua_State *L) {
 
 		lua_getfield(L, 1, bii.szName);
 		if (!lua_isnil(L,-1)) {
-			lua_joypads[i] = lua_tonumber(L, -1);
+			if (bii.nType & BIT_DIGITAL && !(bii.nType & BIT_GROUP_CONSTANT)) {
+				if (lua_toboolean(L,-1))
+					lua_joypads[i] = 1; // pressed
+				else
+					lua_joypads[i] = 2; // unpressed
+			}
+			else {
+				lua_joypads[i] = lua_tonumber(L, -1);
+			}
 //			dprintf(_T("*JOYPAD*: '%s' : %d\n"),_AtoT(bii.szName),lua_joypads[i]);
 		}
 		lua_pop(L,1);
@@ -908,9 +997,59 @@ char *GetSavestateFilename(int nSlot) {
 #endif
 
 
+void luasav_save(const char *filename) {
+	LuaSaveData saveData;
+	char luaSaveFilename[512];
+	char slotnum[512];
+	char* filenameEnd;
+
+	sprintf(luaSaveFilename, "%s.luasav", filename);
+
+	strncpy( slotnum, strrchr(filename, '\\')+1, strlen(strrchr(filename, '\\')) );
+	filenameEnd = strrchr(slotnum, '.');
+	filenameEnd[0] = '\0';
+	strcpy(slotnum, filenameEnd-1);
+
+	// call savestate.save callback if any and store the results in a luasav file if any
+	CallRegisteredLuaSaveFunctions(slotnum, saveData);
+	if (saveData.recordList) {
+		FILE* luaSaveFile = fopen(luaSaveFilename, "wb");
+		if(luaSaveFile) {
+			saveData.ExportRecords(luaSaveFile);
+			fclose(luaSaveFile);
+		}
+	}
+	else {
+		unlink(luaSaveFilename);
+	}
+}
+
+void luasav_load(const char *filename) {
+	LuaSaveData saveData;
+	char luaSaveFilename[512];
+	char slotnum[512];
+	char* filenameEnd;
+
+	sprintf(luaSaveFilename, "%s.luasav", filename);
+
+	strncpy( slotnum, strrchr(filename, '\\')+1, strlen(strrchr(filename, '\\')) );
+	filenameEnd = strrchr(slotnum, '.');
+	filenameEnd[0] = '\0';
+	strcpy(slotnum, filenameEnd-1);
+
+	// call savestate.registerload callback if any
+	// and pass it the result from the previous savestate.registerload callback to the same state if any
+	FILE* luaSaveFile = fopen(luaSaveFilename, "rb");
+	if (luaSaveFile) {
+		saveData.ImportRecords(luaSaveFile);
+		fclose(luaSaveFile);
+	}
+	CallRegisteredLuaLoadFunctions(slotnum, saveData);
+}
+
+
 // Helper function to convert a savestate object to the filename it represents.
 static char *savestateobj2filename(lua_State *L, int offset) {
-	
 	// First we get the metatable of the indicated object
 	int result = lua_getmetatable(L, offset);
 
@@ -955,25 +1094,14 @@ static int savestate_gc(lua_State *L) {
 //  The object can be associated with a player-accessible savestate
 //  ("which" between 1 and 10) or not (which == nil).
 static int savestate_create(lua_State *L) {
-	int which = -1;
-	char *filename;
+	const char *filename;
+	bool anonymous = false;
 
-	if (lua_gettop(L) >= 1) {
-		which = luaL_checkinteger(L, 1);
-		if (which < 1 || which > 10) {
-			luaL_error(L, "invalid player's savestate %d", which);
-		}
-	}
-	
-
-	if (which > 0) {
-		// Find an appropriate filename. This is OS specific, unfortunately.
-		// So I turned the filename selection code into my bitch. :)
-		// Numbers are 0 through 9 though.
-		filename = GetSavestateFilename(which);
-	}
+	if (lua_gettop(L) >= 1)
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
 	else {
 		filename = tempnam(NULL, "snlua");
+		anonymous = true;
 	}
 	
 	// Our "object". We don't care about the type, we just need the memory and GC services.
@@ -992,20 +1120,16 @@ static int savestate_create(lua_State *L) {
 	lua_setfield(L, -2, "filename");
 	
 	// If it's an anonymous savestate, we must delete the file from disk should it be gargage collected
-	if (which < 0) {
+	if (anonymous) {
 		lua_pushcfunction(L, savestate_gc);
 		lua_setfield(L, -2, "__gc");
 	}
 	
 	// Set the metatable
 	lua_setmetatable(L, -2);
-
-	// The filename was allocated using malloc. Do something about that.
-	free(filename);
 	
 	// Awesome. Return the object
 	return 1;
-	
 }
 
 
@@ -1013,7 +1137,12 @@ static int savestate_create(lua_State *L) {
 //
 //   Saves a state to the given object.
 static int savestate_save(lua_State *L) {
-	char *filename = savestateobj2filename(L,1);
+	const char *filename;
+
+	if (lua_type(L,1) == LUA_TUSERDATA)
+		filename = savestateobj2filename(L,1);
+	else
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
 
 	// Save states are very expensive. They take time.
 	numTries--;
@@ -1026,11 +1155,73 @@ static int savestate_save(lua_State *L) {
 //
 //   Loads the given state
 static int savestate_load(lua_State *L) {
-	char *filename = savestateobj2filename(L,1);
+	const char *filename;
+
+	if (lua_type(L,1) == LUA_TUSERDATA)
+		filename = savestateobj2filename(L,1);
+	else
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
 
 	numTries--;
 
 	BurnStateLoad(_AtoT(filename), 1, &DrvInitCallback);
+	return 0;
+}
+
+static int savestate_registersave(lua_State *L) {
+	lua_settop(L,1);
+	if (!lua_isnil(L,1))
+		luaL_checktype(L, 1, LUA_TFUNCTION);
+	lua_getfield(L, LUA_REGISTRYINDEX, LUA_SAVE_CALLBACK_STRING);
+	lua_pushvalue(L,1);
+	lua_setfield(L, LUA_REGISTRYINDEX, LUA_SAVE_CALLBACK_STRING);
+	return 1;
+}
+
+static int savestate_registerload(lua_State *L) {
+	lua_settop(L,1);
+	if (!lua_isnil(L,1))
+		luaL_checktype(L, 1, LUA_TFUNCTION);
+	lua_getfield(L, LUA_REGISTRYINDEX, LUA_LOAD_CALLBACK_STRING);
+	lua_pushvalue(L,1);
+	lua_setfield(L, LUA_REGISTRYINDEX, LUA_LOAD_CALLBACK_STRING);
+	return 1;
+}
+
+static int savestate_loadscriptdata(lua_State *L) {
+	const char *filename;
+	LuaSaveData saveData;
+	char luaSaveFilename[512];
+	FILE* luaSaveFile;
+
+	if (lua_type(L,1) == LUA_TUSERDATA)
+		filename = savestateobj2filename(L,1);
+	else
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
+
+	sprintf(luaSaveFilename, "%s.luasav", filename);
+	luaSaveFile = fopen(luaSaveFilename, "rb");
+	if(luaSaveFile)
+	{
+		saveData.ImportRecords(luaSaveFile);
+		fclose(luaSaveFile);
+
+		lua_settop(L, 0);
+		saveData.LoadRecord(L, LUA_DATARECORDKEY, (unsigned int)-1);
+		return lua_gettop(L);
+	}
+	return 0;
+}
+
+static int savestate_savescriptdata(lua_State *L) {
+	const char *filename;
+
+	if (lua_type(L,1) == LUA_TUSERDATA)
+		filename = savestateobj2filename(L,1);
+	else
+		filename = GetSavestateFilename(luaL_checkinteger(L,1));
+
+	luasav_save(filename);
 	return 0;
 }
 
@@ -2528,6 +2719,27 @@ use_console:
 
 }
 
+static int input_registerhotkey(lua_State *L)
+{
+	int hotkeyNumber = luaL_checkinteger(L,1);
+	if(hotkeyNumber < 1 || hotkeyNumber > 5)
+	{
+		luaL_error(L, "input.registerhotkey(n,func) requires 1 <= n <= 5, but got n = %d.", hotkeyNumber);
+		return 0;
+	}
+	else
+	{
+		const char* key = luaCallIDStrings[LUACALL_HOTKEY_1 + hotkeyNumber-1];
+		lua_getfield(L, LUA_REGISTRYINDEX, key);
+		lua_replace(L,1);
+		if (!lua_isnil(L,2))
+			luaL_checktype(L, 2, LUA_TFUNCTION);
+		lua_settop(L,2);
+		lua_setfield(L, LUA_REGISTRYINDEX, key);
+		return 1;
+	}
+}
+
 // string gui.popup(string message, string type = "ok", string icon = "message")
 // string input.popup(string message, string type = "yesno", string icon = "question")
 static int gui_popup(lua_State *L)
@@ -3016,6 +3228,11 @@ void CallRegisteredLuaFunctions(int calltype)
 
 
 static const struct luaL_reg fbalib [] = {
+	{"hardreset", fba_hardreset},
+	{"romname", fba_romname},
+	{"gamename", fba_gamename},
+	{"parentname", fba_parentname},
+	{"sourcename", fba_sourcename},
 	{"speedmode", fba_speedmode},
 	{"frameadvance", fba_frameadvance},
 	{"pause", fba_pause},
@@ -3024,8 +3241,11 @@ static const struct luaL_reg fbalib [] = {
 	{"registerbefore", fba_registerbefore},
 	{"registerafter", fba_registerafter},
 	{"registerexit", fba_registerexit},
+	{"registerstart", fba_registerstart},
 	{"message", fba_message},
 	{"print", print}, // sure, why not
+	{"screenwidth", fba_screenwidth},
+	{"screenheight", fba_screenheight},
 	{NULL,NULL}
 };
 
@@ -3079,6 +3299,11 @@ static const struct luaL_reg savestatelib[] = {
 	{"save", savestate_save},
 	{"load", savestate_load},
 
+	{"registersave", savestate_registersave},
+	{"registerload", savestate_registerload},
+	{"savescriptdata", savestate_savescriptdata},
+	{"loadscriptdata", savestate_loadscriptdata},
+
 	{NULL,NULL}
 };
 
@@ -3124,6 +3349,7 @@ static const struct luaL_reg guilib[] = {
 
 static const struct luaL_reg inputlib[] = {
 	{"get", input_getcurrentinputstatus},
+	{"registerhotkey", input_registerhotkey},
 	{"popup", input_popup},
 	// alternative names
 	{"read", input_getcurrentinputstatus},
@@ -3136,7 +3362,7 @@ void FBA_LuaFrameBoundary() {
 	int result;
 
 	// HA!
-	if (!LUA || !luaRunning)
+	if (!LUA || !luaRunning || !bDrvOkay)
 		return;
 
 	// Our function needs calling
@@ -3398,7 +3624,15 @@ UINT32 FBA_LuaReadJoypad() {
 				*bii.pShortVal = lua_joypads[i];
 			}
 			else {
-				*bii.pVal = lua_joypads[i];
+				if (bii.nType & BIT_DIGITAL && !(bii.nType & BIT_GROUP_CONSTANT)) {
+					if(lua_joypads[i] == 1)
+						*bii.pVal = 1;
+					if(lua_joypads[i] == 2)
+						*bii.pVal = 0;
+				}
+				else {
+					*bii.pVal = lua_joypads[i];
+				}
 			}
 //			dprintf(_T("*READ_JOY*: '%s' %d: "),_AtoT(bii.szName),lua_joypads[i]);
 		}
