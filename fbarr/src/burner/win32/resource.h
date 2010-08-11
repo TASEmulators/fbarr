@@ -930,6 +930,7 @@
 #define RAMMENU_FILE_RECENT             11807
 #define ID_RAM_SEARCH                   11808
 #define ID_RAM_WATCH                    11809
+#define IDC_C_WATCH_SEPARATE            11999
 #define RW_MENU_FIRST_RECENT_FILE       11810
 #define RW_MENU_LAST_RECENT_FILE        11811
 #define ID_LUA_OPEN                     11812
