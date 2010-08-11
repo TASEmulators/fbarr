@@ -40,6 +40,15 @@ extern "C" {
 #define inline __inline
 #endif
 
+#ifdef _MSC_VER
+	#define snprintf _snprintf
+	#define vscprintf _vscprintf
+#else
+	#define stricmp strcasecmp
+	#define strnicmp strncasecmp
+	#define __forceinline __attribute__((always_inline))
+#endif
+
 static void(*info_print)(int uid, const char* str);
 static void(*info_onstart)(int uid);
 static void(*info_onstop)(int uid);
