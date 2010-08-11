@@ -421,11 +421,12 @@ static int OnDropFiles(HWND, HDROP hdrop)
 	UINT len;
 	char *ftmp;
 
-	len=DragQueryFile(hdrop,0,(LPWSTR)0,0)+1; 
+	len=DragQueryFileA(hdrop,0,0,0)+1; 
 	if((ftmp=(char*)malloc(len))) 
 	{
-		DragQueryFile(hdrop,0,(LPWSTR)ftmp,len); 
+		DragQueryFileA(hdrop,0,ftmp,len); 
 		string fileDropped = ftmp;
+		
 		//adelikat:  Drag and Drop only checks file extension, the internal functions are responsible for file error checking
 		
 		//-------------------------------------------------------
