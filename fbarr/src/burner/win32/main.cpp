@@ -705,7 +705,7 @@ int ProcessCmdLine()
 
 	if (_tcslen(szName)) {
 		bool bFullscreen = 0;
-		bCmdOptUsed = 1;
+		bCmdOptUsed = 0;
 
 		if (_tcscmp(szOpt2, _T("-r")) == 0) {
 			if (nOptX && nOptY) {
@@ -722,6 +722,10 @@ int ProcessCmdLine()
 				if (_tcscmp(szOpt2, _T("-w")) == 0) {
 					bCmdOptUsed = 0;
 					bFullscreen = 0;
+				}
+				else if (_tcscmp(szOpt2, _T("-f")) == 0) {
+					bCmdOptUsed = 1;
+					bFullscreen = 1;
 				}
 			}
 		}
