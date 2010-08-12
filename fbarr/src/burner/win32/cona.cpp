@@ -257,17 +257,12 @@ int ConfigAppLoad()
 #endif
 
 		wchar_t watchfiles[5][1024];
-		for(int i=0;i<5;i++)
-			wcscpy(watchfiles[i],mbstowcs(rw_recent_files[i]).c_str());
 		
 		STR(watchfiles[0]);
 		STR(watchfiles[1]);
 		STR(watchfiles[2]);
 		STR(watchfiles[3]);
 		STR(watchfiles[4]);
-
-		for(int i=0;i<5;i++)
-			strcpy(rw_recent_files[i],wcstombs(watchfiles[i]).c_str());
 
 		// Hotkeys
 		for (int i = 0; !lastCustomKey(customKeys[i]); i++) {
@@ -599,14 +594,17 @@ int ConfigAppSave()
 	VAR(RWSaveWindowPos);
 	VAR(ramw_x);
 	VAR(ramw_y);
-	std::string temp;
-	std::wstring wtemp;
-	for (int x = 0; x < MAX_RECENT_WATCHES; x++)
-	{
-		temp = rw_recent_files[x][0];
-		wtemp = mbstowcs(temp);
-		STR(wtemp.c_str());
-	}
+
+	wchar_t watchfiles[5][1024];
+		
+	for(int i=0;i<5;i++)
+		wcscpy(watchfiles[i],mbstowcs(rw_recent_files[i]).c_str());
+	
+	STR(watchfiles[0]);
+	STR(watchfiles[1]);
+	STR(watchfiles[2]);
+	STR(watchfiles[3]);
+	STR(watchfiles[4]);
 
 	_ftprintf(h, _T("\n// Hotkeys, use the configuration dialog to change them\n"));
 	for (i = 0; !lastCustomKey(customKeys[i]); i++) {
