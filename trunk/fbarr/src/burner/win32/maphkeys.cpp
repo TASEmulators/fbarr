@@ -30,6 +30,7 @@ CustomKey customKeys[] = {
 	{ VK_F7,         MODKEY_NONE,  0,                      "Load State 7",              "loadstate7",    HK_loadState,         0, 7 },
 	{ VK_F8,         MODKEY_NONE,  0,                      "Load State 8",              "loadstate8",    HK_loadState,         0, 8 },
 	{ VK_F9,         MODKEY_NONE,  0,                      "Load State 9",              "loadstate9",    HK_loadState,         0, 9 },
+	{ VK_F10,        MODKEY_NONE,  0,                      "Load State 10",             "loadstate10",   HK_loadState,         0, 10},
 	{ VK_F1,         MODKEY_SHIFT, 0,                      "Save State 1",              "savestate1",    HK_saveState,         0, 1 },
 	{ VK_F2,         MODKEY_SHIFT, 0,                      "Save State 2",              "savestate2",    HK_saveState,         0, 2 },
 	{ VK_F3,         MODKEY_SHIFT, 0,                      "Save State 3",              "savestate3",    HK_saveState,         0, 3 },
@@ -39,6 +40,7 @@ CustomKey customKeys[] = {
 	{ VK_F7,         MODKEY_SHIFT, 0,                      "Save State 7",              "savestate7",    HK_saveState,         0, 7 },
 	{ VK_F8,         MODKEY_SHIFT, 0,                      "Save State 8",              "savestate8",    HK_saveState,         0, 8 },
 	{ VK_F9,         MODKEY_SHIFT, 0,                      "Save State 9",              "savestate9",    HK_saveState,         0, 9 },
+	{ VK_F10,        MODKEY_SHIFT, 0,                      "Save State 10",             "savestate10",  HK_saveState,         0, 10 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 1",            "sel-state1",    HK_selectState,       0, 1 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 2",            "sel-state2",    HK_selectState,       0, 2 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 3",            "sel-state3",    HK_selectState,       0, 3 },
@@ -48,6 +50,7 @@ CustomKey customKeys[] = {
 	{ 0,             MODKEY_NONE,  0,                      "Select State 7",            "sel-state7",    HK_selectState,       0, 7 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 8",            "sel-state8",    HK_selectState,       0, 8 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 9",            "sel-state9",    HK_selectState,       0, 9 },
+	{ 0,             MODKEY_NONE,  0,                      "Select State 10",           "sel-state10",   HK_selectState,       0, 10},
 	{ 0,             MODKEY_NONE,  MENU_STATE_PREVSLOT,    "Select Previous Slot",      "sel-prevstate", HK_prevState,         0, 0 },
 	{ 0,             MODKEY_NONE,  MENU_STATE_NEXTSLOT,    "Select Next Slot",          "sel-nextstate", HK_nextState,         0, 0 },
 	{ 0,             MODKEY_NONE,  MENU_STATE_LOAD_SLOT,   "Load Current State",        "load-curstate", HK_loadCurState,      0, 0 },
@@ -511,8 +514,8 @@ void HK_prevState(int)
 void HK_nextState(int)
 {
 	nSavestateSlot++;
-	if (nSavestateSlot > 8) {
-		nSavestateSlot = 8;
+	if (nSavestateSlot > 10) {
+		nSavestateSlot = 10;
 	}
 
 	TCHAR szString[MAX_PATH];
