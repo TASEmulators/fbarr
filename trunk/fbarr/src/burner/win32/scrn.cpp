@@ -439,7 +439,7 @@ static int OnDropFiles(HWND, HDROP hdrop)
 		//-------------------------------------------------------
 		if (!(fileDropped.find(".fbm") == string::npos) && (fileDropped.find(".fbm") == fileDropped.length()-4))	 //ROM is already loaded and .fbm in filename
 		{
-			if (!StartReplay(fileDroppedW.c_str())) return 1; //Note: If no game loaded, the game load dialog will appear automatically
+			StartReplay(fileDroppedW.c_str()); //Note: If no game loaded, the game load dialog will appear automatically
 		}
 		//-------------------------------------------------------
 		//Check if Lua file
@@ -454,8 +454,7 @@ static int OnDropFiles(HWND, HDROP hdrop)
 		//-------------------------------------------------------
 		else
 		{
-			//ALoad(ftmp);
-			//free(ftmp);
+
 		}			
 	}
 
