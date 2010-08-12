@@ -256,7 +256,7 @@ int ConfigAppLoad()
 		{
 			temp = rw_recent_files[x][0];
 			wtemp = mbstowcs(temp);
-			STR(wtemp.c_str());
+			STR((wchar_t*)wtemp.c_str());
 		}
 
 		// Hotkeys
