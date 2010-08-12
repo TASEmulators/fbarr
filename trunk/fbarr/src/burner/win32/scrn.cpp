@@ -2,9 +2,11 @@
 #include "burner.h"
 #include "tracklst.h"
 #include "maphkeys.h"
+#include "ramwatch.h"
 #include <string>
 
 #include "../../utils/xstring.h"
+
 
 using namespace std;
 
@@ -972,15 +974,19 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case MENU_EXIT:
-			StopReplay();
-			if (kNetGame) {
-				kNetGame = 0;
-//				kailleraEndGame();
-				Kaillera_End_Game();
-				DeActivateChat();
-			}
-			PostQuitMessage(0);
-			return;
+			if (AskSave())
+			{
+				StopReplay();
+				if (kNetGame) {
+					kNetGame = 0;
+	//				kailleraEndGame();
+					Kaillera_End_Game();
+					DeActivateChat();
+				}
+				PostQuitMessage(0);
+				return;
+				}
+			break;
 
 		case MENU_PAUSE:
 			HK_pause(0);
