@@ -2,6 +2,8 @@
 #include "burner.h"
 
 #include "maphkeys.h"
+#include "ramwatch.h"
+#include "../../utils/xstring.h"
 
 #ifdef _UNICODE
  #include <locale.h>
@@ -243,6 +245,19 @@ int ConfigAppLoad()
 		STR(szPlayerDefaultIni[2]);
 		VAR(nPlayerDefaultControls[3]);
 		STR(szPlayerDefaultIni[3]);
+
+		VAR(AutoRWLoad);
+		VAR(RWSaveWindowPos);
+		VAR(ramw_x);
+		VAR(ramw_y);
+		std::string temp;
+		std::wstring wtemp;
+		for (int x = 0; x < MAX_RECENT_WATCHES; x++)
+		{
+			temp = rw_recent_files[x][0];
+			wtemp = mbstowcs(temp);
+			STR(wtemp.c_str());
+		}
 
 		// Hotkeys
 		for (i = 0; !lastCustomKey(customKeys[i]); i++) {
@@ -568,6 +583,20 @@ int ConfigAppSave()
 	STR(szPlayerDefaultIni[2]);
 	VAR(nPlayerDefaultControls[3]);
 	STR(szPlayerDefaultIni[3]);
+
+	_ftprintf(h, _T("\n// Ram Watch settings\n"));
+	VAR(AutoRWLoad);
+	VAR(RWSaveWindowPos);
+	VAR(ramw_x);
+	VAR(ramw_y);
+	std::string temp;
+	std::wstring wtemp;
+	for (int x = 0; x < MAX_RECENT_WATCHES; x++)
+	{
+		temp = rw_recent_files[x][0];
+		wtemp = mbstowcs(temp);
+		STR(wtemp.c_str());
+	}
 
 	_ftprintf(h, _T("\n// Hotkeys, use the configuration dialog to change them\n"));
 	for (i = 0; !lastCustomKey(customKeys[i]); i++) {
