@@ -911,6 +911,10 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 					
 					DrvExit();
 					DrvInit(j, true);	// Init the game driver
+					if (AutoRWLoad)
+					{
+						HK_ramWatch(0);
+					}
 					MenuEnableItems();
 					bAltPause = 0;
 					AudSoundPlay();			// Restart sound
