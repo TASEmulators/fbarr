@@ -439,13 +439,7 @@ static int OnDropFiles(HWND, HDROP hdrop)
 		//-------------------------------------------------------
 		if (!(fileDropped.find(".fbm") == string::npos) && (fileDropped.find(".fbm") == fileDropped.length()-4))	 //ROM is already loaded and .fbm in filename
 		{
-			
-			//if (!GameInfo)				//If no game is loaded, load the Open Game dialog
-			//	LoadNewGamey(hWnd, 0);
-			//if (GameInfo && !(fileDropped.find(".fbm") == string::npos)) { //.fbm is at the end of the filename so that must be the extension		
-			
-			StartReplay(fileDroppedW.c_str());		 //We are convinced it is a movie file, attempt to load it
-			//}
+			if (!StartReplay(fileDroppedW.c_str())) return 1; //Note: If no game loaded, the game load dialog will appear automatically
 		}
 		//-------------------------------------------------------
 		//Check if Lua file
