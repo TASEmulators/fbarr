@@ -38,7 +38,6 @@ int ConfigAppLoad()
 	TCHAR szLine[1024];
 	FILE* h;
 	TCHAR szName[1024];
-	int i;
 	
 #ifdef _UNICODE
 	setlocale(LC_ALL, "");
@@ -252,15 +251,26 @@ int ConfigAppLoad()
 		VAR(ramw_y);
 		std::string temp;
 		std::wstring wtemp;
-		for (int x = 0; x < MAX_RECENT_WATCHES; x++)
-		{
-			temp = rw_recent_files[x][0];
-			wtemp = mbstowcs(temp);
-			STR((wchar_t*)wtemp.c_str());
-		}
+
+#if MAX_RECENT_WATCHES != 5
+#error ohno!
+#endif
+
+		wchar_t watchfiles[5][1024];
+		for(int i=0;i<5;i++)
+			wcscpy(watchfiles[i],mbstowcs(rw_recent_files[i]).c_str());
+		
+		STR(watchfiles[0]);
+		STR(watchfiles[1]);
+		STR(watchfiles[2]);
+		STR(watchfiles[3]);
+		STR(watchfiles[4]);
+
+		for(int i=0;i<5;i++)
+			strcpy(rw_recent_files[i],wcstombs(watchfiles[i]).c_str());
 
 		// Hotkeys
-		for (i = 0; !lastCustomKey(customKeys[i]); i++) {
+		for (int i = 0; !lastCustomKey(customKeys[i]); i++) {
 			_stprintf(szName,_T("hk[%s].key"), _AtoT(customKeys[i].config_code));
 			VARZ(szName,customKeys[i].key);
 			_stprintf(szName,_T("hk[%s].modkey"), _AtoT(customKeys[i].config_code));
