@@ -937,6 +937,10 @@ void HK_openGame(int)
 			}
 		}
 		MenuEnableItems();
+		if (AutoRWLoad)
+		{
+			HK_ramWatch(0);
+		}
 		bAltPause = 0;
 		AudSoundPlay(); // Restart sound
 		bLoading = 0;
