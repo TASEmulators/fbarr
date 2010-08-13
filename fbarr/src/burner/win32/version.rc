@@ -1,8 +1,8 @@
-#ifdef APSTUDIO_INVOKED
- #error This file cannot be edited using the Visual C resource editor
-#endif
+//#ifdef APSTUDIO_INVOKED
+// #error This file cannot be edited using the Visual C resource editor
+//#endif
 
-#include "build_details.h"
+#include "../../vc/include/build_details.h"
 
 #ifndef FILENAME
  #define FILENAME fba
