@@ -3,7 +3,7 @@
 //#define APP_DESCRIPTION "FBARR"
 //#define APP_TITLE "FBARR"
 
-#define MMX 
+#define MMX 0
 //#define VER_MAJOR 99
 //#define VER_MINOR 99
 //#define VER_BETA 99
