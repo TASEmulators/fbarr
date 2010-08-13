@@ -408,9 +408,12 @@ int RunMessageLoop()
 				// Check for messages for dialogs etc.
 				if (AppMessage(&Msg)) {
 					if (TranslateAccelerator(hScrnWnd, hAccel, &Msg) == 0) {
-						if (hwndChat) {
+
+						//mbg 12-aug-2010 - commented out the check for hwndChat.
+						//may have unintended consequences by interacting poorly with hotkeys or something
+						//if (hwndChat) {
 							TranslateMessage(&Msg);
-						}
+						//}
 						DispatchMessage(&Msg);
 					}
 				}
