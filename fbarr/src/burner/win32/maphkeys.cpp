@@ -1,5 +1,6 @@
 // based on FBA shuffle, which was based on FBA-RR, which was based on PCSX-RR
 
+#include <string>
 #include "burner.h"
 #include "maphkeys.h"
 #include "tracklst.h"
@@ -536,9 +537,21 @@ void HK_selectState(int param)
 void HK_loadCurState(int)
 {
 	if (bDrvOkay && !kNetGame) {
-		if (StatedLoad(nSavestateSlot) == 0) {
-			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_LOADED, true));
-		} else {
+		if (StatedLoad(nSavestateSlot) == 0) 
+		{
+			//adelikat: Replace with a dynamic message that includes the slot number
+			if (nSavestateSlot)
+			{
+			TCHAR message[16];
+			swprintf(message, L"state %d loaded", nSavestateSlot);
+			std::wstring messageStr = message;
+			VidSNewShortMsg(messageStr.c_str());
+			}
+			else
+				VidSNewShortMsg(L"state loaded");
+		} 
+		else 
+		{
 			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_LOAD_ERROR, true), 0xFF3F3F);
 		}
 	}
@@ -546,9 +559,21 @@ void HK_loadCurState(int)
 void HK_saveCurState(int)
 {
 	if (bDrvOkay) {
-		if (StatedSave(nSavestateSlot) == 0) {
-			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
-		} else {
+		if (StatedSave(nSavestateSlot) == 0) 
+		{
+			//adelikat: Replace with a dynamic message that includes the slot number
+			if (nSavestateSlot)
+			{
+			TCHAR message[16];
+			swprintf(message, L"state %d saved", nSavestateSlot);
+			std::wstring messageStr = message;
+			VidSNewShortMsg(messageStr.c_str());
+			}
+			else
+				VidSNewShortMsg(L"state saved");
+		} 
+		else 
+		{
 			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVE_ERROR, true), 0xFF3F3F);
 			SetPauseMode(1);
 		}
