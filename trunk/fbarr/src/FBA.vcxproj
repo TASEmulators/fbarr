@@ -1,0 +1,922 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{13EF9C78-9C4A-46D8-9462-2D6025D0CB41}</ProjectGuid>
+    <RootNamespace>FBA</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\output\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\libs\pnglib;.\interface\win32;.\kaillera\client;.\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\cpu\nec;.\cpu\s2650;.\cpu\sh2;.\libs\zlib;.\burn\misc;.\lua;.\libs\libpng;.\burner\win32;.\burner;.\interface;.\libs\ddk;.\vc\directx;.\vc\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;BUILD_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4244;4800;4065;4305;4267;4060;4804;4311;4333;4312;4146;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>setupapi.lib;wininet.lib;Comctl32.lib;comdlg32.lib;dxguid.lib;dinput.lib;winmm.lib;ddraw.lib;dsound.lib;Vfw32.lib;libs\pnglib\pnglib.lib;lua\lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vc/directx;lua;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(ProjectDir)\lua\lua51.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\libs\pnglib;.\interface\win32;.\kaillera\client;.\cpu\m6502;.\burn;.\cpu\m68k;.\cpu\z80;.\cpu\a68k;.\cpu\arm7;.\cpu\hd6309;.\cpu\i8039;.\cpu\konami;.\cpu\m6800;.\cpu\m6809;.\cpu\nec;.\cpu\s2650;.\cpu\sh2;.\libs\zlib;.\burn\misc;.\lua;.\libs\libpng;.\burner\win32;.\burner;.\interface;.\libs\ddk;.\vc\directx;.\vc\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;BUILD_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4996;4244;4800;4065;4305;4267;4060;4804;4311;4333;4312;4146;4309;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>setupapi.lib;wininet.lib;Comctl32.lib;comdlg32.lib;dxguid.lib;dinput.lib;winmm.lib;ddraw.lib;dsound.lib;Vfw32.lib;libs\pnglib\pnglib.lib;lua\lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vc/directx;lua;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(ProjectDir)\lua\lua51.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="burn\8255ppi.h" />
+    <ClInclude Include="vc\include\afxres.h" />
+    <ClInclude Include="cpu\arm7\arm7_intf.h" />
+    <ClInclude Include="cpu\arm7\arm7core.h" />
+    <ClInclude Include="burn\ay8910.h" />
+    <ClInclude Include="burn\bitswap.h" />
+    <ClInclude Include="burn\burn.h" />
+    <ClInclude Include="burn\burn_gun.h" />
+    <ClInclude Include="burn\burn_sound.h" />
+    <ClInclude Include="burn\burn_ym2151.h" />
+    <ClInclude Include="burn\burn_ym2203.h" />
+    <ClInclude Include="burn\burn_ym2413.h" />
+    <ClInclude Include="burn\burn_ym2608.h" />
+    <ClInclude Include="burn\burn_ym2610.h" />
+    <ClInclude Include="burn\burn_ym2612.h" />
+    <ClInclude Include="burn\burn_ym3526.h" />
+    <ClInclude Include="burn\burn_ym3812.h" />
+    <ClInclude Include="burn\burn_ymf278b.h" />
+    <ClInclude Include="burner\burner.h" />
+    <ClInclude Include="burner\win32\burner_win32.h" />
+    <ClInclude Include="burn\burnint.h" />
+    <ClInclude Include="burn\cave\cave.h" />
+    <ClInclude Include="burn\cave\cave_sprite_render.h" />
+    <ClInclude Include="burn\cave\cave_sprite_render_zoom.h" />
+    <ClInclude Include="burn\cave\cave_tile_render.h" />
+    <ClInclude Include="burn\cheat.h" />
+    <ClInclude Include="cpu\m6502\codes.h" />
+    <ClInclude Include="utils\ConvertUTF.h" />
+    <ClInclude Include="burn\capcom\cps.h" />
+    <ClInclude Include="burn\cps3\cps3.h" />
+    <ClInclude Include="libs\zlib\crc32.h" />
+    <ClInclude Include="burn\capcom\ctv_do.h" />
+    <ClInclude Include="burn\dac.h" />
+    <ClInclude Include="burn\misc\dec0\dec0.h" />
+    <ClInclude Include="libs\zlib\deflate.h" />
+    <ClInclude Include="burn\driver.h" />
+    <ClInclude Include="burner\win32\dynhuff.h" />
+    <ClInclude Include="burn\eeprom.h" />
+    <ClInclude Include="burn\sega\fd1094.h" />
+    <ClInclude Include="burn\fm.h" />
+    <ClInclude Include="burn\fmopl.h" />
+    <ClInclude Include="burn\galaxian\gal.h" />
+    <ClInclude Include="burn\sega\genesis_vid.h" />
+    <ClInclude Include="cpu\hd6309\hd6309.h" />
+    <ClInclude Include="burn\hd6309_intf.h" />
+    <ClInclude Include="burn\hiscore.h" />
+    <ClInclude Include="cpu\i8039\i8039.h" />
+    <ClInclude Include="burn\ics2115.h" />
+    <ClInclude Include="burner\win32\imagebutton.h" />
+    <ClInclude Include="burner\win32\imagebuttoncode.h" />
+    <ClInclude Include="libs\zlib\inffast.h" />
+    <ClInclude Include="libs\zlib\inffixed.h" />
+    <ClInclude Include="libs\zlib\inflate.h" />
+    <ClInclude Include="libs\zlib\inftrees.h" />
+    <ClInclude Include="interface\interface.h" />
+    <ClInclude Include="burn\misc\post90s\irem_cpu.h" />
+    <ClInclude Include="burn\k007232.h" />
+    <ClInclude Include="burn\k051649.h" />
+    <ClInclude Include="burn\k053260.h" />
+    <ClInclude Include="burn\k054539.h" />
+    <ClInclude Include="kaillera\client\kailleraclient.h" />
+    <ClInclude Include="burn\misc\post90s\kanekotb.h" />
+    <ClInclude Include="cpu\konami\konami.h" />
+    <ClInclude Include="cpu\konami\konami_intf.h" />
+    <ClInclude Include="burn\konami\konamiic.h" />
+    <ClInclude Include="burner\luasav.h" />
+    <ClInclude Include="cpu\m6502\m6502.h" />
+    <ClInclude Include="burn\m6502_intf.h" />
+    <ClInclude Include="cpu\m6800\m6800.h" />
+    <ClInclude Include="burn\m6800_intf.h" />
+    <ClInclude Include="cpu\m6809\m6809.h" />
+    <ClInclude Include="burn\m6809_intf.h" />
+    <ClInclude Include="cpu\m68k\m68k.h" />
+    <ClInclude Include="cpu\m68k\m68kconf.h" />
+    <ClInclude Include="cpu\m68k\m68kcpu.h" />
+    <ClInclude Include="cpu\m68k\m68kops.h" />
+    <ClInclude Include="burner\win32\maphkeys.h" />
+    <ClInclude Include="burn\sega\mc8123.h" />
+    <ClInclude Include="burn\megadrive\megadrive.h" />
+    <ClInclude Include="burner\win32\menugui.h" />
+    <ClInclude Include="burner\win32\menuguicode.h" />
+    <ClInclude Include="mingw\include\mingw_win32.h" />
+    <ClInclude Include="burn\msm5205.h" />
+    <ClInclude Include="burn\msm6295.h" />
+    <ClInclude Include="burn\namco_snd.h" />
+    <ClInclude Include="cpu\nec\nec.h" />
+    <ClInclude Include="cpu\nec\necea.h" />
+    <ClInclude Include="cpu\nec\necinstr.h" />
+    <ClInclude Include="cpu\nec\necintrf.h" />
+    <ClInclude Include="cpu\nec\necmodrm.h" />
+    <ClInclude Include="burn\neogeo\neo_sprite_render.h" />
+    <ClInclude Include="burn\neogeo\neo_text_render.h" />
+    <ClInclude Include="burn\neogeo\neogeo.h" />
+    <ClInclude Include="kaillera\client\net.h" />
+    <ClInclude Include="burn\misc\post90s\nmk004.h" />
+    <ClInclude Include="burn\pgm\pgm.h" />
+    <ClInclude Include="libs\libpng\png.h" />
+    <ClInclude Include="libs\libpng\pngconf.h" />
+    <ClInclude Include="libs\pnglib\PNGlib.h" />
+    <ClInclude Include="burn\psikyo\psikyo.h" />
+    <ClInclude Include="burn\psikyo\psikyo_render.h" />
+    <ClInclude Include="burn\psikyo\psikyo_sprite_func.h" />
+    <ClInclude Include="burn\psikyo\psikyosh_render.h" />
+    <ClInclude Include="burner\win32\ram_search.h" />
+    <ClInclude Include="burner\win32\ramwatch.h" />
+    <ClInclude Include="burner\win32\resource.h" />
+    <ClInclude Include="burner\win32\resource_string.h" />
+    <ClInclude Include="burn\rf5c68.h" />
+    <ClInclude Include="interface\win32\rgb_pattern.h" />
+    <ClInclude Include="cpu\s2650\s2650.h" />
+    <ClInclude Include="cpu\s2650\s2650_intf.h" />
+    <ClInclude Include="burn\segapcm.h" />
+    <ClInclude Include="burn\seibusnd.h" />
+    <ClInclude Include="burn\sek.h" />
+    <ClInclude Include="burn\sekdebug.h" />
+    <ClInclude Include="cpu\sh2\sh2.h" />
+    <ClInclude Include="burn\sn76496.h" />
+    <ClInclude Include="burn\state.h" />
+    <ClInclude Include="burn\stdfunc.h" />
+    <ClInclude Include="burn\sega\sys16.h" />
+    <ClInclude Include="cpu\m6502\tables.h" />
+    <ClInclude Include="burn\taito\taito.h" />
+    <ClInclude Include="burn\taito\taito_ic.h" />
+    <ClInclude Include="burn\misc\tiles_generic.h" />
+    <ClInclude Include="burn\timer.h" />
+    <ClInclude Include="burn\misc\pre90s\tnzs_prot.h" />
+    <ClInclude Include="burn\toaplan\toa_extratext.h" />
+    <ClInclude Include="burn\toaplan\toa_gp9001_render.h" />
+    <ClInclude Include="burn\toaplan\toaplan.h" />
+    <ClInclude Include="burner\win32\tracklst.h" />
+    <ClInclude Include="libs\zlib\trees.h" />
+    <ClInclude Include="burn\upd7759.h" />
+    <ClInclude Include="burn\version.h" />
+    <ClInclude Include="burn\vez.h" />
+    <ClInclude Include="interface\win32\vid_directx_support.h" />
+    <ClInclude Include="burn\x1010.h" />
+    <ClInclude Include="utils\xstring.h" />
+    <ClInclude Include="burn\ym2151.h" />
+    <ClInclude Include="burn\ym2413.h" />
+    <ClInclude Include="burn\ymdeltat.h" />
+    <ClInclude Include="burn\ymf278b.h" />
+    <ClInclude Include="burn\ymz280b.h" />
+    <ClInclude Include="cpu\z80\z80.h" />
+    <ClInclude Include="cpu\z80\z80daisy.h" />
+    <ClInclude Include="libs\zlib\zconf.h" />
+    <ClInclude Include="libs\zlib\zconf.in.h" />
+    <ClInclude Include="burn\zet.h" />
+    <ClInclude Include="libs\zlib\zlib.h" />
+    <ClInclude Include="libs\zlib\zutil.h" />
+    <ClInclude Include="interface\aud_dsp.h" />
+    <ClInclude Include="interface\hq2xs.h" />
+    <ClInclude Include="interface\hq3xs.h" />
+    <ClInclude Include="interface\hq_shared32.h" />
+    <ClInclude Include="interface\inp_keys.h" />
+    <ClInclude Include="interface\interp.h" />
+    <ClInclude Include="interface\lowpass2.h" />
+    <ClInclude Include="generated\m68kops.h" />
+    <ClInclude Include="interface\scale2x.h" />
+    <ClInclude Include="interface\scale2x_vc.h" />
+    <ClInclude Include="interface\scale3x.h" />
+    <ClInclude Include="libs\zlib\unzip.h" />
+    <ClInclude Include="interface\vid_softfx.h" />
+    <ClInclude Include="interface\vid_support.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libs\pnglib\pnglib.inc" />
+    <None Include="burner\win32\resource\about.bmp" />
+    <None Include="burner\win32\resource\menu\about.ico" />
+    <None Include="burner\win32\resource\jukebox\add.ico" />
+    <None Include="burner\win32\resource\jukebox\add_h.ico" />
+    <None Include="burner\win32\resource\menu\alwayskey.ico" />
+    <None Include="burner\win32\resource\jukebox\arrow_left.ico" />
+    <None Include="burner\win32\resource\jukebox\arrow_left_h.ico" />
+    <None Include="burner\win32\resource\jukebox\arrow_right.ico" />
+    <None Include="burner\win32\resource\jukebox\arrow_right_h.ico" />
+    <None Include="burner\win32\resource\menu\autofs.ico" />
+    <None Include="burner\win32\resource\jukebox\backward_01.ico" />
+    <None Include="burner\win32\resource\jukebox\Backward_01_h.ico" />
+    <None Include="burner\win32\resource\caesar.ico" />
+    <None Include="burner\win32\resource\caesar_grayed.ico" />
+    <None Include="burner\win32\resource\cancel.ico" />
+    <None Include="burner\win32\resource\cog.ico" />
+    <None Include="burner\win32\resource\jukebox\del.ico" />
+    <None Include="burner\win32\resource\jukebox\del_h.ico" />
+    <None Include="burner\win32\resource\downarrow.bmp" />
+    <None Include="burner\win32\resource\menu\exitemu.ico" />
+    <None Include="burner\win32\resource\menu\exitgame.ico" />
+    <None Include="burner\win32\resource\favorite_add.ico" />
+    <None Include="burner\win32\resource\favorite_add_grayed.ico" />
+    <None Include="burner\win32\resource\favorite_remove.ico" />
+    <None Include="burner\win32\resource\favorite_remove_grayed.ico" />
+    <None Include="burner\win32\resource\fba.ico" />
+    <None Include="burner\win32\resource\filedl.bmp" />
+    <None Include="burner\win32\resource\filedl_small.bmp" />
+    <None Include="burner\win32\resource\menu\forums.ico" />
+    <None Include="burner\win32\resource\jukebox\forward.ico" />
+    <None Include="burner\win32\resource\jukebox\forward_01.ico" />
+    <None Include="burner\win32\resource\jukebox\forward_01_h.ico" />
+    <None Include="burner\win32\resource\jukebox\forward_h.ico" />
+    <None Include="burner\win32\resource\menu\fullscreen.ico" />
+    <None Include="burner\win32\resource\menu\gamma.ico" />
+    <None Include="burner\win32\resource\menu\homepage.ico" />
+    <None Include="burner\win32\resource\jb_next.ico" />
+    <None Include="burner\win32\resource\jb_pause.ico" />
+    <None Include="burner\win32\resource\jb_play.ico" />
+    <None Include="burner\win32\resource\jb_previous.ico" />
+    <None Include="burner\win32\resource\jb_stop.ico" />
+    <None Include="burner\win32\resource\jukebox.ico" />
+    <None Include="burner\win32\resource\jukebox_grayed.ico" />
+    <None Include="burner\win32\resource\menu\loadgame.ico" />
+    <None Include="burner\win32\resource\maws.ico" />
+    <None Include="burner\win32\resource\maws_grayed.ico" />
+    <None Include="burner\win32\resource\menu\mginputs.ico" />
+    <None Include="burner\win32\resource\misc.bmp" />
+    <None Include="burner\win32\resource\mplayer.ico" />
+    <None Include="burner\win32\resource\ngslotselect.ico" />
+    <None Include="burner\win32\resource\menu\nosound.ico" />
+    <None Include="burner\win32\resource\jukebox\ok.ico" />
+    <None Include="burner\win32\resource\jukebox\ok_h.ico" />
+    <None Include="burner\win32\resource\jukebox\pause.ico" />
+    <None Include="burner\win32\resource\jukebox\pause_h.ico" />
+    <None Include="burner\win32\resource\menu\pausegame.ico" />
+    <None Include="burner\win32\resource\play.ico" />
+    <None Include="burner\win32\resource\menu\prevblitter.ico" />
+    <None Include="burner\win32\resource\preview.bmp" />
+    <None Include="burner\win32\resource\preview_medium.bmp" />
+    <None Include="burner\win32\resource\preview_small.bmp" />
+    <None Include="burner\win32\resource\progettoemma.ico" />
+    <None Include="burner\win32\resource\progettoemma_grayed.ico" />
+    <None Include="burner\win32\resource\menu\readme.ico" />
+    <None Include="burner\win32\resource\jukebox\recycle.ico" />
+    <None Include="burner\win32\resource\jukebox\recycle_h.ico" />
+    <None Include="burner\win32\resource\jukebox\refresh.ico" />
+    <None Include="burner\win32\resource\jukebox\refresh_h.ico" />
+    <None Include="burner\win32\resource\romdirs.ico" />
+    <None Include="burner\win32\resource\menu\rotatevertical.ico" />
+    <None Include="burner\win32\resource\scan.ico" />
+    <None Include="burner\win32\resource\splash.bmp" />
+    <None Include="burner\win32\resource\star.ico" />
+    <None Include="burner\win32\resource\jukebox\star.ico" />
+    <None Include="burner\win32\resource\jukebox\star_h.ico" />
+    <None Include="burner\win32\resource\jukebox\stop.ico" />
+    <None Include="burner\win32\resource\jukebox\stop_h.ico" />
+    <None Include="burner\win32\resource\menu\sysinfo.ico" />
+    <None Include="burner\win32\resource\menu\triplebuffer.ico" />
+    <None Include="burner\win32\resource\TV Minus.ico" />
+    <None Include="burner\win32\resource\TV Not Found Non Essential.ico" />
+    <None Include="burner\win32\resource\TV Not Found.ico" />
+    <None Include="burner\win32\resource\TV Not Working.ico" />
+    <None Include="burner\win32\resource\TV Plus.ico" />
+    <None Include="burner\win32\resource\uparrow.bmp" />
+    <None Include="burner\win32\resource\viewginfo.ico" />
+    <None Include="burner\win32\resource\viewginfo_grayed.ico" />
+    <CustomBuild Include="interface\2xsaimmx.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasm -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="burn\burn_sound_a.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasm -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="interface\eagle_fm.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="interface\hq2x32.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="interface\hq3x32.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="interface\hq4x32.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="interface\superscale.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasm -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="vc\a68k.asm">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)\a68k.obj;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">nasm -w-orphan-labels -f win32 -Xvc %(FullPath)
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)\a68k.obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="vc\a68k_tab.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Outputs)</Outputs>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </CustomBuild>
+    <None Include="burner\win32\resource\manifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="burner\win32\resource.rc" />
+    <ResourceCompile Include="burner\win32\string.rc" />
+    <ResourceCompile Include="burner\win32\version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="interface\2xpm.cpp" />
+    <ClCompile Include="interface\2xsai.cpp" />
+    <ClCompile Include="burn\8255ppi.cpp" />
+    <ClCompile Include="burner\win32\about.cpp" />
+    <ClCompile Include="libs\zlib\adler32.c" />
+    <ClCompile Include="cpu\arm7\arm7.cpp" />
+    <ClCompile Include="cpu\arm7\arm7_intf.cpp" />
+    <ClCompile Include="interface\win32\aud_dsound3.cpp" />
+    <ClCompile Include="interface\aud_dsp.cpp" />
+    <ClCompile Include="interface\aud_interface.cpp" />
+    <ClCompile Include="interface\win32\aud_xaudio2.cpp" />
+    <ClCompile Include="burner\win32\aviout.cpp" />
+    <ClCompile Include="burn\ay8910.c" />
+    <ClCompile Include="burner\win32\bmp_resize.cpp" />
+    <ClCompile Include="burn\burn.cpp" />
+    <ClCompile Include="burn\burn_gun.cpp" />
+    <ClCompile Include="burn\burn_sound.cpp" />
+    <ClCompile Include="burn\burn_sound_c.cpp" />
+    <ClCompile Include="burn\burn_ym2151.cpp" />
+    <ClCompile Include="burn\burn_ym2203.cpp" />
+    <ClCompile Include="burn\burn_ym2413.cpp" />
+    <ClCompile Include="burn\burn_ym2608.cpp" />
+    <ClCompile Include="burn\burn_ym2610.cpp" />
+    <ClCompile Include="burn\burn_ym2612.cpp" />
+    <ClCompile Include="burn\burn_ym3526.cpp" />
+    <ClCompile Include="burn\burn_ym3812.cpp" />
+    <ClCompile Include="burn\burn_ymf278b.cpp" />
+    <ClCompile Include="burner\win32\bzip.cpp" />
+    <ClCompile Include="burn\cave\cave.cpp" />
+    <ClCompile Include="burn\cave\cave_palette.cpp" />
+    <ClCompile Include="burn\cave\cave_sprite.cpp" />
+    <ClCompile Include="burn\cave\cave_tile.cpp" />
+    <ClCompile Include="burn\taito\cchip.cpp" />
+    <ClCompile Include="burn\cheat.cpp" />
+    <ClCompile Include="burner\win32\cheatsearch.cpp" />
+    <ClCompile Include="libs\zlib\compress.c" />
+    <ClCompile Include="burner\win32\cona.cpp" />
+    <ClCompile Include="burner\conc.cpp" />
+    <ClCompile Include="burner\cong.cpp" />
+    <ClCompile Include="utils\ConvertUTF.c" />
+    <ClCompile Include="burn\capcom\cps.cpp" />
+    <ClCompile Include="burn\capcom\cps2_crpt.cpp" />
+    <ClCompile Include="burn\cps3\cps3run.cpp" />
+    <ClCompile Include="burn\cps3\cps3snd.cpp" />
+    <ClCompile Include="burn\capcom\cps_config.cpp" />
+    <ClCompile Include="burn\capcom\cps_draw.cpp" />
+    <ClCompile Include="burn\capcom\cps_mem.cpp" />
+    <ClCompile Include="burn\capcom\cps_obj.cpp" />
+    <ClCompile Include="burn\capcom\cps_pal.cpp" />
+    <ClCompile Include="burn\capcom\cps_run.cpp" />
+    <ClCompile Include="burn\capcom\cps_rw.cpp" />
+    <ClCompile Include="burn\capcom\cps_scr.cpp" />
+    <ClCompile Include="burn\capcom\cpsr.cpp" />
+    <ClCompile Include="burn\capcom\cpsrd.cpp" />
+    <ClCompile Include="burn\capcom\cpst.cpp" />
+    <ClCompile Include="libs\zlib\crc32.c" />
+    <ClCompile Include="burn\capcom\ctv.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_1942.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_1943.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_1945kiii.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_4enraya.cpp" />
+    <ClCompile Include="burn\konami\d_88games.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_aerofgt.cpp" />
+    <ClCompile Include="burn\konami\d_ajax.cpp" />
+    <ClCompile Include="burn\konami\d_aliens.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_ambush.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_aquarium.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_arabian.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_arkanoid.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_armedf.cpp" />
+    <ClCompile Include="burn\misc\dec0\d_baddudes.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_bankp.cpp" />
+    <ClCompile Include="burn\toaplan\d_batrider.cpp" />
+    <ClCompile Include="burn\toaplan\d_batsugun.cpp" />
+    <ClCompile Include="burn\toaplan\d_battleg.cpp" />
+    <ClCompile Include="burn\toaplan\d_bbakraid.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_biomtoy.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_bionicc.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_blktiger.cpp" />
+    <ClCompile Include="burn\konami\d_blockhl.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_blockout.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_bloodbro.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_blueprnt.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_bombjack.cpp" />
+    <ClCompile Include="burn\konami\d_bottom9.cpp" />
+    <ClCompile Include="burn\taito\d_bublbobl.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_commando.cpp" />
+    <ClCompile Include="burn\konami\d_contra.cpp" />
+    <ClCompile Include="burn\capcom\d_cps1.cpp" />
+    <ClCompile Include="burn\capcom\d_cps2.cpp" />
+    <ClCompile Include="burn\cps3\d_cps3.cpp" />
+    <ClCompile Include="burn\konami\d_crimfght.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_crospang.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_crshrace.cpp" />
+    <ClCompile Include="burn\taito\d_darius2.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_darkseal.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_dcon.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_ddragon.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_ddragon3.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_dec8.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_deniam.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_diverboy.cpp" />
+    <ClCompile Include="burn\cave\d_dodonpachi.cpp" />
+    <ClCompile Include="burn\toaplan\d_dogyuun.cpp" />
+    <ClCompile Include="burn\cave\d_donpachi.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_dotrikun.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_drtomy.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_epos.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_esd16.cpp" />
+    <ClCompile Include="burn\cave\d_esprade.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_exedexes.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_f1gp.cpp" />
+    <ClCompile Include="burn\cave\d_feversos.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_fstarfrc.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_funkybee.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_funybubl.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_fuukifg3.cpp" />
+    <ClCompile Include="burn\cave\d_gaia.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_gaiden.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_galaga.cpp" />
+    <ClCompile Include="burn\galaxian\d_galaxian.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_galpanic.cpp" />
+    <ClCompile Include="burn\atari\d_gauntlet.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_gberet.cpp" />
+    <ClCompile Include="burn\konami\d_gbusters.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_gng.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_gotcha.cpp" />
+    <ClCompile Include="burn\konami\d_gradius3.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_gumbo.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_gunsmoke.cpp" />
+    <ClCompile Include="burn\cave\d_guwange.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_gyruss.cpp" />
+    <ClCompile Include="burn\sega\d_hangon.cpp" />
+    <ClCompile Include="burn\konami\d_hcastle.cpp" />
+    <ClCompile Include="burn\toaplan\d_hellfire.cpp" />
+    <ClCompile Include="burn\konami\d_hexion.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_higemaru.cpp" />
+    <ClCompile Include="burn\cave\d_hotdogst.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_hyperpac.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_ikki.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_jack.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_kaneko16.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_kangaroo.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_karnov.cpp" />
+    <ClCompile Include="burn\toaplan\d_kbash.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_kyugo.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_lkage.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_lwings.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_m90.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_m92.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_madgear.cpp" />
+    <ClCompile Include="burn\toaplan\d_mahoudai.cpp" />
+    <ClCompile Include="burn\konami\d_mainevt.cpp" />
+    <ClCompile Include="burn\cave\d_mazinger.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_mcatadv.cpp" />
+    <ClCompile Include="burn\megadrive\d_megadrive.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_meijinsn.cpp" />
+    <ClCompile Include="burn\cave\d_metmqstr.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_midas.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_minivdr.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_mitchell.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_mole.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_mrdo.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_mrflea.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_mugsmash.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_mystston.cpp" />
+    <ClCompile Include="burn\neogeo\d_neogeo.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_news.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_nmg5.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_nmk16.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_ohmygod.cpp" />
+    <ClCompile Include="burn\sega\d_outrun.cpp" />
+    <ClCompile Include="burn\toaplan\d_outzone.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_pacman.cpp" />
+    <ClCompile Include="burn\misc\d_parent.cpp" />
+    <ClCompile Include="burn\konami\d_parodius.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_pass.cpp" />
+    <ClCompile Include="burn\pgm\d_pgm.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_pirates.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_pkunwar.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_pooyan.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_powerins.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_prehisle.cpp" />
+    <ClCompile Include="burn\psikyo\d_psikyo.cpp" />
+    <ClCompile Include="burn\psikyo\d_psikyosh.cpp" />
+    <ClCompile Include="burn\cave\d_pwrinst2.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_quizo.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_raiden.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_renegade.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_retofinv.cpp" />
+    <ClCompile Include="burn\misc\dec0\d_robocop.cpp" />
+    <ClCompile Include="burn\konami\d_rollerg.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_route16.cpp" />
+    <ClCompile Include="burn\cave\d_sailormn.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_scotrsht.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_scregg.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_seta2.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_sf.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_shadfrce.cpp" />
+    <ClCompile Include="burn\toaplan\d_shippumd.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_silkroad.cpp" />
+    <ClCompile Include="burn\konami\d_simpsons.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_skyfox.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_snk68.cpp" />
+    <ClCompile Include="burn\toaplan\d_snowbro2.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_solomon.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_sonson.cpp" />
+    <ClCompile Include="burn\konami\d_spy.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_srumbler.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_suna16.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_suprnova.cpp" />
+    <ClCompile Include="burn\konami\d_surpratk.cpp" />
+    <ClCompile Include="burn\sega\d_sys1.cpp" />
+    <ClCompile Include="burn\sega\d_sys16a.cpp" />
+    <ClCompile Include="burn\sega\d_sys16b.cpp" />
+    <ClCompile Include="burn\sega\d_sys18.cpp" />
+    <ClCompile Include="burn\taito\d_taitof2.cpp" />
+    <ClCompile Include="burn\taito\d_taitomisc.cpp" />
+    <ClCompile Include="burn\taito\d_taitox.cpp" />
+    <ClCompile Include="burn\taito\d_taitoz.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_taotaido.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_tecmo.cpp" />
+    <ClCompile Include="burn\toaplan\d_tekipaki.cpp" />
+    <ClCompile Include="burn\konami\d_thunderx.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_tigerheli.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_tigeroad.cpp" />
+    <ClCompile Include="burn\konami\d_tmnt.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_tnzs.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_toki.cpp" />
+    <ClCompile Include="burn\toaplan\d_truxton.cpp" />
+    <ClCompile Include="burn\toaplan\d_truxton2.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_tumbleb.cpp" />
+    <ClCompile Include="burn\konami\d_twin16.cpp" />
+    <ClCompile Include="burn\konami\d_ultraman.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_unico.cpp" />
+    <ClCompile Include="burn\cave\d_uopoko.cpp" />
+    <ClCompile Include="burn\konami\d_vendetta.cpp" />
+    <ClCompile Include="burn\toaplan\d_vfive.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_vigilant.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_vulgus.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_wallc.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_wc90.cpp" />
+    <ClCompile Include="burn\misc\pre90s\d_wwfsstar.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_wwfwfest.cpp" />
+    <ClCompile Include="burn\sega\d_xbrd.cpp" />
+    <ClCompile Include="burn\konami\d_xmen.cpp" />
+    <ClCompile Include="burn\sega\d_ybrd.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_yunsun16.cpp" />
+    <ClCompile Include="burn\toaplan\d_zerowing.cpp" />
+    <ClCompile Include="burn\misc\post90s\d_zerozone.cpp" />
+    <ClCompile Include="burn\dac.cpp" />
+    <ClCompile Include="burner\dat.cpp" />
+    <ClCompile Include="burner\win32\debugger.cpp" />
+    <ClCompile Include="burn\misc\dec0\dec_aud.cpp" />
+    <ClCompile Include="burn\misc\dec0\dec_misc.cpp" />
+    <ClCompile Include="burn\misc\dec0\dec_vid.cpp" />
+    <ClCompile Include="libs\zlib\deflate.c" />
+    <ClCompile Include="burner\win32\drv.cpp" />
+    <ClCompile Include="burner\win32\dynhuff.cpp" />
+    <ClCompile Include="burn\eeprom.cpp" />
+    <ClCompile Include="interface\epx.cpp" />
+    <ClCompile Include="burner\win32\favorites.cpp" />
+    <ClCompile Include="burner\win32\fba_kaillera.cpp" />
+    <ClCompile Include="burn\sega\fd1089.cpp" />
+    <ClCompile Include="burn\sega\fd1094.cpp" />
+    <ClCompile Include="burner\win32\filedl.cpp" />
+    <ClCompile Include="burn\fm.c" />
+    <ClCompile Include="burn\fmopl.c" />
+    <ClCompile Include="burn\galaxian\gal_gfx.cpp" />
+    <ClCompile Include="burn\galaxian\gal_run.cpp" />
+    <ClCompile Include="burn\galaxian\gal_sound.cpp" />
+    <ClCompile Include="burn\galaxian\gal_stars.cpp" />
+    <ClCompile Include="burner\gamc.cpp" />
+    <ClCompile Include="burner\win32\gameinfo.cpp" />
+    <ClCompile Include="burner\gami.cpp" />
+    <ClCompile Include="burn\sega\genesis_vid.cpp" />
+    <ClCompile Include="libs\zlib\gzio.c" />
+    <ClCompile Include="cpu\hd6309\hd6309.cpp" />
+    <ClCompile Include="burn\hd6309_intf.cpp" />
+    <ClCompile Include="burn\hiscore.cpp" />
+    <ClCompile Include="interface\hq2xs.cpp" />
+    <ClCompile Include="interface\hq2xs_16.cpp" />
+    <ClCompile Include="interface\hq3xs.cpp" />
+    <ClCompile Include="interface\hq_shared32.cpp" />
+    <ClCompile Include="cpu\i8039\i8039.cpp" />
+    <ClCompile Include="burn\ics2115.cpp" />
+    <ClCompile Include="burner\win32\imagebutton.cpp" />
+    <ClCompile Include="libs\zlib\infback.c" />
+    <ClCompile Include="libs\zlib\inffast.c" />
+    <ClCompile Include="libs\zlib\inflate.c" />
+    <ClCompile Include="libs\zlib\inftrees.c" />
+    <ClCompile Include="interface\win32\inp_dinput.cpp" />
+    <ClCompile Include="interface\inp_interface.cpp" />
+    <ClCompile Include="burner\win32\inpc.cpp" />
+    <ClCompile Include="burner\win32\inpcheat.cpp" />
+    <ClCompile Include="burner\win32\inpd.cpp" />
+    <ClCompile Include="burner\win32\inpdipsw.cpp" />
+    <ClCompile Include="burner\win32\inps.cpp" />
+    <ClCompile Include="interface\interface.cpp" />
+    <ClCompile Include="burner\win32\ips_manager.cpp" />
+    <ClCompile Include="burn\misc\post90s\irem_cpu.cpp" />
+    <ClCompile Include="burner\win32\jukebox.cpp" />
+    <ClCompile Include="burn\k007232.cpp" />
+    <ClCompile Include="burn\konami\k051316.cpp" />
+    <ClCompile Include="burn\k051649.cpp" />
+    <ClCompile Include="burn\konami\k051733.cpp" />
+    <ClCompile Include="burn\konami\k051960.cpp" />
+    <ClCompile Include="burn\konami\k052109.cpp" />
+    <ClCompile Include="burn\konami\K053245.cpp" />
+    <ClCompile Include="burn\konami\k053247.cpp" />
+    <ClCompile Include="burn\konami\K053251.cpp" />
+    <ClCompile Include="burn\k053260.cpp" />
+    <ClCompile Include="burn\konami\k053936.cpp" />
+    <ClCompile Include="burn\konami\k054000.cpp" />
+    <ClCompile Include="burn\k054539.cpp" />
+    <ClCompile Include="burn\capcom\kabuki.cpp" />
+    <ClCompile Include="cpu\konami\konami.cpp" />
+    <ClCompile Include="cpu\konami\konami_intf.cpp" />
+    <ClCompile Include="burn\konami\konamiic.cpp" />
+    <ClCompile Include="burn\load.cpp" />
+    <ClCompile Include="burner\win32\localise.cpp" />
+    <ClCompile Include="burner\win32\localise_gamelist.cpp" />
+    <ClCompile Include="interface\lowpass2.cpp" />
+    <ClCompile Include="burner\win32\luaconsole.cpp" />
+    <ClCompile Include="burner\luaengine.cpp" />
+    <ClCompile Include="burner\luasav.cpp" />
+    <ClCompile Include="cpu\m6502\m6502.cpp" />
+    <ClCompile Include="burn\m6502_intf.cpp" />
+    <ClCompile Include="cpu\m6800\m6800.cpp" />
+    <ClCompile Include="burn\m6800_intf.cpp" />
+    <ClCompile Include="cpu\m6809\m6809.cpp" />
+    <ClCompile Include="burn\m6809_intf.cpp" />
+    <ClCompile Include="cpu\m68k\m68kcpu.c" />
+    <ClCompile Include="cpu\m68k\m68kdasm.c" />
+    <ClCompile Include="generated\m68kopac.c" />
+    <ClCompile Include="generated\m68kopdm.c" />
+    <ClCompile Include="generated\m68kopnz.c" />
+    <ClCompile Include="generated\m68kops.c" />
+    <ClCompile Include="burner\win32\main.cpp" />
+    <ClCompile Include="burner\win32\maphkeys.cpp" />
+    <ClCompile Include="burn\sega\mc8123.cpp" />
+    <ClCompile Include="burner\win32\media.cpp" />
+    <ClCompile Include="burn\megadrive\megadrive.cpp" />
+    <ClCompile Include="burner\win32\memcard.cpp" />
+    <ClCompile Include="burner\win32\memwatch.cpp" />
+    <ClCompile Include="burner\win32\menu.cpp" />
+    <ClCompile Include="burner\win32\menugui.cpp" />
+    <ClCompile Include="burner\misc.cpp" />
+    <ClCompile Include="burner\win32\misc_win32.cpp" />
+    <ClCompile Include="burn\msm5205.cpp" />
+    <ClCompile Include="burn\msm6295.cpp" />
+    <ClCompile Include="burn\namco_snd.cpp" />
+    <ClCompile Include="cpu\nec\nec.cpp" />
+    <ClCompile Include="burn\neogeo\neo_decrypt.cpp" />
+    <ClCompile Include="burn\neogeo\neo_palette.cpp" />
+    <ClCompile Include="burn\neogeo\neo_run.cpp" />
+    <ClCompile Include="burn\neogeo\neo_sprite.cpp" />
+    <ClCompile Include="burn\neogeo\neo_text.cpp" />
+    <ClCompile Include="burn\neogeo\neo_upd4990a.cpp" />
+    <ClCompile Include="burn\neogeo\neogeo.cpp" />
+    <ClCompile Include="kaillera\client\net.cpp" />
+    <ClCompile Include="burner\win32\ngslotd.cpp" />
+    <ClCompile Include="burn\misc\post90s\nmk004.cpp" />
+    <ClCompile Include="burner\win32\numdial.cpp" />
+    <ClCompile Include="burner\win32\paletteviewer.cpp" />
+    <ClCompile Include="burn\taito\pc080sn.cpp" />
+    <ClCompile Include="burn\taito\pc090oj.cpp" />
+    <ClCompile Include="burn\pgm\pgm_crypt.cpp" />
+    <ClCompile Include="burn\pgm\pgm_draw.cpp" />
+    <ClCompile Include="burn\pgm\pgm_prot.cpp" />
+    <ClCompile Include="burn\pgm\pgm_run.cpp" />
+    <ClCompile Include="burner\win32\placeholderd.cpp" />
+    <ClCompile Include="libs\libpng\png.c" />
+    <ClCompile Include="libs\libpng\pngerror.c" />
+    <ClCompile Include="libs\libpng\pnggccrd.c" />
+    <ClCompile Include="libs\libpng\pngget.c" />
+    <ClCompile Include="burner\win32\pngload.cpp" />
+    <ClCompile Include="libs\libpng\pngmem.c" />
+    <ClCompile Include="libs\libpng\pngpread.c" />
+    <ClCompile Include="libs\libpng\pngread.c" />
+    <ClCompile Include="libs\libpng\pngrio.c" />
+    <ClCompile Include="libs\libpng\pngrtran.c" />
+    <ClCompile Include="libs\libpng\pngrutil.c" />
+    <ClCompile Include="libs\libpng\pngset.c" />
+    <ClCompile Include="libs\libpng\pngtrans.c" />
+    <ClCompile Include="libs\libpng\pngvcrd.c" />
+    <ClCompile Include="libs\libpng\pngwio.c" />
+    <ClCompile Include="libs\libpng\pngwrite.c" />
+    <ClCompile Include="libs\libpng\pngwtran.c" />
+    <ClCompile Include="libs\libpng\pngwutil.c" />
+    <ClCompile Include="burner\win32\popup_win32.cpp" />
+    <ClCompile Include="interface\prf_interface.cpp" />
+    <ClCompile Include="interface\win32\prf_performance_counter.cpp" />
+    <ClCompile Include="burner\win32\progress.cpp" />
+    <ClCompile Include="burn\capcom\ps.cpp" />
+    <ClCompile Include="burn\capcom\ps_m.cpp" />
+    <ClCompile Include="burn\capcom\ps_z.cpp" />
+    <ClCompile Include="burn\psikyo\psikyo_palette.cpp" />
+    <ClCompile Include="burn\psikyo\psikyo_sprite.cpp" />
+    <ClCompile Include="burn\psikyo\psikyo_tile.cpp" />
+    <ClCompile Include="burn\psikyo\psikyosh_render.cpp" />
+    <ClCompile Include="burn\capcom\qs.cpp" />
+    <ClCompile Include="burn\capcom\qs_c.cpp" />
+    <ClCompile Include="burn\capcom\qs_z.cpp" />
+    <ClCompile Include="burner\win32\ram_search.cpp" />
+    <ClCompile Include="burner\win32\ramwatch.cpp" />
+    <ClCompile Include="burner\win32\replay.cpp" />
+    <ClCompile Include="burner\win32\res.cpp" />
+    <ClCompile Include="burn\rf5c68.cpp" />
+    <ClCompile Include="burn\neogeo\rom_save.cpp" />
+    <ClCompile Include="burner\win32\roms.cpp" />
+    <ClCompile Include="burner\win32\run.cpp" />
+    <ClCompile Include="cpu\s2650\s2650.cpp" />
+    <ClCompile Include="cpu\s2650\s2650_intf.cpp" />
+    <ClCompile Include="burner\win32\scrn.cpp" />
+    <ClCompile Include="burn\segapcm.cpp" />
+    <ClCompile Include="burn\seibusnd.cpp" />
+    <ClCompile Include="burn\sek.cpp" />
+    <ClCompile Include="burner\win32\sel.cpp" />
+    <ClCompile Include="burner\win32\sfactd.cpp" />
+    <ClCompile Include="cpu\sh2\sh2.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="burn\sn76496.cpp" />
+    <ClCompile Include="burner\win32\splash.cpp" />
+    <ClCompile Include="burner\sshot.cpp" />
+    <ClCompile Include="burner\state.cpp" />
+    <ClCompile Include="burner\statec.cpp" />
+    <ClCompile Include="burner\win32\stated.cpp" />
+    <ClCompile Include="burner\win32\support_paths.cpp" />
+    <ClCompile Include="burn\sega\sys16_fd1094.cpp" />
+    <ClCompile Include="burn\sega\sys16_gfx.cpp" />
+    <ClCompile Include="burn\sega\sys16_run.cpp" />
+    <ClCompile Include="burner\win32\systeminfo.cpp" />
+    <ClCompile Include="burn\taito\taito.cpp" />
+    <ClCompile Include="burn\taito\taito_ic.cpp" />
+    <ClCompile Include="burn\taito\tc0100scn.cpp" />
+    <ClCompile Include="burn\taito\tc0110pcr.cpp" />
+    <ClCompile Include="burn\taito\tc0140syt.cpp" />
+    <ClCompile Include="burn\taito\tc0150rod.cpp" />
+    <ClCompile Include="burn\taito\tc0220ioc.cpp" />
+    <ClCompile Include="burn\taito\tc0280grd.cpp" />
+    <ClCompile Include="burn\taito\tc0360pri.cpp" />
+    <ClCompile Include="burn\taito\tc0480scp.cpp" />
+    <ClCompile Include="burn\taito\tc0510nio.cpp" />
+    <ClCompile Include="burn\misc\tiles_generic.cpp" />
+    <ClCompile Include="burn\timer.cpp" />
+    <ClCompile Include="burn\misc\pre90s\tnzs_prot.cpp" />
+    <ClCompile Include="burn\toaplan\toa_bcu2.cpp" />
+    <ClCompile Include="burn\toaplan\toa_extratext.cpp" />
+    <ClCompile Include="burn\toaplan\toa_gp9001.cpp" />
+    <ClCompile Include="burn\toaplan\toa_palette.cpp" />
+    <ClCompile Include="burn\toaplan\toaplan.cpp" />
+    <ClCompile Include="burn\toaplan\toaplan1.cpp" />
+    <ClCompile Include="burner\win32\tracklst.cpp" />
+    <ClCompile Include="libs\zlib\trees.c" />
+    <ClCompile Include="libs\zlib\uncompr.c" />
+    <ClCompile Include="libs\zlib\unzip.c" />
+    <ClCompile Include="burn\upd7759.cpp" />
+    <ClCompile Include="burn\vez.cpp" />
+    <ClCompile Include="interface\win32\vid_d3d.cpp" />
+    <ClCompile Include="interface\win32\vid_ddraw.cpp" />
+    <ClCompile Include="interface\win32\vid_ddrawfx.cpp" />
+    <ClCompile Include="interface\win32\vid_directx9.cpp" />
+    <ClCompile Include="interface\win32\vid_directx_support.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="interface\vid_interface.cpp" />
+    <ClCompile Include="interface\vid_softfx.cpp" />
+    <ClCompile Include="interface\vid_support.cpp" />
+    <ClCompile Include="burner\win32\wave.cpp" />
+    <ClCompile Include="burn\x1010.cpp" />
+    <ClCompile Include="utils\xstring.cpp" />
+    <ClCompile Include="burn\ym2151.c" />
+    <ClCompile Include="burn\ym2413.c">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4018;4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="burn\ymdeltat.c" />
+    <ClCompile Include="burn\ymf278b.c" />
+    <ClCompile Include="burn\ymz280b.cpp" />
+    <ClCompile Include="cpu\z80\z80.cpp" />
+    <ClCompile Include="cpu\z80\z80daisy.cpp" />
+    <ClCompile Include="burn\zet.cpp" />
+    <ClCompile Include="burner\zipfn.cpp" />
+    <ClCompile Include="libs\zlib\zutil.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
