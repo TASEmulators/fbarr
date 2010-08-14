@@ -942,6 +942,7 @@ void HK_openGame(int)
 		MenuEnableItems();
 		if (AutoRWLoad)
 		{
+			OpenRWRecentFile(0);
 			HK_ramWatch(0);
 		}
 		bAltPause = 0;
