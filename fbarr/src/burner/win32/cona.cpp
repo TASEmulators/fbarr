@@ -258,6 +258,11 @@ int ConfigAppLoad()
 #endif
 
 		wchar_t watchfiles[5][1024];
+		watchfiles[0][0] = 0;
+		watchfiles[1][0] = 0;
+		watchfiles[2][0] = 0;
+		watchfiles[3][0] = 0;
+		watchfiles[4][0] = 0;
 		
 		STR(watchfiles[0]);
 		STR(watchfiles[1]);
