@@ -508,7 +508,8 @@ int Change_File_S(char *Dest, char *Dir, const char *Titre, const char *Filter, 
 
 bool Save_Watches()
 {
-	strcpy(Str_Tmp,gamefilename);
+	if(nBurnDrvSelect != -1)
+		strcpy(Str_Tmp,gamefilename);
 	strcat(Str_Tmp,".wch");
 	if(Change_File_S(Str_Tmp, applicationPath, "Save Watches", "Watchlist\0*.wch\0All Files\0*.*\0\0", "wch", RamWatchHWnd))
 	{
