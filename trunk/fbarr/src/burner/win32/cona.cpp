@@ -49,6 +49,18 @@ int ConfigAppLoad()
 		return 1;
 	}
 
+
+#if MAX_RECENT_WATCHES != 5
+#error ohno!
+#endif
+
+	wchar_t watchfiles[5][1024];
+	watchfiles[0][0] = 0;
+	watchfiles[1][0] = 0;
+	watchfiles[2][0] = 0;
+	watchfiles[3][0] = 0;
+	watchfiles[4][0] = 0;
+
 	// Go through each line of the config file
 	while (_fgetts(szLine, sizeof(szLine), h)) {
 		int nLen = _tcslen(szLine);
@@ -250,32 +262,12 @@ int ConfigAppLoad()
 		VAR(RWSaveWindowPos);
 		VAR(ramw_x);
 		VAR(ramw_y);
-		std::string temp;
-		std::wstring wtemp;
 
-#if MAX_RECENT_WATCHES != 5
-#error ohno!
-#endif
-
-		wchar_t watchfiles[5][1024];
-		watchfiles[0][0] = 0;
-		watchfiles[1][0] = 0;
-		watchfiles[2][0] = 0;
-		watchfiles[3][0] = 0;
-		watchfiles[4][0] = 0;
-		
 		STR(watchfiles[0]);
 		STR(watchfiles[1]);
 		STR(watchfiles[2]);
 		STR(watchfiles[3]);
 		STR(watchfiles[4]);
-
-
-		strcpy(rw_recent_files[0], wcstombs(watchfiles[0]).c_str());
-		strcpy(rw_recent_files[1], wcstombs(watchfiles[1]).c_str());
-		strcpy(rw_recent_files[2], wcstombs(watchfiles[2]).c_str());
-		strcpy(rw_recent_files[3], wcstombs(watchfiles[3]).c_str());
-		strcpy(rw_recent_files[4], wcstombs(watchfiles[4]).c_str());
 
 		// Hotkeys
 		for (int i = 0; !lastCustomKey(customKeys[i]); i++) {
@@ -291,6 +283,13 @@ int ConfigAppLoad()
 #undef VAR64
 #undef VARZ
 	}
+
+	strcpy(rw_recent_files[0], wcstombs(watchfiles[0]).c_str());
+	strcpy(rw_recent_files[1], wcstombs(watchfiles[1]).c_str());
+	strcpy(rw_recent_files[2], wcstombs(watchfiles[2]).c_str());
+	strcpy(rw_recent_files[3], wcstombs(watchfiles[3]).c_str());
+	strcpy(rw_recent_files[4], wcstombs(watchfiles[4]).c_str());
+
 
 	fclose(h);
 	return 0;
