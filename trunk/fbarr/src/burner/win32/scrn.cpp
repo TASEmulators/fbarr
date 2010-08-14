@@ -424,6 +424,8 @@ static int OnDropFiles(HWND, HDROP hdrop)
 {
 	UINT len;
 	char *ftmp;
+	TCHAR *ftmpt;
+	int nRet;
 
 	len=DragQueryFileA(hdrop,0,0,0)+1; 
 	if((ftmp=(char*)malloc(len))) 
@@ -431,6 +433,7 @@ static int OnDropFiles(HWND, HDROP hdrop)
 		DragQueryFileA(hdrop,0,ftmp,len); 
 		string fileDropped = ftmp;
 		wstring fileDroppedW = mbstowcs(fileDropped);
+		wcscpy(ftmpt, fileDroppedW.c_str());
 		
 		//adelikat:  Drag and Drop only checks file extension, the internal functions are responsible for file error checking
 		
@@ -448,6 +451,13 @@ static int OnDropFiles(HWND, HDROP hdrop)
 		{
 			FBA_LoadLuaCode(ftmp);
 			UpdateLuaConsole(fileDropped.c_str());
+		}
+		//-------------------------------------------------------
+		//Check if Savestate file
+		//-------------------------------------------------------
+		else if (!(fileDropped.find(".fs") == string::npos) && (fileDropped.find(".fs") == fileDropped.length()-4))	
+		{
+			nRet = BurnStateLoad(ftmpt, 1, &DrvInitCallback);
 		}
 		//-------------------------------------------------------
 		//If not a movie, Load it as a ROM file
