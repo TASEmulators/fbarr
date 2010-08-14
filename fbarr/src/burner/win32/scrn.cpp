@@ -916,6 +916,7 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 					DrvInit(j, true);	// Init the game driver
 					if (AutoRWLoad)
 					{
+						OpenRWRecentFile(0);
 						HK_ramWatch(0);
 					}
 					MenuEnableItems();
