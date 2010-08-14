@@ -1,6 +1,6 @@
 // State dialog module
 #include "burner.h"
-
+#include <string>
 extern bool bReplayDontClose;
 int bDrvSaveAll = 0;
 
@@ -90,8 +90,19 @@ int StatedLoad(int nSlot)
 	}
 
 	nRet = BurnStateLoad(szChoice, 1, &DrvInitCallback);
-
-	VidSNewShortMsg(L"state loaded");
+	
+	//adelikat: Replace with a dynamic message that includes the slot number
+	if (nSlot)
+	{
+	TCHAR message[16];
+	swprintf(message, L"state %d loaded", nSlot);
+	std::wstring messageStr = message;
+	VidSNewShortMsg(messageStr.c_str());
+	}
+	else
+		VidSNewShortMsg(L"state loaded");
+	
+	
 	UpdateMemWatch();
 
 	if (nSlot) {
@@ -162,7 +173,16 @@ int StatedSave(int nSlot)
 		FBAPopupDisplay(PUF_TYPE_ERROR);
 	}
 
-	VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
+	//adelikat: Replace the call to IDS_STATE_SAVED with a dynamic message that includes the slot number
+	if (nSlot)
+	{
+	TCHAR message[16];
+	swprintf(message, L"state %d saved", nSlot);
+	std::wstring messageStr = message;
+	VidSNewShortMsg(messageStr.c_str());
+	}
+	else
+		VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
 
 	return nRet;
 }
