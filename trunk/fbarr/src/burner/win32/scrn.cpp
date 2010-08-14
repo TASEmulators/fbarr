@@ -424,17 +424,16 @@ static int OnDropFiles(HWND, HDROP hdrop)
 {
 	UINT len;
 	char *ftmp;
-	wchar_t* ftmpt;
+	wchar_t ftmpt[1024];
 	int nRet;
 
 	len=DragQueryFileA(hdrop,0,0,0)+1; 
 	if((ftmp=(char*)malloc(len))) 
 	{
-		ftmpt=(wchar_t*)malloc(len);
-		DragQueryFileW(hdrop,0,ftmpt,len); 
 		DragQueryFileA(hdrop,0,ftmp,len); 
 		string fileDropped = ftmp;
 		wstring fileDroppedW = mbstowcs(fileDropped);
+		wcscpy(ftmpt,fileDroppedW.c_str());
 			
 		//adelikat:  Drag and Drop only checks file extension, the internal functions are responsible for file error checking
 		
