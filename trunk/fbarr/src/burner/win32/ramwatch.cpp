@@ -609,7 +609,8 @@ bool Load_Watches(bool clear, const char* filename)
 
 bool Load_Watches(bool clear)
 {
-	strcpy(Str_Tmp,gamefilename);
+	if(nBurnDrvSelect != -1)
+		strcpy(Str_Tmp,gamefilename);
 	strcat(Str_Tmp,".wch");
 	if(Change_File_L(Str_Tmp, applicationPath, "Load Watches", "Watchlist\0*.wch\0All Files\0*.*\0\0", "wch", RamWatchHWnd))
 	{
