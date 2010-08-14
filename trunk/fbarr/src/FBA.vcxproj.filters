@@ -14,7 +14,7 @@
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Source Files\asm">
-      <UniqueIdentifier>{b23f5c08-409b-48cd-bf7a-10aea7f67c10}</UniqueIdentifier>
+      <UniqueIdentifier>{9c434d8f-cf17-4854-9a1a-cf893b70e6b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
