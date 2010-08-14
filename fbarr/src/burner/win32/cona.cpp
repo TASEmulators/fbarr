@@ -245,6 +245,7 @@ int ConfigAppLoad()
 		VAR(nPlayerDefaultControls[3]);
 		STR(szPlayerDefaultIni[3]);
 
+		//Ram Watch Settings
 		VAR(AutoRWLoad);
 		VAR(RWSaveWindowPos);
 		VAR(ramw_x);
@@ -263,6 +264,13 @@ int ConfigAppLoad()
 		STR(watchfiles[2]);
 		STR(watchfiles[3]);
 		STR(watchfiles[4]);
+
+
+		strcpy(rw_recent_files[0], wcstombs(watchfiles[0]).c_str());
+		strcpy(rw_recent_files[1], wcstombs(watchfiles[1]).c_str());
+		strcpy(rw_recent_files[2], wcstombs(watchfiles[2]).c_str());
+		strcpy(rw_recent_files[3], wcstombs(watchfiles[3]).c_str());
+		strcpy(rw_recent_files[4], wcstombs(watchfiles[4]).c_str());
 
 		// Hotkeys
 		for (int i = 0; !lastCustomKey(customKeys[i]); i++) {
