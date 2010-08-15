@@ -250,7 +250,7 @@ int StartReplay(const TCHAR* szFileName)					// const char* szFileName = NULL
 
 	if(!bDrvOkay) {
 		nBurnDrvSelect = SelDialog(0, hScrnWnd);
-		if(nBurnDrvSelect < 1) {
+		if(nBurnDrvSelect == -1) {
 			StopReplay();
 			return 1;
 		}
