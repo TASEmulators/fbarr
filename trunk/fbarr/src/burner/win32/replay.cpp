@@ -38,6 +38,9 @@ static short nPrevInputs[0x0100];
 static int ReplayDialog();
 static int RecordDialog();
 
+//Updates the frame counter display on screen
+void UpdateFrameCounter();
+
 int RecordInput()
 {
 	struct BurnInputInfo bii;
@@ -978,4 +981,15 @@ static BOOL CALLBACK RecordDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM
 static int RecordDialog()
 {
 	return DialogBox(hAppInst, MAKEINTRESOURCE(IDD_RECORDINP), hScrnWnd, RecordDialogProc);
+}
+
+//Updates the frame counter display on screen
+void UpdateFrameCounter()
+{
+	if (bReplayFrameCounterDisplay) 
+	{
+		wchar_t framestring[15];
+		swprintf(framestring, L"%d", GetCurrentFrame() - nStartFrame);
+		VidSNewTinyMsg(framestring);
+	}
 }

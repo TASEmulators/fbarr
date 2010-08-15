@@ -8,6 +8,8 @@
 
 enum { MODKEY_NONE = 0x00, MODKEY_CTRL = 0x01, MODKEY_ALT = 0x02, MODKEY_SHIFT = 0x04 };
 
+extern void UpdateFrameCounter(); //adelikat: Hacky but replay.cpp has no .h file to include, didn't feel like making one for this one thing
+
 // init keys
 CustomKey customKeys[] = {
 	{ VK_ESCAPE,     MODKEY_NONE,  0,                      "Call Menu",                 "call-menu",     HK_callMenu,          0, 0 },
@@ -494,6 +496,7 @@ void HK_fastFowardKeyUp(int)
 void HK_loadState(int param)
 {
 	StatedLoad(param);
+	UpdateFrameCounter();
 }
 void HK_saveState(int param)
 {
@@ -549,6 +552,7 @@ void HK_loadCurState(int)
 			}
 			else
 				VidSNewShortMsg(L"state loaded");
+			UpdateFrameCounter();
 		} 
 		else 
 		{
@@ -589,6 +593,7 @@ void HK_loadStateDialog(int)
 		StatedLoad(0);
 		GameInpCheckMouse();
 		AudSoundPlay();
+		UpdateFrameCounter();
 	}
 }
 void HK_saveStateDialog(int)

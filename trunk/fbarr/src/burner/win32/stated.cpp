@@ -133,7 +133,6 @@ int StatedLoad(int nSlot)
 	if (nRet) {
 		FBAPopupDisplay(PUF_TYPE_ERROR);
 	}
-
 	return nRet;
 }
 
