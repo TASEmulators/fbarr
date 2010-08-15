@@ -2983,7 +2983,7 @@ int StartFromReset()
 {
 	bDoPatch = FALSE;
 	PatchExit();
-	if(nBurnDrvSelect < 1) return 0;
+	if(nBurnDrvSelect == -1) return 0;
 	
 	int nOldDrvSelect = nBurnDrvSelect;
 
