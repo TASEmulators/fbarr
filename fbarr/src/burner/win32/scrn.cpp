@@ -14,7 +14,7 @@ using namespace std;
 #define		VERTICAL_ORIENTED_RES		1
 
 extern HWND hJukeboxDlg;
-extern void UpdateLuaConsole(const char* fname);
+extern void UpdateLuaConsole(const wchar_t* fname);
 
 int nActiveGame;
 
@@ -450,7 +450,7 @@ static int OnDropFiles(HWND, HDROP hdrop)
 		else if (!(fileDropped.find(".lua") == string::npos) && (fileDropped.find(".lua") == fileDropped.length()-4))	
 		{
 			FBA_LoadLuaCode(ftmp);
-			UpdateLuaConsole(fileDropped.c_str());
+			UpdateLuaConsole(fileDroppedW.c_str());
 		}
 		//-------------------------------------------------------
 		//Check if Savestate file
