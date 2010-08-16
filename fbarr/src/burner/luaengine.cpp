@@ -1257,6 +1257,21 @@ int movie_mode(lua_State *L) {
 	return 1;
 }
 
+// movie.setreadonly()
+//
+// sets the read-only flag 
+static int movie_setreadonly(lua_State *L) {
+	bReplayReadOnly = (lua_toboolean( L, 1 ) == 1);
+	
+	if (bReplayReadOnly)
+		VidSNewShortMsg(_T("read-only"));
+	else
+		VidSNewShortMsg(_T("read+write"));
+
+	return 0;
+}
+
+
 
 static int movie_rerecordcounting(lua_State *L) {
 	if (lua_gettop(L) == 0)
@@ -3319,10 +3334,11 @@ static const struct luaL_reg movielib[] = {
 	{"framecount", movie_framecount},
 	{"mode", movie_mode},
 	{"rerecordcounting", movie_rerecordcounting},
+	{"setreadonly", movie_setreadonly},
+	
 	{"stop", movie_stop},
-
-	// alternative names
-	{"close", movie_stop},
+	{"close", movie_stop}, // (alternative name)
+	
 	{NULL,NULL}
 };
 
