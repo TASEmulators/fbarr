@@ -3269,6 +3269,7 @@ static const struct luaL_reg fbalib [] = {
 	{"print", print}, // sure, why not
 	{"screenwidth", fba_screenwidth},
 	{"screenheight", fba_screenheight},
+	{"setreadonly", movie_setreadonly},
 	{NULL,NULL}
 };
 
