@@ -1271,6 +1271,15 @@ static int movie_setreadonly(lua_State *L) {
 	return 0;
 }
 
+// movie.getreadonly()
+//
+// returns the state of the read-only flag 
+static int movie_getreadonly(lua_State *L) {
+	lua_pushboolean(L, bReplayReadOnly);
+
+	return 1;
+}
+
 
 
 static int movie_rerecordcounting(lua_State *L) {
@@ -3269,6 +3278,7 @@ static const struct luaL_reg fbalib [] = {
 	{"print", print}, // sure, why not
 	{"screenwidth", fba_screenwidth},
 	{"screenheight", fba_screenheight},
+	{"getreadonly", movie_getreadonly},
 	{"setreadonly", movie_setreadonly},
 	{NULL,NULL}
 };
@@ -3336,7 +3346,7 @@ static const struct luaL_reg movielib[] = {
 	{"mode", movie_mode},
 	{"rerecordcounting", movie_rerecordcounting},
 	{"setreadonly", movie_setreadonly},
-	
+	{"getreadonly", movie_getreadonly},
 	{"stop", movie_stop},
 	{"close", movie_stop}, // (alternative name)
 	
