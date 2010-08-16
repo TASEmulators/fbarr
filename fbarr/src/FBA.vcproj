@@ -604,6 +604,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\burner\win32\replay.h"
+				>
+			</File>
+			<File
 				RelativePath=".\burner\win32\resource.h"
 				>
 			</File>

@@ -27,6 +27,7 @@ extern "C" {
 #include <direct.h>
 #include "win32/resource.h"
 #include "win32/maphkeys.h"
+#include "win32/replay.h"
 #endif
 #include "luaengine.h"
 #include "luasav.h"
@@ -1290,6 +1291,15 @@ static int movie_rerecordcounting(lua_State *L) {
 	return 0;
 }
 
+// movie.length()
+//
+//	Returns the total number of frames of a movie
+static int movie_length(lua_State *L) {
+#ifdef WIN32 //adelikat: GetTotalMovieFrames is a win32 only file, so this can only be implemented in win32
+	lua_pushinteger(L, GetTotalMovieFrames());
+#endif
+	return 1;
+}
 
 // movie.stop()
 //
@@ -3349,6 +3359,7 @@ static const struct luaL_reg movielib[] = {
 	{"getreadonly", movie_getreadonly},
 	{"stop", movie_stop},
 	{"close", movie_stop}, // (alternative name)
+	{"length", movie_length},
 	
 	{NULL,NULL}
 };

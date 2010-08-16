@@ -1,6 +1,7 @@
 // Functions for recording & replaying input
 #include "burner.h"
 #include "dynhuff.h"
+#include "replay.h"
 #include <commdlg.h>
 
 #include <io.h>
@@ -37,9 +38,6 @@ static short nPrevInputs[0x0100];
 
 static int ReplayDialog();
 static int RecordDialog();
-
-//Updates the frame counter display on screen
-void UpdateFrameCounter();
 
 int RecordInput()
 {
@@ -992,4 +990,10 @@ void UpdateFrameCounter()
 		swprintf(framestring, L"%d", GetCurrentFrame() - nStartFrame);
 		VidSNewTinyMsg(framestring);
 	}
+}
+
+//Gets teh total number of frames of a movie
+int GetTotalMovieFrames()
+{
+	return nTotalFrames;
 }
