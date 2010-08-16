@@ -343,9 +343,9 @@ INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 
 }
 
-void UpdateLuaConsole(const char* fname)
+void UpdateLuaConsole(const wchar_t* fname)
 {
 	if (!LuaConsoleHWnd) return;
 
-	SetWindowText(GetDlgItem(LuaConsoleHWnd, IDC_EDIT_LUAPATH), (LPCWSTR)fname);
+	SetWindowText(GetDlgItem(LuaConsoleHWnd, IDC_EDIT_LUAPATH), fname);
 }
