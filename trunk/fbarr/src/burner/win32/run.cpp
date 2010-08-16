@@ -215,7 +215,7 @@ static int RunGetNextSound(int bDraw)
 
 	// Render frame with sound
 	pBurnSoundOut = nAudNextSound;
-	RunFrame(bDraw, 0);
+	RunFrame(bDraw, 0); 
 
 	AviSoundUpdate();
 
