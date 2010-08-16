@@ -4,11 +4,10 @@
 #include "burner.h"
 #include "maphkeys.h"
 #include "tracklst.h"
+#include "replay.h"
 #include "vid_directx_support.h"
 
 enum { MODKEY_NONE = 0x00, MODKEY_CTRL = 0x01, MODKEY_ALT = 0x02, MODKEY_SHIFT = 0x04 };
-
-extern void UpdateFrameCounter(); //adelikat: Hacky but replay.cpp has no .h file to include, didn't feel like making one for this one thing
 
 // init keys
 CustomKey customKeys[] = {
