@@ -1310,7 +1310,14 @@ static int movie_stop(lua_State *L) {
 	
 	StopReplay();
 	return 0;
+}
 
+// movie.playbeginning()
+//
+// Restarts the movie from beginning
+static int movie_playbeginning(lua_State *L) {
+	HK_playFromBeginning(0);
+	return 0;
 }
 
 // Common code by the gui library: make sure the screen array is ready
@@ -3359,6 +3366,7 @@ static const struct luaL_reg movielib[] = {
 	{"getreadonly", movie_getreadonly},
 	{"stop", movie_stop},
 	{"close", movie_stop}, // (alternative name)
+	{"playbeginning", movie_playbeginning},
 	{"length", movie_length},
 	
 	{NULL,NULL}
