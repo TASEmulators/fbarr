@@ -639,7 +639,10 @@ void HK_stopRec(int)
 }
 void HK_playFromBeginning(int)
 {
-	// TO-DO
+	std::wstring str = GetCurrentMovie();
+	StopReplay();
+	bReplayReadOnly = 1;
+	StartReplay(str.c_str()); 
 }
 
 void HK_startAvi(int)
