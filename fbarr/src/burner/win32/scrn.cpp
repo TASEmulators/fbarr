@@ -2917,6 +2917,7 @@ int ScrnInit()
 		MenuCreate();
 
 		// Create the toolbar
+		/*
 		if (bMenuEnabled) {
 			// Create the Rebar control that will contain the menu toolbar
 			hRebar = CreateWindowEx(WS_EX_TOOLWINDOW,
@@ -2948,7 +2949,7 @@ int ScrnInit()
 			nMenuHeight = rect.bottom - rect.top;
 
 		}
-		
+		*/
 		DragAcceptFiles(hScrnWnd, 1);
 		
 		ScrnTitle();
