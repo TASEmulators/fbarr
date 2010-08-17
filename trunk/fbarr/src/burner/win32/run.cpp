@@ -364,12 +364,14 @@ int RunMessageLoop()
 					bRestartVideo = 1;
 					break;
 				}
-
+				/*
 				if (bMenuEnabled && nVidFullscreen == 0) {								// Handle keyboard messages for the menu
 					if (MenuHandleKeyboard(&Msg)) {
 						continue;
 					}
 				}
+				*/
+				//adelikat:  When you use a proper menu you don't need this code, it has its own!
 
 				// process key message
 				RunKeyMsg(Msg);

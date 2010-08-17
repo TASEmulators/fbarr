@@ -74,7 +74,7 @@ static LRESULT CALLBACK MenuHook(int nCode, WPARAM wParam, LPARAM lParam)
 
 	}
 
-	MenuHandleKeyboard((MSG*)lParam);
+	//MenuHandleKeyboard((MSG*)lParam);
 
 	return CallNextHookEx(hMenuHook, nCode, wParam, lParam);
 }
@@ -180,7 +180,7 @@ int OnUnInitMenuPopup(HWND, HMENU, UINT, BOOL)
 
 	return 0;
 }
-
+/*
 bool MenuHandleKeyboard(MSG* Msg)
 {
 	static bool bProcessAltKeyUp = true;
@@ -256,6 +256,7 @@ bool MenuHandleKeyboard(MSG* Msg)
 				break;
 			}
 			case VK_UP: {
+				
 				if (!bMenuDisplayed) {
 					int nItem = SendMessage(hMenubar, TB_GETHOTITEM, 0, 0);
 					if (nItem == -1) {
@@ -266,6 +267,7 @@ bool MenuHandleKeyboard(MSG* Msg)
 						return 1;
 					}
 				}
+				
 				break;
 			}
 			case VK_DOWN: {
@@ -324,6 +326,8 @@ bool MenuHandleKeyboard(MSG* Msg)
 
 	return 0;
 }
+*/
+//adelikat: Commenting this code out, no longer useful since we have a real menu not a hacked toolbar
 
 void IconMenuEnableItems()
 {
@@ -412,13 +416,13 @@ void IconMenuEnableItems()
 
 int MenuCreate()
 {
-	TBBUTTON button;
+//	TBBUTTON button;
 	TCHAR szButtonText[32];
 	MENUITEMINFO menuItemInfo;
 	MENUINFO menu;
 
 	if (hMenu == NULL) {
-		hMenu = FBALoadMenu(hAppInst, MAKEINTRESOURCE(IDR_MENU));					// Main application menu
+		hMenu = FBALoadMenu(hAppInst, MAKEINTRESOURCE(IDR_MENU));						// Main application menu
 		hBlitterMenu[0] = FBALoadMenu(hAppInst, MAKEINTRESOURCE(IDR_MENU_BLITTER_1));	// DirectDraw Standard blitter
 		hBlitterMenu[1] = FBALoadMenu(hAppInst, MAKEINTRESOURCE(IDR_MENU_BLITTER_2));	// Direct3D
 		hBlitterMenu[2] = FBALoadMenu(hAppInst, MAKEINTRESOURCE(IDR_MENU_BLITTER_3));	// Software effects blitter
