@@ -3,7 +3,7 @@
 #include "dynhuff.h"
 #include "replay.h"
 #include <commdlg.h>
-
+#include <string>
 #include <io.h>
 
 #ifndef W_OK
@@ -996,4 +996,10 @@ void UpdateFrameCounter()
 int GetTotalMovieFrames()
 {
 	return nTotalFrames;
+}
+
+std::wstring GetCurrentMovie()
+{
+	std::wstring str = szCurrentMovieFilename;
+	return str;
 }
