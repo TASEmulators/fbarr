@@ -640,8 +640,11 @@ void HK_stopRec(int)
 void HK_playFromBeginning(int)
 {
 	std::wstring str = GetCurrentMovie();
-	StopReplay();
-	StartReplay(str.c_str()); 
+	if (str.length())
+	{
+		StopReplay();
+		StartReplay(str.c_str()); 
+	}
 }
 
 void HK_startAvi(int)
