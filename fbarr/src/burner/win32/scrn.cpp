@@ -486,6 +486,18 @@ static int OnDisplayChange(HWND, UINT, UINT, UINT)
 //----------------------------------------------------------------------------//
 bool bRDblClick = false;
 
+void HideMenus()
+{
+// If not fullscreen and this event is not related to 'toggle fullscreen' right double-click event
+	if (!nVidFullscreen && !bRDblClick) {
+		bMenuEnabled = !bMenuEnabled;
+		POST_INITIALISE_MESSAGE;
+		return;
+	} else {
+		bRDblClick = false; // 'toggle fullcreen' right double-click event ended, so now we can handle other 'OnRButtonUp' events in windowed mode
+	}
+}
+
 static int OnRButtonDown(HWND hwnd, BOOL bDouble, int, int, UINT)
 {
 	if (hwnd != hScrnWnd) return 1;
@@ -515,14 +527,7 @@ static int OnRButtonUp(HWND hwnd, int, int, UINT)
 {
 	if (hwnd != hScrnWnd) return 1;
 
-	// If not fullscreen and this event is not related to 'toggle fullscreen' right double-click event
-	if (!nVidFullscreen && !bRDblClick) {
-		bMenuEnabled = !bMenuEnabled;
-		POST_INITIALISE_MESSAGE;
-		return 0;
-	} else {
-		bRDblClick = false; // 'toggle fullcreen' right double-click event ended, so now we can handle other 'OnRButtonUp' events in windowed mode
-	}
+	HideMenus();
 
 	return 1;
 }

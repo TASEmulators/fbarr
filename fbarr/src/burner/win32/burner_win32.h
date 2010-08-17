@@ -254,7 +254,7 @@ int SetMenuPriority();
 void MenuUpdate();
 void CreateArcaderesItem();
 void MenuEnableItems();
-bool MenuHandleKeyboard(MSG*);
+//bool MenuHandleKeyboard(MSG*);
 void MenuRemoveTheme();
 
 // sel.cpp
