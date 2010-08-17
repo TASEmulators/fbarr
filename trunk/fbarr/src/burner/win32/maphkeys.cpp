@@ -641,7 +641,6 @@ void HK_playFromBeginning(int)
 {
 	std::wstring str = GetCurrentMovie();
 	StopReplay();
-	bReplayReadOnly = 1;
 	StartReplay(str.c_str()); 
 }
 
