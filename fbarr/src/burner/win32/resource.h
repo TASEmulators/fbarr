@@ -896,6 +896,7 @@
 #define IDC_MHKEYS_LIST                 20263
 #define IDC_HKEYSS_STATIC               20264
 #define IDD_MHKEYS                      20265
+#define IDC_HKEYSS_STATIC2              20265
 #define IDC_RAMLIST                     20266
 #define IDC_C_SEARCH                    20267
 #define IDC_C_ADDCHEAT                  20268
