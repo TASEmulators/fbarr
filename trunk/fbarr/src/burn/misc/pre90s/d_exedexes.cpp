@@ -455,7 +455,7 @@ static int DrvExit()
 
 	Mem = MemEnd = Rom0 = Rom1 = NULL;
 	Gfx0 = Gfx1 = Gfx2 = Gfx3 = Gfx4 = Prom = NULL;
-	for (int i = 0; i < 3; i++) pAY8910Buffer[3] = NULL;
+	for (int i = 0; i < 3; i++) pAY8910Buffer[i] = NULL; //adelikat: This said pAY8910Buffer[3] not [i], I'm 99% sure this was a typo so I fixed it
 	Palette = DrvPalette = NULL;
 	fg_tile_transp = NULL;
 	pFMBuffer = NULL;
