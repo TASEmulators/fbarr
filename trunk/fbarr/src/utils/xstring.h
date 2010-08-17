@@ -63,5 +63,7 @@ std::string wcstombs(std::wstring str);
 //TODO - dont we already have another  function that can do this
 std::string getExtension(const char* input);
 
+std::wstring StripExtension(std::wstring filename);
+std::wstring StripPath(std::wstring filename);
 
 #endif
