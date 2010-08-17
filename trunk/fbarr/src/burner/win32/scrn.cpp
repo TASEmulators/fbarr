@@ -2877,9 +2877,10 @@ int ScrnTitle()
 // Init the screen window (create it)
 int ScrnInit()
 {
-	REBARINFO rebarInfo;
-	REBARBANDINFO rebarBandInfo;
-	RECT rect;
+	//adelikat: I ripped out this toolbar crap and made it a normal menu
+	//	REBARINFO rebarInfo;
+	//	REBARBANDINFO rebarBandInfo;
+	//	RECT rect;
 	int nWindowStyles, nWindowExStyles;
 
 	ScrnExit();
