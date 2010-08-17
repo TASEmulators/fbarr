@@ -841,7 +841,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDCANCEL,195,225,50,14
     GROUPBOX        "",IDC_STATIC,3,0,244,220
-    CTEXT           "Double-click a command to change its mapping",IDC_HKEYSS_STATIC,7,7,232,15,SS_CENTERIMAGE
+    CTEXT           "Double-click a command to change its mapping, press delete to remove its current mapping",IDC_HKEYSS_STATIC,7,7,232,15,SS_CENTERIMAGE
     CONTROL         "List1",IDC_MHKEYS_LIST,"SysListView32",LVS_REPORT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,9,24,232,190
 END
 
