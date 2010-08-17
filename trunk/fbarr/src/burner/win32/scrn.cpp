@@ -4,7 +4,7 @@
 #include "maphkeys.h"
 #include "ramwatch.h"
 #include <string>
-
+#include "replay.h"
 #include "../../utils/xstring.h"
 
 
@@ -2860,6 +2860,14 @@ int ScrnTitle()
 		}
 	} else {
 		_stprintf(szText, _T(APP_TITLE) _T( " v%.20s") _T(SEPERATOR_1) _T("[%s]"), szAppBurnVer, FBALoadStringEx(hAppInst, IDS_SCRN_NOGAME, true));
+	}
+
+	std::wstring str = GetCurrentMovie();
+	//Add movie name if it exists
+	if (str.length())
+	{
+		wcscat(szText, L" Playing: ");
+		wcscat(szText, StripPath(str).c_str());
 	}
 
 	SetWindowText(hScrnWnd, szText);
