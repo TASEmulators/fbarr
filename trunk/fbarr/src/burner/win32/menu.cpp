@@ -470,14 +470,14 @@ int MenuCreate()
 	bMenuDisplayed = false;
 	nLastMenu = -1;
 
-	hMenubar = CreateWindowEx(0,
-		TOOLBARCLASSNAME, NULL,
-		TBSTYLE_FLAT | TBSTYLE_LIST | CCS_NODIVIDER | CCS_NOPARENTALIGN | CCS_NORESIZE | WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
-		0, 0, 0, 0,
-		hScrnWnd, NULL, hAppInst, NULL);
+	//hMenubar = CreateWindowEx(0,
+	//	TOOLBARCLASSNAME, NULL,
+	//	TBSTYLE_FLAT | TBSTYLE_LIST | CCS_NODIVIDER | CCS_NOPARENTALIGN | CCS_NORESIZE | WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
+	//	0, 0, 0, 0,
+	//	hScrnWnd, NULL, hAppInst, NULL);
 
-	SendMessage(hMenubar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
-	SendMessage(hMenubar, TB_SETBITMAPSIZE, 0, 0);
+	//SendMessage(hMenubar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
+	//SendMessage(hMenubar, TB_SETBITMAPSIZE, 0, 0);
 
 	// Reset window menu to default
 	GetSystemMenu(hScrnWnd, TRUE);
@@ -511,13 +511,16 @@ int MenuCreate()
 	}
 
 	// Add buttons to the menu toolbar
+	/*
 	memset(&button, 0, sizeof(TBBUTTON));
 	memset(&menuItemInfo, 0, sizeof(MENUITEMINFO));
 
 	menuItemInfo.cbSize = sizeof(MENUITEMINFO);
 	menuItemInfo.fMask = MIIM_TYPE;
 	menuItemInfo.dwTypeData = szButtonText;
-
+	*/
+	SetMenu(hScrnWnd,hMenu);
+	/*
 	for (int i = 0; i < 6; i++) {
 
 		menuItemInfo.cch = 32;
@@ -532,7 +535,7 @@ int MenuCreate()
 
 		SendMessage(hMenubar, TB_ADDBUTTONS, 1, (LPARAM)&button);
 	}
-	
+	*/
 	if(nMenuUITheme != 0) {
 		IMMENUPROPS mp;
 		mp.textColor = RGB(0,0,0); // Title text color
