@@ -966,7 +966,13 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 		case MENU_STOPREPLAY:
 			HK_stopRec(0);
 			break;
-
+		case ID_MOVIE_BINDSAVE:
+			if (BindedSavestates())
+				SetBindedSavestates(false);
+			else
+				SetBindedSavestates(true);
+			MenuEnableItems();
+			break;
 		case ID_LUA_OPEN:
 			HK_luaOpen(0);
 			break;
