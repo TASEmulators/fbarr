@@ -74,7 +74,6 @@ static void CreateStateName(int nSlot)
 std::wstring ReturnStateName()
 {
 	TCHAR choice[260];
-	wstring str;
 	if (MovieIsActive() && BindedSavestates())	//If movie is active and bind savestates flag active, bind movie to savestaes by including movie name in the filename
 	{
 		_stprintf(choice, _T("%ssavestates\\%s %s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), StripExtension(StripPath(GetCurrentMovie())).c_str());
@@ -83,9 +82,7 @@ std::wstring ReturnStateName()
 	{
 		_stprintf(choice, _T("%ssavestates\\%s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME));
 	}
-	//TODO: remove str and just return choice?
-	str = choice;
-	return str;
+	return choice;
 }
 
 int StatedLoad(int nSlot)
@@ -298,6 +295,24 @@ bool CheckBackupSaveStateExist()
 void BackupLoadState()
 {
 	wstring filename = GetBackupFileName();
-	StatedSave(filename.c_str());	//TODO: create a savestate function that receives a filename instead of slot number
+	StatedSave(filename.c_str());
 	undoLS = true;
+}
+
+//Loads the backup (.bak) savestate that's created whenever a loadstate is executed
+//user is to signal whether it is the users choice or FBA (in the event of loadstate error)
+void LoadBackup(bool user)
+{
+	if (!undoLS && user) return;			//If this is a user choice and backups are turned off
+	TCHAR choice[260];
+	wcscpy(choice, GetBackupFileName().c_str());
+	if (CheckBackupSaveStateExist())
+	{
+		int nRet = BurnStateLoad(choice, 1, &DrvInitCallback);
+		redoLS = true;						//Flag redoLoadState
+		undoLS = false;						//Flag that LoadBackup cannot be run again
+	}
+	else
+		VidSNewShortMsg(L"Error loading backup state"); //TODO: put backup filename in error message
+														//TODO: use nret for a more informative message
 }
