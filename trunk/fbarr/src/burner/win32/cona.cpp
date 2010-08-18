@@ -9,6 +9,8 @@
  #include <locale.h>
 #endif
 
+extern bool bindSavestates; //adelikat: blech, TODO: create a variable in save & load config that runs get & set methods intoead of this
+
 int nIniVersion = 0;
 
 struct VidPresetData VidPreset[4] = {
@@ -246,6 +248,8 @@ int ConfigAppLoad()
 		STR(szPrevGames[7]);
 		STR(szPrevGames[8]);
 		STR(szPrevGames[9]);
+
+		VAR(bindSavestates);
 
 		// Default Controls
 		VAR(nPlayerDefaultControls[0]);
@@ -578,6 +582,8 @@ int ConfigAppSave()
 
 	_ftprintf(h, _T("\n// Specify icons display size, 0 = 16x16 , 1 = 24x24, 2 = 32x32.\n"));
 	VAR(nIconsSize);
+
+	VAR(bindSavestates);
 
 	_ftprintf(h, _T("\n// Previous games list.\n"));
 	STR(szPrevGames[0]);
