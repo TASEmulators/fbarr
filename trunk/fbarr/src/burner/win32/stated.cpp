@@ -17,6 +17,7 @@ bool undoLS = false;		  //This will be true if a backupstate was made and it was
 bool redoLS = false;		  //This will be true if a backupstate was loaded, meaning redoLoadState can be run
 
 void BackupLoadState();
+void LoadBackup(bool user);
 
 extern bool bReplayDontClose;
 int bDrvSaveAll = 0;
@@ -171,7 +172,9 @@ int StatedLoad(int nSlot)
 		}
 	}
 
-	if (nRet) {
+	if (nRet) 
+	{
+		LoadBackup(0);						//Restore previous state
 		FBAPopupDisplay(PUF_TYPE_ERROR);
 	}
 
