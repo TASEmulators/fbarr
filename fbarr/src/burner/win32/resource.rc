@@ -797,9 +797,9 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDCANCEL,195,234,50,14
     GROUPBOX        "",IDC_STATIC,3,0,244,230
-    CTEXT           "To remove the mapping press Delete",IDC_HKEYSS_STATIC,10,18,230,16,SS_CENTERIMAGE
+    CTEXT           "Double-click a command to change its mapping",IDC_HKEYSS_STATIC,11,5,230,16,SS_CENTERIMAGE
     CONTROL         "List1",IDC_MHKEYS_LIST,"SysListView32",LVS_REPORT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,9,35,232,190
-    CTEXT           "Double-click a command to change its mapping",IDC_HKEYSS_STATIC2,10,9,230,11,SS_CENTERIMAGE
+    CTEXT           "To remove the mapping press Delete",IDC_HKEYSS_STATIC2,11,21,230,11,SS_CENTERIMAGE
 END
 
 IDD_RAMSEARCH DIALOGEX 0, 0, 287, 292
