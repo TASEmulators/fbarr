@@ -1003,3 +1003,8 @@ std::wstring GetCurrentMovie()
 	std::wstring str = szCurrentMovieFilename;
 	return str;
 }
+
+bool MovieIsActive()
+{
+	return nReplayStatus;
+}
