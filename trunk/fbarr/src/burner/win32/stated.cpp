@@ -3,6 +3,20 @@
 #include "replay.h"
 #include "../../utils/xstring.h"
 #include <string>
+#include <fstream>
+
+using namespace std;
+
+//Backup savestate/loadstate values
+TCHAR lastSavestateMade[2048]; //Stores the filename of the last savestate made (needed for UndoSavestate)
+bool undoSS = false;		  //This will be true if there is lastSavestateMade, it was made since ROM was loaded, a backup state for lastSavestateMade exists
+bool redoSS = false;		  //This will be true if UndoSaveState is run, will turn false when a new savestate is made
+
+TCHAR lastLoadstateMade[2048]; //Stores the filename of the last state loaded (needed for Undo/Redo loadstate)
+bool undoLS = false;		  //This will be true if a backupstate was made and it was made since ROM was loaded
+bool redoLS = false;		  //This will be true if a backupstate was loaded, meaning redoLoadState can be run
+
+
 extern bool bReplayDontClose;
 int bDrvSaveAll = 0;
 
@@ -53,6 +67,24 @@ static void CreateStateName(int nSlot)
 	{
 		_stprintf(szChoice, _T("%ssavestates\\%s slot %02x.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), nSlot);
 	}
+}
+
+//Retunrs a generic non numbered savestate name based on rom & movie
+std::wstring ReturnStateName()
+{
+	TCHAR choice[260];
+	wstring str;
+	if (MovieIsActive() && BindedSavestates())	//If movie is active and bind savestates flag active, bind movie to savestaes by including movie name in the filename
+	{
+		_stprintf(choice, _T("%ssavestates\\%s %s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), StripExtension(StripPath(GetCurrentMovie())).c_str());
+	}
+	else
+	{
+		_stprintf(choice, _T("%ssavestates\\%s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME));
+	}
+	//TODO: remove str and just return choice?
+	str = choice;
+	return str;
 }
 
 int StatedLoad(int nSlot)
@@ -194,4 +226,56 @@ int StatedSave(int nSlot)
 		VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
 
 	return nRet;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//*************************************************************************
+//Loadstate backup functions
+//(Used when Loading savestates)
+//*************************************************************************
+
+wstring GetBackupFileName()
+{
+	//This backup savestate is a special one specifically made whenever a loadstate occurs so that the user's place in a movie/game is never lost
+	//particularly from unintentional loadstating
+	wstring filename;
+	int x;
+	
+	filename = ReturnStateName();		//Generate normal savestate filename
+	//x = filename.find_last_of(".");		//Find last dot
+	filename = filename.substr(0,x);	//Chop off file extension
+	//filename.append(".bak.fc0");		//add .bak
+
+	return filename;
+}
+
+bool CheckBackupSaveStateExist()
+{
+	//This function simply checks to see if the backup loadstate exists, the backup loadstate is a special savestate
+	//That is made before loading any state, so that the user never loses his data
+	wstring filename = GetBackupFileName(); //Get backup savestate filename
+		
+	//Check if this filename exists
+	fstream test;
+	test.open(filename.c_str(),fstream::in);
+		
+	if (test.fail())
+	{
+		test.close();
+		return false;
+	}
+	else
+	{
+		test.close();
+		return true;
+	}
+}
+
+void BackupLoadState()
+{
+	wstring filename = GetBackupFileName();
+	//internalSaveLoad = true;	//adelikat I don't think I need this one
+	//	FCEUSS_Save(filename.c_str());	//TODO: create a savestate function that receives a filename instead of slot number
+	//internalSaveLoad = false;	//or this one
+	undoLS = true;
 }
