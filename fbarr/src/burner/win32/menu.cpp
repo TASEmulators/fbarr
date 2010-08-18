@@ -1,6 +1,7 @@
 // Menu handling
 
 #include "burner.h"
+#include "replay.h"
 
 #ifdef _MSC_VER
 // #include <winable.h>
@@ -1457,7 +1458,7 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_STARTREPLAY,			MF_ENABLED | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_STARTRECORD,			MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_STOPREPLAY,			MF_GRAYED  | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_VIEWGAMEINFO,			MF_GRAYED  | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_VIEWGAMEINFO,		MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_QUIT,				MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_EXIT,				MF_ENABLED | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_INPUT,				MF_GRAYED  | MF_BYCOMMAND);
@@ -1475,16 +1476,16 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_STATE_SAVE_SLOT,		MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_STATE_SAVE_DIALOG,	MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_FRAMES,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_DSOUND_NOSOUND,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_DSOUND_11025,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_DSOUND_22050,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_DSOUND_44100,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_DSOUND_48000,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_XAUDIO_NOSOUND,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_XAUDIO_11025,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_XAUDIO_22050,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_XAUDIO_44100,				MF_ENABLED | MF_BYCOMMAND);
-		EnableMenuItem(hMenu, MENU_XAUDIO_48000,				MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_DSOUND_NOSOUND,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_DSOUND_11025,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_DSOUND_22050,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_DSOUND_44100,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_DSOUND_48000,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_XAUDIO_NOSOUND,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_XAUDIO_11025,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_XAUDIO_22050,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_XAUDIO_44100,		MF_ENABLED | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_XAUDIO_48000,		MF_ENABLED | MF_BYCOMMAND);
 //		EnableMenuItem(hMenu, MENU_INTERPOLATE_1,		MF_ENABLED | MF_BYCOMMAND);
 //		EnableMenuItem(hMenu, MENU_INTERPOLATE_3,		MF_ENABLED | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_WLOGSTART,			MF_GRAYED  | MF_BYCOMMAND);
@@ -1497,11 +1498,14 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_SAVEGAMEINPUTNOW,	MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_AVI_BEGIN,			MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_AVI_END,				MF_GRAYED  | MF_BYCOMMAND);
+		
+
 
 		EnableMenuItem(hMenu, MENU_AUD_PLUGIN_1, MF_ENABLED  | MF_BYCOMMAND);
 #ifdef _MSC_VER
 		EnableMenuItem(hMenu, MENU_AUD_PLUGIN_2, MF_ENABLED  | MF_BYCOMMAND);
 #endif
+		CheckMenuItem(hMenu, ID_MOVIE_BINDSAVE, BindedSavestates() ? MF_CHECKED : MF_UNCHECKED);
 	}
 }
 

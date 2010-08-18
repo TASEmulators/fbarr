@@ -45,7 +45,7 @@ int StatedAuto(int bSave)
 
 static void CreateStateName(int nSlot)
 {
-	if (MovieIsActive())	//If movie is active, bind movie to savestaes by including movie name in the filename
+	if (MovieIsActive() && BindedSavestates())	//If movie is active and bind savestates flag active, bind movie to savestaes by including movie name in the filename
 	{
 		_stprintf(szChoice, _T("%ssavestates\\%s %s slot %02x.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), StripExtension(StripPath(GetCurrentMovie())).c_str(), nSlot);
 	}

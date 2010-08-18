@@ -24,6 +24,7 @@ bool bStartFromReset = true;
 TCHAR szCurrentMovieFilename[MAX_PATH] = _T("");
 unsigned int nTotalFrames = 0;
 unsigned int nReplayCurrentFrame;
+bool bindSavestates = true;	//Bind savestates to movies flag
 
 #define MOVIE_FLAG_FROM_POWERON (1<<1)
 
@@ -1007,4 +1008,14 @@ std::wstring GetCurrentMovie()
 bool MovieIsActive()
 {
 	return nReplayStatus;
+}
+
+bool BindedSavestates()
+{
+	return bindSavestates;
+}
+
+void SetBindedSavestates(bool flag)
+{
+	bindSavestates = flag;
 }

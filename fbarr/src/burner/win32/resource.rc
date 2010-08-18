@@ -1076,6 +1076,8 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Record AVI...",               MENU_AVI_BEGIN, GRAYED
             MENUITEM "Stop AVI",                    MENU_AVI_END, GRAYED
+            MENUITEM SEPARATOR
+            MENUITEM "Bind Savestates to Movies",   ID_MOVIE_BINDSAVE, CHECKED
         END
         POPUP "Lua Scripting..."
         BEGIN
