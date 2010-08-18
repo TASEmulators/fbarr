@@ -228,6 +228,31 @@ int StatedSave(int nSlot)
 	return nRet;
 }
 
+//Save state based on a file name
+int StatedSave(std::wstring filename)
+{
+	TCHAR choice[260];
+	int nRet;
+
+	if (bDrvOkay == 0) 
+	{
+		return 1;
+	}
+
+	wcscpy(szChoice, filename.c_str());
+	nRet = BurnStateSave(choice, 1);
+
+	if (nRet) 
+	{
+		FBAPopupAddText(PUF_TEXT_DEFAULT, MAKEINTRESOURCE(IDS_ERR_DISK_CREATE));
+		FBAPopupAddText(PUF_TEXT_DEFAULT, MAKEINTRESOURCE(IDS_DISK_STATE));
+		FBAPopupDisplay(PUF_TYPE_ERROR);
+	}
+
+	VidSNewShortMsg(L"Error creating backup state");
+	return nRet;
+}
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 //*************************************************************************
 //Loadstate backup functions
@@ -238,14 +263,9 @@ wstring GetBackupFileName()
 {
 	//This backup savestate is a special one specifically made whenever a loadstate occurs so that the user's place in a movie/game is never lost
 	//particularly from unintentional loadstating
-	wstring filename;
-	int x;
 	
-	filename = ReturnStateName();		//Generate normal savestate filename
-	//x = filename.find_last_of(".");		//Find last dot
-	filename = filename.substr(0,x);	//Chop off file extension
-	//filename.append(".bak.fc0");		//add .bak
-
+	std::wstring filename = StripExtension(ReturnStateName());//Generate normal savestate filename then remove file extension
+	filename.append(L".bak.fc0");							  //add .bak extension
 	return filename;
 }
 
@@ -275,7 +295,7 @@ void BackupLoadState()
 {
 	wstring filename = GetBackupFileName();
 	//internalSaveLoad = true;	//adelikat I don't think I need this one
-	//	FCEUSS_Save(filename.c_str());	//TODO: create a savestate function that receives a filename instead of slot number
+	StatedSave(filename.c_str());	//TODO: create a savestate function that receives a filename instead of slot number
 	//internalSaveLoad = false;	//or this one
 	undoLS = true;
 }
