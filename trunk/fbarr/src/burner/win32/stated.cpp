@@ -16,6 +16,7 @@ TCHAR lastLoadstateMade[2048]; //Stores the filename of the last state loaded (n
 bool undoLS = false;		  //This will be true if a backupstate was made and it was made since ROM was loaded
 bool redoLS = false;		  //This will be true if a backupstate was loaded, meaning redoLoadState can be run
 
+void BackupLoadState();
 
 extern bool bReplayDontClose;
 int bDrvSaveAll = 0;
@@ -94,6 +95,8 @@ int StatedLoad(int nSlot)
 	int bOldPause;
 
 	if(!bDrvOkay) return 1; //don't load unless there's a ROM open...
+
+	BackupLoadState();		//Make backup savestate first
 
 	// if rewinding during playback, and readonly is not set,
 	// then transition from decoding to encoding
@@ -239,7 +242,7 @@ int StatedSave(std::wstring filename)
 		return 1;
 	}
 
-	wcscpy(szChoice, filename.c_str());
+	wcscpy(choice, filename.c_str());
 	nRet = BurnStateSave(choice, 1);
 
 	if (nRet) 
@@ -265,14 +268,14 @@ wstring GetBackupFileName()
 	//particularly from unintentional loadstating
 	
 	std::wstring filename = StripExtension(ReturnStateName());//Generate normal savestate filename then remove file extension
-	filename.append(L".bak.fc0");							  //add .bak extension
+	filename.append(L".bak");								  //add .bak extension
 	return filename;
 }
 
+//This function simply checks to see if the backup loadstate exists, the backup loadstate is a special savestate
+//That is made before loading any state, so that the user never loses data, it has the .bak file extension
 bool CheckBackupSaveStateExist()
 {
-	//This function simply checks to see if the backup loadstate exists, the backup loadstate is a special savestate
-	//That is made before loading any state, so that the user never loses his data
 	wstring filename = GetBackupFileName(); //Get backup savestate filename
 		
 	//Check if this filename exists
@@ -291,11 +294,10 @@ bool CheckBackupSaveStateExist()
 	}
 }
 
+//Creates a .bak file, to be used before loading any state
 void BackupLoadState()
 {
 	wstring filename = GetBackupFileName();
-	//internalSaveLoad = true;	//adelikat I don't think I need this one
 	StatedSave(filename.c_str());	//TODO: create a savestate function that receives a filename instead of slot number
-	//internalSaveLoad = false;	//or this one
 	undoLS = true;
 }
