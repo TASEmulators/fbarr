@@ -2660,6 +2660,7 @@ static void OnEnterMenuLoop(HWND, BOOL)
 			bRunPause = 1;
 		}
 	}
+	MenuEnableItems();
 }
 
 static void OnExitMenuLoop(HWND, BOOL)

@@ -1511,8 +1511,6 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_SAVEGAMEINPUTNOW,	MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_AVI_BEGIN,			MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_AVI_END,				MF_GRAYED  | MF_BYCOMMAND);
-		//EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	undoLS ? MF_GRAYED : MF_ENABLED  | MF_BYCOMMAND);
-
 
 		EnableMenuItem(hMenu, MENU_AUD_PLUGIN_1, MF_ENABLED  | MF_BYCOMMAND);
 #ifdef _MSC_VER
@@ -1523,19 +1521,20 @@ void MenuEnableItems()
 		if (redoLS)
 		{
 			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Redo Loadstate");
-			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_ENABLED);
+			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_ENABLED| MF_BYCOMMAND);
 		}
 		else if (undoLS)
 		{
 			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Redo Loadstate");
-			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_ENABLED);
+			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_ENABLED | MF_BYCOMMAND);
 		}
 		else
 		{
-			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Redo Loadstate");
-			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_GRAYED);
+			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Undo Loadstate");
+			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_GRAYED | MF_BYCOMMAND); 
 		}
 	}
+	
 }
 
 void MenuRemoveTheme()
