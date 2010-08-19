@@ -952,7 +952,7 @@ static int DrvInit(int (pLoadCallback)())
 	MemIndex();
 
 	{
-		if (pLoadCallback) {
+		if ((bool)pLoadCallback) {
 			if (pLoadCallback()) return 1;
 		}
 	

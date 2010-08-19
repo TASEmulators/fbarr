@@ -707,7 +707,7 @@ MAME_INLINE void advance(YM2413 *chip)
 				{
 					op->volume += eg_inc[op->eg_sel_dr + ((chip->eg_cnt>>op->eg_sh_dr)&7)];
 
-					if ( op->volume >= op->sl )
+					if ( op->volume >= (int)op->sl )
 						op->state = EG_SUS;
 				}
 			break;
