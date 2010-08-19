@@ -7,8 +7,8 @@
 #define ES_EX_NOCALLOLEINIT             0x00000000
 #define MMX                             0
 #define VER_ALPHA                       1
-#define ID_MOVIE_BINDSAVE               1
-#define ID_SAVESTATES_UNDOLOADSTATE     2
+#define ID_MOVIE_BINDSAVE               1200
+#define ID_SAVESTATES_UNDOLOADSTATE     1201
 #define IDROM                           3
 #define VER_BETA                        4
 #define IDRESCAN                        4
