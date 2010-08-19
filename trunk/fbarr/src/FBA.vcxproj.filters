@@ -510,6 +510,9 @@
     <ClInclude Include="burner\win32\replay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="burner\win32\stated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="libs\pnglib\pnglib.inc">

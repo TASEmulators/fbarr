@@ -660,6 +660,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\burner\win32\stated.h"
+				>
+			</File>
+			<File
 				RelativePath=".\burn\stdfunc.h"
 				>
 			</File>
