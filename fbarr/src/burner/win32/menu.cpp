@@ -1517,15 +1517,17 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_AUD_PLUGIN_2, MF_ENABLED  | MF_BYCOMMAND);
 #endif
 		CheckMenuItem(hMenu, ID_MOVIE_BINDSAVE, BindedSavestates() ? MF_CHECKED : MF_UNCHECKED);
+	}
 
-		if (redoLS)
+	//adelikat: TODO: implement the redo loadstate function
+	//if (redoLS)
 		{
 			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Redo Loadstate");
 			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_ENABLED| MF_BYCOMMAND);
 		}
-		else if (undoLS)
+		/*else*/ if (undoLS)
 		{
-			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Redo Loadstate");
+			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Undo Loadstate");
 			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_ENABLED | MF_BYCOMMAND);
 		}
 		else
@@ -1533,7 +1535,6 @@ void MenuEnableItems()
 			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Undo Loadstate");
 			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_GRAYED | MF_BYCOMMAND); 
 		}
-	}
 	
 }
 
