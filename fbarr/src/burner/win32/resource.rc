@@ -1112,6 +1112,7 @@ BEGIN
                 MENUITEM "MENU_STATE_SAVE_SLOT",        MENU_STATE_SAVE_SLOT
             END
             MENUITEM "Restore full state on load",  MENU_ALLRAM
+            MENUITEM "Undo Loadstate",              ID_SAVESTATES_UNDOLOADSTATE
         END
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       MENU_EXIT

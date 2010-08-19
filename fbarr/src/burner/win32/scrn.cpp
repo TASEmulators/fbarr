@@ -6,7 +6,7 @@
 #include <string>
 #include "replay.h"
 #include "../../utils/xstring.h"
-
+#include "stated.h"
 
 using namespace std;
 
@@ -972,6 +972,9 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			else
 				SetBindedSavestates(true);
 			MenuEnableItems();
+			break;
+		case ID_SAVESTATES_UNDOLOADSTATE:
+			LoadBackup(0);
 			break;
 		case ID_LUA_OPEN:
 			HK_luaOpen(0);
