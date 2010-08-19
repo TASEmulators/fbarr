@@ -322,6 +322,16 @@ static int MHkeysExit()
 	return 0;
 }
 
+int FindCustomKey(const char* name)
+{
+	for (int i = 0; !lastCustomKey(customKeys[i]); i++)
+	{
+		if (strcmp(customKeys[i].name, name) == 0)
+			return i;
+	}
+	return 0;
+}
+
 static LRESULT CALLBACK KeyMappingHook(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code < 0) {
@@ -341,6 +351,44 @@ static LRESULT CALLBACK KeyMappingHook(int code, WPARAM wParam, LPARAM lParam)
 		key.keymod |= MODKEY_ALT;
 	if (KEY_DOWN(VK_SHIFT))
 		key.keymod |= MODKEY_SHIFT;
+
+	//If user assign Select state to 1, go ahead and do the rest for them
+	if (strcmp(key.name,"Select State 1") == 0 && key.key == '1')
+	{
+		customKeys[FindCustomKey("Select State 2")].key = '2';
+		customKeys[FindCustomKey("Select State 3")].key = '3';
+		customKeys[FindCustomKey("Select State 4")].key = '4';
+		customKeys[FindCustomKey("Select State 5")].key = '5';
+		customKeys[FindCustomKey("Select State 6")].key = '6';
+		customKeys[FindCustomKey("Select State 7")].key = '7';
+		customKeys[FindCustomKey("Select State 8")].key = '8';
+		customKeys[FindCustomKey("Select State 9")].key = '9';
+		customKeys[FindCustomKey("Select State 10")].key = '0';
+	}
+	else if (strcmp(key.name,"Load State 1") == 0 && key.key == VK_F1)
+	{
+		customKeys[FindCustomKey("Load State 2")].key = VK_F2;
+		customKeys[FindCustomKey("Load State 3")].key = VK_F3;
+		customKeys[FindCustomKey("Load State 4")].key = VK_F4;
+		customKeys[FindCustomKey("Load State 5")].key = VK_F5;
+		customKeys[FindCustomKey("Load State 6")].key = VK_F6;
+		customKeys[FindCustomKey("Load State 7")].key = VK_F7;
+		customKeys[FindCustomKey("Load State 8")].key = VK_F8;
+		customKeys[FindCustomKey("Load State 9")].key = VK_F9;
+		customKeys[FindCustomKey("Load State 10")].key = VK_F10;
+	}
+	else if (strcmp(key.name,"Save State 1") == 0 && key.key == VK_F1 && key.keymod == MODKEY_SHIFT)
+	{
+		int x = FindCustomKey("Save State 2"); customKeys[x].key = VK_F2; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 3"); customKeys[x].key = VK_F3; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 4"); customKeys[x].key = VK_F4; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 5"); customKeys[x].key = VK_F5; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 6"); customKeys[x].key = VK_F6; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 7"); customKeys[x].key = VK_F7; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 8"); customKeys[x].key = VK_F8; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 9"); customKeys[x].key = VK_F9; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 10"); customKeys[x].key = VK_F10; customKeys[x].keymod = MODKEY_SHIFT;
+	}
 
 	MHkeysUseUpdate();
 
