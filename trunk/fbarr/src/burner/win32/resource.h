@@ -8,6 +8,7 @@
 #define MMX                             0
 #define VER_ALPHA                       1
 #define ID_MOVIE_BINDSAVE               1
+#define ID_SAVESTATES_UNDOLOADSTATE     2
 #define IDROM                           3
 #define VER_BETA                        4
 #define IDRESCAN                        4
@@ -1121,7 +1122,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        0
-#define _APS_NEXT_COMMAND_VALUE         2
+#define _APS_NEXT_COMMAND_VALUE         3
 #define _APS_NEXT_CONTROL_VALUE         0
 #define _APS_NEXT_SYMED_VALUE           0
 #endif

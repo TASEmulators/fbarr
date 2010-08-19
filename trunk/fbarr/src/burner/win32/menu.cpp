@@ -2,6 +2,7 @@
 
 #include "burner.h"
 #include "replay.h"
+#include "stated.h"
 
 #ifdef _MSC_VER
 // #include <winable.h>
@@ -34,6 +35,18 @@ int nMenuUITheme = 0;
 TCHAR szPrevGames[SHOW_PREV_GAMES][32];
 
 static HHOOK hMenuHook;
+
+//adelikat: this function allows for easily changing a menu item text
+void ChangeMenuItemText(int menuitem, std::wstring text)
+{
+	MENUITEMINFO moo;
+	moo.cbSize = sizeof(moo);
+	moo.fMask = MIIM_TYPE;
+	moo.cch = NULL;
+	GetMenuItemInfo(hMenu, menuitem, FALSE, &moo);
+	moo.dwTypeData = (LPWSTR)text.c_str();
+	SetMenuItemInfo(hMenu, menuitem, FALSE, &moo);
+}
 
 static LRESULT CALLBACK MenuHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
@@ -1498,7 +1511,7 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_SAVEGAMEINPUTNOW,	MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_AVI_BEGIN,			MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_AVI_END,				MF_GRAYED  | MF_BYCOMMAND);
-		
+		//EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	undoLS ? MF_GRAYED : MF_ENABLED  | MF_BYCOMMAND);
 
 
 		EnableMenuItem(hMenu, MENU_AUD_PLUGIN_1, MF_ENABLED  | MF_BYCOMMAND);
@@ -1506,6 +1519,22 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_AUD_PLUGIN_2, MF_ENABLED  | MF_BYCOMMAND);
 #endif
 		CheckMenuItem(hMenu, ID_MOVIE_BINDSAVE, BindedSavestates() ? MF_CHECKED : MF_UNCHECKED);
+
+		if (redoLS)
+		{
+			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Redo Loadstate");
+			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_ENABLED);
+		}
+		else if (undoLS)
+		{
+			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Redo Loadstate");
+			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_ENABLED);
+		}
+		else
+		{
+			ChangeMenuItemText(ID_SAVESTATES_UNDOLOADSTATE, L"Redo Loadstate");
+			EnableMenuItem(hMenu, ID_SAVESTATES_UNDOLOADSTATE,	MF_GRAYED);
+		}
 	}
 }
 

@@ -95,6 +95,8 @@ int StatedLoad(int nSlot)
 	if(!bDrvOkay) return 1; //don't load unless there's a ROM open...
 
 	BackupLoadState();		//Make backup savestate first
+	undoLS = true;			//Backup exists so undo is possible
+	redoLS = false;			//Redo not valid 
 
 	// if rewinding during playback, and readonly is not set,
 	// then transition from decoding to encoding
