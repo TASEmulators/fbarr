@@ -146,11 +146,11 @@ int StatedLoad(int nSlot)
 	
 	
 	UpdateMemWatch();
-
+	/*
 	if (nSlot) {
 		return nRet;
 	}
-
+	*/ //adelikat: Removing this, I think these error messages should go through regardless, and it makes it able to load the backup state now
 	// Describe any possible errors:
 	if (nRet == 3) {
 		FBAPopupAddText(PUF_TEXT_DEFAULT, MAKEINTRESOURCE(IDS_DISK_THIS_STATE));
@@ -175,7 +175,7 @@ int StatedLoad(int nSlot)
 	if (nRet) 
 	{
 		LoadBackup(0);						//Restore previous state
-		FBAPopupDisplay(PUF_TYPE_ERROR);
+		//FBAPopupDisplay(PUF_TYPE_ERROR);	//adelikat:  The displaying of state error is sufficient
 	}
 
 	return nRet;
