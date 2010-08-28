@@ -11,6 +11,7 @@
 #define ID_MOVIE_PLAYFROMBEGINNING      3
 #define VER_BETA                        4
 #define IDRESCAN                        4
+#define ID_MISC_FRAMECOUNTER            4
 #define BMP_PREVIEW                     5
 #define BMP_SMALLPREVIEW                6
 #define BMP_PREVIEW_ALT                 7
@@ -1123,7 +1124,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        0
-#define _APS_NEXT_COMMAND_VALUE         4
+#define _APS_NEXT_COMMAND_VALUE         5
 #define _APS_NEXT_CONTROL_VALUE         0
 #define _APS_NEXT_SYMED_VALUE           0
 #endif

@@ -1281,6 +1281,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Save High Scores when supported", MENU_SAVEHISCORES
         END
+        MENUITEM "Frame counter",               ID_MISC_FRAMECOUNTER
         MENUITEM SEPARATOR
         POPUP "Generate dat file"
         BEGIN

@@ -979,6 +979,9 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 		case ID_SAVESTATES_UNDOLOADSTATE:
 			LoadBackup(0);
 			break;
+		case ID_MISC_FRAMECOUNTER:
+			HK_frameCounter(0);
+			break;
 		case ID_LUA_OPEN:
 			HK_luaOpen(0);
 			break;
