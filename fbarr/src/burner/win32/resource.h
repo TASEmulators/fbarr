@@ -7,9 +7,8 @@
 #define ES_EX_NOCALLOLEINIT             0x00000000
 #define MMX                             0
 #define VER_ALPHA                       1
-#define ID_MOVIE_BINDSAVE               1200
-#define ID_SAVESTATES_UNDOLOADSTATE     1201
 #define IDROM                           3
+#define ID_MOVIE_PLAYFROMBEGINNING      3
 #define VER_BETA                        4
 #define IDRESCAN                        4
 #define BMP_PREVIEW                     5
@@ -350,6 +349,8 @@
 #define MW_ADDR23                       1070
 #define ID_LICENSE                      1100
 #define ID_DX9EFFECT                    1101
+#define ID_MOVIE_BINDSAVE               1200
+#define ID_SAVESTATES_UNDOLOADSTATE     1201
 #define MENU_LOAD                       10001
 #define MENU_STARTNET                   10002
 #define MENU_STARTREPLAY                10003
@@ -1122,7 +1123,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        0
-#define _APS_NEXT_COMMAND_VALUE         3
+#define _APS_NEXT_COMMAND_VALUE         4
 #define _APS_NEXT_CONTROL_VALUE         0
 #define _APS_NEXT_SYMED_VALUE           0
 #endif

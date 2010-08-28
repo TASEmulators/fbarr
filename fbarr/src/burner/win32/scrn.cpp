@@ -966,6 +966,9 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 		case MENU_STOPREPLAY:
 			HK_stopRec(0);
 			break;
+		case ID_MOVIE_PLAYFROMBEGINNING:
+			HK_playFromBeginning(0);
+			break;
 		case ID_MOVIE_BINDSAVE:
 			if (BindedSavestates())
 				SetBindedSavestates(false);
