@@ -10,6 +10,7 @@ New lua functions
 -movie.setreadonly()
 -movie.getreadonly()
 -movie.length()
+Menu items for frame counter toggle, and play movie from beginning
 play movie from beginning hotkey now works
 Update frame counter on loadstate
 doesn't crash when canceling open rom dialog
@@ -24,7 +25,8 @@ GUI cleanups
 Changed these defaults:
 - No splash screen, No first time use detection
 - 1x Screen res
-- Windowed mode default when loading game from commandline (instead of fullscreen
+- Windowed mode default when loading game from commandline (instead of fullscreen)
+- Show available only in Rom dialog
 RAM Search - fix reset to update previous values
 Ram Search - Fix counting number of changes
 Ram Watch - Add Separator button

@@ -1429,10 +1429,12 @@ void MenuEnableItems()
 
 		if (nReplayStatus) {
 			EnableMenuItem(hMenu, MENU_STOPREPLAY,				MF_ENABLED | MF_BYCOMMAND);
+			EnableMenuItem(hMenu, ID_MOVIE_PLAYFROMBEGINNING,	MF_ENABLED | MF_BYCOMMAND);
 			EnableMenuItem(hMenu, MENU_STARTRECORD,				MF_GRAYED  | MF_BYCOMMAND);
 			EnableMenuItem(hMenu, MENU_STARTREPLAY,				MF_GRAYED  | MF_BYCOMMAND);
 		} else {
 			EnableMenuItem(hMenu, MENU_STOPREPLAY,				MF_GRAYED  | MF_BYCOMMAND);
+			EnableMenuItem(hMenu, ID_MOVIE_PLAYFROMBEGINNING,	MF_GRAYED  | MF_BYCOMMAND);
 
 			if (kNetGame) {
 				EnableMenuItem(hMenu, MENU_STARTRECORD,			MF_ENABLED | MF_BYCOMMAND);
@@ -1471,6 +1473,7 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_STARTREPLAY,			MF_ENABLED | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_STARTRECORD,			MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_STOPREPLAY,			MF_GRAYED  | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, ID_MOVIE_PLAYFROMBEGINNING,MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_VIEWGAMEINFO,		MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_QUIT,				MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_EXIT,				MF_ENABLED | MF_BYCOMMAND);
