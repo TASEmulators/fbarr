@@ -16,10 +16,8 @@
 // Neutral (Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -161,7 +159,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,160,181,50,14
 END
 
-IDD_VALUE DIALOG  0, 0, 97, 20
+IDD_VALUE DIALOG 0, 0, 97, 20
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Shell Dlg"
 BEGIN
@@ -887,7 +885,7 @@ BEGIN
     PUSHBUTTON      "&Cancel",IDCANCEL,120,80,50,14
 END
 
-IDD_PROMPT DIALOG  0, 0, 186, 68
+IDD_PROMPT DIALOG 0, 0, 186, 68
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Input Prompt"
 FONT 8, "Ms Shell Dlg 2"
@@ -1022,7 +1020,7 @@ END
 // Menu
 //
 
-RAMWATCH_MENU MENU 
+RAMWATCH_MENU MENU
 BEGIN
     POPUP "File"
     BEGIN
@@ -1050,7 +1048,7 @@ BEGIN
     END
 END
 
-IDR_MENU MENU 
+IDR_MENU MENU
 BEGIN
     POPUP "Game"
     BEGIN
@@ -1277,7 +1275,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Save Neo-Geo 'C' Roms",       MENU_SAVECROMS
             MENUITEM SEPARATOR
-            MENUITEM "Use assembly MC68000 core",   MENU_ASSEMBLYCORE
+            MENUITEM "Use assembly MC68000 core",   MENU_ASSEMBLYCORE, GRAYED
             MENUITEM SEPARATOR
             MENUITEM "Save High Scores when supported", MENU_SAVEHISCORES
         END
@@ -1387,7 +1385,7 @@ BEGIN
     END
 END
 
-IDR_MENU_BLITTER_1 MENU 
+IDR_MENU_BLITTER_1 MENU
 BEGIN
     POPUP "Basic\t(DirectDraw 7)"
     BEGIN
@@ -1406,7 +1404,7 @@ BEGIN
     END
 END
 
-IDR_MENU_BLITTER_2 MENU 
+IDR_MENU_BLITTER_2 MENU
 BEGIN
     POPUP "Enhanced\t(Direct3D 7)"
     BEGIN
@@ -1483,7 +1481,7 @@ BEGIN
     END
 END
 
-IDR_MENU_BLITTER_3 MENU 
+IDR_MENU_BLITTER_3 MENU
 BEGIN
     POPUP "SoftFX\t(DirectDraw 7)"
     BEGIN
@@ -1525,7 +1523,7 @@ BEGIN
     END
 END
 
-IDR_MENU_BLITTER_4 MENU 
+IDR_MENU_BLITTER_4 MENU
 BEGIN
     POPUP "Experimental\t(DirectX Graphics 9)"
     BEGIN
@@ -1563,7 +1561,7 @@ BEGIN
     END
 END
 
-IDR_MENU_AUD_PLUGIN_1 MENU 
+IDR_MENU_AUD_PLUGIN_1 MENU
 BEGIN
     POPUP "DirectSound plugin"
     BEGIN
@@ -1577,7 +1575,7 @@ BEGIN
     END
 END
 
-IDR_MENU_AUD_PLUGIN_2 MENU 
+IDR_MENU_AUD_PLUGIN_2 MENU
 BEGIN
     POPUP "XAudio2 plugin"
     BEGIN
@@ -1592,7 +1590,7 @@ BEGIN
     END
 END
 
-IDR_MENU_GAMESEL MENU 
+IDR_MENU_GAMESEL MENU
 BEGIN
     POPUP "Game Selection Menu"
     BEGIN
@@ -1613,7 +1611,7 @@ BEGIN
     END
 END
 
-IDR_MENU_FAVLIST MENU 
+IDR_MENU_FAVLIST MENU
 BEGIN
     POPUP "Favorites Selection Menu"
     BEGIN
@@ -1634,7 +1632,7 @@ BEGIN
     END
 END
 
-LUAWINDOW_MENU MENU 
+LUAWINDOW_MENU MENU
 BEGIN
     POPUP "Console"
     BEGIN
@@ -1800,7 +1798,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_MHKEYS, DIALOG
     BEGIN
@@ -1815,7 +1813,7 @@ END
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_FIRSTRUN1           "This appears to be the first time you run %s v%.20s.\n\n"
     IDS_FIRSTRUN2           "Please take some time to match the audio/video settings to your system capabilities and personal preferences. If you continue to use and/or distribute this software, you must agree to be bound by the terms of license agreement, which is always accessible via the about dialog.\n\n"
@@ -1825,7 +1823,7 @@ BEGIN
     IDS_CHEAT_STATUS        "Status"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_INPUT_INPUT         "Game input"
     IDS_INPUT_MAPPING       "Mapped to"
@@ -1837,7 +1835,7 @@ BEGIN
     IDS_INPUT_INP_XARCADER  "X-Arcade (right side)"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_INPUT_INP_HOTRODL   "Hot Rod (left side)"
     IDS_INPUT_INP_HOTRODR   "Hot Rod (right side)"
@@ -1848,7 +1846,7 @@ BEGIN
     IDS_DIP_SETTING         "Setting"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_INPSET_MOVENAME     "Move control or press key for %.100hs"
     IDS_INPSET_MOVE         "Move control or press key"
@@ -1857,21 +1855,21 @@ BEGIN
     IDS_MEMCARD_SELECT      "Select new memory card"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_PROGRESS_LOADING    "Loading and initialising %s..."
     IDS_REPLAY_RECORD       "Record Input to File"
     IDS_REPLAY_REPLAY       "Replay Input from File"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ROMS_SELECT_DIR     "Select Directory:"
     IDS_STATE_LOAD          "Load State"
     IDS_STATE_SAVE          "Save State"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_STATE_ACTIVESLOT    "slot %d active"
     IDS_STATE_LOADED        "state loaded"
@@ -1882,7 +1880,7 @@ BEGIN
     IDS_SCRN_NOGAME         "no game loaded"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_NETPLAY_START       "*** Starting netplay: "
     IDS_NETPLAY_START_YOU   "*** You are player %i. "
@@ -1893,13 +1891,13 @@ BEGIN
     IDS_SSHOT_ERROR         "PNG error %1d"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SOUND_NOVOLUME      "No volume control"
     IDS_SOUND_VOLUMESET     "volume %03i %%"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DISK_REPLAY         "This input recording"
     IDS_DISK_THIS_REPLAY    "input recording."
@@ -1909,7 +1907,7 @@ BEGIN
     IDS_DISK_FILE_STATE     "%s State Files"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DISK_SOUND          "sound recording"
     IDS_DISK_THIS_SOUND     "This sound recording"
@@ -1921,12 +1919,12 @@ BEGIN
     IDS_DISK_FILE_PATCH     "%s Patch Files"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_DISK_SAVEREPORT     "Save system information report"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_PLACEHOLDER_LOAD    "Select Skin"
     IDS_GAMELANG_LOAD       "Select game list localisation template"
@@ -1937,7 +1935,7 @@ BEGIN
     IDS_SEL_CPS1            "CPS-1"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SEL_CPS2            "CPS-2"
     IDS_SEL_CPS3            "CPS-3"
@@ -1957,7 +1955,7 @@ BEGIN
     IDS_SEL_ATARI           "Atari"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SEL_BOARDTYPE       "Board Type"
     IDS_SEL_BOOTLEG         "Bootleg"
@@ -1970,7 +1968,7 @@ BEGIN
     IDS_SPATH_TITLES        "Titles"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_GAMEINFO_DIALOGTITLE "Game Information"
     IDS_GAMEINFO_INGAME     "In Game"
@@ -1990,7 +1988,7 @@ BEGIN
     IDS_GAMEINFO_HISTORY    "History"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SPATH_SELECT        "Select"
     IDS_SPATH_VERSUS        "Versus"
@@ -2010,7 +2008,7 @@ BEGIN
     IDS_SPATH_IPS           "IPS"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_SPATH_ICONS         "Icons"
     IDS_SPATH_ARCHIVES      "ZIP Archives"
@@ -2021,7 +2019,7 @@ BEGIN
     IDS_ROMPATH_4           "Path #4"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ROMPATH_5           "Path #5"
     IDS_ROMPATH_6           "Path #6"
@@ -2030,12 +2028,12 @@ BEGIN
     IDS_PRESET_SAVED        "The preset file was saved to %s."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_IPSMANAGER_TITLE    "IPS Patch Manager"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_GENRE               "Genre"
     IDS_GENRE_HORSHOOT      "Shooter - Horizontal"
@@ -2053,7 +2051,7 @@ BEGIN
     IDS_GENRE_PUZZLE        "Puzzle"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_GENRE_QUIZ          "Quiz"
     IDS_GENRE_SPORTSMISC    "Sports - Misc"
@@ -2064,7 +2062,7 @@ BEGIN
     IDS_GENRE_SHOOT         "Shooter - Other"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_FAMILY              "Family"
     IDS_FAMILY_MSLUG        "Metal Slug"
@@ -2079,7 +2077,7 @@ BEGIN
     IDS_FAMILY_OTHER        "Other"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     1100                    "&Arcade"
     1101                    "&Other..."
@@ -2087,13 +2085,13 @@ BEGIN
     1103                    "Adjust &CPU speed..."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     1104                    "Load state from active slot (no %d)\tF9"
     1105                    "Save state to active slot (no %d)\tF10"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ERR_ERROR           "Error"
     IDS_ERR_WARNING         "Warning"
@@ -2103,7 +2101,7 @@ BEGIN
     IDS_ERR_LOAD_PROBLEM    "The ROMset exhibits the following problems:"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ERR_LOAD_NODATA     "No data was found, the game will not run!"
     IDS_ERR_LOAD_ESS_MISS   "essential data is missing, the game will not run!"
@@ -2123,7 +2121,7 @@ BEGIN
     IDS_ERR_LOAD_DET_SND    "sound "
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ERR_LOAD_DET_ROM    "ROM "
     IDS_ERR_LOAD_REQUEST    "Error loading %.32hs, requested by %.128s.\nThe emulation will likely suffer problems."
@@ -2131,12 +2129,12 @@ BEGIN
     IDS_ERR_LOAD_DISK_CRC   "CRC mismatch reading %.32hs from %.512s"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ERR_BURN_INIT       "There was a problem starting '%.128s'.\n"
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ERR_UI_NOSUPPORT    "%.32s is not supported by %.32s."
     IDS_ERR_UI_WINDOW       "Couldn't create main window."
@@ -2147,7 +2145,7 @@ BEGIN
     IDS_ERR_UI_FULL_CUSTRES "\n\nThis is not a standard VGA resolution; please make sure it is supported by your video card."
 END
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_ERR_DISK_CREATE     "Error creating "
     IDS_ERR_DISK_LOAD       "Error loading "

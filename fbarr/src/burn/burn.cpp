@@ -16,7 +16,7 @@ unsigned int nBurnDrvCount = 0;		// Count of game drivers
 unsigned int nBurnDrvSelect = ~0U;	// Which game driver is selected
 
 bool bBurnUseMMX;
-bool bBurnUseASMCPUEmulation = true;
+bool bBurnUseASMCPUEmulation = false;
 
 #if defined (FBA_DEBUG)
  clock_t starttime = 0;

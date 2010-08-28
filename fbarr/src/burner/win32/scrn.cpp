@@ -2025,9 +2025,9 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 		}
 
-		case MENU_ASSEMBLYCORE:
-			bBurnUseASMCPUEmulation = !bBurnUseASMCPUEmulation;
-			break;
+		//case MENU_ASSEMBLYCORE:
+		//	bBurnUseASMCPUEmulation = !bBurnUseASMCPUEmulation;
+		//	break;
 
 		case MENU_SAVESNAP: {
 			HK_screenShot(0);
