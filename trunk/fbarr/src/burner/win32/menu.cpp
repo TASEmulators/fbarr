@@ -801,6 +801,7 @@ void MenuUpdate()
 
 	CheckMenuItem(hMenu, MENU_PAUSE, bAltPause ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMenu, MENU_ALLRAM, bDrvSaveAll ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, ID_MISC_FRAMECOUNTER, bReplayFrameCounterDisplay ? MF_CHECKED : MF_UNCHECKED);
 
 	CheckMenuItem(hMenu, MENU_SETCPUCLOCK, nBurnCPUSpeedAdjust != 0x0100 ? MF_CHECKED : MF_UNCHECKED);
 	CreateCPUSpeedItem(nBurnCPUSpeedAdjust != 0x0100);
