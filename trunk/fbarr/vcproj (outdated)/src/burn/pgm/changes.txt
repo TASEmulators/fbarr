@@ -1,0 +1,142 @@
+ * Changes
+ *
+ * 10-19-2009
+ *  Fixed kov2106 thanks to the FBA Shuffle team :)
+ *  Added a few small speedups
+ *  - Only recalculate the whole palette when needed now rather than every frame
+ *  - Clear all video buffers in one loop
+ *  Fixed a crash when doing line scroll (see kovsh intro - fire stage background)
+ *  Fixed sound after save state load
+ *
+ * 04-24-2009
+ *  Updated a set few names
+ *
+ * 03-26-2009
+ *  Added protection emulation for kovsh & photoy2k (asic28) [XingXing]
+ *  - Hooked up the arm7 cpu
+ *  - Added speed hacks
+ *  - Added region hacks
+ *  Added crc information for svg, theglada, killbldp, kovh, ddp2/ddp2a, etc
+ *
+ * 03-19-2009
+ *  Added missing rom for olds100
+ *  Hooked up protection to olds and olds100
+ *  Updated some game information thanks to JackC
+ *
+ * 03-10-2009
+ *  Added another speed hack
+ *  - detects idle loops (cpu loops, waiting for something to do) and skips them
+ *  - Massive speedup! Helps kov2 (and clones) more than martmast though...
+ *  Added a function to the arm7 core to enable idle loop skip
+ *  - Must manually find address where loop starts
+ *  Added region hack for kov2p & kov2p205
+ *  Added Creamymami Olds100a stage fix
+ *  Removed olds100a.h -- just modifying the ram_dump instead (much smaller)
+ *  Fixed loading bug with small games
+ *  Removed previous speed hack - caused choppy sound
+ *
+ * 03-09-2009
+ *  Reduced amount of ram used by tiles
+ *  - Also a tiny speedup for background tile drawing
+ *  Added speed hack (not a lot faster)
+ *  - burns 66 cycles from 68k or arm7 whenever triggered
+ *  Greatly sped up the sprite drawing routine
+ *  - cpu usage drops 20-40% depending on the game 
+ *  Added transparency table for background tiles
+ *  - Small speedup for background drawing
+ *  Added different routine for drawing background tiles without row scroll
+ *  - Small speedup for background drawing
+ *  Added transparency table for text tiles
+ *  - Small speedup
+ *
+ * 03-08-2009
+ *  Added XingXing's Oriental Legends Special/Super protection simulation
+ *  Fixed a crash if tile accessed is outside available tiles
+ *  Fixed a crash if sample is accessed outside of available
+ *  Added input opposite clearing
+ *  Cleaned pgm_run.cpp a bit
+ *  Renamed protection & reset routines
+ *
+ * 03-07-2009
+ *  Added hack/patch for kov2p & clones
+ * 
+ * 03-03-2009
+ *  Added theglad's decryption (still missing internal arm7 rom, so not working)
+ *  Put decryption code in order of style (68k + no table, 68k + table, arm7 + table)
+ *  Fixed line in oriental legends background (improper alignment with sprites flipped)
+ *  Fixed line in dragon world 2's background
+ *  Added some unicode titles (thanks JackC)
+ *  Fixed sprite priorities
+ *
+ * 02-28-2009
+ *  Improved sprite drawing routine, should be much faster
+ *  - Non-zoomed sprites drawn by seperate routine
+ *  - Still very slow...
+ *  Cleaned up pgm_run.cpp, removed all protection read/writes
+ *  - Moved protection read/writes to pgm_prot.cpp
+ *  - Added callback for resetting protection routines
+ *  Sped up Arm7/68k syncing slightly
+ *  - Only sync on 68k reads
+ *  Reduced memory allocated for 8x8 tiles (only actually need 4mb)
+ *
+ * 02-26-2009
+ *  Added decryption for kov2p
+ *  Added kov2p205 (seems to be a valid dump)
+ *  Cleaned up d_pgm.cpp
+ *  Added region switch for asic27a games
+ *
+ * 02-22-2009
+ *  Added sprite zooming - slow!!
+ *  Added sprite buffering
+ *  Rewrote text drawing routine
+ *  - Slightly faster
+ *  - Supports X & Y flipping
+ *  Added layer disabling (shots factory)
+ *
+ * 02-21-2009
+ *  Added Arm7 cpu support
+ *  Added color independant transfer (high color support)
+ *  Rewrote background drawing routine
+ *  - Slightly faster
+ *  - Fixed scrolling in kov2
+ *  - Added line scrolling (check fire level of kov)
+ *  Fixed rom loading for kov2
+ * Added Martial Masters (China)
+ *
+ * 07-09-2007 
+ *   Sound available
+ *
+ * 07-06-2007 
+ *  Change sceen scale 2:1 back to 4:3 ( sprites seems been stove )
+ *  Add nPgmPalRecalc, support color depth change while gamming
+ *  fix Save states
+ *
+ * 07-04-2007 ( IQ_132's release )
+ *  Added all of BisonSAS's changes
+ *  - Save State support
+ *  - pgmPalUpdate()
+ *  - Diagnostics Inputs
+ *  - Dipswitches "Music and Voice"
+ *  - Dipswitch "Disable Ba-Chieh" in sets orlegend, orlegnde and orlegndc
+ *  - Removed chinese title in orlegend, orlegnde and orld105k
+ *  - Save game configurations. (NVRAM)
+ *  Drawing, protection, decrypt, sound, drivers, etc are all in seperate files
+ *  All drivers for PGM games in MAME are added (though most, as in MAME, are not working)
+ *  - Killing Blade, The (Chinese) is working (though glitchy)
+ *  - Photoy2k & Real and Fake are working perfectly
+ *  - Puzzle Star is working (though glitchy, freezes after second stage)
+ *  - Dragon World 2 boots and runs, though the controls do not work (needs another irq?)
+ *  - PGM Homebrew (PGM Frog Feast, PGM Demo) are supported (in the source) and work Perfectly
+ *  All games have a shared loading routine (like CPS-2 and NeoGeo)
+ *  All games have a shared memory map (like CPS-2 and NeoGeo)
+ *  Improved Save states a little
+ *  Removed code meant for low-ram environment
+ *  Shortened and cleaned some code, removed a lot of 'printf's'
+ *  Added all decrypt routines
+ *
+ * 06-09-2007
+ *   rows scrolls not emulated
+ *   sprite zoom not emulated
+ *   no sound (z80 and ics2115 not emulated) 
+ *
+ *
