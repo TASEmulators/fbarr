@@ -1,5 +1,4 @@
 #summary How to make an AVI
-#labels Featured
 
 <wiki:toc max_depth="1" />
 
