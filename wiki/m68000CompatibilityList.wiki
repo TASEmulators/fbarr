@@ -1,6 +1,0 @@
-m68000 assembly core compatibility list with supported games.
-(yes m68000 = enabled, no m68000 = disabled)
-
-|| Filename || 0.4 || 0.5 ||  svn ||
-|| ctribe1 || ? || yes || no ||
-|| dino || ? || yes || no ||
