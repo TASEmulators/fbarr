@@ -1,0 +1,33 @@
+---v.006 Released
+Map hotkeys - setting set slot 0 to 0, loadstate 0 to F10, or shift+F10 to savestate 0 will cause the remaining to auto-fill
+Loadstate errors now successfully restore a movie instead of corrupting it
+Backup loadstate function
+Bind savestates to movies (with a toggle option in the menu)
+ Note: it is highly recommended keep this feature on because fba can corrupt movie files due to poor handling of savestates
+Movie name displayed in title bar
+New lua functions
+-movie.playbeginning()
+-movie.setreadonly()
+-movie.getreadonly()
+-movie.length()
+Menu items for frame counter toggle, and play movie from beginning
+play movie from beginning hotkey now works
+Update frame counter on loadstate
+doesn't crash when canceling open rom dialog
+Save/load state message include slot number
+Crash fixes
+fullscreen (-f) commandline option
+Menu is now a real menu (and thus alt key combos work again
+10 Saveslots now (instead of 9)
+Drag & Drop support for savestates, movie files, and lua scripts (both main window and lua console window)
+Lua fixes ported from 0.0.5
+GUI cleanups
+Changed these defaults:
+- No splash screen, No first time use detection
+- 1x Screen res
+- Windowed mode default when loading game from commandline (instead of fullscreen)
+- Show available only in Rom dialog
+RAM Search - fix reset to update previous values
+Ram Search - Fix counting number of changes
+Ram Watch - Add Separator button
+---v0.0.5 Released Aug 09, 2010
