@@ -1249,12 +1249,48 @@ int movie_mode(lua_State *L) {
 }
 
 
+// movie.setreadonly()
+//
+// sets the read-only flag 
+static int movie_setreadonly(lua_State *L) {
+	bReplayReadOnly = (lua_toboolean( L, 1 ) == 1);
+	
+	if (bReplayReadOnly)
+		VidSNewShortMsg(_T("read-only"));
+	else
+		VidSNewShortMsg(_T("read+write"));
+
+	return 0;
+}
+
+
+// movie.getreadonly()
+//
+// returns the state of the read-only flag 
+static int movie_getreadonly(lua_State *L) {
+	lua_pushboolean(L, bReplayReadOnly);
+
+	return 1;
+}
+
+
 static int movie_rerecordcounting(lua_State *L) {
 	if (lua_gettop(L) == 0)
 		luaL_error(L, "no parameters specified");
 
 	skipRerecords = lua_toboolean(L,1);
 	return 0;
+}
+
+
+// movie.length()
+//
+//	Returns the total number of frames of a movie
+static int movie_length(lua_State *L) {
+#ifdef WIN32 //adelikat: GetTotalMovieFrames is a win32 only file, so this can only be implemented in win32
+	lua_pushinteger(L, GetTotalMovieFrames());
+#endif
+	return 1;
 }
 
 
@@ -1267,8 +1303,17 @@ static int movie_stop(lua_State *L) {
 	
 	StopReplay();
 	return 0;
-
 }
+
+
+// movie.playbeginning()
+//
+// Restarts the movie from beginning
+static int movie_playbeginning(lua_State *L) {
+	HK_playFromBeginning(0);
+	return 0;
+}
+
 
 // Common code by the gui library: make sure the screen array is ready
 static void gui_prepare() {
@@ -1817,9 +1862,9 @@ static int gui_drawbox(lua_State *L) {
 	outlinecolor = gui_optcolour(L,6,LUA_BUILD_PIXEL(255, LUA_PIXEL_R(fillcolor), LUA_PIXEL_G(fillcolor), LUA_PIXEL_B(fillcolor)));
 
 	if (x1 > x2)
-		std::swap<int>(x1, x2);
+		swap(int,x1, x2);
 	if (y1 > y2)
-		std::swap<int>(y1, y2);
+		swap(int, y1, y2);
 
 	gui_prepare();
 
@@ -3246,6 +3291,8 @@ static const struct luaL_reg fbalib [] = {
 	{"print", print}, // sure, why not
 	{"screenwidth", fba_screenwidth},
 	{"screenheight", fba_screenheight},
+	{"getreadonly", movie_getreadonly},
+	{"setreadonly", movie_setreadonly},
 	{NULL,NULL}
 };
 
@@ -3311,10 +3358,12 @@ static const struct luaL_reg movielib[] = {
 	{"framecount", movie_framecount},
 	{"mode", movie_mode},
 	{"rerecordcounting", movie_rerecordcounting},
+	{"setreadonly", movie_setreadonly},
+	{"getreadonly", movie_getreadonly},
 	{"stop", movie_stop},
-
-	// alternative names
-	{"close", movie_stop},
+	{"close", movie_stop}, // (alternative name)
+	{"playbeginning", movie_playbeginning},
+	{"length", movie_length},
 	{NULL,NULL}
 };
 

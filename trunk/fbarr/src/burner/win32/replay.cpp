@@ -2,7 +2,7 @@
 #include "burner.h"
 #include "dynhuff.h"
 #include <commdlg.h>
-
+#include <string>
 #include <io.h>
 
 #ifndef W_OK
@@ -23,6 +23,7 @@ bool bStartFromReset = true;
 TCHAR szCurrentMovieFilename[MAX_PATH] = _T("");
 unsigned int nTotalFrames = 0;
 unsigned int nReplayCurrentFrame;
+bool bindSavestates = true;	//Bind savestates to movies flag
 
 #define MOVIE_FLAG_FROM_POWERON (1<<1)
 
@@ -978,4 +979,42 @@ static BOOL CALLBACK RecordDialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM
 static int RecordDialog()
 {
 	return DialogBox(hAppInst, MAKEINTRESOURCE(IDD_RECORDINP), hScrnWnd, RecordDialogProc);
+}
+
+//Updates the frame counter display on screen
+void UpdateFrameCounter()
+{
+	if (bReplayFrameCounterDisplay)
+	{
+		WCHAR framestring[15];
+		swprintf(framestring, L"%d", GetCurrentFrame() - nStartFrame);
+		VidSNewTinyMsg(framestring);
+	}
+}
+
+//Gets the total number of frames of a movie
+int GetTotalMovieFrames()
+{
+	return nTotalFrames;
+}
+
+std::wstring GetCurrentMovie()
+{
+	std::wstring str = szCurrentMovieFilename;
+	return str;
+}
+
+bool MovieIsActive()
+{
+	return nReplayStatus;
+}
+
+bool BindedSavestates()
+{
+	return bindSavestates;
+}
+
+void SetBindedSavestates(bool flag)
+{
+	bindSavestates = flag;
 }

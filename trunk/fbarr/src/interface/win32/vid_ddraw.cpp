@@ -210,7 +210,7 @@ static int DtosInit()
 
 	RECT rect = { 0, 0, 0, 0 };
 	GetClientScreenRect(hVidWnd, &rect);
-	rect.top += nMenuHeight;
+//	rect.top += nMenuHeight;
 
 	VidSScaleImage(&rect, nGameWidth, nGameHeight, bVidScanRotate);
 
@@ -873,9 +873,9 @@ static int vidBurnToSurf()
 
 	GetClientScreenRect(hVidWnd, &Dest);
 
-	if (!nVidFullscreen) {
-		Dest.top += nMenuHeight;
-	}
+//	if (!nVidFullscreen) {
+//		Dest.top += nMenuHeight;
+//	}
 
 	if (bVidArcaderes && nVidFullscreen) {
 		Dest.left = (Dest.right + Dest.left) / 2;
@@ -993,7 +993,7 @@ static int vidPaint(int bValidate)
 		RECT rect = { 0, 0, 0, 0 };
 
 		GetClientScreenRect(hVidWnd, &rect);
-		rect.top += nMenuHeight;
+//		rect.top += nMenuHeight;
 
 		VidSScaleImage(&rect, nGameWidth, nGameHeight, bVidScanRotate);
 

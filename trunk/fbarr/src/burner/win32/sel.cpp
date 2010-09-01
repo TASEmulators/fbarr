@@ -152,7 +152,7 @@ HTREEITEM hHardware			= NULL;
 #define MASKALLFAMILY		(MASKFAMILYOTHER | FBF_MSLUG | FBF_SF | FBF_KOF | FBF_DSTLK | FBF_FATFURY | FBF_SAMSHO | FBF_19XX | FBF_SONICWI | FBF_PWRINST)
 #define MASKALLBOARD		(MASKBOARDTYPEGENUINE | BDF_BOOTLEG | BDF_DEMO | BDF_HACK | BDF_HOMEBREW | BDF_PROTOTYPE)
 
-int nLoadMenuShowX				= 0;
+int nLoadMenuShowX				= 4096;
 int nLoadMenuBoardTypeFilter	= 0;
 int nLoadMenuGenreFilter		= 0;
 int nLoadMenuFamilyFilter		= 0;

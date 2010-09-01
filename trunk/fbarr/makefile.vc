@@ -70,7 +70,7 @@ endif
 objdir	= obj/VC_WIN32/$(NAME)/
 srcdir	= src/
 
-alldir	= burn burn/atari burn/capcom burn/cave burn/cps3 burn/galaxian burn/konami burn/megadrive burn/misc burn/misc/dec0 burn/misc/post90s burn/misc/pre90s burn/neogeo burn/pgm burn/psikyo burn/sega burn/taito burn/toaplan burner burner/win32 interface interface/win32 cpu cpu/a68k cpu/arm7 cpu/hd6309 cpu/i8039 cpu/konami cpu/m68k cpu/m6502 cpu/m6800 cpu/m6805 cpu/m6809 cpu/nec cpu/s2650 cpu/sh2 cpu/z80 kaillera/client libs/libpng libs/pnglib libs/zlib generated
+alldir	= burn burn/atari burn/capcom burn/cave burn/cps3 burn/galaxian burn/konami burn/megadrive burn/misc burn/misc/dec0 burn/misc/post90s burn/misc/pre90s burn/neogeo burn/pgm burn/psikyo burn/sega burn/taito burn/toaplan burner burner/win32 interface interface/win32 cpu cpu/a68k cpu/arm7 cpu/hd6309 cpu/i8039 cpu/konami cpu/m68k cpu/m6502 cpu/m6800 cpu/m6805 cpu/m6809 cpu/nec cpu/s2650 cpu/sh2 cpu/z80 kaillera/client libs/libpng libs/pnglib libs/zlib generated utils
 
 incdir	= $(foreach dir,$(alldir),/I$(srcdir)$(dir)) /I$(objdir)generated
 
@@ -146,6 +146,7 @@ depobj	:= 	main.o splash.o about.o systeminfo.o debugger.o misc_win32.o \
 	   	cona.o localise.o roms.o support_paths.o jukebox.o menugui.o imagebutton.o pngload.o \
 	   	bmp_resize.o placeholderd.o fba_kaillera.o net.o localise_gamelist.o numpluscommas.o \
 	   	maphkeys.o ram_search.o ramwatch.o luaconsole.o luaengine.o luasav.o memwatch.o cheatsearch.o \
+	   	xstring.o ConvertUTF.o \
 		\
 		adler32.o compress.o crc32.o deflate.o gzio.o infback.o \
        		inffast.o inflate.o inftrees.o trees.o uncompr.o zutil.o \

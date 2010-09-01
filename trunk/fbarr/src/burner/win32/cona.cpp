@@ -2,6 +2,9 @@
 #include "burner.h"
 
 #include "maphkeys.h"
+#include "ramwatch.h"
+#include "../../utils/xstring.h"
+extern bool bindSavestates; //adelikat: blech, TODO: create a variable in save & load config that runs get & set methods intoead of this
 
 #ifdef _UNICODE
  #include <locale.h>
@@ -36,7 +39,6 @@ int ConfigAppLoad()
 	TCHAR szLine[1024];
 	FILE* h;
 	TCHAR szName[1024];
-	int i;
 	
 #ifdef _UNICODE
 	setlocale(LC_ALL, "");
@@ -47,6 +49,17 @@ int ConfigAppLoad()
 	if ((h = _tfopen(szConfig, _T("rt"))) == NULL) {
 		return 1;
 	}
+
+#if MAX_RECENT_WATCHES != 5
+#error ohno!
+#endif
+
+	wchar_t watchfiles[5][1024];
+	watchfiles[0][0] = 0;
+	watchfiles[1][0] = 0;
+	watchfiles[2][0] = 0;
+	watchfiles[3][0] = 0;
+	watchfiles[4][0] = 0;
 
 	// Go through each line of the config file
 	while (_fgetts(szLine, sizeof(szLine), h)) {
@@ -244,8 +257,22 @@ int ConfigAppLoad()
 		VAR(nPlayerDefaultControls[3]);
 		STR(szPlayerDefaultIni[3]);
 
+		VAR(bindSavestates);
+
+		//Ram Watch Settings
+		VAR(AutoRWLoad);
+		VAR(RWSaveWindowPos);
+		VAR(ramw_x);
+		VAR(ramw_y);
+
+		STR(watchfiles[0]);
+		STR(watchfiles[1]);
+		STR(watchfiles[2]);
+		STR(watchfiles[3]);
+		STR(watchfiles[4]);
+
 		// Hotkeys
-		for (i = 0; !lastCustomKey(customKeys[i]); i++) {
+		for (int i = 0; !lastCustomKey(customKeys[i]); i++) {
 			_stprintf(szName,_T("hk[%s].key"), _AtoT(customKeys[i].config_code));
 			VARZ(szName,customKeys[i].key);
 			_stprintf(szName,_T("hk[%s].modkey"), _AtoT(customKeys[i].config_code));
@@ -259,6 +286,12 @@ int ConfigAppLoad()
 #undef VARZ
 	}
 
+	strcpy(rw_recent_files[0], wcstombs(watchfiles[0]).c_str());
+	strcpy(rw_recent_files[1], wcstombs(watchfiles[1]).c_str());
+	strcpy(rw_recent_files[2], wcstombs(watchfiles[2]).c_str());
+	strcpy(rw_recent_files[3], wcstombs(watchfiles[3]).c_str());
+	strcpy(rw_recent_files[4], wcstombs(watchfiles[4]).c_str());
+
 	fclose(h);
 	return 0;
 }
@@ -268,7 +301,6 @@ int ConfigAppSave()
 {
 	TCHAR szConfig[MAX_PATH];
 	FILE *h;
-	int i;
 
 	if (bCmdOptUsed) {
 		return 1;
@@ -569,8 +601,27 @@ int ConfigAppSave()
 	VAR(nPlayerDefaultControls[3]);
 	STR(szPlayerDefaultIni[3]);
 
+	VAR(bindSavestates);
+
+	_ftprintf(h, _T("\n// Ram Watch settings\n"));
+	VAR(AutoRWLoad);
+	VAR(RWSaveWindowPos);
+	VAR(ramw_x);
+	VAR(ramw_y);
+
+	wchar_t watchfiles[5][1024];
+
+	for(int i=0;i<5;i++)
+		wcscpy(watchfiles[i],mbstowcs(rw_recent_files[i]).c_str());
+
+	STR(watchfiles[0]);
+	STR(watchfiles[1]);
+	STR(watchfiles[2]);
+	STR(watchfiles[3]);
+	STR(watchfiles[4]);
+
 	_ftprintf(h, _T("\n// Hotkeys, use the configuration dialog to change them\n"));
-	for (i = 0; !lastCustomKey(customKeys[i]); i++) {
+	for (int i = 0; !lastCustomKey(customKeys[i]); i++) {
 		_ftprintf(h, _T("hk[%s].key %d\n"), _AtoT(customKeys[i].config_code), customKeys[i].key);
 		_ftprintf(h, _T("hk[%s].modkey %d\n"), _AtoT(customKeys[i].config_code), customKeys[i].keymod);
 	}

@@ -168,9 +168,9 @@ int WndInMid(HWND hMid, HWND hBase)
 			BaseRect.left += GetSystemMetrics(SM_CXSIZEFRAME);
 			BaseRect.right -= GetSystemMetrics(SM_CXSIZEFRAME);
 			BaseRect.top += GetSystemMetrics(SM_CYSIZEFRAME);
-			if (bMenuEnabled) {
-				BaseRect.top += GetSystemMetrics(SM_CYCAPTION) + nMenuHeight;
-			}
+//			if (bMenuEnabled) {
+//				BaseRect.top += GetSystemMetrics(SM_CYCAPTION) + nMenuHeight;
+//			}
 			BaseRect.bottom -= GetSystemMetrics(SM_CYSIZEFRAME);
 		}
 	} else {

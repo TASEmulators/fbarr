@@ -1,5 +1,6 @@
 // based on FBA shuffle, which was based on FBA-RR, which was based on PCSX-RR
 
+#include <string>
 #include "burner.h"
 #include "maphkeys.h"
 #include "tracklst.h"
@@ -30,6 +31,7 @@ CustomKey customKeys[] = {
 	{ VK_F7,         MODKEY_NONE,  0,                      "Load State 7",              "loadstate7",    HK_loadState,         0, 7 },
 	{ VK_F8,         MODKEY_NONE,  0,                      "Load State 8",              "loadstate8",    HK_loadState,         0, 8 },
 	{ VK_F9,         MODKEY_NONE,  0,                      "Load State 9",              "loadstate9",    HK_loadState,         0, 9 },
+	{ VK_F10,        MODKEY_NONE,  0,                      "Load State 10",             "loadstate10",   HK_loadState,         0, 10},
 	{ VK_F1,         MODKEY_SHIFT, 0,                      "Save State 1",              "savestate1",    HK_saveState,         0, 1 },
 	{ VK_F2,         MODKEY_SHIFT, 0,                      "Save State 2",              "savestate2",    HK_saveState,         0, 2 },
 	{ VK_F3,         MODKEY_SHIFT, 0,                      "Save State 3",              "savestate3",    HK_saveState,         0, 3 },
@@ -39,6 +41,7 @@ CustomKey customKeys[] = {
 	{ VK_F7,         MODKEY_SHIFT, 0,                      "Save State 7",              "savestate7",    HK_saveState,         0, 7 },
 	{ VK_F8,         MODKEY_SHIFT, 0,                      "Save State 8",              "savestate8",    HK_saveState,         0, 8 },
 	{ VK_F9,         MODKEY_SHIFT, 0,                      "Save State 9",              "savestate9",    HK_saveState,         0, 9 },
+	{ VK_F10,        MODKEY_SHIFT, 0,                      "Save State 10",             "savestate10",   HK_saveState,         0, 10 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 1",            "sel-state1",    HK_selectState,       0, 1 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 2",            "sel-state2",    HK_selectState,       0, 2 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 3",            "sel-state3",    HK_selectState,       0, 3 },
@@ -48,6 +51,7 @@ CustomKey customKeys[] = {
 	{ 0,             MODKEY_NONE,  0,                      "Select State 7",            "sel-state7",    HK_selectState,       0, 7 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 8",            "sel-state8",    HK_selectState,       0, 8 },
 	{ 0,             MODKEY_NONE,  0,                      "Select State 9",            "sel-state9",    HK_selectState,       0, 9 },
+	{ 0,             MODKEY_NONE,  0,                      "Select State 10",           "sel-state10",   HK_selectState,       0, 10},
 	{ 0,             MODKEY_NONE,  MENU_STATE_PREVSLOT,    "Select Previous Slot",      "sel-prevstate", HK_prevState,         0, 0 },
 	{ 0,             MODKEY_NONE,  MENU_STATE_NEXTSLOT,    "Select Next Slot",          "sel-nextstate", HK_nextState,         0, 0 },
 	{ 0,             MODKEY_NONE,  MENU_STATE_LOAD_SLOT,   "Load Current State",        "load-curstate", HK_loadCurState,      0, 0 },
@@ -317,6 +321,16 @@ static int MHkeysExit()
 	return 0;
 }
 
+int FindCustomKey(const char* name)
+{
+	for (int i = 0; !lastCustomKey(customKeys[i]); i++)
+	{
+		if (strcmp(customKeys[i].name, name) == 0)
+			return i;
+	}
+	return 0;
+}
+
 static LRESULT CALLBACK KeyMappingHook(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code < 0) {
@@ -336,6 +350,44 @@ static LRESULT CALLBACK KeyMappingHook(int code, WPARAM wParam, LPARAM lParam)
 		key.keymod |= MODKEY_ALT;
 	if (KEY_DOWN(VK_SHIFT))
 		key.keymod |= MODKEY_SHIFT;
+
+	//If user assign Select state to 1, go ahead and do the rest for them
+	if (strcmp(key.name,"Select State 1") == 0 && key.key == '1')
+	{
+		customKeys[FindCustomKey("Select State 2")].key = '2';
+		customKeys[FindCustomKey("Select State 3")].key = '3';
+		customKeys[FindCustomKey("Select State 4")].key = '4';
+		customKeys[FindCustomKey("Select State 5")].key = '5';
+		customKeys[FindCustomKey("Select State 6")].key = '6';
+		customKeys[FindCustomKey("Select State 7")].key = '7';
+		customKeys[FindCustomKey("Select State 8")].key = '8';
+		customKeys[FindCustomKey("Select State 9")].key = '9';
+		customKeys[FindCustomKey("Select State 10")].key = '0';
+	}
+	else if (strcmp(key.name,"Load State 1") == 0 && key.key == VK_F1)
+	{
+		customKeys[FindCustomKey("Load State 2")].key = VK_F2;
+		customKeys[FindCustomKey("Load State 3")].key = VK_F3;
+		customKeys[FindCustomKey("Load State 4")].key = VK_F4;
+		customKeys[FindCustomKey("Load State 5")].key = VK_F5;
+		customKeys[FindCustomKey("Load State 6")].key = VK_F6;
+		customKeys[FindCustomKey("Load State 7")].key = VK_F7;
+		customKeys[FindCustomKey("Load State 8")].key = VK_F8;
+		customKeys[FindCustomKey("Load State 9")].key = VK_F9;
+		customKeys[FindCustomKey("Load State 10")].key = VK_F10;
+	}
+	else if (strcmp(key.name,"Save State 1") == 0 && key.key == VK_F1 && key.keymod == MODKEY_SHIFT)
+	{
+		int x = FindCustomKey("Save State 2"); customKeys[x].key = VK_F2; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 3"); customKeys[x].key = VK_F3; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 4"); customKeys[x].key = VK_F4; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 5"); customKeys[x].key = VK_F5; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 6"); customKeys[x].key = VK_F6; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 7"); customKeys[x].key = VK_F7; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 8"); customKeys[x].key = VK_F8; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 9"); customKeys[x].key = VK_F9; customKeys[x].keymod = MODKEY_SHIFT;
+		x = FindCustomKey("Save State 10"); customKeys[x].key = VK_F10; customKeys[x].keymod = MODKEY_SHIFT;
+	}
 
 	MHkeysUseUpdate();
 
@@ -490,6 +542,7 @@ void HK_fastFowardKeyUp(int)
 void HK_loadState(int param)
 {
 	StatedLoad(param);
+	UpdateFrameCounter();
 }
 void HK_saveState(int param)
 {
@@ -511,8 +564,8 @@ void HK_prevState(int)
 void HK_nextState(int)
 {
 	nSavestateSlot++;
-	if (nSavestateSlot > 8) {
-		nSavestateSlot = 8;
+	if (nSavestateSlot > 10) {
+		nSavestateSlot = 10;
 	}
 
 	TCHAR szString[MAX_PATH];
@@ -533,9 +586,22 @@ void HK_selectState(int param)
 void HK_loadCurState(int)
 {
 	if (bDrvOkay && !kNetGame) {
-		if (StatedLoad(nSavestateSlot) == 0) {
-			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_LOADED, true));
-		} else {
+		if (StatedLoad(nSavestateSlot) == 0) 
+		{
+			//adelikat: Replace with a dynamic message that includes the slot number
+			if (nSavestateSlot)
+			{
+				TCHAR message[16];
+				swprintf(message, L"state %d loaded", nSavestateSlot);
+				std::wstring messageStr = message;
+				VidSNewShortMsg(messageStr.c_str());
+			}
+			else
+				VidSNewShortMsg(L"state loaded");
+			UpdateFrameCounter();
+		}
+		else
+		{
 			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_LOAD_ERROR, true), 0xFF3F3F);
 		}
 	}
@@ -543,9 +609,21 @@ void HK_loadCurState(int)
 void HK_saveCurState(int)
 {
 	if (bDrvOkay) {
-		if (StatedSave(nSavestateSlot) == 0) {
-			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
-		} else {
+		if (StatedSave(nSavestateSlot) == 0) 
+		{
+			//adelikat: Replace with a dynamic message that includes the slot number
+			if (nSavestateSlot)
+			{
+				TCHAR message[16];
+				swprintf(message, L"state %d saved", nSavestateSlot);
+				std::wstring messageStr = message;
+				VidSNewShortMsg(messageStr.c_str());
+			}
+			else
+				VidSNewShortMsg(L"state saved");
+		}
+		else
+		{
 			VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVE_ERROR, true), 0xFF3F3F);
 			SetPauseMode(1);
 		}
@@ -561,6 +639,7 @@ void HK_loadStateDialog(int)
 		StatedLoad(0);
 		GameInpCheckMouse();
 		AudSoundPlay();
+		UpdateFrameCounter();
 	}
 }
 void HK_saveStateDialog(int)
@@ -607,7 +686,12 @@ void HK_stopRec(int)
 }
 void HK_playFromBeginning(int)
 {
-	// TO-DO
+	std::wstring str = GetCurrentMovie();
+	if (str.length())
+	{
+		StopReplay();
+		StartReplay(str.c_str()); 
+	}
 }
 
 void HK_startAvi(int)
@@ -937,6 +1021,11 @@ void HK_openGame(int)
 			}
 		}
 		MenuEnableItems();
+		if (AutoRWLoad)
+		{
+			OpenRWRecentFile(0);
+			HK_ramWatch(0);
+		}
 		bAltPause = 0;
 		AudSoundPlay(); // Restart sound
 		bLoading = 0;
