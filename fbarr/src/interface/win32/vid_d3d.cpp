@@ -1370,9 +1370,9 @@ static int vidInit()
 			int nScaledSize, nOriginalSize;
 
 			GetClientScreenRect(hVidWnd, &rect);
-			if (!nVidFullscreen) {
-				rect.top += nMenuHeight;
-			}
+//			if (!nVidFullscreen) {
+//				rect.top += nMenuHeight;
+//			}
 			VidImageSize(&rect, nGameWidth, nGameHeight);
 
 			if (bVidScanRotate && nGameWidth < nGameHeight) {
@@ -1703,9 +1703,9 @@ static int vidRenderImageA()
 
 	GetClientScreenRect(hVidWnd, &Dest);
 
-	if (nVidFullscreen == 0) {
-		Dest.top += nMenuHeight;
-	}
+//	if (nVidFullscreen == 0) {
+//		Dest.top += nMenuHeight;
+//	}
 
 	if (bVidArcaderes && nVidFullscreen) {
 		Dest.left = (Dest.right + Dest.left) / 2;
@@ -2280,7 +2280,7 @@ int vidPaint(int bValidate)
 
 	if (!bUsePageflip) {
 		GetClientScreenRect(hVidWnd, &rect);
-		rect.top += nMenuHeight;
+//		rect.top += nMenuHeight;
 
 		vidScale(&rect, nGameWidth, nGameHeight);
 

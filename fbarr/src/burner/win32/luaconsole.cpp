@@ -326,13 +326,13 @@ INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 		HDROP hDrop;
 		//UINT fileNo;
 		UINT fileCount;
-		char filename[MAX_PATH];
+		WCHAR filename[MAX_PATH];
 
 		hDrop = (HDROP)wParam;
 		fileCount = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
 		if (fileCount > 0) {
-			DragQueryFile(hDrop, 0, _AtoT(filename), MAX_PATH);
-			SetWindowTextA(GetDlgItem(hDlg, IDC_EDIT_LUAPATH), filename);
+			DragQueryFile(hDrop, 0, filename, MAX_PATH);
+			SetWindowTextW(GetDlgItem(hDlg, IDC_EDIT_LUAPATH), filename);
 		}
 		DragFinish(hDrop);
 		return true;
@@ -342,4 +342,11 @@ INT_PTR CALLBACK DlgLuaScriptDialog(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	return false;
 
+}
+
+void UpdateLuaConsole(const WCHAR* fname)
+{
+	if (!LuaConsoleHWnd) return;
+
+	SetWindowText(GetDlgItem(LuaConsoleHWnd, IDC_EDIT_LUAPATH), fname);
 }

@@ -829,18 +829,16 @@ BEGIN
 	CONTROL         "",IDC_JUKE_TAB,"SysTabControl32",TCS_MULTILINE | WS_TABSTOP,2,75,380,185
 END
 
-IDD_REPLAYINP DIALOG DISCARDABLE  0, 0, 276, 137
-STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+IDD_REPLAYINP DIALOGEX 0, 0, 276, 140
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Replay input"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,219,120,50,14
-    GROUPBOX        "",IDC_STATIC,3,0,269,115
+    DEFPUSHBUTTON   "OK",IDOK,219,123,50,14
+    GROUPBOX        "",IDC_STATIC,3,0,269,118
     RTEXT           "File:",IDC_STATIC,8,11,24,10,SS_CENTERIMAGE
-    COMBOBOX        IDC_CHOOSE_LIST,35,10,231,128,CBS_DROPDOWNLIST | 
-                    WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Cancel",IDCANCEL,165,120,50,14
+    COMBOBOX        IDC_CHOOSE_LIST,35,10,231,128,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Cancel",IDCANCEL,165,123,50,14
     RTEXT           "Length:",IDC_STATIC,10,44,59,8
     RTEXT           "Frames:",IDC_STATIC,10,53,59,8
     RTEXT           "Undo Count:",IDC_STATIC,10,62,59,8
@@ -851,8 +849,7 @@ BEGIN
     LTEXT           "0",IDC_UNDO,76,62,59,8
     LTEXT           "",IDC_METADATA,76,71,190,37
     LTEXT           "",IDC_REPLAYRESET,76,80,190,37
-    CONTROL         "Open Read-Only",IDC_READONLY,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,35,25,69,10
+    CONTROL         "Open Read-Only",IDC_READONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,35,25,69,10
 END
 
 IDD_RECORDINP DIALOG DISCARDABLE  0, 0, 276, 98
@@ -872,15 +869,16 @@ BEGIN
     CONTROL         "Record From Power-On",IDC_REPLAYRESET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,55,79,106,14
 END
 
-IDD_MHKEYS DIALOGEX 0, 0, 250, 244
+IDD_MHKEYS DIALOGEX 0, 0, 250, 258
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Map Hotkeys"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDCANCEL,195,225,50,14
-    GROUPBOX        "",IDC_STATIC,3,0,244,220
-    CTEXT           "Double-click a command to change its mapping",IDC_HKEYSS_STATIC,7,7,232,15,SS_CENTERIMAGE
-    CONTROL         "List1",IDC_MHKEYS_LIST,"SysListView32",LVS_REPORT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,9,24,232,190
+    DEFPUSHBUTTON   "OK",IDCANCEL,195,234,50,14
+    GROUPBOX        "",IDC_STATIC,3,0,244,230
+    CTEXT           "Double-click a command to change its mapping",IDC_HKEYSS_STATIC,11,5,230,16,SS_CENTERIMAGE
+    CONTROL         "List1",IDC_MHKEYS_LIST,"SysListView32",LVS_REPORT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,9,35,232,190
+    CTEXT           "Press Delete to remove the mapping",IDC_HKEYSS_STATIC2,11,21,230,11,SS_CENTERIMAGE
 END
 
 IDD_RAMSEARCH DIALOGEX 0, 0, 287, 292
@@ -939,9 +937,10 @@ BEGIN
     PUSHBUTTON      "Remove",IDC_C_WATCH_REMOVE,226,83,34,14
     PUSHBUTTON      "New",IDC_C_WATCH,226,100,34,14
     PUSHBUTTON      "Duplicate",IDC_C_WATCH_DUPLICATE,226,117,34,14
-    PUSHBUTTON      "Add Cheat",IDC_C_ADDCHEAT,222,140,42,16,WS_DISABLED
-    GROUPBOX        "Watches",IDC_STATIC,222,11,42,125
+    PUSHBUTTON      "Add Cheat",IDC_C_ADDCHEAT,222,161,42,16,WS_DISABLED
+    GROUPBOX        "Watches",IDC_STATIC,222,11,42,145
     CONTROL         "",ID_WATCHES_UPDOWN,"msctls_updown32",WS_TABSTOP,232,23,19,36
+    PUSHBUTTON      "Separator",IDC_C_WATCH_SEPARATE,225,137,36,14
 END
 
 IDD_EDITWATCH DIALOGEX 0, 0, 181, 95
@@ -1127,13 +1126,13 @@ BEGIN
     END
 END
 
-IDR_MENU MENU DISCARDABLE
+IDR_MENU MENU
 BEGIN
     POPUP "Game"
     BEGIN
         MENUITEM "Load game...",					MENU_LOAD
 		MENUITEM "Load NeoGeo MVS ROM...",		MENU_MVS_LOAD, GRAYED
-        POPUP "Most recent games..."
+        POPUP "Recent games..."
 	BEGIN
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES1, GRAYED
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES2, GRAYED
@@ -1145,12 +1144,14 @@ BEGIN
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES8, GRAYED
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES9, GRAYED
             MENUITEM "no game selected",				MENU_PREVIOUSGAMES10, GRAYED
-        END        MENUITEM SEPARATOR
+        END
+        MENUITEM SEPARATOR
         POPUP "Movie..."
         BEGIN
           MENUITEM "Start recording...",					MENU_STARTRECORD
           MENUITEM "Start playback...",					MENU_STARTREPLAY
           MENUITEM "Stop movie",					MENU_STOPREPLAY, GRAYED
+          MENUITEM "Play from beginning",         MENU_PLAYFROMBEGINNING
           MENUITEM SEPARATOR
           MENUITEM "Record AVI...",               MENU_AVI_BEGIN, GRAYED
           MENUITEM "Stop AVI",                    MENU_AVI_END, GRAYED
@@ -1188,9 +1189,10 @@ BEGIN
             	    MENUITEM "MENU_STATE_SAVE_SLOT",				MENU_STATE_SAVE_SLOT
         	END
         	MENUITEM "Restore full state on load",				MENU_ALLRAM
+        	MENUITEM "Undo Loadstate",				MENU_UNDOLOADSTATE, INACTIVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Exit emulator",				MENU_EXIT
+        MENUITEM "E&xit emulator",				MENU_EXIT
     END
     POPUP "Video"
     BEGIN
@@ -1334,9 +1336,12 @@ BEGIN
         BEGIN
            MENUITEM "Auto pause",					MENU_AUTOPAUSE
            MENUITEM "Always process keyboard input",			MENU_PROCESSINPUT, GRAYED
-           MENUITEM "Display mode indicator",				MENU_DISPLAYINDICATOR
            MENUITEM "Modeless menu",					MENU_MODELESS
            MENUITEM "Don't change Num Lock status",			MENU_NOCHANGENUMLOCK
+           MENUITEM SEPARATOR
+           MENUITEM "Display mode indicator",				MENU_DISPLAYINDICATOR
+           MENUITEM "Display frame counter",				MENU_FRAMECOUNTER
+           MENUITEM "Bind savestates to movies",			MENU_MOVIEBINDSAVE, CHECKED
            MENUITEM SEPARATOR
            POPUP "Set application thread priority"
            BEGIN
@@ -1396,8 +1401,6 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP    "UI Options"
         BEGIN
-		MENUITEM "Change Menubar background image...",	MENU_SELECT_MENUBG
-		MENUITEM "Reset Menubar background image",		MENU_RESET_MENUBG
         	POPUP    "Set Menu Theme"
         	BEGIN
         		MENUITEM "Disable menu themes",					MENU_DISABLETHEMES

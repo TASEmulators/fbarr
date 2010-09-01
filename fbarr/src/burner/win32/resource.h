@@ -593,6 +593,8 @@
 #define IDC_2_BYTE                      20516
 #define IDC_3_BYTE                      20517
 #define IDC_4_BYTE                      20518
+#define IDC_HKEYSS_STATIC2              20519
+#define IDC_C_WATCH_SEPARATE            20520
 
 #define IDC_GFX_VIEWER_HORI_1           30000
 #define IDC_GFX_VIEWER_HORI_2           30001
@@ -862,6 +864,10 @@
 #define MENU_INP_PLUGIN_8               10671
 #define MENU_PALETTEVIEWER              10672
 #define MENU_HOTKEYS                    10673
+#define MENU_PLAYFROMBEGINNING          10674
+#define MENU_MOVIEBINDSAVE              10675
+#define MENU_UNDOLOADSTATE              10676
+#define MENU_FRAMECOUNTER               10677
 
 #define MENU_NORMAL                     11001
 #define MENU_SCAN                       11002

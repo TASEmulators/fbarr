@@ -936,7 +936,7 @@ static int dx9Init()
 		RECT rect;
 
 		GetClientScreenRect(hVidWnd, &rect);
-		rect.top += nMenuHeight; rect.bottom += nMenuHeight;
+//		rect.top += nMenuHeight; rect.bottom += nMenuHeight;
 		pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 		pD3DDevice->Present(&rect, &rect, NULL, NULL);
 	}
@@ -1009,9 +1009,9 @@ static int dx9MemToSurf()
 {
 	GetClientScreenRect(hVidWnd, &Dest);
 
-	if (nVidFullscreen == 0) {
-		Dest.top += nMenuHeight;
-	}
+//	if (nVidFullscreen == 0) {
+//		Dest.top += nMenuHeight;
+//	}
 
 	if (bVidArcaderes && nVidFullscreen) {
 		Dest.left = (Dest.right + Dest.left) / 2;
@@ -1153,7 +1153,7 @@ static int dx9MemToSurf()
 		// blit the intermediate texture to the screen
 
 		RECT srect = { 0, 0, Dest.right - Dest.left, 256 };
-		RECT drect = { 0, nMenuHeight, Dest.right - Dest.left, nMenuHeight + 256 };
+		RECT drect = { 0, 0, Dest.right - Dest.left, nMenuHeight + 256 };
 		IDirect3DSurface9* pDest;
 		IDirect3DSurface9* pSrc;
 
@@ -1308,7 +1308,7 @@ static int dx9Paint(int bValidate)
 
 	if (!nVidFullscreen) {
 		GetClientScreenRect(hVidWnd, &rect);
-		rect.top += nMenuHeight;
+//		rect.top += nMenuHeight;
 
 		dx9Scale(&rect, nGameWidth, nGameHeight);
 

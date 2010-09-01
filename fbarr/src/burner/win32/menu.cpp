@@ -34,6 +34,18 @@ TCHAR szPrevGames[SHOW_PREV_GAMES][32];
 
 static HHOOK hMenuHook;
 
+//adelikat: this function allows for easily changing a menu item text
+void ChangeMenuItemText(int menuitem, std::wstring text)
+{
+	MENUITEMINFO moo;
+	moo.cbSize = sizeof(moo);
+	moo.fMask = MIIM_TYPE;
+	moo.cch = NULL;
+	GetMenuItemInfo(hMenu, menuitem, FALSE, &moo);
+	moo.dwTypeData = (LPWSTR)text.c_str();
+	SetMenuItemInfo(hMenu, menuitem, FALSE, &moo);
+}
+
 static LRESULT CALLBACK MenuHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
 
@@ -74,7 +86,7 @@ static LRESULT CALLBACK MenuHook(int nCode, WPARAM wParam, LPARAM lParam)
 
 	}
 
-	MenuHandleKeyboard((MSG*)lParam);
+//	MenuHandleKeyboard((MSG*)lParam);
 
 	return CallNextHookEx(hMenuHook, nCode, wParam, lParam);
 }
@@ -181,6 +193,8 @@ int OnUnInitMenuPopup(HWND, HMENU, UINT, BOOL)
 	return 0;
 }
 
+//adelikat: Commenting this code out, no longer useful since we have a real menu not a hacked toolbar
+/*
 bool MenuHandleKeyboard(MSG* Msg)
 {
 	static bool bProcessAltKeyUp = true;
@@ -324,6 +338,7 @@ bool MenuHandleKeyboard(MSG* Msg)
 
 	return 0;
 }
+*/
 
 void IconMenuEnableItems()
 {
@@ -412,7 +427,7 @@ void IconMenuEnableItems()
 
 int MenuCreate()
 {
-	TBBUTTON button;
+//	TBBUTTON button;
 	TCHAR szButtonText[32];
 	MENUITEMINFO menuItemInfo;
 	MENUINFO menu;
@@ -470,14 +485,14 @@ int MenuCreate()
 	bMenuDisplayed = false;
 	nLastMenu = -1;
 
-	hMenubar = CreateWindowEx(0,
-		TOOLBARCLASSNAME, NULL,
-		TBSTYLE_FLAT | TBSTYLE_LIST | CCS_NODIVIDER | CCS_NOPARENTALIGN | CCS_NORESIZE | WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
-		0, 0, 0, 0,
-		hScrnWnd, NULL, hAppInst, NULL);
-
-	SendMessage(hMenubar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
-	SendMessage(hMenubar, TB_SETBITMAPSIZE, 0, 0);
+//	hMenubar = CreateWindowEx(0,
+//		TOOLBARCLASSNAME, NULL,
+//		TBSTYLE_FLAT | TBSTYLE_LIST | CCS_NODIVIDER | CCS_NOPARENTALIGN | CCS_NORESIZE | WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
+//		0, 0, 0, 0,
+//		hScrnWnd, NULL, hAppInst, NULL);
+//
+//	SendMessage(hMenubar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
+//	SendMessage(hMenubar, TB_SETBITMAPSIZE, 0, 0);
 
 	// Reset window menu to default
 	GetSystemMenu(hScrnWnd, TRUE);
@@ -509,7 +524,7 @@ int MenuCreate()
 		}
 #endif
 	}
-
+/*
 	// Add buttons to the menu toolbar
 	memset(&button, 0, sizeof(TBBUTTON));
 	memset(&menuItemInfo, 0, sizeof(MENUITEMINFO));
@@ -532,7 +547,12 @@ int MenuCreate()
 
 		SendMessage(hMenubar, TB_ADDBUTTONS, 1, (LPARAM)&button);
 	}
-	
+*/
+	if (bMenuEnabled)
+		SetMenu(hScrnWnd,hMenu);
+	else
+		SetMenu(hScrnWnd,NULL);
+
 	if(nMenuUITheme != 0) {
 		IMMENUPROPS mp;
 		mp.textColor = RGB(0,0,0); // Title text color
@@ -780,6 +800,7 @@ void MenuUpdate()
 
 	CheckMenuItem(hMenu, MENU_PAUSE, bAltPause ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMenu, MENU_ALLRAM, bDrvSaveAll ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_FRAMECOUNTER, bReplayFrameCounterDisplay ? MF_CHECKED : MF_UNCHECKED);
 
 	CheckMenuItem(hMenu, MENU_SETCPUCLOCK, nBurnCPUSpeedAdjust != 0x0100 ? MF_CHECKED : MF_UNCHECKED);
 	CreateCPUSpeedItem(nBurnCPUSpeedAdjust != 0x0100);
@@ -1408,10 +1429,12 @@ void MenuEnableItems()
 
 		if (nReplayStatus) {
 			EnableMenuItem(hMenu, MENU_STOPREPLAY,				MF_ENABLED | MF_BYCOMMAND);
+			EnableMenuItem(hMenu, MENU_PLAYFROMBEGINNING,	MF_ENABLED | MF_BYCOMMAND);
 			EnableMenuItem(hMenu, MENU_STARTRECORD,				MF_GRAYED  | MF_BYCOMMAND);
 			EnableMenuItem(hMenu, MENU_STARTREPLAY,				MF_GRAYED  | MF_BYCOMMAND);
 		} else {
 			EnableMenuItem(hMenu, MENU_STOPREPLAY,				MF_GRAYED  | MF_BYCOMMAND);
+			EnableMenuItem(hMenu, MENU_PLAYFROMBEGINNING,	MF_GRAYED  | MF_BYCOMMAND);
 
 			if (kNetGame) {
 				EnableMenuItem(hMenu, MENU_STARTRECORD,			MF_ENABLED | MF_BYCOMMAND);
@@ -1450,6 +1473,7 @@ void MenuEnableItems()
 		EnableMenuItem(hMenu, MENU_STARTREPLAY,			MF_ENABLED | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_STARTRECORD,			MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_STOPREPLAY,			MF_GRAYED  | MF_BYCOMMAND);
+		EnableMenuItem(hMenu, MENU_PLAYFROMBEGINNING,MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_VIEWGAMEINFO,			MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_QUIT,				MF_GRAYED  | MF_BYCOMMAND);
 		EnableMenuItem(hMenu, MENU_EXIT,				MF_ENABLED | MF_BYCOMMAND);
@@ -1495,6 +1519,22 @@ void MenuEnableItems()
 #ifdef _MSC_VER
 		EnableMenuItem(hMenu, MENU_AUD_PLUGIN_2, MF_ENABLED  | MF_BYCOMMAND);
 #endif
+	}
+	//adelikat: TODO: implement the redo loadstate function
+	//if (redoLS)
+	{
+		ChangeMenuItemText(MENU_UNDOLOADSTATE, L"Redo Loadstate");
+		EnableMenuItem(hMenu, MENU_UNDOLOADSTATE,	MF_ENABLED| MF_BYCOMMAND);
+	}
+	/*else*/ if (undoLS)
+	{
+		ChangeMenuItemText(MENU_UNDOLOADSTATE, L"Undo Loadstate");
+		EnableMenuItem(hMenu, MENU_UNDOLOADSTATE,	MF_ENABLED | MF_BYCOMMAND);
+	}
+	else
+	{
+		ChangeMenuItemText(MENU_UNDOLOADSTATE, L"Undo Loadstate");
+		EnableMenuItem(hMenu, MENU_UNDOLOADSTATE,	MF_GRAYED | MF_BYCOMMAND); 
 	}
 }
 

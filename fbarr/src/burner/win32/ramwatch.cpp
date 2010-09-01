@@ -59,6 +59,7 @@ unsigned int GetCurrentValue(AddressWatcher& watch)
 
 bool IsSameWatch(const AddressWatcher& l, const AddressWatcher& r)
 {
+	if (r.Size == 'S') return false;
 	return ((l.Address == r.Address) && (l.Size == r.Size) && (l.Type == r.Type)/* && (l.WrongEndian == r.WrongEndian)*/);
 }
 
@@ -507,7 +508,8 @@ int Change_File_S(char *Dest, char *Dir, const char *Titre, const char *Filter, 
 
 bool Save_Watches()
 {
-	strcpy(Str_Tmp,gamefilename);
+	if(nBurnDrvSelect != -1)
+		strcpy(Str_Tmp,gamefilename);
 	strcat(Str_Tmp,".wch");
 	if(Change_File_S(Str_Tmp, applicationPath, "Save Watches", "Watchlist\0*.wch\0All Files\0*.*\0\0", "wch", RamWatchHWnd))
 	{
@@ -608,7 +610,8 @@ bool Load_Watches(bool clear, const char* filename)
 
 bool Load_Watches(bool clear)
 {
-	strcpy(Str_Tmp,gamefilename);
+	if(nBurnDrvSelect != -1)
+		strcpy(Str_Tmp,gamefilename);
 	strcat(Str_Tmp,".wch");
 	if(Change_File_L(Str_Tmp, applicationPath, "Load Watches", "Watchlist\0*.wch\0All Files\0*.*\0\0", "wch", RamWatchHWnd))
 	{
@@ -1035,6 +1038,15 @@ LRESULT CALLBACK RamWatchProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 						DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_EDITWATCH), hDlg, (DLGPROC) EditWatchProc,(LPARAM) WatchCount);
 						SetFocus(GetDlgItem(hDlg,IDC_WATCHLIST));
 					}
+					return true;
+				case IDC_C_WATCH_SEPARATE:
+					AddressWatcher separator;
+					separator.Address = 0;
+					separator.WrongEndian = false;
+					separator.Size = 'S';
+					separator.Type = 'S';
+					InsertWatch(separator, "----------------------------");
+					SetFocus(GetDlgItem(hDlg,IDC_WATCHLIST));
 					return true;
 				case IDC_C_WATCH_UP:
 				{

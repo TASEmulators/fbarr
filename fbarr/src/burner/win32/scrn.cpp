@@ -2,6 +2,11 @@
 #include "burner.h"
 #include "tracklst.h"
 #include "maphkeys.h"
+#include "ramwatch.h"
+#include <string>
+#include "../../utils/xstring.h"
+
+using namespace std;
 
 #define		HORIZONTAL_ORIENTED_RES		0
 #define		VERTICAL_ORIENTED_RES		1
@@ -69,6 +74,7 @@ static int OnRButtonUp(HWND, int, int, UINT);
 static int OnRButtonDown(HWND, BOOL, int, int, UINT);
 
 static int OnDisplayChange(HWND, UINT, UINT, UINT);
+static int OnDropFiles(HWND, HDROP);
 
 int OnNotify(HWND, int, NMHDR* lpnmhdr);
 
@@ -395,6 +401,8 @@ static LRESULT CALLBACK ScrnProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPar
 		HANDLE_MSG(hWnd, WM_UNINITMENUPOPUP,OnUnInitMenuPopup);
 
 		HANDLE_MSG(hWnd, WM_DISPLAYCHANGE,	OnDisplayChange);
+
+		HANDLE_MSG(hWnd, WM_DROPFILES,		OnDropFiles);
 	}
 
 	return DefWindowProc(hWnd, Msg, wParam, lParam);
@@ -408,6 +416,57 @@ void SimpleReinitScrn(const bool& reinitVid)
 	if (reinitVid || VidInitNeeded()) {
 		VidReInitialise();
 	}
+}
+
+static int OnDropFiles(HWND, HDROP hdrop)
+{
+	UINT len;
+	char *ftmp;
+	wchar_t ftmpt[1024];
+	int nRet;
+
+	len=DragQueryFileA(hdrop,0,0,0)+1; 
+	if((ftmp=(char*)malloc(len))) 
+	{
+		DragQueryFileA(hdrop,0,ftmp,len); 
+		string fileDropped = ftmp;
+		wstring fileDroppedW = mbstowcs(fileDropped);
+		wcscpy(ftmpt,fileDroppedW.c_str());
+			
+		//adelikat:  Drag and Drop only checks file extension, the internal functions are responsible for file error checking
+		
+		//-------------------------------------------------------
+		//Check if Movie file
+		//-------------------------------------------------------
+		if (!(fileDropped.find(".fbm") == string::npos) && (fileDropped.find(".fbm") == fileDropped.length()-4))	 //ROM is already loaded and .fbm in filename
+		{
+			StartReplay(fileDroppedW.c_str()); //Note: If no game loaded, the game load dialog will appear automatically
+		}
+		//-------------------------------------------------------
+		//Check if Lua file
+		//-------------------------------------------------------
+		else if (!(fileDropped.find(".lua") == string::npos) && (fileDropped.find(".lua") == fileDropped.length()-4))	
+		{
+			FBA_LoadLuaCode(ftmp);
+			UpdateLuaConsole(fileDroppedW.c_str());
+		}
+		//-------------------------------------------------------
+		//Check if Savestate file
+		//-------------------------------------------------------
+		else if (!(fileDropped.find(".fs") == string::npos) && (fileDropped.find(".fs") == fileDropped.length()-3))	
+		{
+			nRet = BurnStateLoad(ftmpt, 1, &DrvInitCallback);
+		}
+		//-------------------------------------------------------
+		//If not a movie, Load it as a ROM file
+		//-------------------------------------------------------
+		else
+		{
+
+		}			
+	}
+
+	return 0;
 }
 
 static int OnDisplayChange(HWND, UINT, UINT, UINT)
@@ -424,6 +483,18 @@ static int OnDisplayChange(HWND, UINT, UINT, UINT)
 	with other applications in the background [CaptainCPS-X]				  */
 //----------------------------------------------------------------------------//
 bool bRDblClick = false;
+
+void HideMenus()
+{
+// If not fullscreen and this event is not related to 'toggle fullscreen' right double-click event
+	if (!nVidFullscreen && !bRDblClick) {
+		bMenuEnabled = !bMenuEnabled;
+		POST_INITIALISE_MESSAGE;
+		return;
+	} else {
+		bRDblClick = false; // 'toggle fullcreen' right double-click event ended, so now we can handle other 'OnRButtonUp' events in windowed mode
+	}
+}
 
 static int OnRButtonDown(HWND hwnd, BOOL bDouble, int, int, UINT)
 {
@@ -454,14 +525,7 @@ static int OnRButtonUp(HWND hwnd, int, int, UINT)
 {
 	if (hwnd != hScrnWnd) return 1;
 
-	// If not fullscreen and this event is not related to 'toggle fullscreen' right double-click event
-	if (!nVidFullscreen && !bRDblClick) {
-		bMenuEnabled = !bMenuEnabled;
-		POST_INITIALISE_MESSAGE;
-		return 0;
-	} else {
-		bRDblClick = false; // 'toggle fullcreen' right double-click event ended, so now we can handle other 'OnRButtonUp' events in windowed mode
-	}
+	HideMenus();
 
 	return 1;
 }
@@ -894,6 +958,10 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 					
 					DrvExit();
 					DrvInit(j, true);	// Init the game driver
+					if (AutoRWLoad) {
+						OpenRWRecentFile(0);
+						HK_ramWatch(0);
+					}
 					MenuEnableItems();
 					bAltPause = 0;
 					AudSoundPlay();			// Restart sound
@@ -936,7 +1004,22 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 		case MENU_STOPREPLAY:
 			HK_stopRec(0);
 			break;
-
+		case MENU_PLAYFROMBEGINNING:
+			HK_playFromBeginning(0);
+			break;
+		case MENU_MOVIEBINDSAVE:
+			if (BindedSavestates())
+				SetBindedSavestates(false);
+			else
+				SetBindedSavestates(true);
+			MenuEnableItems();
+			break;
+		case MENU_UNDOLOADSTATE:
+			LoadBackup(0);
+			break;
+		case MENU_FRAMECOUNTER:
+			HK_frameCounter(0);
+			break;
 		case ID_LUA_OPEN:
 			HK_luaOpen(0);
 			break;
@@ -957,15 +1040,18 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			break;
 
 		case MENU_EXIT:
-			StopReplay();
-			if (kNetGame) {
-				kNetGame = 0;
-//				kailleraEndGame();
-				Kaillera_End_Game();
-				DeActivateChat();
+			if (AskSave()) {
+				StopReplay();
+				if (kNetGame) {
+					kNetGame = 0;
+	//				kailleraEndGame();
+					Kaillera_End_Game();
+					DeActivateChat();
+				}
+				PostQuitMessage(0);
+				return;
 			}
-			PostQuitMessage(0);
-			return;
+			break;
 
 		case MENU_PAUSE:
 			HK_pause(0);
@@ -2672,6 +2758,7 @@ static void OnEnterMenuLoop(HWND, BOOL)
 			bRunPause = 1;
 		}
 	}
+	MenuEnableItems();
 }
 
 static void OnExitMenuLoop(HWND, BOOL)
@@ -2888,6 +2975,13 @@ int ScrnTitle()
 		_stprintf(szText, _T(APP_TITLE) _T( " v%.20s") _T(SEPERATOR_1) _T("[%s]"), szAppBurnVer, FBALoadStringEx(hAppInst, IDS_SCRN_NOGAME, true));
 	}
 
+	std::wstring str = GetCurrentMovie();
+	//Add movie name if it exists
+	if (str.length()) {
+		wcscat(szText, L" Playing: ");
+		wcscat(szText, StripPath(str).c_str());
+	}
+
 	SetWindowText(hScrnWnd, szText);
 	return 0;
 }
@@ -2895,9 +2989,10 @@ int ScrnTitle()
 // Init the screen window (create it)
 int ScrnInit()
 {
-	REBARINFO rebarInfo;
-	REBARBANDINFO rebarBandInfo;
-	RECT rect;
+	//adelikat: I ripped out this toolbar crap and made it a normal menu
+//	REBARINFO rebarInfo;
+//	REBARBANDINFO rebarBandInfo;
+//	RECT rect;
 	int nWindowStyles, nWindowExStyles;
 
 	ScrnExit();
@@ -2935,6 +3030,7 @@ int ScrnInit()
 		MenuCreate();
 
 		// Create the toolbar
+		/*
 		if (bMenuEnabled) {
 			// Create the Rebar control that will contain the menu toolbar
 			hRebar = CreateWindowEx(WS_EX_TOOLWINDOW,
@@ -2967,6 +3063,11 @@ int ScrnInit()
 			nMenuHeight = rect.bottom - rect.top;
 
 		}
+		*/
+		if (bMenuEnabled) {
+			nMenuHeight = 19;
+		}
+		DragAcceptFiles(hScrnWnd, 1);
 
 		ScrnTitle();
 		ScrnSize();

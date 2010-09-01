@@ -1,5 +1,22 @@
 // State dialog module
 #include "burner.h"
+#include "../../utils/xstring.h"
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+//Backup savestate/loadstate values
+TCHAR lastSavestateMade[2048]; //Stores the filename of the last savestate made (needed for UndoSavestate)
+bool undoSS = false;           //This will be true if there is lastSavestateMade, it was made since ROM was loaded, a backup state for lastSavestateMade exists
+bool redoSS = false;           //This will be true if UndoSaveState is run, will turn false when a new savestate is made
+
+TCHAR lastLoadstateMade[2048]; //Stores the filename of the last state loaded (needed for Undo/Redo loadstate)
+bool undoLS = false;           //This will be true if a backupstate was made and it was made since ROM was loaded
+bool redoLS = false;           //This will be true if a backupstate was loaded, meaning redoLoadState can be run
+
+void BackupLoadState();
+void LoadBackup(bool user);
 
 extern bool bReplayDontClose;
 int bDrvSaveAll = 0;
@@ -43,7 +60,29 @@ int StatedAuto(int bSave)
 
 static void CreateStateName(int nSlot)
 {
-	_stprintf(szChoice, _T("%ssavestates\\%s slot %02x.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), nSlot);
+	if (MovieIsActive() && BindedSavestates())	//If movie is active and bind savestates flag active, bind movie to savestaes by including movie name in the filename
+	{
+		_stprintf(szChoice, _T("%ssavestates\\%s %s slot %02x.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), StripExtension(StripPath(GetCurrentMovie())).c_str(), nSlot);
+	}
+	else
+	{
+		_stprintf(szChoice, _T("%ssavestates\\%s slot %02x.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), nSlot);
+	}
+}
+
+//Retunrs a generic non numbered savestate name based on rom & movie
+std::wstring ReturnStateName()
+{
+	TCHAR choice[260];
+	if (MovieIsActive() && BindedSavestates())	//If movie is active and bind savestates flag active, bind movie to savestaes by including movie name in the filename
+	{
+		_stprintf(choice, _T("%ssavestates\\%s %s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), StripExtension(StripPath(GetCurrentMovie())).c_str());
+	}
+	else
+	{
+		_stprintf(choice, _T("%ssavestates\\%s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME));
+	}
+	return choice;
 }
 
 int StatedLoad(int nSlot)
@@ -53,6 +92,8 @@ int StatedLoad(int nSlot)
 	int bOldPause;
 
 	if(!bDrvOkay) return 1; //don't load unless there's a ROM open...
+
+	BackupLoadState();      //make backup savestate first
 
 	// if rewinding during playback, and readonly is not set,
 	// then transition from decoding to encoding
@@ -91,12 +132,25 @@ int StatedLoad(int nSlot)
 
 	nRet = BurnStateLoad(szChoice, 1, &DrvInitCallback);
 
-	VidSNewShortMsg(L"state loaded");
+	//adelikat: Replace with a dynamic message that includes the slot number
+	if (nSlot) {
+		TCHAR message[16];
+		swprintf(message, L"state %d loaded", nSlot);
+		std::wstring messageStr = message;
+		VidSNewShortMsg(messageStr.c_str());
+	}
+	else
+		VidSNewShortMsg(L"state loaded");
+
 	UpdateMemWatch();
 
+	/*
 	if (nSlot) {
 		return nRet;
 	}
+	*/
+	//adelikat: Removing this, I think these error messages should go through regardless,
+	//and it makes it able to load the backup state now
 
 	// Describe any possible errors:
 	if (nRet == 3) {
@@ -120,7 +174,8 @@ int StatedLoad(int nSlot)
 	}
 
 	if (nRet) {
-		FBAPopupDisplay(PUF_TYPE_ERROR);
+		LoadBackup(0); //Restore previous state
+		//FBAPopupDisplay(PUF_TYPE_ERROR); //adelikat:  The displaying of state error is sufficient
 	}
 
 	return nRet;
@@ -162,7 +217,104 @@ int StatedSave(int nSlot)
 		FBAPopupDisplay(PUF_TYPE_ERROR);
 	}
 
-	VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
+	//adelikat: Replace the call to IDS_STATE_SAVED with a dynamic message that includes the slot number
+	if (nSlot)
+	{
+	TCHAR message[16];
+	swprintf(message, L"state %d saved", nSlot);
+	std::wstring messageStr = message;
+	VidSNewShortMsg(messageStr.c_str());
+	}
+	else
+		VidSNewShortMsg(FBALoadStringEx(hAppInst, IDS_STATE_SAVED, true));
 
 	return nRet;
+}
+
+//Save state based on a file name
+int StatedSave(std::wstring filename)
+{
+	TCHAR choice[260];
+	int nRet;
+
+	if (bDrvOkay == 0) 
+	{
+		return 1;
+	}
+
+	wcscpy(choice, filename.c_str());
+	nRet = BurnStateSave(choice, 1);
+
+	if (nRet) 
+	{
+		FBAPopupAddText(PUF_TEXT_DEFAULT, MAKEINTRESOURCE(IDS_ERR_DISK_CREATE));
+		FBAPopupAddText(PUF_TEXT_DEFAULT, MAKEINTRESOURCE(IDS_DISK_STATE));
+		FBAPopupDisplay(PUF_TYPE_ERROR);
+	}
+
+	VidSNewShortMsg(L"Error creating backup state");
+	return nRet;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+//*************************************************************************
+//Loadstate backup functions
+//(Used when Loading savestates)
+//*************************************************************************
+
+wstring GetBackupFileName()
+{
+	//This backup savestate is a special one specifically made whenever a loadstate occurs so that the user's place in a movie/game is never lost
+	//particularly from unintentional loadstating
+
+	std::wstring filename = StripExtension(ReturnStateName()); //Generate normal savestate filename then remove file extension
+	filename.append(L".bak");  //add .bak extension
+	return filename;
+}
+
+//This function simply checks to see if the backup loadstate exists, the backup loadstate is a special savestate
+//That is made before loading any state, so that the user never loses data, it has the .bak file extension
+bool CheckBackupSaveStateExist()
+{
+	wstring filename = GetBackupFileName(); //Get backup savestate filename
+
+	//Check if this filename exists
+	fstream test;
+	test.open(_TtoA(filename.c_str()),fstream::in);
+
+	if (test.fail()) {
+		test.close();
+		return false;
+	}
+	else {
+		test.close();
+		return true;
+	}
+}
+
+//Creates a .bak file, to be used before loading any state
+void BackupLoadState()
+{
+	wstring filename = GetBackupFileName();
+	StatedSave(filename.c_str());
+	undoLS = true;
+	redoLS = false;
+}
+
+//Loads the backup (.bak) savestate that's created whenever a loadstate is executed
+//user is to signal whether it is the users choice or FBA (in the event of loadstate error)
+void LoadBackup(bool user)
+{
+	if (!undoLS && user) return; //If this is a user choice and backups are turned off
+	TCHAR choice[260];
+	wcscpy(choice, GetBackupFileName().c_str());
+	if (CheckBackupSaveStateExist()) {
+//		int nRet = BurnStateLoad(choice, 1, &DrvInitCallback);
+		BurnStateLoad(choice, 1, &DrvInitCallback);
+		redoLS = true;  //Flag redoLoadState
+		undoLS = false; //Flag that LoadBackup cannot be run again
+	}
+	else
+		VidSNewShortMsg(L"Error loading backup state"); //TODO: put backup filename in error message
+	//TODO: use nret for a more informative message
 }

@@ -186,9 +186,9 @@ static int BlitFXInit()
 
 	RECT rect = { 0, 0, 0, 0 };
 	GetClientScreenRect(hVidWnd, &rect);
-	if (!nVidFullscreen) {
-		rect.top += nMenuHeight;
-	}
+//	if (!nVidFullscreen) {
+//		rect.top += nMenuHeight;
+//	}
 
 	if (nUseBlitter >= FILTER_SUPEREAGLE && nUseBlitter <= FILTER_SUPER_2XSAI) {
 		nVidImageDepth = 16;								// Use 565 format
@@ -457,9 +457,9 @@ static int Paint(int bValidate)
 	}
 
 	GetClientScreenRect(hVidWnd, &Dest);
-	if (!nVidFullscreen) {
-		Dest.top += nMenuHeight;
-	}
+//	if (!nVidFullscreen) {
+//		Dest.top += nMenuHeight;
+//	}
 
 	if (bVidArcaderes && nVidFullscreen) {
 		Dest.left = (Dest.right + Dest.left) / 2;

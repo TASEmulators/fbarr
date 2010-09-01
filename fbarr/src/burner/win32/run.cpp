@@ -365,11 +365,14 @@ int RunMessageLoop()
 					break;
 				}
 
+				/*
 				if (bMenuEnabled && nVidFullscreen == 0) {								// Handle keyboard messages for the menu
 					if (MenuHandleKeyboard(&Msg)) {
 						continue;
 					}
 				}
+				*/
+				//adelikat:  When you use a proper menu you don't need this code, it has its own!
 
 				// process key message
 				RunKeyMsg(Msg);
@@ -408,9 +411,11 @@ int RunMessageLoop()
 				// Check for messages for dialogs etc.
 				if (AppMessage(&Msg)) {
 					if (TranslateAccelerator(hScrnWnd, hAccel, &Msg) == 0) {
-						if (hwndChat) {
+						//mbg 12-aug-2010 - commented out the check for hwndChat.
+						//may have unintended consequences by interacting poorly with hotkeys or something
+						//if (hwndChat) {
 							TranslateMessage(&Msg);
-						}
+						//}
 						DispatchMessage(&Msg);
 					}
 				}

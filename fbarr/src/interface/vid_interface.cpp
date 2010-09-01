@@ -424,7 +424,7 @@ InterfaceInfo* VidGetInfo()
 #if defined (BUILD_WIN32)
 		GetClientScreenRect(hVidWnd, &rect);
 		if (nVidFullscreen == 0) {
-			rect.top += nMenuHeight;
+//			rect.top += nMenuHeight;
 			_sntprintf(szString, MAX_PATH, _T("Running in windowed mode, $ix%i, %ibpp"), rect.right - rect.left, rect.bottom - rect.top, nVidScrnDepth);
 		} else {
 			_sntprintf(szString, MAX_PATH, _T("Running fullscreen, $ix$i, %ibpp"), nVidScrnWidth, nVidScrnHeight, nVidScrnDepth);
