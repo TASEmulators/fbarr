@@ -208,6 +208,22 @@ If set to true, no rerecords done by Lua are counted in the rerecord total. If s
 
 Stops the movie. Cannot be used if there is no movie.
 
+===`movie.playbeginning()`===
+
+Restarts the movie from beginning.
+
+===`movie.setreadonly(boolean readonly)`===
+
+Sets the read-only flag.
+
+===`boolean movie.getreadonly()`===
+
+Returns the state of the read-only flag.
+
+===`int movie.length()`===
+
+Returns the total number of frames of a movie.
+
 ----
 =gui=
 
