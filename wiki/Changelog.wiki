@@ -22,7 +22,7 @@
   * GUI cleanups.
   * Windowed mode default when loading game from commandline (instead of fullscreen).
   * RAM Search: fix reset to update previous values.
-  * RAM Search: Fix counting number of changes.
+  * RAM Search: fix counting number of changes.
   * RAM Watch: Add Separator button.
 
 *v0.0.5* ,,(2010-08-09),,
