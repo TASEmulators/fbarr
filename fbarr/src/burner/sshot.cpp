@@ -9,6 +9,7 @@ static unsigned char* pSShot = NULL;
 static unsigned char* pConvertedImage = NULL;
 static png_bytep* pSShotImageRows = NULL;
 static FILE* ff;
+bool bLuaDrawingsInCaptures = 1;
 
 unsigned char* ConvertVidImage(int bFlipVertical)
 {
@@ -80,6 +81,9 @@ unsigned char* ConvertVidImage(int bFlipVertical)
 		free(pOldTemp);
 		pImage = pTemp;
 	}
+
+	if (bLuaDrawingsInCaptures)
+		FBA_LuaGui(pImage, w, h, 4, w*4);
 
 	if(bFlipVertical) {
 		unsigned char* pOldTemp = pTemp;
@@ -215,6 +219,9 @@ int MakeScreenShot()
 
         pSShot = pConvertedImage;
 	}
+
+	if (bLuaDrawingsInCaptures)
+		FBA_LuaGui(pSShot, w, h, 4, w*4);
 
 	// Get the time
 	time(&currentTime);

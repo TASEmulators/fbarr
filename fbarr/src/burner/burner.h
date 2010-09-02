@@ -121,6 +121,7 @@ int create_datfile(TCHAR* szFilename, int nDatType, int bIncMegadrive);
 // sshot.cpp
 unsigned char* ConvertVidImage(int bFlipVertical);	// returns either pImage or a dynamically allocated buffer which should be freed by the caller
 int MakeScreenShot();
+extern bool bLuaDrawingsInCaptures;
 
 // state.cpp
 int BurnStateLoadEmbed(FILE* fp, int nOffset, int bAll, int (*pLoadGame)());

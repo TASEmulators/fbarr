@@ -1342,6 +1342,7 @@ BEGIN
            MENUITEM "Display mode indicator",				MENU_DISPLAYINDICATOR
            MENUITEM "Display frame counter",				MENU_FRAMECOUNTER
            MENUITEM "Bind savestates to movies",			MENU_MOVIEBINDSAVE, CHECKED
+           MENUITEM "Lua drawings in captures",				MENU_LUADRAWINGS
            MENUITEM SEPARATOR
            POPUP "Set application thread priority"
            BEGIN
