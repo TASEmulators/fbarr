@@ -869,6 +869,18 @@
 #define MENU_UNDOLOADSTATE              10676
 #define MENU_FRAMECOUNTER               10677
 #define MENU_LUADRAWINGS                10678
+#define MENU_LAYER_ALLSPRITES           10679
+#define MENU_LAYER_2                    10680
+#define MENU_LAYER_3                    10681
+#define MENU_LAYER_4                    10682
+#define MENU_LAYER_SPRITE1              10683
+#define MENU_LAYER_SPRITE2              10684
+#define MENU_LAYER_SPRITE3              10685
+#define MENU_LAYER_SPRITE4              10686
+#define MENU_LAYER_SPRITE5              10687
+#define MENU_LAYER_SPRITE6              10688
+#define MENU_LAYER_SPRITE7              10689
+#define MENU_LAYER_SPRITE8              10690
 
 #define MENU_NORMAL                     11001
 #define MENU_SCAN                       11002

@@ -1286,6 +1286,22 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "Mirrored vertical alignment",				MENU_MONITORMIRRORVERT
         END
+        POPUP "&Graphics layers"
+        BEGIN
+            MENUITEM "&All Sprites", MENU_LAYER_ALLSPRITES
+            MENUITEM "Layer &2", MENU_LAYER_2
+            MENUITEM "Layer &3", MENU_LAYER_3
+            MENUITEM "Layer &4", MENU_LAYER_4
+            MENUITEM SEPARATOR
+            MENUITEM "Sprite Priority 1", MENU_LAYER_SPRITE1
+            MENUITEM "Sprite Priority 2", MENU_LAYER_SPRITE2
+            MENUITEM "Sprite Priority 3", MENU_LAYER_SPRITE3
+            MENUITEM "Sprite Priority 4", MENU_LAYER_SPRITE4
+            MENUITEM "Sprite Priority 5", MENU_LAYER_SPRITE5
+            MENUITEM "Sprite Priority 6", MENU_LAYER_SPRITE6
+            MENUITEM "Sprite Priority 7", MENU_LAYER_SPRITE7
+            MENUITEM "Sprite Priority 8", MENU_LAYER_SPRITE8
+        END
         MENUITEM SEPARATOR
         MENUITEM "&Rotate vertically aligned games",			MENU_ROTATEVERTICAL
         MENUITEM "Use &triple buffering",				MENU_TRIPLE

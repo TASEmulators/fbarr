@@ -355,6 +355,7 @@ void CPUClockDialog();
 void CubicSharpnessDialog();
 // sfactd.cpp
 int SFactdCreate();
+void ToggleSprite(unsigned char PriNum);
 
 // roms.cpp
 extern char* gameAv;

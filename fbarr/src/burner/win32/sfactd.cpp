@@ -64,8 +64,8 @@ static int SFactdInit()
 
 static int SFactdExit()
 {
-	nBurnLayer=layerBackup;
-	nSpriteEnable= 0xFF;
+//	nBurnLayer=layerBackup;
+//	nSpriteEnable= 0xFF;
 	hSFactdlg=NULL;
 	bShotsFactory = 0;
 	bRunPause=bOldPause;
