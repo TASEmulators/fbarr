@@ -1029,6 +1029,42 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 		case ID_LUA_CLOSE_ALL:
 			HK_luaCloseAll(0);
 			break;
+		case MENU_LAYER_ALLSPRITES:
+			ToggleLayer(1);
+			break;
+		case MENU_LAYER_2:
+			ToggleLayer(2);
+			break;
+		case MENU_LAYER_3:
+			ToggleLayer(4);
+			break;
+		case MENU_LAYER_4:
+			ToggleLayer(8);
+			break;
+		case MENU_LAYER_SPRITE1:
+			ToggleSprite(0x01);
+			break;
+		case MENU_LAYER_SPRITE2:
+			ToggleSprite(0x02);
+			break;
+		case MENU_LAYER_SPRITE3:
+			ToggleSprite(0x04);
+			break;
+		case MENU_LAYER_SPRITE4:
+			ToggleSprite(0x08);
+			break;
+		case MENU_LAYER_SPRITE5:
+			ToggleSprite(0x10);
+			break;
+		case MENU_LAYER_SPRITE6:
+			ToggleSprite(0x20);
+			break;
+		case MENU_LAYER_SPRITE7:
+			ToggleSprite(0x40);
+			break;
+		case MENU_LAYER_SPRITE8:
+			ToggleSprite(0x80);
+			break;
 			
 		case MENU_HOTKEYS:
 			MHkeysCreate();

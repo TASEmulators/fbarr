@@ -803,6 +803,19 @@ void MenuUpdate()
 	CheckMenuItem(hMenu, MENU_FRAMECOUNTER, bReplayFrameCounterDisplay ? MF_CHECKED : MF_UNCHECKED);
 	CheckMenuItem(hMenu, MENU_LUADRAWINGS, bLuaDrawingsInCaptures ? MF_CHECKED : MF_UNCHECKED);
 
+	CheckMenuItem(hMenu, MENU_LAYER_ALLSPRITES,(nBurnLayer & 1) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_2,(nBurnLayer & 2) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_3,(nBurnLayer & 4) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_4,(nBurnLayer & 8) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_SPRITE1,(nSpriteEnable & 0x01) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_SPRITE2,(nSpriteEnable & 0x02) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_SPRITE3,(nSpriteEnable & 0x04) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_SPRITE4,(nSpriteEnable & 0x08) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_SPRITE5,(nSpriteEnable & 0x10) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_SPRITE6,(nSpriteEnable & 0x20) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_SPRITE7,(nSpriteEnable & 0x40) ? MF_CHECKED : MF_UNCHECKED);
+	CheckMenuItem(hMenu, MENU_LAYER_SPRITE8,(nSpriteEnable & 0x80) ? MF_CHECKED : MF_UNCHECKED);
+
 	CheckMenuItem(hMenu, MENU_SETCPUCLOCK, nBurnCPUSpeedAdjust != 0x0100 ? MF_CHECKED : MF_UNCHECKED);
 	CreateCPUSpeedItem(nBurnCPUSpeedAdjust != 0x0100);
 
