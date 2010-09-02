@@ -258,6 +258,7 @@ int ConfigAppLoad()
 		STR(szPlayerDefaultIni[3]);
 
 		VAR(bindSavestates);
+		VAR(bLuaDrawingsInCaptures);
 
 		//Ram Watch Settings
 		VAR(AutoRWLoad);
@@ -602,6 +603,7 @@ int ConfigAppSave()
 	STR(szPlayerDefaultIni[3]);
 
 	VAR(bindSavestates);
+	VAR(bLuaDrawingsInCaptures);
 
 	_ftprintf(h, _T("\n// Ram Watch settings\n"));
 	VAR(AutoRWLoad);

@@ -1020,6 +1020,9 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 		case MENU_FRAMECOUNTER:
 			HK_frameCounter(0);
 			break;
+		case MENU_LUADRAWINGS:
+			bLuaDrawingsInCaptures = !bLuaDrawingsInCaptures;
+			break;
 		case ID_LUA_OPEN:
 			HK_luaOpen(0);
 			break;

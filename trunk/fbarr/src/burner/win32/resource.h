@@ -868,6 +868,7 @@
 #define MENU_MOVIEBINDSAVE              10675
 #define MENU_UNDOLOADSTATE              10676
 #define MENU_FRAMECOUNTER               10677
+#define MENU_LUADRAWINGS                10678
 
 #define MENU_NORMAL                     11001
 #define MENU_SCAN                       11002
