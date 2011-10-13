@@ -117,7 +117,7 @@ static int DxSoundCheck()
 			pdsbLoop->Unlock(pData, cbLen, pData2, 0);
 		}
 
-		bDraw = (nFollowingSeg == nPlaySeg)	/*|| bAlwaysDrawFrames*/;	// If this is the last seg of sound, flag bDraw (to draw the graphics)
+		bDraw = (nFollowingSeg == nPlaySeg || bAlwaysDrawFrames);	// If this is the last seg of sound, flag bDraw (to draw the graphics)
 
 		if(bDraw) {
 			DSoundGetNextSound(bDraw);									// get more sound into nAudNextSound
