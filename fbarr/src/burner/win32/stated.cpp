@@ -41,7 +41,7 @@ static void MakeOfn(TCHAR* pszFilter)
 // The automatic save
 int StatedAuto(int bSave)
 {
-	static TCHAR szName[32] = _T("");
+	static TCHAR szName[MAX_PATH] = _T("");
 	int nRet;
 
 	_stprintf(szName, _T("%sconfig\\games\\%s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME));
@@ -73,7 +73,7 @@ static void CreateStateName(int nSlot)
 //Retunrs a generic non numbered savestate name based on rom & movie
 std::wstring ReturnStateName()
 {
-	TCHAR choice[260];
+	TCHAR choice[MAX_PATH];
 	if (MovieIsActive() && BindedSavestates())	//If movie is active and bind savestates flag active, bind movie to savestaes by including movie name in the filename
 	{
 		_stprintf(choice, _T("%ssavestates\\%s %s.fs"), szCurrentPath, BurnDrvGetText(DRV_NAME), StripExtension(StripPath(GetCurrentMovie())).c_str());
