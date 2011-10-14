@@ -568,7 +568,7 @@ unsigned int ReadValueAtHardwareAddress(HWAddressType address, unsigned int size
 	for(unsigned int i = 0; i < size; i++)
 	{
 		value <<= 8;
-		value |= (IsHardwareAddressValid(address) ? cheat_subptr->read(address) : 0);
+		value |= cheat_subptr->read(address);
 		if(isLittleEndian)
 			address--;
 		else
