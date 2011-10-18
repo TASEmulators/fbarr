@@ -1473,7 +1473,7 @@ STDDIPINFO(Spacegun)
 
 static struct BurnRomInfo AquajackRomDesc[] = {
 	{ "b77-22.rom",    0x20000, 0x67400dde, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-	{ "34.17",         0x20000, 0xcd4d0969, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
+	{ "b77-26.rom",    0x20000, 0xcd4d0969, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
 	
 	{ "b77-24.rom",    0x20000, 0x95e643ed, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
 	{ "b77-23.rom",    0x20000, 0x395a7d1c, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
@@ -1501,6 +1501,37 @@ static struct BurnRomInfo AquajackRomDesc[] = {
 
 STD_ROM_PICK(Aquajack)
 STD_ROM_FN(Aquajack)
+
+static struct BurnRomInfo AquajackuRomDesc[] = {
+	{ "b77-22.rom",    0x20000, 0x67400dde, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
+	{ "b77-25.rom",    0x20000, 0xba4a39ff, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
+	
+	{ "b77-24.rom",    0x20000, 0x95e643ed, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
+	{ "b77-23.rom",    0x20000, 0x395a7d1c, BRF_ESS | BRF_PRG | TAITO_68KROM2_BYTESWAP },
+	
+	{ "b77-20.rom",    0x10000, 0x84ba54b7, BRF_ESS | BRF_PRG | TAITO_Z80ROM1 },
+	
+	{ "b77-05.rom",    0x80000, 0x7238f0ff, BRF_GRA | TAITO_CHARS },
+	
+	{ "b77-04.rom",    0x80000, 0xbed0be6c, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "b77-03.rom",    0x80000, 0x9a3030a7, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "b77-02.rom",    0x80000, 0xdaea0d2e, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	{ "b77-01.rom",    0x80000, 0xcdab000d, BRF_GRA | TAITO_SPRITESA_BYTESWAP32 },
+	
+	{ "b77-07.rom",    0x80000, 0x7db1fc5e, BRF_GRA | TAITO_ROAD },
+	
+	{ "b77-06.rom",    0x80000, 0xce2aed00, BRF_GRA | TAITO_SPRITEMAP },
+	
+	{ "b77-09.rom",    0x80000, 0x948e5ad9, BRF_SND | TAITO_YM2610A },
+	
+	{ "b77-08.rom",    0x80000, 0x119b9485, BRF_SND | TAITO_YM2610B },
+	
+	{ "b77-17.bin",    0x00100, 0xfbf81f30, BRF_OPT },
+	{ "b77-18.bin",    0x00100, 0x7b7d8ff4, BRF_OPT },
+};
+
+STD_ROM_PICK(Aquajacku)
+STD_ROM_FN(Aquajacku)
 
 static struct BurnRomInfo AquajackjRomDesc[] = {
 	{ "b77-22.rom",    0x20000, 0x67400dde, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
@@ -5588,6 +5619,16 @@ struct BurnDriver BurnDrvAquajackj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_TAITOZ, GBF_MISC, 0,
 	NULL, AquajackjRomInfo, AquajackjRomName, NULL, NULL, AquajackInputInfo, AquajackjDIPInfo,
+	AquajackInit, TaitoZExit, TaitoZFrame, NULL, TaitoZScan,
+	NULL, 0x1000, 320, 240, 4, 3
+};
+
+struct BurnDriver BurnDrvAquajacku = {
+	"aquajacku", "aquajack", NULL, NULL, "1990",
+	"Aquajack (US)\0", NULL, "Taito Corporation", "Taito-Z",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_TAITOZ, GBF_MISC, 0,
+	NULL, AquajackuRomInfo, AquajackuRomName, NULL, NULL, AquajackInputInfo, AquajackjDIPInfo,
 	AquajackInit, TaitoZExit, TaitoZFrame, NULL, TaitoZScan,
 	NULL, 0x1000, 320, 240, 4, 3
 };

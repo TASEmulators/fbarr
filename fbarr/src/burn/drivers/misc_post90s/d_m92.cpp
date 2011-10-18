@@ -2107,7 +2107,7 @@ static int DrvFrame()
 		syncronize_sound_cpu();
 
 		VezOpen(1);
-		if ((i & 63) == 63) sync_ym2151(); // update 4x/frame
+		if ((i & 63) == 63)sync_ym2151();
 		VezOpen(0);
 	}
 

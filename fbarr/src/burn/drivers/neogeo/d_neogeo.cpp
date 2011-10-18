@@ -5229,14 +5229,14 @@ struct BurnDriver BurnDrvmarukodq = {
 // Neo Mr. Do!
 
 static struct BurnRomInfo neomrdoRomDesc[] = {
-	{ "207-p1.p1",    0x080000, 0x39efdb82, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "207-p1.p1",    0x100000, 0x334ea51e, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
 
 	{ "207-s1.s1",    0x020000, 0x6aebafce, 2 | BRF_GRA },           //  1 Text layer tiles
 
 	{ "207-c1.c1",    0x200000, 0xc7541b9d, 3 | BRF_GRA },           //  2 Sprite data
 	{ "207-c2.c2",    0x200000, 0xf57166d2, 3 | BRF_GRA },           //  3 
 
-	{ "207-m1.m1",    0x020000, 0x81eade02, 4 | BRF_ESS | BRF_PRG }, //  4 Z80 code
+	{ "207-m1.m1",    0x020000, 0xb5b74a95, 4 | BRF_ESS | BRF_PRG }, //  4 Z80 code
 
 	{ "207-v1.v1",    0x200000, 0x4143c052, 5 | BRF_SND },           //  5 Sound data
 };

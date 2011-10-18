@@ -22,6 +22,9 @@
 #include "burnint.h"
 #include "burn_ym2612.h"
 #include "sn76496.h"
+#include "megadrive.h"
+#include "bitswap.h"
+#include "sekdebug.h"
 
 #define OSC_NTSC 53693175
 #define OSC_PAL  53203424
@@ -50,11 +53,32 @@ struct PicoMisc {
 	unsigned int Bank68k;
 	unsigned char Rotate;
 
-	unsigned char Pad[3];
+//	unsigned char Pad[3];
 	
-	unsigned int SRamReg;
+//	unsigned int SRamReg;
 	unsigned int SRamStart;
 	unsigned int SRamEnd;
+	unsigned int SRamDetected;
+	unsigned int SRamActive;
+	unsigned int SRamHandlersInstalled;
+	unsigned int SRamReadOnly;
+	unsigned int SRamHasSerialEEPROM;
+	
+	unsigned char I2CMem;
+	unsigned char I2CClk;
+	
+	unsigned short JCartIOData[2];
+	
+	unsigned char L3AltPDat;
+	unsigned char L3AltPCmd;
+	
+	unsigned short SquirrelkingExtra;
+	
+	unsigned short Lionk2ProtData;
+	unsigned short Lionk2ProtData2;
+	
+	unsigned int RealtecBankAddr;
+	unsigned int RealtecBankSize;
 };
 
 struct TileStrip
@@ -68,16 +92,16 @@ struct TileStrip
 };
 
 struct MegadriveJoyPad {
-	unsigned short pad[2];
-	unsigned char  padTHPhase[2];
-	unsigned char  padDelay[2];
+	unsigned short pad[4];
+	unsigned char  padTHPhase[4];
+	unsigned char  padDelay[4];
 };
 
 static unsigned char *Mem = NULL, *MemEnd = NULL;
 static unsigned char *RamStart, *RamEnd;
 
 static unsigned char *RomMain;
-static unsigned char *Ssf2Rom;
+static unsigned char *OriginalRom;
 
 static unsigned char *Ram68K;
 static unsigned char *RamZ80;
@@ -94,6 +118,8 @@ static struct MegadriveJoyPad *JoyPad;
 
 unsigned short *MegadriveCurPal;
 
+static UINT16 *MegadriveBackupRam;
+
 static unsigned char *HighCol;
 static unsigned char *HighColFull;
 
@@ -108,8 +134,11 @@ unsigned char bMegadriveRecalcPalette = 0;
 
 unsigned char MegadriveJoy1[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 unsigned char MegadriveJoy2[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+unsigned char MegadriveJoy3[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+unsigned char MegadriveJoy4[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 unsigned char MegadriveDIP[2] = {0, 0};
 
+static unsigned int RomNum = 0;
 static unsigned int RomSize = 0;
 static unsigned int SRamSize = 0;
 
@@ -123,16 +152,6 @@ static int RomNoByteswap;
 
 static unsigned char Hardware;
 static unsigned char DrvSECAM = 0;	// NTSC 
-
-// .bin format
-static void Byteswap(unsigned char *data, int len)
-{
-	for(int i=0;i<len;i+=2) {
-		unsigned char c = data[i];
-		data[i] = data[i+1];
-		data[i+1] = c;
-	}
-}
 
 void MegadriveCheckHardware()
 {
@@ -242,44 +261,6 @@ void MegadriveCheckHardware()
 	}
 	
 	if ((Hardware & 0x20) != 0x20) bprintf(PRINT_IMPORTANT, _T("Emulating Mega-CD Add-on\n"));
-
-	SRamSize = 0;
-	RamMisc->SRamReg = 0;
-	RamMisc->SRamStart = 0;
-	RamMisc->SRamEnd = 0;
-	
-	if (RomMain[0x1b0] == 0x41 && RomMain[0x1b1] == 0x52) {
-		SekOpen(0);
-		if (RomMain[0x1b2] & 0x40) {
-			// EEPROM
-			RamMisc->SRamStart = SekReadLong(0x1b4) & ~0x01;
-			RamMisc->SRamEnd = SekReadLong(0x1b8);
-			SRamSize = 0x2000;
-			RamMisc->SRamReg = 0x04;
-		} else {
-			RamMisc->SRamStart = SekReadLong(0x1B4) & 0xFFFF00;
-			RamMisc->SRamEnd = SekReadLong(0x1B8);
-			SRamSize = RamMisc->SRamEnd - RamMisc->SRamStart + 1;
-		}
-		SekClose();
-		RamMisc->SRamReg |= 0x10;
-		bprintf(PRINT_IMPORTANT, _T("SRAM Detected: Start %06x, End %06x\n"), RamMisc->SRamStart, RamMisc->SRamEnd);
-	}
-	
-//	if (SRamSize <= 0 || SRamSize > MAX_SRAM_SIZE) {
-//		RamMisc->SRamStart = 0x200000;
-//		RamMisc->SRamEnd   = 0x203fff;
-//		SRamSize  = 0x4000;
-//	}
-	
-	// If SRAM region doesn't overlap ROM then enable it
-//	if (RomSize <= RamMisc->SRamStart) {
-//		RamMisc->SRamReg |= 0x01;
-//		bprintf(PRINT_IMPORTANT, _T("Enabling SRAM Region: Start %06x, End %06x\n"), RamMisc->SRamStart, RamMisc->SRamEnd);
-//		SekOpen(0);
-//		SekMapMemory(SRam, RamMisc->SRamStart, RamMisc->SRamEnd, SM_RAM);
-//		SekClose();
-//	}	
 }
 
 //-----------------------------------------------------------------
@@ -459,11 +440,11 @@ void __fastcall MegadriveWriteByte(unsigned int sekAddress, unsigned char byteVa
 			return;
 		}
 	
-		case 0xA130F1: {
+//		case 0xA130F1: {
 			// sram access register
-			RamMisc->SRamReg = byteValue & 0x03;
-			return;
-		}
+//			RamMisc->SRamReg = byteValue & 0x03;
+//			return;
+//		}
 			
 		default: {
 			bprintf(PRINT_NORMAL, _T("Attempt to write byte value %x to location %x\n"), byteValue, sekAddress);
@@ -1111,74 +1092,6 @@ inline static double MegadriveGetTimePAL()
 	return (double)SekTotalCycles() / (OSC_PAL / 7);
 }
 
-// -- SRam / EEPROM ----------------------------------------------------------
-
-unsigned char __fastcall MegadriveSRamReadByte(unsigned int sekAddress)
-{
-	unsigned int sreg = RamMisc->SRamReg;
-	if(!(sreg & 0x10) && (sreg & 1) && sekAddress > 0x200001) { 
-		// not yet detected SRAM
-		RamMisc->SRamReg |= 0x10; // should be normal SRAM
-	}
-	
-	if(sreg & 0x04) { // EEPROM read
-		//d = SRAMReadEEPROM();
-		bprintf(PRINT_NORMAL, _T("EEPROM Attempt to read byte value of location   %02x\n"), sekAddress);
-		return 0;
-    } else if(sreg & 0x01) {
-		return SRam[ sekAddress - RamMisc->SRamStart ];
-    } else {
-		//bprintf(PRINT_NORMAL, _T("SRam Attempt to read byte value of location   %02x\n"), sekAddress);
-    	if (sekAddress < RomSize) {
-    		return RomMain[ sekAddress ^ 1];
-    	}
-    }
-	
-	return 0;
-}
-
-unsigned short __fastcall MegadriveSRamReadWord(unsigned int sekAddress)
-{
-	//bprintf(PRINT_NORMAL, _T("SRam Attempt to read word value of location %04x\n"), sekAddress);
-	unsigned short res;
-	res  = MegadriveSRamReadByte(sekAddress) << 8;
-	res |= MegadriveSRamReadByte(sekAddress + 1);
-	return res;
-}
-
-void __fastcall MegadriveSRamWriteByte(unsigned int sekAddress, unsigned char byteValue)
-{
-	unsigned int sreg = RamMisc->SRamReg;
-
-	if(!(sreg & 0x10)) {
-		// not detected SRAM
-		if((sekAddress&~1)==0x200000) {
-			//bprintf(2, _T("SRam Not Detected and Now Enable it!!!\n"));
-			RamMisc->SRamReg |= 4; // this should be a game with EEPROM (like NBA Jam)
-			RamMisc->SRamStart=0x200000; 
-			RamMisc->SRamEnd = RamMisc->SRamStart + 1;
-			
-		}
-		RamMisc->SRamReg |= 0x10;
-	}
-	
-	if (sreg * 0x04) {
-
-//		bprintf(PRINT_NORMAL, _T("EEPROM Attempt to write byte value   %02x to location %08x\n"), byteValue, sekAddress);
-		
-	} else if(!(sreg & 0x02)) {
-		SRam[ sekAddress - RamMisc->SRamStart ] = byteValue;
-	} else
-		bprintf(PRINT_NORMAL, _T("SRam Attempt to write byte value   %02x to location %08x\n"), byteValue, sekAddress);
-}
-
-void __fastcall MegadriveSRamWriteWord(unsigned int sekAddress, unsigned short wordValue)
-{
-	//bprintf(PRINT_NORMAL, _T("SRam Attempt to write word value %04x to location %08x\n"), wordValue, sekAddress);
-	MegadriveSRamWriteByte( sekAddress + 0, wordValue >> 0x08 );
-	MegadriveSRamWriteByte( sekAddress + 1, wordValue  & 0xff );
-}
-
 // ---------------------------------------------------------------
 
 static int MegadriveResetDo()
@@ -1231,7 +1144,7 @@ static int MegadriveResetDo()
 	}
 
 	// other reset
-	memset(RamMisc, 0, sizeof(struct PicoMisc));
+//	memset(RamMisc, 0, sizeof(struct PicoMisc));
 	memset(JoyPad, 0, sizeof(struct MegadriveJoyPad));
 	
 	// default VDP register values (based on Fusion)
@@ -1393,6 +1306,1566 @@ void __fastcall MegadriveZ80ProgWrite(unsigned short a, unsigned char d)
 	}
 }
 
+static int MegadriveLoadRoms(bool bLoad)
+{
+	struct BurnRomInfo ri;
+	ri.nType = 0;
+	ri.nLen = 0;
+	int nOffset = -1;
+	unsigned int i;
+	int nRet = 0;
+	
+	if (!bLoad) {
+		do {
+			ri.nLen = 0;
+			ri.nType = 0;
+			BurnDrvGetRomInfo(&ri, ++nOffset);
+			if(ri.nLen) RomNum++;
+			RomSize += ri.nLen;
+		} while (ri.nLen);
+		
+		bprintf(PRINT_NORMAL, _T("68K Rom, Num %i, Size %x\n"), RomNum, RomSize);
+	}
+	
+	if (bLoad) {
+		int Offset = 0;
+		
+		for (i = 0; i < RomNum; i++) {
+			BurnDrvGetRomInfo(&ri, i);
+			
+			switch (ri.nType & 0x0f) {
+				case SEGA_MD_ROM_OFFS_000000: Offset = 0x000000; break;
+				case SEGA_MD_ROM_OFFS_000001: Offset = 0x000001; break;
+				case SEGA_MD_ROM_OFFS_020000: Offset = 0x020000; break;
+				case SEGA_MD_ROM_OFFS_080000: Offset = 0x080000; break;
+				case SEGA_MD_ROM_OFFS_100000: Offset = 0x100000; break;
+				case SEGA_MD_ROM_OFFS_100001: Offset = 0x100001; break;
+				case SEGA_MD_ROM_OFFS_200000: Offset = 0x200000; break;				
+			}
+			
+			switch (ri.nType & 0xf0) {
+				case SEGA_MD_ROM_LOAD_NORMAL: {
+					nRet = BurnLoadRom(RomMain + Offset, i, 1); if (nRet) return 1;
+					break;
+				}
+				
+				case SEGA_MD_ROM_LOAD16_WORD_SWAP: {
+					nRet = BurnLoadRom(RomMain + Offset, i, 1); if (nRet) return 1;
+					BurnByteswap(RomMain + Offset, ri.nLen);
+					break;
+				}
+				
+				case SEGA_MD_ROM_LOAD16_BYTE: {
+					nRet = BurnLoadRom(RomMain + Offset, i, 2); if (nRet) return 1;
+					break;
+				}
+				
+				case SEGA_MD_ROM_LOAD16_WORD_SWAP_CONTINUE_040000_100000: {
+					nRet = BurnLoadRom(RomMain + Offset, i, 1); if (nRet) return 1;
+					memcpy(RomMain + 0x100000, RomMain + 0x040000, 0x40000);
+					BurnByteswap(RomMain + Offset, 0x140000);
+					break;
+				}
+			}
+		}
+	}
+	
+	
+}
+
+// Custom Cartridge Mapping
+
+unsigned char __fastcall JCartCtrlReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("JCartCtrlRead Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall JCartCtrlReadWord(unsigned int /*sekAddress*/)
+{
+	UINT16 retData = 0;
+	
+	unsigned char JPad3 = ~(JoyPad->pad[2] & 0xff);
+	unsigned char JPad4 = ~(JoyPad->pad[3] & 0xff);
+	
+	if (RamMisc->JCartIOData[0] & 0x40) {
+		retData = (RamMisc->JCartIOData[0] & 0x40) | JPad3 | (JPad4 << 8);
+	} else {
+		retData = ((JPad3 & 0xc0) >> 2) | (JPad3 & 0x03);
+		retData += (((JPad4 & 0xc0) >> 2) | (JPad4 & 0x03)) << 8;
+	}
+	
+	return retData;
+}
+
+void __fastcall JCartCtrlWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	bprintf(PRINT_NORMAL, _T("JCartCtrlWrite byte  %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall JCartCtrlWriteWord(unsigned int /*sekAddress*/, unsigned short wordValue)
+{
+	RamMisc->JCartIOData[0] = (wordValue & 1) << 6;
+	RamMisc->JCartIOData[1] = (wordValue & 1) << 6;
+}
+
+void __fastcall Ssf2BankWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	switch (sekAddress) {
+		case 0xa130f1: {
+			if (byteValue == 2) memcpy(RomMain + 0x000000, RomMain + 0x400000 + (((byteValue & 0x0f) - 2) * 0x080000), 0x080000);
+			return;
+		}
+		
+		case 0xa130f3: {
+			memcpy(RomMain + 0x080000, RomMain + 0x400000 + ((byteValue & 0xf) * 0x080000), 0x080000);
+			return;
+		}
+		
+		case 0xa130f5: {
+			memcpy(RomMain + 0x100000, RomMain + 0x400000 + ((byteValue & 0xf) * 0x080000), 0x080000);
+			return;
+		}
+		
+		case 0xa130f7: {
+			memcpy(RomMain + 0x180000, RomMain + 0x400000 + ((byteValue & 0xf) * 0x080000), 0x080000);
+			return;
+		}
+		
+		case 0xa130f9: {
+			memcpy(RomMain + 0x200000, RomMain + 0x400000 + ((byteValue & 0xf) * 0x080000), 0x080000);
+			return;
+		}
+		
+		case 0xa130fb: {
+			memcpy(RomMain + 0x280000, RomMain + 0x400000 + ((byteValue & 0xf) * 0x080000), 0x080000);
+			return;
+		}
+		
+		case 0xa130fd: {
+			memcpy(RomMain + 0x300000, RomMain + 0x400000 + ((byteValue & 0xf) * 0x080000), 0x080000);
+			return;
+		}
+		
+		case 0xa130ff: {
+			memcpy(RomMain + 0x380000, RomMain + 0x400000 + ((byteValue & 0xf) * 0x080000), 0x080000);
+			return;
+		}
+	}	
+}
+
+unsigned char __fastcall LK3AltProtReadByte(unsigned int sekAddress)
+{
+	int Offset = (sekAddress - 0x600000) >> 1;
+	Offset &= 0x07;
+	
+	unsigned char retData = 0;
+	
+	switch (Offset) {
+		case 0x02: {
+			switch (RamMisc->L3AltPCmd) {
+				case 1:
+					retData = RamMisc->L3AltPDat >> 1;
+					break;
+
+				case 2:
+					retData = RamMisc->L3AltPDat >> 4;
+					retData |= (RamMisc->L3AltPDat & 0x0f) << 4;
+					break;
+
+				default:
+					retData =  (BIT(RamMisc->L3AltPDat, 7) << 0);
+					retData |= (BIT(RamMisc->L3AltPDat, 6) << 1);
+					retData |= (BIT(RamMisc->L3AltPDat, 5) << 2);
+					retData |= (BIT(RamMisc->L3AltPDat, 4) << 3);
+					retData |= (BIT(RamMisc->L3AltPDat, 3) << 4);
+					retData |= (BIT(RamMisc->L3AltPDat, 2) << 5);
+					retData |= (BIT(RamMisc->L3AltPDat, 1) << 6);
+					retData |= (BIT(RamMisc->L3AltPDat, 0) << 7);
+					break;
+			}
+			break;
+		}
+	}
+	
+//	bprintf(PRINT_NORMAL, _T("LK3AltProt Read Byte %x\n"), sekAddress);
+	
+	return retData;
+}
+
+unsigned short __fastcall LK3AltProtReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("LK3AltProt Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall LK3AltProtWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	int Offset = (sekAddress - 0x600000) >> 1;
+	Offset &= 0x07;
+	
+	switch (Offset) {
+		case 0x00:
+			RamMisc->L3AltPDat = byteValue;
+			return;
+		
+		case 0x01:
+			RamMisc->L3AltPCmd = byteValue;
+			return;
+	}
+	
+//	bprintf(PRINT_NORMAL, _T("LK3AltProt write byte  %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall LK3AltProtWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("LK3AltProt write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+void __fastcall LK3AltBankWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	int Offset = (sekAddress - 0x700000) >> 1;
+	Offset &= 0x07;
+	
+	if (Offset == 0) {
+		memcpy(RomMain, OriginalRom + ((byteValue & 0xff) * 0x8000), 0x8000);
+		return;
+	}
+	
+	bprintf(PRINT_NORMAL, _T("LK3AltBank write byte  %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall LK3AltBankWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("LK3AltBank write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall RedclifProtReadByte(unsigned int /*sekAddress*/)
+{
+	return (unsigned char)-0x56;
+}
+
+unsigned short __fastcall RedclifProtReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("RedclifeProt Read Word %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned char __fastcall RedclifProt2ReadByte(unsigned int /*sekAddress*/)
+{
+	return 0x55;
+}
+
+unsigned short __fastcall RedclifProt2ReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("RedclifeProt2 Read Word %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned char __fastcall RadicaBankSelectReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("RadicaBankSelect Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall RadicaBankSelectReadWord(unsigned int sekAddress)
+{
+	int Bank = ((sekAddress - 0xa13000) >> 1) & 0x3f;
+	memcpy(RomMain, RomMain + 0x400000 + (Bank * 0x10000), 0x400000);
+	
+	return 0;
+}
+
+unsigned char __fastcall Kof99A13000ReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Kof99A13000 Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall Kof99A13000ReadWord(unsigned int sekAddress)
+{
+	switch (sekAddress) {
+		case 0xa13000: return 0x00;
+		case 0xa13002: return 0x01;
+		case 0xa1303e: return 0x1f;
+		
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Kof99A13000 Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+unsigned char __fastcall SoulbladReadByte(unsigned int sekAddress)
+{
+	switch (sekAddress) {
+		case 0x400002: return 0x98;
+		case 0x400004: return 0xc0;
+		case 0x400006: return 0xf0;
+		
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Soulblad Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall SoulbladReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Soulblad Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+unsigned char __fastcall MjloverProt1ReadByte(unsigned int /*sekAddress*/)
+{
+	return 0x90;
+}
+
+unsigned short __fastcall MjloverProt1ReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("MjloverProt1 Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+unsigned char __fastcall MjloverProt2ReadByte(unsigned int /*sekAddress*/)
+{
+	return 0xd3;
+}
+
+unsigned short __fastcall MjloverProt2ReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("MjloverProt2 Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+unsigned char __fastcall SquirrelKingExtraReadByte(unsigned int /*sekAddress*/)
+{
+	return RamMisc->SquirrelkingExtra;
+}
+
+unsigned short __fastcall SquirrelKingExtraReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("SquirrelKingExtra Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall SquirrelKingExtraWriteByte(unsigned int /*sekAddress*/, unsigned char byteValue)
+{
+	RamMisc->SquirrelkingExtra = byteValue;
+}
+
+void __fastcall SquirrelKingExtraWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("SquirrelKingExtra write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall SmouseProtReadByte(unsigned int sekAddress)
+{
+	switch (sekAddress) {
+		case 0x400000: return 0x55;
+		case 0x400002: return 0x0f;
+		case 0x400004: return 0xaa;
+		case 0x400005: return 0xf0;
+	}
+	
+	return 0;
+}
+
+unsigned short __fastcall SmouseProtReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("SmouseProt Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+unsigned char __fastcall SmbProtReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Smbprot Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall SmbProtReadWord(unsigned int /*sekAddress*/)
+{
+	return 0x0c;
+}
+
+unsigned char __fastcall Smb2ProtReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Smb2Prot Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall Smb2ProtReadWord(unsigned int /*sekAddress*/)
+{
+	return 0x0a;
+}
+
+void __fastcall KaijuBankWriteByte(unsigned int /*sekAddress*/, unsigned char byteValue)
+{
+	memcpy(RomMain + 0x000000, RomMain + 0x400000 + (byteValue & 0x7f) * 0x8000, 0x8000);
+}
+
+void __fastcall KaijuBankWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("KaijuBank write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall Chinfi3ProtReadByte(unsigned int /*sekAddress*/)
+{
+	unsigned char retDat = 0;
+	
+	if (SekGetPC(0) == 0x01782) // makes 'VS' screen appear
+	{
+		retDat = SekDbgGetRegister(SEK_REG_D3) & 0xff;
+//		retDat <<= 8;
+		return retDat;
+	}
+	else if (SekGetPC(0) == 0x1c24) // background gfx etc.
+	{
+		retDat = SekDbgGetRegister(SEK_REG_D3) & 0xff;
+//		retDat <<= 8;
+		return retDat;
+	}
+	else if (SekGetPC(0) == 0x10c4a) // unknown
+	{
+		return rand() & 0xff;//space->machine().rand();
+	}
+	else if (SekGetPC(0) == 0x10c50) // unknown
+	{
+		return rand() & 0xff;//space->machine().rand();
+	}
+	else if (SekGetPC(0) == 0x10c52) // relates to the game speed..
+	{
+		retDat = SekDbgGetRegister(SEK_REG_D4) & 0xff;
+//		retDat <<= 8;
+		return retDat;
+	}
+	else if (SekGetPC(0) == 0x061ae)
+	{
+		retDat = SekDbgGetRegister(SEK_REG_D3) & 0xff;
+//		retDat <<= 8;
+		return retDat;
+	}
+	else if (SekGetPC(0) == 0x061b0)
+	{
+		retDat = SekDbgGetRegister(SEK_REG_D3) & 0xff;
+//		retDat <<= 8;
+		return retDat;
+	}
+	
+	return 0;
+}
+
+unsigned short __fastcall Chinfi3ProtReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Chinfi3Prot Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall Chinfi3BankWriteByte(unsigned int /*sekAddress*/, unsigned char byteValue)
+{
+	if (byteValue == 0xf1) // *hit player
+	{
+		int x;
+		for (x = 0; x < 0x100000; x += 0x10000)
+		{
+			memcpy(RomMain + x, RomMain + 0x410000, 0x10000);
+		}
+	}
+	else if (byteValue == 0xd7) // title screen..
+	{
+		int x;
+		for (x = 0; x < 0x100000; x += 0x10000)
+		{
+			memcpy(RomMain + x, RomMain + 0x470000, 0x10000);
+		}
+	}
+	else if (byteValue == 0xd3) // character hits floor
+	{
+		int x;
+		for (x = 0; x < 0x100000; x += 0x10000)
+		{
+			memcpy(RomMain + x, RomMain + 0x430000, 0x10000);
+		}
+	}
+	else if (byteValue == 0x00)
+	{
+		int x;
+		for (x = 0; x < 0x100000; x += 0x10000)
+		{
+			memcpy(RomMain + x, RomMain + 0x400000 + x, 0x10000);
+		}
+	}
+}
+
+void __fastcall Chinfi3BankWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("Chinfi3Bank write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall Lionk2ProtReadByte(unsigned int sekAddress)
+{
+	switch(sekAddress) {
+		case 0x400002: {
+			return RamMisc->Lionk2ProtData;
+		}
+		
+		case 0x400006: {
+			return RamMisc->Lionk2ProtData2;
+		}
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Lion2Prot Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall Lionk2ProtReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Lion2Prot Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall Lionk2ProtWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	switch (sekAddress) {
+		case 0x400000: {
+			RamMisc->Lionk2ProtData = byteValue;
+			return;
+		}
+		
+		case 0x400004: {
+			RamMisc->Lionk2ProtData2 = byteValue;
+			return;
+		}
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Lion2Prot write byte  %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall Lionk2ProtWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("Lion2Prot write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall BuglExtraReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("BuglExtra Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall BuglExtraReadWord(unsigned int /*sekAddress*/)
+{
+	return 0x28;
+}
+
+unsigned char __fastcall Elfwor400000ReadByte(unsigned int sekAddress)
+{
+	switch (sekAddress) {
+		case 0x400000: return 0x55;
+		case 0x400002: return 0x0f;
+		case 0x400004: return 0xc9;
+		case 0x400006: return 0x18;
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Elfwor400000 Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall Elfwor400000ReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Elfwor400000 Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+unsigned char __fastcall RockmanX3ExtraReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("RockmanX3Extra Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall RockmanX3ExtraReadWord(unsigned int /*sekAddress*/)
+{
+	return 0x0c;
+}
+
+unsigned char __fastcall SbubExtraReadByte(unsigned int sekAddress)
+{
+	switch (sekAddress) {
+		case 0x400000: return 0x55;
+		case 0x400002: return 0x0f;
+	}
+	
+	bprintf(PRINT_NORMAL, _T("SbubExtra Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall SbubExtraReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("SbubExtra Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+unsigned char __fastcall Kof98ReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Kof98 Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall Kof98ReadWord(unsigned int sekAddress)
+{
+	switch (sekAddress) {
+		case 0x480000: return 0xaa00;
+		case 0x4800e0: return 0xaa00;
+		case 0x4824a0: return 0xaa00;
+		case 0x488880: return 0xaa00;
+		case 0x4a8820: return 0x0a00;
+		case 0x4f8820: return 0x0000;
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Kof98 Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall RealtecWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	switch (sekAddress) {
+		case 0x400000: {
+			int BankData = (byteValue >> 9) & 0x7;
+
+			RamMisc->RealtecBankAddr = (RamMisc->RealtecBankAddr & 0x7) | BankData << 3;
+
+			memcpy(RomMain, RomMain + (RamMisc->RealtecBankAddr * 0x20000) + 0x400000, RamMisc->RealtecBankSize * 0x20000);
+			memcpy(RomMain + RamMisc->RealtecBankSize * 0x20000, RomMain + (RamMisc->RealtecBankAddr * 0x20000) + 0x400000, RamMisc->RealtecBankSize * 0x20000);
+			return;
+		}
+		
+		case 0x402000:{
+			RamMisc->RealtecBankAddr = 0;
+			RamMisc->RealtecBankSize = (byteValue >> 8) & 0x1f;
+			return;
+		}
+		
+		case 0x404000: {
+			int BankData = (byteValue >> 8) & 0x3;
+
+			RamMisc->RealtecBankAddr = (RamMisc->RealtecBankAddr & 0xf8) | BankData;
+
+			memcpy(RomMain, RomMain + (RamMisc->RealtecBankAddr * 0x20000)+ 0x400000, RamMisc->RealtecBankSize * 0x20000);
+			memcpy(RomMain + RamMisc->RealtecBankSize * 0x20000, RomMain + (RamMisc->RealtecBankAddr * 0x20000) + 0x400000, RamMisc->RealtecBankSize * 0x20000);
+			return;
+		}
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Realtec write byte  %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall RealtecWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("Realtec write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+void __fastcall Sup19in1BankWriteByte(unsigned int sekAddress, unsigned char /*byteValue*/)
+{
+	int Offset = (sekAddress - 0xa13000) >> 1;
+	
+	memcpy(RomMain + 0x000000, RomMain + 0x400000 + ((Offset << 1) * 0x10000), 0x80000);
+}
+
+void __fastcall Sup19in1BankWriteWord(unsigned int sekAddress, unsigned short /*wordValue*/)
+{
+	int Offset = (sekAddress - 0xa13000) >> 1;
+	
+	memcpy(RomMain + 0x000000, RomMain + 0x400000 + ((Offset << 1) * 0x10000), 0x80000);
+}
+
+void __fastcall Mc12in1BankWriteByte(unsigned int sekAddress, unsigned char /*byteValue*/)
+{
+	int Offset = (sekAddress - 0xa13000) >> 1;
+	memcpy(RomMain + 0x000000, OriginalRom + ((Offset & 0x3f) << 17), 0x100000);
+}
+
+void __fastcall Mc12in1BankWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("Mc12in1Bank write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall TopfigReadByte(unsigned int sekAddress)
+{
+	switch (sekAddress) {
+		case 0x645b45: return 0x9f;
+		
+		case 0x6bd295: {
+			static int x = -1;
+
+			if (SekGetPC(0) == 0x1771a2) {
+				return 0x50;
+			} else {
+				x++;
+				return (unsigned char)x;
+			}
+		}
+		
+		case 0x6f5345: {
+			static int x = -1;
+
+			if (SekGetPC(0) == 0x4C94E) {
+				return SekDbgGetRegister(SEK_REG_D0) & 0xff;
+			} else {
+				x++;
+				return (unsigned char)x;
+			}
+		}
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Topfig Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall TopfigReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Topfig Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall TopfigWriteByte(unsigned int /*sekAddress*/, unsigned char byteValue)
+{
+	if (byteValue == 0x002a)
+	{
+		memcpy(RomMain + 0x060000, RomMain + 0x570000, 0x8000); // == 0x2e*0x8000?!
+
+	}
+	else if (byteValue==0x0035) // characters ingame
+	{
+		memcpy(RomMain + 0x020000, RomMain + 0x5a8000, 0x8000); // == 0x35*0x8000
+	}
+	else if (byteValue==0x000f) // special moves
+	{
+		memcpy(RomMain + 0x058000, RomMain + 0x478000, 0x8000); // == 0xf*0x8000
+	}
+	else if (byteValue==0x0000)
+	{
+		memcpy(RomMain + 0x060000, RomMain + 0x460000, 0x8000);
+		memcpy(RomMain + 0x020000, RomMain + 0x420000, 0x8000);
+		memcpy(RomMain + 0x058000, RomMain + 0x458000, 0x8000);
+	}
+}
+
+void __fastcall TopfigWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("Topfig write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+static void SetupCustomCartridgeMappers()
+{
+	if (((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_CM_JCART) || ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_CM_JCART_SEPROM)) {
+		SekOpen(0);
+		SekMapHandler(7, 0x38fffe, 0x38ffff, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(7, JCartCtrlReadByte);
+		SekSetReadWordHandler(7, JCartCtrlReadWord);
+		SekSetWriteByteHandler(7, JCartCtrlWriteByte);
+		SekSetWriteWordHandler(7, JCartCtrlWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SSF2) {
+		OriginalRom = (unsigned char*)malloc(0x500000);
+		memcpy(OriginalRom, RomMain, 0x500000);
+		
+		memcpy(RomMain + 0x800000, OriginalRom + 0x400000, 0x100000);
+		memcpy(RomMain + 0x400000, OriginalRom + 0x000000, 0x400000);
+		memcpy(RomMain + 0x000000, OriginalRom + 0x000000, 0x400000);
+		
+		SekOpen(0);
+		SekMapHandler(7, 0xa130f0, 0xa130ff, SM_WRITE);
+		SekSetWriteByteHandler(7, Ssf2BankWriteByte);
+		SekClose();
+	}
+	
+	if (((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_LIONK3) || ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SKINGKONG)) {
+		RamMisc->L3AltPDat = 0;
+		RamMisc->L3AltPCmd = 0;
+		
+		OriginalRom = (unsigned char*)malloc(0x200000);
+		memcpy(OriginalRom, RomMain, 0x200000);
+		
+		memcpy(RomMain + 0x000000, OriginalRom + 0x000000, 0x200000);
+		memcpy(RomMain + 0x200000, OriginalRom + 0x000000, 0x200000);
+		
+		SekOpen(0);
+		SekMapHandler(7, 0x600000, 0x6fffff, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(7, LK3AltProtReadByte);
+		SekSetReadWordHandler(7, LK3AltProtReadWord);
+		SekSetWriteByteHandler(7, LK3AltProtWriteByte);
+		SekSetWriteWordHandler(7, LK3AltProtWriteWord);
+		SekMapHandler(8, 0x700000, 0x7fffff, SM_WRITE);
+		SekSetWriteByteHandler(8, LK3AltBankWriteByte);
+		SekSetWriteWordHandler(8, LK3AltBankWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SDK99) {
+		RamMisc->L3AltPDat = 0;
+		RamMisc->L3AltPCmd = 0;
+		
+		OriginalRom = (unsigned char*)malloc(0x300000);
+		memcpy(OriginalRom, RomMain, 0x300000);
+		
+		memcpy(RomMain + 0x000000, OriginalRom + 0x000000, 0x300000);
+		memcpy(RomMain + 0x300000, OriginalRom + 0x000000, 0x100000);
+		
+		SekOpen(0);
+		SekMapHandler(7, 0x600000, 0x6fffff, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(7, LK3AltProtReadByte);
+		SekSetReadWordHandler(7, LK3AltProtReadWord);
+		SekSetWriteByteHandler(7, LK3AltProtWriteByte);
+		SekSetWriteWordHandler(7, LK3AltProtWriteWord);
+		SekMapHandler(8, 0x700000, 0x7fffff, SM_WRITE);
+		SekSetWriteByteHandler(8, LK3AltBankWriteByte);
+		SekSetWriteWordHandler(8, LK3AltBankWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_REDCL_EN) {
+		OriginalRom = (unsigned char*)malloc(0x200005);
+		memcpy(OriginalRom, RomMain, 0x200005);
+		for (unsigned int i = 0; i < RomSize; i++) {
+			OriginalRom[i] ^= 0x40;
+		}
+		
+		memcpy(RomMain + 0x000000, OriginalRom + 0x000004, 0x200000);
+	
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x400001, SM_READ);
+		SekSetReadByteHandler(7, RedclifProt2ReadByte);
+		SekSetReadWordHandler(7, RedclifProt2ReadWord);
+		SekMapHandler(8, 0x400004, 0x400005, SM_READ);
+		SekSetReadByteHandler(8, RedclifProtReadByte);
+		SekSetReadWordHandler(8, RedclifProtReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_RADICA) {
+		OriginalRom = (unsigned char*)malloc(RomSize);
+		memcpy(OriginalRom, RomMain, RomSize);
+		
+		memcpy(RomMain + 0x000000, OriginalRom + 0x000000, 0x400000);
+		memcpy(RomMain + 0x400000, OriginalRom + 0x000000, 0x400000);
+		memcpy(RomMain + 0x800000, OriginalRom + 0x000000, 0x400000);
+	
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa1307f, SM_READ);
+		SekSetReadByteHandler(7, RadicaBankSelectReadByte);
+		SekSetReadWordHandler(7, RadicaBankSelectReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_KOF99) {
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa1303f, SM_READ);
+		SekSetReadByteHandler(7, Kof99A13000ReadByte);
+		SekSetReadWordHandler(7, Kof99A13000ReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SOULBLAD) {
+		SekOpen(0);
+		SekMapHandler(7, 0x400002, 0x400007, SM_READ);
+		SekSetReadByteHandler(7, SoulbladReadByte);
+		SekSetReadWordHandler(7, SoulbladReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_MJLOVER) {
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x400001, SM_READ);
+		SekSetReadByteHandler(7, MjloverProt1ReadByte);
+		SekSetReadWordHandler(7, MjloverProt1ReadWord);
+		SekMapHandler(8, 0x401000, 0x401001, SM_READ);
+		SekSetReadByteHandler(8, MjloverProt2ReadByte);
+		SekSetReadWordHandler(8, MjloverProt2ReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SQUIRRELK) {
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x400007, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(7, SquirrelKingExtraReadByte);
+		SekSetReadWordHandler(7, SquirrelKingExtraReadWord);
+		SekSetWriteByteHandler(7, SquirrelKingExtraWriteByte);
+		SekSetWriteWordHandler(7, SquirrelKingExtraWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SMOUSE) {
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x400007, SM_READ);
+		SekSetReadByteHandler(7, SmouseProtReadByte);
+		SekSetReadWordHandler(7, SmouseProtReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SMB) {
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa13001, SM_READ);
+		SekSetReadByteHandler(7, SmbProtReadByte);
+		SekSetReadWordHandler(7, SmbProtReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SMB2) {
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa13001, SM_READ);
+		SekSetReadByteHandler(7, Smb2ProtReadByte);
+		SekSetReadWordHandler(7, Smb2ProtReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_KAIJU) {
+		OriginalRom = (unsigned char*)malloc(RomSize);
+		memcpy(OriginalRom, RomMain, RomSize);
+		
+		memcpy(RomMain + 0x400000, OriginalRom, 0x200000);
+		memcpy(RomMain + 0x600000, OriginalRom, 0x200000);
+		memcpy(RomMain + 0x000000, OriginalRom, 0x200000);
+	
+		SekOpen(0);
+		SekMapHandler(7, 0x700000, 0x7fffff, SM_WRITE);
+		SekSetWriteByteHandler(7, KaijuBankWriteByte);
+		SekSetWriteWordHandler(7, KaijuBankWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_CHINFIGHT3) {
+		OriginalRom = (unsigned char*)malloc(RomSize);
+		memcpy(OriginalRom, RomMain, RomSize);
+		
+		memcpy(RomMain + 0x400000, OriginalRom + 0x000000, 0x200000);
+		memcpy(RomMain + 0x600000, OriginalRom + 0x000000, 0x200000);
+		memcpy(RomMain + 0x000000, OriginalRom + 0x000000, 0x200000);
+		
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x4fffff, SM_READ);
+		SekSetReadByteHandler(7, Chinfi3ProtReadByte);
+		SekSetReadWordHandler(7, Chinfi3ProtReadWord);
+		SekMapHandler(8, 0x600000, 0x6fffff, SM_WRITE);
+		SekSetWriteByteHandler(8, Chinfi3BankWriteByte);
+		SekSetWriteWordHandler(8, Chinfi3BankWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_LIONK2) {
+		RamMisc->Lionk2ProtData = 0;
+		RamMisc->Lionk2ProtData2 = 0;
+		
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x400007, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(7, Lionk2ProtReadByte);
+		SekSetReadWordHandler(7, Lionk2ProtReadWord);
+		SekSetWriteByteHandler(7, Lionk2ProtWriteByte);
+		SekSetWriteWordHandler(7, Lionk2ProtWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_BUGSLIFE) {
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa13001, SM_READ);
+		SekSetReadByteHandler(7, BuglExtraReadByte);
+		SekSetReadWordHandler(7, BuglExtraReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_ELFWOR) {
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x400007, SM_READ);
+		SekSetReadByteHandler(7, Elfwor400000ReadByte);
+		SekSetReadWordHandler(7, Elfwor400000ReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_ROCKMANX3) {
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa13001, SM_READ);
+		SekSetReadByteHandler(7, RockmanX3ExtraReadByte);
+		SekSetReadWordHandler(7, RockmanX3ExtraReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SBUBBOB) {
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x400003, SM_READ);
+		SekSetReadByteHandler(7, SbubExtraReadByte);
+		SekSetReadWordHandler(7, SbubExtraReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_KOF98) {
+		SekOpen(0);
+		SekMapHandler(7, 0x480000, 0x4fffff, SM_READ);
+		SekSetReadByteHandler(7, Kof98ReadByte);
+		SekSetReadWordHandler(7, Kof98ReadWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_REALTEC) {
+		RamMisc->RealtecBankAddr = 0;
+		RamMisc->RealtecBankSize = 0;
+		
+		OriginalRom = (unsigned char*)malloc(RomSize);
+		memcpy(OriginalRom, RomMain, RomSize);
+		
+		memcpy(RomMain + 0x400000, OriginalRom + 0x000000, 0x080000);
+		
+		for (int i = 0; i < 0x400000; i += 0x2000) {
+			memcpy(RomMain + i, OriginalRom + 0x7e000, 0x2000);
+		}
+		
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x40400f, SM_WRITE);
+		SekSetWriteByteHandler(7, RealtecWriteByte);
+		SekSetWriteWordHandler(7, RealtecWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_MC_SUP19IN1) {
+		OriginalRom = (unsigned char*)malloc(RomSize);
+		memcpy(OriginalRom, RomMain, RomSize);
+		
+		memcpy(RomMain + 0x400000, OriginalRom + 0x000000, 0x400000);
+		
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa13039, SM_WRITE);
+		SekSetWriteByteHandler(7, Sup19in1BankWriteByte);
+		SekSetWriteWordHandler(7, Sup19in1BankWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_MC_SUP15IN1) {
+		OriginalRom = (unsigned char*)malloc(RomSize);
+		memcpy(OriginalRom, RomMain, RomSize);
+		
+		memcpy(RomMain + 0x400000, OriginalRom + 0x000000, 0x200000);
+		
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa13039, SM_WRITE);
+		SekSetWriteByteHandler(7, Sup19in1BankWriteByte);
+		SekSetWriteWordHandler(7, Sup19in1BankWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_12IN1) {
+		OriginalRom = (unsigned char*)malloc(RomSize);
+		memcpy(OriginalRom, RomMain, RomSize);
+		
+		memcpy(RomMain + 0x000000, OriginalRom + 0x000000, 0x200000);
+		
+		SekOpen(0);
+		SekMapHandler(7, 0xa13000, 0xa1303f, SM_WRITE);
+		SekSetWriteByteHandler(7, Mc12in1BankWriteByte);
+		SekSetWriteWordHandler(7, Mc12in1BankWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_TOPFIGHTER) {
+		OriginalRom = (unsigned char*)malloc(RomSize);
+		memcpy(OriginalRom, RomMain, RomSize);
+		
+		memcpy(RomMain + 0x000000, OriginalRom + 0x000000, 0x200000);
+		memcpy(RomMain + 0x200000, OriginalRom + 0x000000, 0x200000);
+		memcpy(RomMain + 0x400000, OriginalRom + 0x000000, 0x200000);
+		memcpy(RomMain + 0x600000, OriginalRom + 0x000000, 0x200000);
+		
+		SekOpen(0);
+		SekMapHandler(7, 0x600000, 0x6fffff, SM_READ);
+		SekSetReadByteHandler(7, TopfigReadByte);
+		SekSetReadWordHandler(7, TopfigReadWord);		
+		SekMapHandler(8, 0x700000, 0x7fffff, SM_WRITE);
+		SekSetWriteByteHandler(8, TopfigWriteByte);
+		SekSetWriteWordHandler(8, TopfigWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_POKEMON) {
+		UINT16 *ROM16 = (UINT16 *)RomMain;
+
+		ROM16[0x0dd19e/2] = 0x47F8;
+		ROM16[0x0dd1a0/2] = 0xFFF0;
+		ROM16[0x0dd1a2/2] = 0x4E63;
+		ROM16[0x0dd46e/2] = 0x4EF8;
+		ROM16[0x0dd470/2] = 0x0300;
+		ROM16[0x0dd49c/2] = 0x6002;
+	}
+	
+/*	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_POKEMON2) {
+		UINT16 *ROM16 = (UINT16 *)RomMain;
+
+		ROM16[0x06036/2] = 0xE000;
+		ROM16[0x02540/2] = 0x6026;
+		ROM16[0x01ED0/2] = 0x6026;
+		ROM16[0x02476/2] = 0x6022;
+
+		ROM16[0x7E300/2] = 0x60FE;
+	}*/
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_MULAN) {
+		UINT16 *ROM16 = (UINT16 *)RomMain;
+
+		ROM16[0x06036/2] = 0xE000;
+	}	
+}
+
+// SRAM and EEPROM Handling
+
+unsigned char __fastcall MegadriveSRAMReadByte(unsigned int sekAddress)
+{
+	if (RamMisc->SRamActive) {
+		return SRam[(sekAddress - RamMisc->SRamStart) ^ 1];
+	} else {
+		return RomMain[sekAddress ^ 1];
+	}
+}
+
+unsigned short __fastcall MegadriveSRAMReadWord(unsigned int sekAddress)
+{
+	if (RamMisc->SRamActive) {
+		UINT16 *Ram = (UINT16*)SRam;
+		return Ram[(sekAddress - RamMisc->SRamStart) >> 1];
+	} else {
+		UINT16 *Rom = (UINT16*)RomMain;
+		return Rom[sekAddress >> 1];
+	}
+}
+
+void __fastcall MegadriveSRAMWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	if (RamMisc->SRamActive) {
+		if (!RamMisc->SRamReadOnly) {
+			SRam[(sekAddress - RamMisc->SRamStart) ^ 1] = byteValue;
+			return;
+		}
+	}
+}
+
+void __fastcall MegadriveSRAMWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	if (RamMisc->SRamActive) {
+		if (!RamMisc->SRamReadOnly) {
+			UINT16 *Ram = (UINT16*)SRam;
+			Ram[(sekAddress - RamMisc->SRamStart) >> 1] = wordValue;
+			return;
+		}
+	}
+}
+
+static void InstallSRAMHandlers(bool MaskAddr)
+{
+	UINT32 Mask = MaskAddr ? 0x3fffff : 0xffffff;
+	
+	memset(SRam, 0xff, MAX_SRAM_SIZE);
+	memcpy((UINT8*)MegadriveBackupRam, SRam, RamMisc->SRamEnd - RamMisc->SRamStart + 1);
+	
+	SekOpen(0);
+	SekMapHandler(6, RamMisc->SRamStart & Mask, RamMisc->SRamEnd & Mask, SM_READ | SM_WRITE);
+	SekSetReadByteHandler(6, MegadriveSRAMReadByte);
+	SekSetReadWordHandler(6, MegadriveSRAMReadWord);
+	SekSetWriteByteHandler(6, MegadriveSRAMWriteByte);
+	SekSetWriteWordHandler(6, MegadriveSRAMWriteWord);
+	SekClose();
+
+	RamMisc->SRamHandlersInstalled = 1;	
+}
+
+unsigned char __fastcall Megadrive6658ARegReadByte(unsigned int sekAddress)
+{
+	if (sekAddress & 1) return RamMisc->SRamActive;
+	
+	bprintf(PRINT_NORMAL, _T("Megadrive6658AReg Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall Megadrive6658ARegReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Megadrive6658AReg Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall Megadrive6658ARegWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	if (sekAddress & 1) {
+		if (byteValue == 1) {
+			RamMisc->SRamActive = 1;
+			return;
+		}
+	
+		if (byteValue == 0) {
+			RamMisc->SRamActive = 0;
+			return;
+		}
+	}
+	
+	bprintf(PRINT_NORMAL, _T("6658A Reg write byte  %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall Megadrive6658ARegWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("6658A Reg write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall WboyVEEPROMReadByte(unsigned int sekAddress)
+{
+	if (sekAddress & 1) return ~RamMisc->I2CMem & 1;
+	
+	bprintf(PRINT_NORMAL, _T("WboyVEEPROM Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall WboyVEEPROMReadWord(unsigned int sekAddress)
+{	
+	bprintf(PRINT_NORMAL, _T("WboyVEEPROM Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall WboyVEEPROMWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	if (sekAddress & 1) {	
+		RamMisc->I2CClk = (byteValue & 0x0002) >> 1;
+		RamMisc->I2CMem = (byteValue & 0x0001);
+		return;
+	}
+	
+	bprintf(PRINT_NORMAL, _T("WboyVEEPROM write byte value %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall WboyVEEPROMWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("WboyVEEPROM write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall NbajamEEPROMReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Nbajam Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall NbajamEEPROMReadWord(unsigned int /*sekAddress*/)
+{
+	return RamMisc->I2CMem & 1;
+}
+
+void __fastcall NbajamEEPROMWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	bprintf(PRINT_NORMAL, _T("Nbajam write byte value %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall NbajamEEPROMWriteWord(unsigned int /*sekAddress*/, unsigned short wordValue)
+{
+	RamMisc->I2CClk = (wordValue & 0x0002) >> 1;
+	RamMisc->I2CMem = (wordValue & 0x0001);
+}
+
+unsigned char __fastcall NbajamteEEPROMReadByte(unsigned int sekAddress)
+{
+	if (sekAddress & 1) return RamMisc->I2CMem & 1;
+	
+	bprintf(PRINT_NORMAL, _T("Nbajamte Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall NbajamteEEPROMReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Nbajamte Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall NbajamteEEPROMWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	if (sekAddress & 1) {
+//		RamMisc->I2CClk = (wordValue & 0x0002) >> 1;
+		RamMisc->I2CMem = (byteValue & 0x0001);
+		return;
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Nbajamte write byte value %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall NbajamteEEPROMWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("Nbajamte write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+unsigned char __fastcall EANhlpaEEPROMReadByte(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("EANhlpa Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall EANhlpaEEPROMReadWord(unsigned int /*sekAddress*/)
+{
+	return (RamMisc->I2CMem & 1) << 7;
+}
+
+void __fastcall EANhlpaEEPROMWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	bprintf(PRINT_NORMAL, _T("EANhlpa write byte value %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall EANhlpaEEPROMWriteWord(unsigned int /*sekAddress*/, unsigned short wordValue)
+{
+	RamMisc->I2CClk = ((wordValue & 0x0040) >> 6);
+	RamMisc->I2CMem = ((wordValue & 0x0080) >> 7);
+}
+
+unsigned char __fastcall CodemastersEEPROMReadByte(unsigned int sekAddress)
+{
+	if (sekAddress & 1) return RamMisc->I2CMem & 1;
+	
+	bprintf(PRINT_NORMAL, _T("Codemasters Read Byte %x\n"), sekAddress);
+	
+	return 0;
+}
+
+unsigned short __fastcall CodemastersEEPROMReadWord(unsigned int sekAddress)
+{
+	bprintf(PRINT_NORMAL, _T("Codemasters Read Word %x\n"), sekAddress);
+
+	return 0;
+}
+
+void __fastcall CodemastersEEPROMWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	if (sekAddress & 1) {
+		RamMisc->I2CClk = (byteValue & 0x0002) >> 1;
+		RamMisc->I2CMem = (byteValue & 0x0001);
+		return;
+	} else {
+		RamMisc->I2CClk = (byteValue & 0x0002) >> 1;
+		RamMisc->I2CMem = (byteValue & 0x0001);
+		return;
+	}
+	
+	bprintf(PRINT_NORMAL, _T("Codemasters write byte value %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall CodemastersEEPROMWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("Codemasters write word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+void __fastcall MegadriveSRAMToggleWriteByte(unsigned int sekAddress, unsigned char byteValue)
+{
+	bprintf(PRINT_NORMAL, _T("SRam Toggle byte  %02x to location %08x\n"), byteValue, sekAddress);
+}
+
+void __fastcall MegadriveSRAMToggleWriteWord(unsigned int sekAddress, unsigned short wordValue)
+{
+	bprintf(PRINT_NORMAL, _T("SRam Toggle word value %04x to location %08x\n"), wordValue, sekAddress);
+}
+
+static void MegadriveSetupSRAM()
+{
+	SRamSize = 0;
+	RamMisc->SRamStart = 0;
+	RamMisc->SRamEnd = 0;
+	RamMisc->SRamDetected = 0;
+	RamMisc->SRamHandlersInstalled = 0;
+	RamMisc->SRamActive = 0;
+	RamMisc->SRamReadOnly = 0;
+	RamMisc->SRamHasSerialEEPROM = 0;
+	MegadriveBackupRam = NULL;
+	
+	if ((BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_00400) || (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_00800) || (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_01000) || (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_04000) || (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_10000)) {
+		RamMisc->SRamStart = 0x200000;
+		if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_00400) RamMisc->SRamEnd = 0x2003ff;
+		if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_00800) RamMisc->SRamEnd = 0x2007ff;
+		if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_01000) RamMisc->SRamEnd = 0x200fff;
+		if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_04000) RamMisc->SRamEnd = 0x203fff;
+		if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_SRAM_10000) RamMisc->SRamEnd = 0x20ffff;
+		
+		RamMisc->SRamDetected = 1;
+		MegadriveBackupRam = (UINT16*)RomMain + RamMisc->SRamStart;
+		
+		SekOpen(0);
+		SekMapHandler(5, 0xa130f0, 0xa130f1, SM_WRITE);
+		SekSetWriteByteHandler(5, MegadriveSRAMToggleWriteByte);
+		SekSetWriteWordHandler(5, MegadriveSRAMToggleWriteWord);
+		SekClose();
+		
+		if (RomSize <= RamMisc->SRamStart) {
+			RamMisc->SRamActive = 1;
+			InstallSRAMHandlers(false);
+		}
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_BEGGAR) {
+		RamMisc->SRamStart = 0x400000;
+		RamMisc->SRamEnd = 0x40ffff;
+		
+		RamMisc->SRamDetected = 1;
+		MegadriveBackupRam = (UINT16*)RomMain + RamMisc->SRamStart;
+		
+		RamMisc->SRamActive = 1;		
+		InstallSRAMHandlers(false);
+	}
+	
+	if (BurnDrvGetHardwareCode() & HARDWARE_SEGA_MEGADRIVE_FRAM_00400) {
+		RamMisc->SRamStart = 0x200000;
+		RamMisc->SRamEnd = 0x2003ff;
+		
+		RamMisc->SRamDetected = 1;
+		MegadriveBackupRam = (UINT16*)RomMain + RamMisc->SRamStart;
+		
+		SekOpen(0);
+		SekMapHandler(5, 0xa130f0, 0xa130f1, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(5, Megadrive6658ARegReadByte);
+		SekSetReadWordHandler(5, Megadrive6658ARegReadWord);
+		SekSetWriteByteHandler(5, Megadrive6658ARegWriteByte);
+		SekSetWriteWordHandler(5, Megadrive6658ARegWriteWord);
+		SekClose();
+		
+		InstallSRAMHandlers(false);
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_SEGA_EEPROM) {
+		RamMisc->SRamHasSerialEEPROM = 1;
+		SekOpen(0);
+		SekMapHandler(5, 0x200000, 0x200001, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(5, WboyVEEPROMReadByte);
+		SekSetReadWordHandler(5, WboyVEEPROMReadWord);
+		SekSetWriteByteHandler(5, WboyVEEPROMWriteByte);
+		SekSetWriteWordHandler(5, WboyVEEPROMWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_NBA_JAM) {
+		RamMisc->SRamHasSerialEEPROM = 1;
+		SekOpen(0);
+		SekMapHandler(5, 0x200000, 0x200001, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(5, NbajamEEPROMReadByte);
+		SekSetReadWordHandler(5, NbajamEEPROMReadWord);
+		SekSetWriteByteHandler(5, NbajamEEPROMWriteByte);
+		SekSetWriteWordHandler(5, NbajamEEPROMWriteWord);
+		SekClose();
+	}
+	
+	if (((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_NBA_JAM_TE) || ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_NFL_QB_96) || ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_C_SLAM)) {
+		RamMisc->SRamHasSerialEEPROM = 1;
+		SekOpen(0);
+		SekMapHandler(5, 0x200000, 0x200001, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(5, NbajamteEEPROMReadByte);
+		SekSetReadWordHandler(5, NbajamteEEPROMReadWord);
+		SekSetWriteByteHandler(5, NbajamteEEPROMWriteByte);
+		SekSetWriteWordHandler(5, NbajamteEEPROMWriteWord);
+		SekClose();
+	}
+	
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_EA_NHLPA) {
+		RamMisc->SRamHasSerialEEPROM = 1;
+		SekOpen(0);
+		SekMapHandler(5, 0x200000, 0x200001, SM_READ | SM_WRITE);
+		SekSetReadByteHandler(5, EANhlpaEEPROMReadByte);
+		SekSetReadWordHandler(5, EANhlpaEEPROMReadWord);
+		SekSetWriteByteHandler(5, EANhlpaEEPROMWriteByte);
+		SekSetWriteWordHandler(5, EANhlpaEEPROMWriteWord);
+		SekClose();
+	}
+	
+	if (((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_CODE_MASTERS) || ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_CM_JCART_SEPROM)) {
+		RamMisc->SRamHasSerialEEPROM = 1;
+		SekOpen(0);
+		SekMapHandler(5, 0x300000, 0x300001, SM_WRITE);
+		SekSetWriteByteHandler(5, CodemastersEEPROMWriteByte);
+		SekSetWriteWordHandler(5, CodemastersEEPROMWriteWord);
+		SekMapHandler(6, 0x380000, 0x380001, SM_READ);
+		SekSetReadByteHandler(6, CodemastersEEPROMReadByte);
+		SekSetReadWordHandler(6, CodemastersEEPROMReadWord);
+		SekClose();
+	}
+	
+	if (!RamMisc->SRamDetected && !RamMisc->SRamHasSerialEEPROM) {
+		// check if cart has battery save 
+		if (RomMain[0x1b1] == 'R' && RomMain[0x1b0] == 'A') {
+			// SRAM info found in header 
+			RamMisc->SRamStart = (RomMain[0x1b5] << 24 | RomMain[0x1b4] << 16 | RomMain[0x1b7] << 8 | RomMain[0x1b6]);
+			RamMisc->SRamEnd = (RomMain[0x1b9] << 24 | RomMain[0x1b8] << 16 | RomMain[0x1bb] << 8 | RomMain[0x1ba]);
+
+			if ((RamMisc->SRamStart > RamMisc->SRamEnd) || ((RamMisc->SRamEnd - RamMisc->SRamStart) >= 0x10000)) {
+				RamMisc->SRamEnd = RamMisc->SRamStart + 0x0FFFF;
+			}
+
+			// for some games using serial EEPROM, difference between SRAM end to start is 0 or 1. Currently EEPROM is not emulated.
+			if ((RamMisc->SRamEnd - RamMisc->SRamStart) < 2) {
+				RamMisc->SRamHasSerialEEPROM = 1;
+			} else {
+				RamMisc->SRamDetected = 1;
+			}
+		} else {
+			// set default SRAM positions, with size = 64k
+			RamMisc->SRamStart = 0x200000;
+			RamMisc->SRamEnd = RamMisc->SRamStart + 0xffff;
+		}
+
+		if (RamMisc->SRamStart & 1) RamMisc->SRamStart -= 1;
+
+		if (!(RamMisc->SRamEnd & 1)) RamMisc->SRamEnd += 1;
+
+		// calculate backup RAM location 
+		MegadriveBackupRam = (UINT16*) (RomMain + (RamMisc->SRamStart & 0x3fffff));
+
+		if (RamMisc->SRamDetected) {
+			bprintf(PRINT_IMPORTANT, _T("SRAM detected in header: start %06x - end %06x\n"), RamMisc->SRamStart, RamMisc->SRamEnd);
+		}
+
+		// Enable SRAM handlers only if the game does not use EEPROM.
+		if (!RamMisc->SRamHasSerialEEPROM) {
+			// Info from DGen: If SRAM does not overlap main ROM, set it active by default since a few games can't manage to properly switch it on/off. 
+			if (RomSize <= RamMisc->SRamStart) {
+				RamMisc->SRamActive = 1;
+			}
+
+			SekOpen(0);
+			SekMapHandler(5, 0xa130f0, 0xa130f1, SM_WRITE);
+			SekSetWriteByteHandler(5, MegadriveSRAMToggleWriteByte);
+			SekSetWriteWordHandler(5, MegadriveSRAMToggleWriteWord);
+			SekClose();
+
+			// Sonic 1 included in Sonic Classics doesn't have SRAM and does lots of ROM access at this range, then only install read write handlers if SRAM is active to not slow down emulation.
+			if (RamMisc->SRamActive) InstallSRAMHandlers(true);
+		}
+	}
+}
+
 int MegadriveInit()
 {
 	Mem = NULL;
@@ -1402,17 +2875,9 @@ int MegadriveInit()
 	memset(Mem, 0, nLen);
 	MemIndex();	
 
-	int res = BurnLoadRom(RomMain, 0, 1);
-	if ( res == 0 ) {
-		struct BurnRomInfo ri;
-		BurnDrvGetRomInfo(&ri, 0);
-		RomSize = ri.nLen;		
-		if (!RomNoByteswap) Byteswap(RomMain, RomSize);
-	}
+	MegadriveLoadRoms(0);
+	MegadriveLoadRoms(1);
 
-	// preset sram to 0xff ???
-	memset(SRam, 0xFF, MAX_SRAM_SIZE);
-	
 	{
 		SekInit(0, 0x68000);										// Allocate 68000
 	        SekOpen(0);
@@ -1484,6 +2949,9 @@ int MegadriveInit()
 	
 	SN76496Init(0, OSC_NTSC / 15, 1);
 	
+	MegadriveSetupSRAM();
+	SetupCustomCartridgeMappers();
+	
 	if (MegadriveCallback) MegadriveCallback();
 	
 	pBurnDrvPalette = (unsigned int*)MegadriveCurPal;
@@ -1491,298 +2959,6 @@ int MegadriveInit()
 	MegadriveResetDo();	
 
 	return 0;
-}
-
-int MegadriveNoByteswapInit()
-{
-	RomNoByteswap = 1;
-	return MegadriveInit();
-}
-
-void __fastcall Ssf2BankingWriteByte(unsigned int sekAddress, unsigned char byteValue)
-{
-	switch (sekAddress) {
-		case 0xa130f1: {
-			return;
-		}
-		
-		case 0xa130f3: {
-			memcpy(RomMain + 0x080000, Ssf2Rom + ((byteValue & 0x0f) * 0x80000), 0x80000);
-			return;
-		}
-		
-		case 0xa130f5: {
-			memcpy(RomMain + 0x100000, Ssf2Rom + ((byteValue & 0x0f) * 0x80000), 0x80000);
-			return;
-		}
-		
-		case 0xa130f7: {
-			memcpy(RomMain + 0x180000, Ssf2Rom + ((byteValue & 0x0f) * 0x80000), 0x80000);
-			return;
-		}
-		
-		case 0xa130f9: {
-			memcpy(RomMain + 0x200000, Ssf2Rom + ((byteValue & 0x0f) * 0x80000), 0x80000);
-			return;
-		}
-		
-		case 0xa130fb: {
-			memcpy(RomMain + 0x280000, Ssf2Rom + ((byteValue & 0x0f) * 0x80000), 0x80000);
-			return;
-		}
-		
-		case 0xa130fd: {
-			memcpy(RomMain + 0x300000, Ssf2Rom + ((byteValue & 0x0f) * 0x80000), 0x80000);
-			return;
-		}
-		
-		case 0xa130ff: {
-			memcpy(RomMain + 0x380000, Ssf2Rom + ((byteValue & 0x0f) * 0x80000), 0x80000);
-			return;
-		}
-		
-		default: {
-			bprintf(PRINT_NORMAL, _T("Attempt to write byte value %x to location %x\n"), byteValue, sekAddress);
-		}		
-	}
-}
-
-static void Ssf2MapBanking()
-{
-	memcpy(Ssf2Rom, RomMain, 0x500000);
-	
-	SekOpen(0);
-	SekMapHandler(5, 0xa13000, 0xa13fff, SM_WRITE);
-	SekSetWriteByteHandler(5, Ssf2BankingWriteByte);
-	SekClose();
-}
-
-int MegadriveSsf2Init()
-{
-	Ssf2Rom = (unsigned char*)malloc(0x500000);
-		
-	MegadriveCallback = Ssf2MapBanking;
-	return MegadriveInit();
-}
-
-static void RiseRealDumpLoad()
-{
-	BurnLoadRom(RomMain + 0x200000, 1, 1);
-}
-
-int MegadriveRiseRealDumpInit()
-{
-	MegadriveCallback = RiseRealDumpLoad;
-	
-	RomNoByteswap = 1;
-	return MegadriveInit();
-}
-
-static void F22RealDumpLoad()
-{
-	BurnLoadRom(RomMain + 0x080000, 1, 2);
-}
-
-int MegadriveF22RealDumpInit()
-{
-	MegadriveCallback = F22RealDumpLoad;
-	
-	RomNoByteswap = 1;
-	return MegadriveInit();
-}
-
-static void MegadriveMapSRAM_0x200000_0x800()
-{
-	SekOpen(0);
-	SekMapMemory(SRam, 0x200000, 0x2007ff, SM_RAM);
-	SekClose();
-}
-
-int MegadriveBackup_0x200000_0x800_Init()
-{
-	MegadriveCallback = MegadriveMapSRAM_0x200000_0x800;
-	
-	return MegadriveInit();
-}
-
-static void MegadriveMapSRAM_0x200000_0x2000()
-{
-	SekOpen(0);
-	SekMapMemory(SRam, 0x200000, 0x201fff, SM_RAM);
-	SekClose();
-}
-
-int MegadriveBackup_0x200000_0x2000_Init()
-{
-	MegadriveCallback = MegadriveMapSRAM_0x200000_0x2000;
-	
-	return MegadriveInit();
-}
-
-static void MegadriveMapSRAM_0x200000_0x4000()
-{
-	SekOpen(0);
-	SekMapMemory(SRam, 0x200000, 0x203fff, SM_RAM);
-	SekClose();
-}
-
-int MegadriveBackup_0x200000_0x4000_Init()
-{
-	MegadriveCallback = MegadriveMapSRAM_0x200000_0x4000;
-	
-	return MegadriveInit();
-}
-
-int MegadriveNoByteswapBackup_0x200000_0x4000_Init()
-{
-	RomNoByteswap = 1;
-	MegadriveCallback = MegadriveMapSRAM_0x200000_0x4000;
-	
-	return MegadriveInit();
-}
-
-static void MegadriveMapSRAM_0x200000_0x10000()
-{
-	SekOpen(0);
-	SekMapMemory(SRam, 0x200000, 0x20ffff, SM_RAM);
-	SekClose();
-}
-
-int MegadriveBackup_0x200000_0x10000_Init()
-{
-	MegadriveCallback = MegadriveMapSRAM_0x200000_0x10000;
-	
-	return MegadriveInit();
-}
-
-int MegadriveNoByteswapBackup_0x200000_0x10000_Init()
-{
-	RomNoByteswap = 1;
-	MegadriveCallback = MegadriveMapSRAM_0x200000_0x10000;
-	
-	return MegadriveInit();
-}
-
-static void MegadriveMapSRAM_0x300000_0x10000()
-{
-	SekOpen(0);
-	SekMapMemory(SRam, 0x300000, 0x30ffff, SM_RAM);
-	SekClose();
-}
-
-int MegadriveBackup_0x300000_0x10000_Init()
-{
-	MegadriveCallback = MegadriveMapSRAM_0x300000_0x10000;
-	
-	return MegadriveInit();
-}
-
-void __fastcall Sks3BackupWriteByte(unsigned int sekAddress, unsigned char byteValue)
-{
-	switch (sekAddress) {
-		case 0xA130F1: {
-			// sram access register
-			RamMisc->SRamReg = byteValue & 0x03;
-			
-			if (byteValue & 0x01) {
-				SekMapMemory(SRam, 0x200000, 0x2003ff, SM_RAM);
-			} else {
-				SekMapMemory(RomMain + 0x200000, 0x200000, 0x2003ff, SM_ROM);
-			}
-			return;
-		}
-			
-		default: {
-			bprintf(PRINT_NORMAL, _T("Attempt to write byte value %x to location %x\n"), byteValue, sekAddress);
-		}		
-	}
-}
-
-void __fastcall Sks3Backup_0x4000_WriteByte(unsigned int sekAddress, unsigned char byteValue)
-{
-	switch (sekAddress) {
-		case 0xA130F1: {
-			// sram access register
-			RamMisc->SRamReg = byteValue & 0x03;
-			
-			if (byteValue & 0x01) {
-				SekMapMemory(SRam, 0x200000, 0x203fff, SM_RAM);
-			} else {
-				SekMapMemory(RomMain + 0x200000, 0x200000, 0x203fff, SM_ROM);
-			}
-			return;
-		}
-			
-		default: {
-			bprintf(PRINT_NORMAL, _T("Attempt to write byte value %x to location %x\n"), byteValue, sekAddress);
-		}		
-	}
-}
-
-static void Sks3MapSRAM()
-{
-	SekOpen(0);
-	SekMapHandler(5, 0xa13000, 0xa13fff, SM_WRITE);
-	SekSetWriteByteHandler(5, Sks3BackupWriteByte);
-	SekClose();
-}
-
-int MegadriveBackup_Sks3_Init()
-{
-	MegadriveCallback = Sks3MapSRAM;
-	
-	return MegadriveInit();
-}
-
-static void Sks3_0x4000_MapSRAM()
-{
-	SekOpen(0);
-	SekMapHandler(5, 0xa13000, 0xa13fff, SM_WRITE);
-	SekSetWriteByteHandler(5, Sks3Backup_0x4000_WriteByte);
-	SekClose();
-}
-
-int MegadriveBackup_Sks3_0x4000_Init()
-{
-	MegadriveCallback = Sks3_0x4000_MapSRAM;
-	
-	return MegadriveInit();
-}
-
-unsigned char __fastcall RadicaBankSelectByte(unsigned int sekAddress)
-{
-	bprintf(PRINT_IMPORTANT, _T("Radica Bank Read Byte %06x\n"), sekAddress);
-	
-	return 0;
-}
-
-unsigned short __fastcall RadicaBankSelectWord(unsigned int sekAddress)
-{
-	int Bank = ((sekAddress - 0xa13000) >> 1) & 0x3f;
-	memcpy(RomMain, RomMain + (Bank * 0x10000) + 0x400000, 0x400000);
-	
-	return 0;
-}
-
-static void MapRadicaBanks()
-{
-	memcpy(RomMain + 0x400000, RomMain + 0x000000, 0x400000);
-	memcpy(RomMain + 0x800000, RomMain + 0x000000, 0x400000);
-	
-	SekOpen(0);
-	SekMapHandler(6, 0xa13000, 0xa1307f, SM_READ);
-	SekSetReadByteHandler(6, RadicaBankSelectByte);
-	SekSetReadWordHandler(6, RadicaBankSelectWord);
-	SekClose();
-}
-
-int RadicaInit()
-{
-	RomNoByteswap = 1;
-	
-	MegadriveCallback = MapRadicaBanks;
-	
-	return MegadriveInit();
 }
 
 int MegadriveExit()
@@ -1798,9 +2974,9 @@ int MegadriveExit()
 		Mem = NULL;
 	}
 	
-	if (Ssf2Rom) {
-		free(Ssf2Rom);
-		Ssf2Rom = NULL;
+	if (OriginalRom) {
+		free(OriginalRom);
+		OriginalRom = NULL;
 	}
 	
 	MegadriveCallback = NULL;
@@ -1809,6 +2985,7 @@ int MegadriveExit()
 	RomNoByteswap = 0;
 	MegadriveReset = 0;
 	RomSize = 0;
+	RomNum = 0;
 	SRamSize = 0;
 	Scanline = 0;
 	Z80HasBus = 0;
@@ -2905,10 +4082,12 @@ int MegadriveFrame()
 		bMegadriveRecalcPalette = 0;	
 	}
 	
-	JoyPad->pad[0] = JoyPad->pad[1] = 0;
+	JoyPad->pad[0] = JoyPad->pad[1] = JoyPad->pad[2] = JoyPad->pad[3] = 0;
 	for (int i = 0; i < 12; i++) {
 		JoyPad->pad[0] |= (MegadriveJoy1[i] & 1) << i;
 		JoyPad->pad[1] |= (MegadriveJoy2[i] & 1) << i;
+		JoyPad->pad[2] |= (MegadriveJoy3[i] & 1) << i;
+		JoyPad->pad[3] |= (MegadriveJoy4[i] & 1) << i;
 	}
 	
 	

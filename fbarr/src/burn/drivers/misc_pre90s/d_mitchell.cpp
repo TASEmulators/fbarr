@@ -1626,7 +1626,7 @@ static void MitchellMachineInit()
 	ZetClose();
 	
 	BurnYM2413Init(4000000, 1.0);
-	BurnYM2413IncreaseVolume(200);
+	BurnYM2413DecreaseVolume(40);
 	MSM6295Init(0, 1000000 / 132, 10.0, 1);
 	MSM6295ROM = DrvSoundRom;
 	
@@ -1661,7 +1661,7 @@ static void MahjongMachineInit()
 	ZetClose();
 	
 	BurnYM2413Init(4000000, 1.0);
-	BurnYM2413IncreaseVolume(200);
+	BurnYM2413DecreaseVolume(40);
 	MSM6295Init(0, 990000 / 132, 10.0, 1);
 	memcpy(MSM6295ROM, DrvSoundRom, 0x40000);
 	
@@ -1733,7 +1733,7 @@ static int MgakuenInit()
 	ZetClose();
 	
 	BurnYM2413Init(4000000, 1.0);
-	BurnYM2413IncreaseVolume(200);
+	BurnYM2413DecreaseVolume(40);
 	MSM6295Init(0, 990000 / 132, 10.0, 1);
 	memcpy(MSM6295ROM, DrvSoundRom, 0x40000);
 	

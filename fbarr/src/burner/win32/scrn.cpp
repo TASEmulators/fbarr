@@ -1786,12 +1786,6 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			}
 			break;
 		
-		case MENU_CLRMAME_PRO_XML_INC_MD:
-			if (UseDialogs()) {
-				CreateDatfileWindows(1);
-			}
-			break;
-		
 		case MENU_CLRMAME_PRO_XML_MD_ONLY:
 			if (UseDialogs()) {
 				CreateDatfileWindows(2);

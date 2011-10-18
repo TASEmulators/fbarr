@@ -7272,7 +7272,7 @@ static int DrvCommonFrame(void (*pFrameCallback)())
 		BurnGunMakeInputs(0, (short)DrvAxis[0], (short)DrvAxis[1]);	// zombraid
 		BurnGunMakeInputs(1, (short)DrvAxis[2], (short)DrvAxis[3]);
 
-		float x0 = ((float)((BurnGunX[0] >> 8) + 8)) / 224 * 100;
+/*		float x0 = ((float)((BurnGunX[0] >> 8) + 8)) / 224 * 100;
 		float y0 = ((float)((BurnGunY[0] >> 8) + 8)) / 224 * 100;
 		float x1 = ((float)((BurnGunX[1] >> 8) + 8)) / 384 * 412;
 		float y1 = ((float)((BurnGunY[1] >> 8) + 8)) / 224 * 224;
@@ -7287,7 +7287,26 @@ static int DrvCommonFrame(void (*pFrameCallback)())
 		DrvAnalogInput[1] &= 0xff;
 		
 		DrvAnalogInput[2] = ((unsigned char)x1)^0xff;
-		DrvAnalogInput[3] = (unsigned char)y1;
+		DrvAnalogInput[3] = (unsigned char)y1;*/
+		
+		float xRatio = (float)128 / 384;
+		float yRatio = (float)96 / 224;
+		
+		for (int i = 0; i < 2; i++) {
+			int x = BurnGunX[i] >> 8;
+			int y = BurnGunY[i] >> 8;
+			
+			x = (int)(x * xRatio);
+			y = (int)(y * yRatio);
+		
+			x -= 0xbe;
+			y += 0x48;
+		
+			DrvAnalogInput[0 + (i * 2)] = (unsigned char)~x;
+			DrvAnalogInput[1 + (i * 2)] = (unsigned char)y;
+		}		
+		
+		bprintf(PRINT_NORMAL, _T("%x, %x\n"), DrvAnalogInput[0], DrvAnalogInput[1]);
 	}
 
 	pFrameCallback();

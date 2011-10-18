@@ -183,6 +183,16 @@ DEFLONGHANDLERS(0)
  DEFLONGHANDLERS(7)
 #endif
 
+#if SEK_MAXHANDLER >= 9
+ DEFWORDHANDLERS(8)
+ DEFLONGHANDLERS(8)
+#endif
+
+#if SEK_MAXHANDLER >= 10
+ DEFWORDHANDLERS(9)
+ DEFLONGHANDLERS(9)
+#endif
+
 // ----------------------------------------------------------------------------
 // Memory access functions
 
@@ -914,7 +924,21 @@ int SekInit(int nCount, int nCPUType)
 #endif
 
 #if SEK_MAXHANDLER >= 9
-	for (int j = 8; j < SEK_MAXHANDLER; j++) {
+	ps->ReadWord[8]  = DefReadWord8;
+	ps->WriteWord[8] = DefWriteWord8;
+	ps->ReadLong[8]  = DefReadLong8;
+	ps->WriteLong[8] = DefWriteLong8;
+#endif
+
+#if SEK_MAXHANDLER >= 10
+	ps->ReadWord[9]  = DefReadWord9;
+	ps->WriteWord[9] = DefWriteWord9;
+	ps->ReadLong[9]  = DefReadLong9;
+	ps->WriteLong[9] = DefWriteLong9;
+#endif
+
+#if SEK_MAXHANDLER >= 11
+	for (int j = 10; j < SEK_MAXHANDLER; j++) {
 		ps->ReadWord[j]  = DefReadWord0;
 		ps->WriteWord[j] = DefWriteWord0;
 		ps->ReadLong[j]  = DefReadLong0;
