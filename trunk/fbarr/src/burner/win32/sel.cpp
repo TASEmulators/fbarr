@@ -3,6 +3,7 @@
 #include "burner.h"
 
 UINT_PTR nTimer					= 0;
+UINT_PTR nInitPreviewTimer			= 0;
 int nDialogSelect				= -1;										// The driver which this dialog selected
 int nOldDlgSelected				= -1;
 bool bDialogCancel				= false;
@@ -316,6 +317,7 @@ static int SelListMake()
 		GetDlgItemText(hSelDlg, IDC_SEL_SEARCH, szSearchString, sizeof(szSearchString));
 		if (szSearchString[0]) {
 			TCHAR *StringFound = NULL;
+			TCHAR *StringFound2 = NULL;
 			TCHAR szDriverName[100];
 			wcscpy(szDriverName, BurnDrvGetText(DRV_FULLNAME));
 			for (int k =0; k < 100; k++) {
@@ -323,7 +325,8 @@ static int SelListMake()
 				szDriverName[k] = _totlower(szDriverName[k]);
 			}
 			StringFound = wcsstr(szDriverName, szSearchString);
-			if (!StringFound) continue;
+			StringFound2 = wcsstr(BurnDrvGetText(DRV_NAME), szSearchString);
+			if (!StringFound && !StringFound2) continue;
 		}
 
 		if(!gameAv[i]) nMissingDrvCount++;
@@ -373,6 +376,7 @@ static int SelListMake()
 		GetDlgItemText(hSelDlg, IDC_SEL_SEARCH, szSearchString, sizeof(szSearchString));
 		if (szSearchString[0]) {
 			TCHAR *StringFound = NULL;
+			TCHAR *StringFound2 = NULL;
 			TCHAR szDriverName[100];
 			wcscpy(szDriverName, BurnDrvGetText(DRV_FULLNAME));
 			for (int k =0; k < 100; k++) {
@@ -380,7 +384,8 @@ static int SelListMake()
 				szDriverName[k] = _totlower(szDriverName[k]);
 			}
 			StringFound = wcsstr(szDriverName, szSearchString);
-			if (!StringFound) continue;
+			StringFound2 = wcsstr(BurnDrvGetText(DRV_NAME), szSearchString);
+			if (!StringFound && !StringFound2) continue;
 		}
 
 		if(!gameAv[i]) nMissingDrvCount++;
@@ -483,6 +488,11 @@ static void MyEndDialog()
 	if (nTimer) {
 		KillTimer(hSelDlg, nTimer);
 		nTimer = 0;
+	}
+	
+	if (nInitPreviewTimer) {
+		KillTimer(hSelDlg, nInitPreviewTimer);
+		nInitPreviewTimer = 0;
 	}
 
 	SendDlgItemMessage(hSelDlg, IDC_SCREENSHOT_H, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)NULL);
@@ -639,6 +649,27 @@ FILE* OpenPreview(int nIndex, TCHAR *szPath)
 static VOID CALLBACK PreviewTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	UpdatePreview(false, szAppPreviewsPath, IDC_SCREENSHOT_H, IDC_SCREENSHOT_V);
+}
+
+static VOID CALLBACK InitPreviewTimerProc(HWND, UINT, UINT_PTR, DWORD)
+{
+	UpdatePreview(true, szAppPreviewsPath, IDC_SCREENSHOT_H, IDC_SCREENSHOT_V);
+	
+	if (GetIpsNumPatches()) {
+		EnableWindow(GetDlgItem(hSelDlg, IDC_SEL_IPSMANAGER), TRUE);
+	} else {
+		EnableWindow(GetDlgItem(hSelDlg, IDC_SEL_IPSMANAGER), FALSE);
+	}
+			
+	LoadIpsActivePatches();
+	if (GetIpsNumActivePatches()) {
+		EnableWindow(GetDlgItem(hSelDlg, IDC_SEL_APPLYIPS), TRUE);
+	} else {
+		EnableWindow(GetDlgItem(hSelDlg, IDC_SEL_APPLYIPS), FALSE);
+	}
+	
+	KillTimer(hSelDlg, nInitPreviewTimer);
+	nInitPreviewTimer = 0;
 }
 
 static int UpdatePreview(bool bReset, TCHAR *szPath, int HorCtrl, int VerCtrl)
@@ -945,15 +976,19 @@ static INT_PTR CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lP
 		
 		TreeView_SetItemHeight(hSelList, 20);
 		
-/*		if (nDialogSelect > -1) {
+		if (nDialogSelect > -1) {
 			for (unsigned int i = 0; i < nTmpDrvCount; i++) {
 				if (nBurnDrv[i].nBurnDrvNo == nDialogSelect) {
+					nBurnDrvSelect	= nBurnDrv[i].nBurnDrvNo;
 					TreeView_EnsureVisible(hSelList, nBurnDrv[i].hTreeHandle);
 					TreeView_Select(hSelList, nBurnDrv[i].hTreeHandle, TVGN_CARET);
 					break;
 				}
-			}			
-		}*/
+			}
+			
+			// hack to load the preview image after a delay
+			nInitPreviewTimer = SetTimer(hSelDlg, 1, 20, InitPreviewTimerProc);
+		}
 
 		LONG_PTR Style;
 		Style = GetWindowLongPtr (GetDlgItem(hSelDlg, IDC_TREE2), GWL_STYLE);
@@ -1205,6 +1240,10 @@ static INT_PTR CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lP
 	}
 
 	if (Msg == WM_COMMAND) {
+		if (HIWORD(wParam) == EN_CHANGE && LOWORD(wParam) == IDC_SEL_SEARCH) {
+			RebuildEverything();
+		}
+		
 		if (HIWORD(wParam) == BN_CLICKED) {
 			int wID = LOWORD(wParam);
 			switch (wID) {
@@ -1250,15 +1289,19 @@ static INT_PTR CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lP
 				case IDC_SEL_IPSMANAGER:
 					if (bDrvSelected) {
 						IpsManagerCreate(hSelDlg);
+						LoadIpsActivePatches();
+						if (GetIpsNumActivePatches()) {
+							EnableWindow(GetDlgItem(hDlg, IDC_SEL_APPLYIPS), TRUE);
+						} else {
+							EnableWindow(GetDlgItem(hDlg, IDC_SEL_APPLYIPS), FALSE);
+						}
+						SetFocus(hSelList);
 					} else {
 						MessageBox(hSelDlg, FBALoadStringEx(hAppInst, IDS_ERR_NO_DRIVER_SELECTED, true), FBALoadStringEx(hAppInst, IDS_ERR_ERROR, true), MB_OK);
 					}
 					break;
 				case IDC_SEL_APPLYIPS:
 					bDoIpsPatch = !bDoIpsPatch;
-					break;
-				case IDC_SEL_SEARCHDO:
-					RebuildEverything();
 					break;
 			}
 		}
@@ -1279,10 +1322,10 @@ static INT_PTR CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lP
 		return 0;
 	}
 
-	if (Msg == WM_TIMER) {
-		UpdatePreview(false, szAppPreviewsPath, IDC_SCREENSHOT_H, IDC_SCREENSHOT_V);
-		return 0;
-	}
+//	if (Msg == WM_TIMER) {
+//		UpdatePreview(false, szAppPreviewsPath, IDC_SCREENSHOT_H, IDC_SCREENSHOT_V);
+//		return 0;
+//	}
 	
 	if (Msg == WM_CTLCOLORSTATIC) {
 		for (int i = 0; i < 6; i++) {
@@ -1434,7 +1477,7 @@ static INT_PTR CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lP
 						// Display the short name if needed
 						if (nLoadMenuShowX & SHOWSHORT) {
 							DrawText(lplvcd->nmcd.hdc, BurnDrvGetText(DRV_NAME), -1, &rect, DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_VCENTER);
-							rect.left += 16 + 40 + 20;
+							rect.left += 16 + 40 + 20 + 10;
 						}
 
 						{
@@ -1510,7 +1553,7 @@ static INT_PTR CALLBACK DialogProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lP
 			for (unsigned int i = 0; i < nTmpDrvCount; i++) {
 				if (hSelectHandle == nBurnDrv[i].hTreeHandle) 
 				{					
-					nBurnDrvSelect	= nBurnDrv[i].nBurnDrvNo;					
+					nBurnDrvSelect	= nBurnDrv[i].nBurnDrvNo;
 					nDialogSelect	= nBurnDrvSelect;					
 					bDrvSelected	= true;	
 					UpdatePreview(true, szAppPreviewsPath, IDC_SCREENSHOT_H, IDC_SCREENSHOT_V);

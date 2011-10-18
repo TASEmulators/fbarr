@@ -35,10 +35,10 @@ int write_datfile(int bIncMegadrive, FILE* fDat)
 	// Go over each of the games
 	for (nGameSelect=0;nGameSelect<nBurnDrvCount;nGameSelect++)
 	{
-		char sgName[16];
-		char spName[16];
-		char sbName[16];
-		char ssName[16];
+		char sgName[32];
+		char spName[32];
+		char sbName[32];
+		char ssName[32];
 		unsigned int i=0;
 		int nPass=0;
 
@@ -112,6 +112,30 @@ int write_datfile(int bIncMegadrive, FILE* fDat)
 			
 		if (BurnDrvGetTextA(DRV_SAMPLENAME)) {
 			strcpy(ssName, BurnDrvGetTextA(DRV_SAMPLENAME));
+		}
+		
+		if ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_SEGA_MEGADRIVE) {
+			// remove the md_
+			char Temp[35];
+			int Length;
+			if (sgName[0]) {
+				Length = strlen(sgName);
+				memset(Temp, 0, 35);
+				strcpy(Temp, sgName);
+				memset(sgName, 0, 32);
+				for (int pos = 0; pos < Length; pos++) {
+					sgName[pos] = Temp[pos + 3];
+				}
+			}
+			if (spName[0]) {
+				Length = strlen(spName);
+				memset(Temp, 0, 35);
+				strcpy(Temp, spName);
+				memset(spName, 0, 32);
+				for (int pos = 0; pos < Length; pos++) {
+					spName[pos] = Temp[pos + 3];
+				}
+			}
 		}
 
 		// Report problems

@@ -10,6 +10,7 @@ void BurnYM2413Exit();
 extern void (*BurnYM2413Render)(short* pSoundBuf, int nSegmentLength);
 void BurnYM2413Scan(int nAction);
 void BurnYM2413IncreaseVolume(int nFactor);
+void BurnYM2413DecreaseVolume(int nFactor);
 
 #define BurnYM2413Read(a) YM2413Read(0, a)
 #define BurnYM2413Write(a, d) YM2413Write(0, a, d)
