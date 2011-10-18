@@ -810,7 +810,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR lpCmdLine, int nShowCmd
 		{_T("support\\ips\\")},
 	};
 
-	for(int x = 0; x < 14; x++) {
+	for(int x = 0; x < 16; x++) {
 		CreateDirectory(szDirs[x], NULL);
 	}
 

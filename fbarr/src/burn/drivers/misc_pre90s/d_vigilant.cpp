@@ -513,7 +513,7 @@ STD_ROM_PICK(Drv)
 STD_ROM_FN(Drv)
 
 static struct BurnRomInfo Drv1RomDesc[] = {
-	{ "vg_a-8h-c.rom", 0x10000, 0x0f77aa7e, BRF_ESS | BRF_PRG },	//  0	Z80 #1 Program Code
+	{ "vg_a-8h-c.rom", 0x08000, 0xd72682e8, BRF_ESS | BRF_PRG },	//  0	Z80 #1 Program Code
 	{ "vg_a-8l-a.rom", 0x10000, 0x690d812f, BRF_ESS | BRF_PRG },	//  1
 	
 	{ "g05_c02.bin",   0x10000, 0x10582b2d, BRF_ESS | BRF_PRG },	//  2	Z80 #2 Program 
@@ -575,6 +575,38 @@ static struct BurnRomInfo DrvuRomDesc[] = {
 
 STD_ROM_PICK(Drvu)
 STD_ROM_FN(Drvu)
+
+static struct BurnRomInfo Drvu2RomDesc[] = {
+	{ "vg-a-8h-g.bin", 0x08000, 0x9444c04e, BRF_ESS | BRF_PRG },	//  0	Z80 #1 Program Code
+	{ "a-8l",          0x10000, 0x7f95799b, BRF_ESS | BRF_PRG },	//  1
+	
+	{ "g05_c02.bin",   0x10000, 0x10582b2d, BRF_ESS | BRF_PRG },	//  2	Z80 #2 Program 
+	
+	{ "f05_c08.bin",   0x10000, 0x01579d20, BRF_GRA },		//  3	Characters
+	{ "h05_c09.bin",   0x10000, 0x4f5872f0, BRF_GRA },		//  4
+	
+	{ "n07_c12.bin",   0x10000, 0x10af8eb2, BRF_GRA },		//  5	Sprites
+	{ "k07_c10.bin",   0x10000, 0x9576f304, BRF_GRA },		//  6
+	{ "o07_c13.bin",   0x10000, 0xb1d9d4dc, BRF_GRA },		//  7
+	{ "l07_c11.bin",   0x10000, 0x4598be4a, BRF_GRA },		//  8
+	{ "t07_c16.bin",   0x10000, 0xf5425e42, BRF_GRA },		//  9
+	{ "p07_c14.bin",   0x10000, 0xcb50a17c, BRF_GRA },		//  10
+	{ "v07_c17.bin",   0x10000, 0x959ba3c7, BRF_GRA },		//  11
+	{ "s07_c15.bin",   0x10000, 0x7f2e91c5, BRF_GRA },		//  12
+	
+	{ "d01_c05.bin",   0x10000, 0x81b1ee5c, BRF_GRA },		//  13	Background
+	{ "e01_c06.bin",   0x10000, 0xd0d33673, BRF_GRA },		//  14
+	{ "f01_c07.bin",   0x10000, 0xaae81695, BRF_GRA },		//  15
+	
+	{ "d04_c01.bin",   0x10000, 0x9b85101d, BRF_SND },		//  16	Samples
+	
+	{ "pal16l8.8r",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  17	PALs
+	{ "pal16l8.4m",    0x00104, 0x6c628a26, BRF_GRA },		//  18
+	{ "pal16l8.1b",    0x00104, 0x00000000, BRF_GRA | BRF_NODUMP },	//  19
+};
+
+STD_ROM_PICK(Drvu2)
+STD_ROM_FN(Drvu2)
 
 static struct BurnRomInfo DrvjRomDesc[] = {
 	{ "vg_a-8h.rom",   0x08000, 0xba848713, BRF_ESS | BRF_PRG },	//  0	Z80 #1 Program Code
@@ -2076,6 +2108,16 @@ struct BurnDriver BurnDrvVigilantu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
 	NULL, DrvuRomInfo, DrvuRomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
+	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
+	NULL, 544, 256, 256, 4, 3
+};
+
+struct BurnDriver BurnDrvVigilantu2 = {
+	"vigilantu2", "vigilant", NULL, NULL, "1988",
+	"Vigilante (US, rev G)\0", NULL, "Irem (Data East USA License)", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_MISC_PRE90S, GBF_SCRFIGHT, 0,
+	NULL, Drvu2RomInfo, Drvu2RomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
 	DrvInit, DrvExit, DrvFrame, NULL, DrvScan,
 	NULL, 544, 256, 256, 4, 3
 };

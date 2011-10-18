@@ -195,8 +195,7 @@
 #define IDC_SEL_APPLYIPS					20131
 #define IDC_SEL_IPSGROUP					20132
 #define IDC_SEL_SEARCH						20133
-#define IDC_SEL_SEARCHDO					20134
-#define IDC_SEL_SEARCHGROUP					20135
+#define IDC_SEL_SEARCHGROUP					20134
 #define MW_ValueLabel1                  20136
 #define MW_ValueLabel2                  20137
 #define MW_ADDR00                       1001
@@ -542,7 +541,6 @@
 #define MENU_VIDEOVSYNC						10646
 #define MENU_MONITORAUTOCHECK				10650
 #define MENU_CLRMAME_PRO_XML				10651
-#define MENU_CLRMAME_PRO_XML_INC_MD			10652
 #define MENU_CLRMAME_PRO_XML_MD_ONLY		10653
 #define MENU_SAVEHISCORES					10654
 #define MENU_AUD_PLUGIN_1					10655

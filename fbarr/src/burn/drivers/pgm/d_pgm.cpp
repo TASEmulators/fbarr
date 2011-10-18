@@ -2729,7 +2729,7 @@ static int ddp3Init()
 }
 
 struct BurnDriver BurnDrvDdp3 = {
-	"ddp3", NULL, NULL,  NULL, "2002",
+	"ddpdoj", NULL, NULL,  NULL, "2002",
 	"DoDonPachi Dai-Ou-Jou (V101, Japan)\0", "Incomplete Protection Simulation", "Cave / AMI", "PolyGameMaster",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 4, HARDWARE_IGS_PGM /* | HARDWARE_IGS_USE_ARM_CPU */, GBF_SCRFIGHT, 0,
@@ -2762,7 +2762,7 @@ STDROMPICKEXT(ddp3a, ddp3a, ddp3Bios) /* custom bios */
 STD_ROM_FN(ddp3a)
 
 struct BurnDriver BurnDrvDdp3a = {
-	"ddp3a", "ddp3", NULL,  NULL, "2002",
+	"ddpdoja", "ddpdoj", NULL,  NULL, "2002",
 	"DoDonPachi Dai-Ou-Jou (V100 (second version), Japan)\0", "Incomplete Protection Simulation", "Cave / AMI", "PolyGameMaster",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 4, HARDWARE_IGS_PGM /* | HARDWARE_IGS_USE_ARM_CPU */, GBF_SCRFIGHT, 0,
@@ -2795,7 +2795,7 @@ STDROMPICKEXT(ddp3b, ddp3b, ddp3Bios) /* custom bios */
 STD_ROM_FN(ddp3b)
 
 struct BurnDriver BurnDrvDdp3b = {
-	"ddp3b", "ddp3", NULL,  NULL, "2002",
+	"ddpdojb", "ddpdoj", NULL,  NULL, "2002",
 	"DoDonPachi Dai-Ou-Jou (V100 (first version), Japan)\0", "Incomplete Protection Simulation", "Cave / AMI", "PolyGameMaster",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 4, HARDWARE_IGS_PGM /* | HARDWARE_IGS_USE_ARM_CPU */, GBF_SCRFIGHT, 0,
@@ -2859,7 +2859,7 @@ static int ddp3blkInit()
 }
 
 struct BurnDriver BurnDrvDdp3blk = {
-	"ddp3blk", "ddp3", NULL, NULL, "2002",
+	"ddpdojblk", "ddpdoj", NULL, NULL, "2002",
 	"DoDonPachi Dai-Ou-Jou Black Label (V100, Japan)\0", "Incomplete Protection Simulation", "Cave / AMI", "PolyGameMaster",
 	L"DoDonPachi Dai-Ou-Jou Black Label\0\u6012\u9996\u9818\u8702 \u5927\u5F80\u751F Black Label (V100, Japan)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_CLONE, 4, HARDWARE_IGS_PGM /* | HARDWARE_IGS_USE_ARM_CPU */, GBF_SCRFIGHT, 0,

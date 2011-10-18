@@ -947,7 +947,7 @@ unsigned char __fastcall m90_sound_read_port(unsigned short port)
 		case 0x42: // bbmanw
 		case 0x80:
 			ZetSetVector(0xff);
-			ZetSetIRQLine(0, ZET_IRQSTATUS_NONE);//?
+			ZetSetIRQLine(0, ZET_IRQSTATUS_NONE);
 			return *soundlatch;
 	
 		case 0x84:

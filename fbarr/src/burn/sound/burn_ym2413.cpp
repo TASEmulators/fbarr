@@ -155,6 +155,11 @@ void BurnYM2413IncreaseVolume(int nFactor)
 	nYM2413Volume *= nFactor;
 }
 
+void BurnYM2413DecreaseVolume(int nFactor)
+{
+	nYM2413Volume /= nFactor;
+}
+
 void BurnYM2413Scan(int nAction)
 {
 	if ((nAction & ACB_DRIVER_DATA) == 0) {
