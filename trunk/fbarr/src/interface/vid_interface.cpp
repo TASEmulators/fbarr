@@ -46,7 +46,7 @@ int nVidVerWidth	= 640, nVidVerHeight	= 480;	// Default Vertical oriented resoul
 
 int nVidFullscreen = 0;
 int bVidFullStretch = 0;						// 1 = stretch to fill the entire window/screen
-int bVidCorrectAspect = 1;						// 1 = stretch to fill the window/screen while maintaining the correct aspect ratio
+int bVidCorrectAspect = 0;						// 1 = stretch to fill the window/screen while maintaining the correct aspect ratio
 int bVidVSync = 0;								// 1 = sync blits/pageflips/presents to the screen
 int bVidTripleBuffer = 0;						// 1 = use triple buffering
 int bVidBilinear = 1;							// 1 = enable bi-linear filtering (D3D blitter)
