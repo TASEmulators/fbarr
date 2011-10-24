@@ -201,34 +201,21 @@ static int RunGetNextSound(int bDraw)
 	return 0;
 }
 
-extern bool bRunFrame;
-
 int RunIdle()
 {
 	int nTime, nCount;
 
 	if (bAudPlaying) {
 		// Run with sound
-		
-		if(bRunFrame) {
-			bRunFrame = false;
-			if(bAlwaysDrawFrames) {
-				RunFrame(1, 0);
-			} else {
-				RunGetNextSound(0);
-			}
-			return 0;
-		} else {
-			AudSoundCheck();
-			return 0;
-		}
+		AudSoundCheck();
+		return 0;
 	}
 
 	// Run without sound
 	nTime = timeGetTime() - nNormalLast;
 	nCount = (nTime * nAppVirtualFps - nNormalFrac) / 100000;
 	if (nCount <= 0) {						// No need to do anything for a bit
-//		Sleep(2);
+		Sleep(2);
 
 		return 0;
 	}
@@ -237,10 +224,9 @@ int RunIdle()
 	nNormalLast += nNormalFrac / nAppVirtualFps;
 	nNormalFrac %= nAppVirtualFps;
 
-//	if (bAppDoFast){						// Temporarily increase virtual fps
-//		nCount *= nFastSpeed;
-//		nCount *= 10;
-//	}
+	if (bAppDoFast){						// Temporarily increase virtual fps
+		nCount *= nFastSpeed;
+	}
 	if (nCount > 100) {						// Limit frame skipping
 		nCount = 100;
 	}
@@ -254,16 +240,8 @@ int RunIdle()
 	}
 	bAppDoStep = 0;
 
-	if (bAppDoFast) {									// do more frames
-		for (int i = 0; i < nFastSpeed; i++) {
-			RunFrame(0, 0);
-		}
-	}
-
-	if(!bAlwaysDrawFrames) {
-		for (int i = nCount / 10; i > 0; i--) {	// Mid-frames
-			RunFrame(0, 0);
-		}
+	for (int i = nCount / 10; i > 0; i--) {	// Mid-frames
+		RunFrame(!bAlwaysDrawFrames, 0);
 	}
 	RunFrame(1, 0);							// End-frame
 
