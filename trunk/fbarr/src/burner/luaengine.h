@@ -16,7 +16,20 @@ enum LuaCallID
 
 	LUACALL_COUNT
 };
-void CallRegisteredLuaFunctions(int calltype);
+void CallRegisteredLuaFunctions(LuaCallID calltype);
+
+enum LuaMemHookType
+{
+	LUAMEMHOOK_WRITE,
+	LUAMEMHOOK_READ,
+	LUAMEMHOOK_EXEC,
+	LUAMEMHOOK_WRITE_SUB,
+	LUAMEMHOOK_READ_SUB,
+	LUAMEMHOOK_EXEC_SUB,
+
+	LUAMEMHOOK_COUNT
+};
+void CallRegisteredLuaMemHook(unsigned int address, int size, unsigned int value, LuaMemHookType hookType);
 
 //void FBA_LuaWrite(UINT32 addr);
 void FBA_LuaFrameBoundary();
@@ -33,7 +46,7 @@ int FBA_LuaRerecordCountSkip();
 
 void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch);
 
-void FBA_LuaWriteInform();
+//void FBA_LuaWriteInform(); // DEADBEEF
 
 void FBA_LuaClearGui();
 void FBA_LuaEnableGui(UINT8 enabled);

@@ -1,6 +1,7 @@
 // 680x0 (Sixty Eight K) Interface
 #include "burnint.h"
 #include "sekdebug.h"
+#include "../burner/luaengine.h"
 
 #ifdef EMU_M68K
 int nSekM68KContextSize[SEK_MAX];
@@ -212,6 +213,8 @@ inline static unsigned char ReadByte(unsigned int a)
 
 //	bprintf(PRINT_NORMAL, _T("read8 0x%08X\n"), a);
 
+	CallRegisteredLuaMemHook(a, 1, 0, LUAMEMHOOK_READ);
+
 	pr = FIND_R(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
 		a ^= 1;
@@ -227,6 +230,8 @@ inline static unsigned char FetchByte(unsigned int a)
 	a &= 0xFFFFFF;
 
 //	bprintf(PRINT_NORMAL, _T("fetch8 0x%08X\n"), a);
+
+	CallRegisteredLuaMemHook(a, 1, 0, LUAMEMHOOK_EXEC);
 
 	pr = FIND_F(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
@@ -244,6 +249,8 @@ inline static void WriteByte(unsigned int a, unsigned char d)
 
 //	bprintf(PRINT_NORMAL, _T("write8 0x%08X\n"), a);
 
+	CallRegisteredLuaMemHook(a, 1, d, LUAMEMHOOK_WRITE);
+
 	pr = FIND_W(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
 		a ^= 1;
@@ -258,6 +265,8 @@ inline static void WriteByteROM(unsigned int a, unsigned char d)
 	unsigned char* pr;
 
 	a &= 0xFFFFFF;
+
+	CallRegisteredLuaMemHook(a, 1, d, LUAMEMHOOK_WRITE);
 
 	pr = FIND_R(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
@@ -276,6 +285,8 @@ inline static unsigned short ReadWord(unsigned int a)
 
 //	bprintf(PRINT_NORMAL, _T("read16 0x%08X\n"), a);
 
+	CallRegisteredLuaMemHook(a, 2, 0, LUAMEMHOOK_READ);
+
 	pr = FIND_R(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
 		return *((unsigned short*)(pr + (a & SEK_PAGEM)));
@@ -290,6 +301,8 @@ inline static unsigned short FetchWord(unsigned int a)
 	a &= 0xFFFFFF;
 
 //	bprintf(PRINT_NORMAL, _T("fetch16 0x%08X\n"), a);
+
+	CallRegisteredLuaMemHook(a, 2, 0, LUAMEMHOOK_EXEC);
 
 	pr = FIND_F(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
@@ -306,6 +319,8 @@ inline static void WriteWord(unsigned int a, unsigned short d)
 
 //	bprintf(PRINT_NORMAL, _T("write16 0x%08X\n"), a);
 
+	CallRegisteredLuaMemHook(a, 2, d, LUAMEMHOOK_WRITE);
+
 	pr = FIND_W(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
 		*((unsigned short*)(pr + (a & SEK_PAGEM))) = (unsigned short)d;
@@ -319,6 +334,8 @@ inline static void WriteWordROM(unsigned int a, unsigned short d)
 	unsigned char* pr;
 
 	a &= 0xFFFFFF;
+
+	CallRegisteredLuaMemHook(a, 2, d, LUAMEMHOOK_WRITE);
 
 	pr = FIND_R(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
@@ -335,6 +352,8 @@ inline static unsigned int ReadLong(unsigned int a)
 	a &= 0xFFFFFF;
 
 //	bprintf(PRINT_NORMAL, _T("read32 0x%08X\n"), a);
+
+	CallRegisteredLuaMemHook(a, 4, 0, LUAMEMHOOK_READ);
 
 	pr = FIND_R(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
@@ -353,6 +372,8 @@ inline static unsigned int FetchLong(unsigned int a)
 
 //	bprintf(PRINT_NORMAL, _T("fetch32 0x%08X\n"), a);
 
+	CallRegisteredLuaMemHook(a, 4, 0, LUAMEMHOOK_EXEC);
+
 	pr = FIND_F(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
 		unsigned int r = *((unsigned int*)(pr + (a & SEK_PAGEM)));
@@ -370,6 +391,8 @@ inline static void WriteLong(unsigned int a, unsigned int d)
 
 //	bprintf(PRINT_NORMAL, _T("write32 0x%08X\n"), a);
 
+	CallRegisteredLuaMemHook(a, 4, d, LUAMEMHOOK_WRITE);
+
 	pr = FIND_W(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
 		d = (d >> 16) | (d << 16);
@@ -384,6 +407,8 @@ inline static void WriteLongROM(unsigned int a, unsigned int d)
 	unsigned char* pr;
 
 	a &= 0xFFFFFF;
+
+	CallRegisteredLuaMemHook(a, 4, d, LUAMEMHOOK_WRITE);
 
 	pr = FIND_R(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
