@@ -1225,12 +1225,12 @@ static int savestate_savescriptdata(lua_State *L) {
 	return 0;
 }
 
-
+extern unsigned int nStartFrame;
 // int movie.framecount()
 //
 //   Gets the frame counter for the movie
 int movie_framecount(lua_State *L) {
-	lua_pushinteger(L, GetCurrentFrame());
+	lua_pushinteger(L, GetCurrentFrame() - nStartFrame);
 	return 1;
 }
 
