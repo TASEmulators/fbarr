@@ -1063,7 +1063,7 @@ void HK_luaStop(int)
 }
 void HK_luaHotkey(int param)
 {
-	CallRegisteredLuaFunctions(LUACALL_HOTKEY_1+param-1);
+	CallRegisteredLuaFunctions((LuaCallID)(LUACALL_HOTKEY_1+param-1));
 }
 
 // key handle
