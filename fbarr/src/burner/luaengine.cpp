@@ -2001,6 +2001,17 @@ static int gui_parsecolor(lua_State *L)
 }
 
 
+// gui.savescreenshot()
+//
+// Causes FBA to write a screenshot to a file as if the user pressed the associated hotkey.
+//
+// Unconditionally retrns 1; any failure in taking a screenshot would be reported on-screen
+// from the function HK_screenShot().
+static int gui_savescreenshot(lua_State *L) {
+	HK_screenShot(0);
+	return 1;
+}
+
 // gui.gdscreenshot()
 //
 //  Returns a screen shot as a string in gd's v1 file format.
@@ -3377,6 +3388,7 @@ static const struct luaL_reg guilib[] = {
 	{"transparency", gui_transparency},
 	{"popup", gui_popup},
 	{"parsecolor", gui_parsecolor},
+	{"savescreenshot", gui_savescreenshot},
 	{"gdscreenshot", gui_gdscreenshot},
 	{"gdoverlay", gui_gdoverlay},
 	{"getpixel", gui_getpixel},
