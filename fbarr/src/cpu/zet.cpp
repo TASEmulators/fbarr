@@ -1,5 +1,6 @@
 // Z80 (Zed Eight-Ty) Interface
 #include "burnint.h"
+#include "../burner/luaengine.h"
 
 #define MAX_Z80		8
 static struct ZetExt * ZetCPUContext = NULL;
@@ -36,16 +37,19 @@ void __fastcall ZetDummyOutHandler(unsigned short, unsigned char) { }
 
 unsigned char __fastcall ZetReadIO(unsigned int a)
 {
+	CallRegisteredLuaMemHook(a, 1, 0, LUAMEMHOOK_READ);
 	return ZetCPUContext[nOpenedCPU].ZetIn(a);
 }
 
 void __fastcall ZetWriteIO(unsigned int a, unsigned char d)
 {
+	CallRegisteredLuaMemHook(a, 1, d, LUAMEMHOOK_WRITE);
 	ZetCPUContext[nOpenedCPU].ZetOut(a, d);
 }
 
 unsigned char __fastcall ZetReadProg(unsigned int a)
 {
+	CallRegisteredLuaMemHook(a, 1, 0, LUAMEMHOOK_READ);
 	// check mem map
 	unsigned char * pr = ZetCPUContext[nOpenedCPU].pZetMemMap[0x000 | (a >> 8)];
 	if (pr != NULL) {
@@ -62,6 +66,7 @@ unsigned char __fastcall ZetReadProg(unsigned int a)
 
 void __fastcall ZetWriteProg(unsigned int a, unsigned char d)
 {
+	CallRegisteredLuaMemHook(a, 1, d, LUAMEMHOOK_WRITE);
 	// check mem map
 	unsigned char * pr = ZetCPUContext[nOpenedCPU].pZetMemMap[0x100 | (a >> 8)];
 	if (pr != NULL) {
@@ -78,6 +83,7 @@ void __fastcall ZetWriteProg(unsigned int a, unsigned char d)
 
 unsigned char __fastcall ZetReadOp(unsigned int a)
 {
+	CallRegisteredLuaMemHook(a, 1, 0, LUAMEMHOOK_EXEC);
 	// check mem map
 	unsigned char * pr = ZetCPUContext[nOpenedCPU].pZetMemMap[0x200 | (a >> 8)];
 	if (pr != NULL) {
@@ -94,6 +100,7 @@ unsigned char __fastcall ZetReadOp(unsigned int a)
 
 unsigned char __fastcall ZetReadOpArg(unsigned int a)
 {
+	CallRegisteredLuaMemHook(a, 1, 0, LUAMEMHOOK_EXEC);
 	// check mem map
 	unsigned char * pr = ZetCPUContext[nOpenedCPU].pZetMemMap[0x300 | (a >> 8)];
 	if (pr != NULL) {
