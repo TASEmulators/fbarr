@@ -191,7 +191,7 @@ unsigned char Z80Vector = 0;
 #define HALT Z80.halt
 
 int z80_ICount;
-static Z80_Regs Z80;
+Z80_Regs Z80;
 UINT32 EA;
 
 static UINT8 SZ[256];		/* zero and sign flags */

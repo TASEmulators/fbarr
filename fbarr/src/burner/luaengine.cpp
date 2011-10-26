@@ -33,6 +33,9 @@ extern "C" {
 #endif
 #include "luaengine.h"
 #include "luasav.h"
+#include "../cpu/sek.h"
+#include "../cpu/z80/z80.h"
+extern Z80_Regs Z80;
 
 #ifndef TRUE
 #define TRUE 1
@@ -1141,9 +1144,131 @@ static int memory_registerread(lua_State *L)
 }
 static int memory_registerexec(lua_State *L)
 {
-	return memory_registerHook(L, MatchHookTypeToCPU(L,LUAMEMHOOK_EXEC), 2);
+	return memory_registerHook(L, MatchHookTypeToCPU(L,LUAMEMHOOK_EXEC), 1);
 }
 
+
+struct registerPointerMap
+{
+	const char* registerName;
+	unsigned int* pointer;
+	int dataSize;
+};
+
+#define RPM_ENTRY(name,var) {name, (unsigned int*)&var, sizeof(var)},
+
+registerPointerMap m68000RegPointerMap [] = {
+	RPM_ENTRY("pc", M68000_regs.pc)
+	RPM_ENTRY("D0", M68000_regs.d[0])
+	RPM_ENTRY("D1", M68000_regs.d[1])
+	RPM_ENTRY("D2", M68000_regs.d[2])
+	RPM_ENTRY("D3", M68000_regs.d[3])
+	RPM_ENTRY("D4", M68000_regs.d[4])
+	RPM_ENTRY("D5", M68000_regs.d[5])
+	RPM_ENTRY("D6", M68000_regs.d[6])
+	RPM_ENTRY("D7", M68000_regs.d[7])
+	RPM_ENTRY("A0", M68000_regs.a[0])
+	RPM_ENTRY("A1", M68000_regs.a[1])
+	RPM_ENTRY("A2", M68000_regs.a[2])
+	RPM_ENTRY("A3", M68000_regs.a[3])
+	RPM_ENTRY("A4", M68000_regs.a[4])
+	RPM_ENTRY("A5", M68000_regs.a[5])
+	RPM_ENTRY("A6", M68000_regs.a[6])
+	RPM_ENTRY("A7", M68000_regs.a[7])
+	{}
+};
+
+registerPointerMap z80RegPointerMap [] = {
+	RPM_ENTRY("prvpc", Z80.prvpc.w.l)
+	RPM_ENTRY("pc", Z80.pc.w.l)
+	RPM_ENTRY("sp", Z80.sp.w.l)
+	RPM_ENTRY("af", Z80.af.w.l)
+	RPM_ENTRY("bc", Z80.bc.w.l)
+	RPM_ENTRY("de", Z80.de.w.l)
+	RPM_ENTRY("hl", Z80.hl.w.l)
+	RPM_ENTRY("ix", Z80.ix.w.l)
+	RPM_ENTRY("iy", Z80.iy.w.l)
+	{}
+};
+
+struct cpuToRegisterMap
+{
+	const char* cpuName;
+	registerPointerMap* rpmap;
+}
+cpuToRegisterMaps [] =
+{
+	{"m68000.", m68000RegPointerMap},
+	{"z80.", z80RegPointerMap},
+	{"", m68000RegPointerMap},
+};
+
+
+//DEFINE_LUA_FUNCTION(memory_getregister, "cpu_dot_registername_string")
+static int memory_getregister(lua_State *L)
+{
+	const char* qualifiedRegisterName = luaL_checkstring(L,1);
+	lua_settop(L,0);
+	for(int cpu = 0; cpu < sizeof(cpuToRegisterMaps)/sizeof(*cpuToRegisterMaps); cpu++)
+	{
+		cpuToRegisterMap ctrm = cpuToRegisterMaps[cpu];
+		int cpuNameLen = strlen(ctrm.cpuName);
+		if(!strnicmp(qualifiedRegisterName, ctrm.cpuName, cpuNameLen))
+		{
+			qualifiedRegisterName += cpuNameLen;
+			for(int reg = 0; ctrm.rpmap[reg].dataSize; reg++)
+			{
+				registerPointerMap rpm = ctrm.rpmap[reg];
+				if(!stricmp(qualifiedRegisterName, rpm.registerName))
+				{
+					switch(rpm.dataSize)
+					{ default:
+					case 1: lua_pushinteger(L, *(unsigned char*)rpm.pointer); break;
+					case 2: lua_pushinteger(L, *(unsigned short*)rpm.pointer); break;
+					case 4: lua_pushinteger(L, *(unsigned long*)rpm.pointer); break;
+					}
+					return 1;
+				}
+			}
+			lua_pushnil(L);
+			return 1;
+		}
+	}
+	lua_pushnil(L);
+	return 1;
+}
+//DEFINE_LUA_FUNCTION(memory_setregister, "cpu_dot_registername_string,value")
+static int memory_setregister(lua_State *L)
+{
+	const char* qualifiedRegisterName = luaL_checkstring(L,1);
+	unsigned long value = (unsigned long)(luaL_checkinteger(L,2));
+	lua_settop(L,0);
+	for(int cpu = 0; cpu < sizeof(cpuToRegisterMaps)/sizeof(*cpuToRegisterMaps); cpu++)
+	{
+		cpuToRegisterMap ctrm = cpuToRegisterMaps[cpu];
+		int cpuNameLen = strlen(ctrm.cpuName);
+		if(!strnicmp(qualifiedRegisterName, ctrm.cpuName, cpuNameLen))
+		{
+			qualifiedRegisterName += cpuNameLen;
+			for(int reg = 0; ctrm.rpmap[reg].dataSize; reg++)
+			{
+				registerPointerMap rpm = ctrm.rpmap[reg];
+				if(!stricmp(qualifiedRegisterName, rpm.registerName))
+				{
+					switch(rpm.dataSize)
+					{ default:
+					case 1: *(unsigned char*)rpm.pointer = (unsigned char)(value & 0xFF); break;
+					case 2: *(unsigned short*)rpm.pointer = (unsigned short)(value & 0xFFFF); break;
+					case 4: *(unsigned long*)rpm.pointer = value; break;
+					}
+					return 0;
+				}
+			}
+			return 0;
+		}
+	}
+	return 0;
+}
 
 // table joypad.read()
 //
@@ -3564,6 +3689,10 @@ static const struct luaL_reg memorylib [] = {
 	{"registerwrite", memory_registerwrite},
 	{"registerread", memory_registerread},
 	{"registerexec", memory_registerexec},
+
+	// registers
+	{"getregister", memory_getregister},
+	{"setregister", memory_setregister},
 
 	{NULL,NULL}
 };
