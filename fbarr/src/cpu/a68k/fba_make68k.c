@@ -624,6 +624,8 @@ void Completed(void)
 
 #endif
 
+	fprintf(fp, "\t\t call  near LuaMemHookExec\n\n");
+
 	if (CheckInterrupt)
 	{
 		fprintf(fp,"; Check for Interrupt waiting\n\n");
@@ -7747,6 +7749,8 @@ void CodeSegmentBegin(void)
 
 #endif
 
+	fprintf(fp, "\t\t call  near LuaMemHookExec\n\n");
+
 	if(CPU==2)
 	{
 		  /* 32 Bit */
@@ -7953,6 +7957,24 @@ void CodeSegmentBegin(void)
 	/* Sort out any bank changes */
 	MemoryBanking(1);
 
+	fprintf(fp, "\t\t ret\n");
+
+	fprintf(fp, "LuaMemHookExec:\n");
+	fprintf(fp, "\t\t mov   [%s],ESI\n",REG_PC);
+	fprintf(fp, "\t\t mov   [%s],EDX\n",REG_CCR);
+	fprintf(fp, "\t\t call  [%sa68k_memory_intf+0]\n", PREF);
+	if (SavedRegs[EDX] == '-')
+	{
+		fprintf(fp, "\t\t mov   EDX,[%s]\n",REG_CCR);
+	}
+	if (SavedRegs[ESI] == '-')
+	{
+		fprintf(fp, "\t\t mov   ESI,[%s]\n",REG_PC);
+	}
+	if (SavedRegs[EBP] == '-')
+	{
+		fprintf(fp, "\t\t mov   ebp,dword [%sOP_ROM]\n", PREF);
+	}
 	fprintf(fp, "\t\t ret\n");
 
 #ifdef FBA_DEBUG
