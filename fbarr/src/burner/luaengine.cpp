@@ -1159,22 +1159,22 @@ struct registerPointerMap
 
 registerPointerMap m68000RegPointerMap [] = {
 	RPM_ENTRY("pc", M68000_regs.pc)
-	RPM_ENTRY("D0", M68000_regs.d[0])
-	RPM_ENTRY("D1", M68000_regs.d[1])
-	RPM_ENTRY("D2", M68000_regs.d[2])
-	RPM_ENTRY("D3", M68000_regs.d[3])
-	RPM_ENTRY("D4", M68000_regs.d[4])
-	RPM_ENTRY("D5", M68000_regs.d[5])
-	RPM_ENTRY("D6", M68000_regs.d[6])
-	RPM_ENTRY("D7", M68000_regs.d[7])
-	RPM_ENTRY("A0", M68000_regs.a[0])
-	RPM_ENTRY("A1", M68000_regs.a[1])
-	RPM_ENTRY("A2", M68000_regs.a[2])
-	RPM_ENTRY("A3", M68000_regs.a[3])
-	RPM_ENTRY("A4", M68000_regs.a[4])
-	RPM_ENTRY("A5", M68000_regs.a[5])
-	RPM_ENTRY("A6", M68000_regs.a[6])
-	RPM_ENTRY("A7", M68000_regs.a[7])
+	RPM_ENTRY("d0", M68000_regs.d[0])
+	RPM_ENTRY("d1", M68000_regs.d[1])
+	RPM_ENTRY("d2", M68000_regs.d[2])
+	RPM_ENTRY("d3", M68000_regs.d[3])
+	RPM_ENTRY("d4", M68000_regs.d[4])
+	RPM_ENTRY("d5", M68000_regs.d[5])
+	RPM_ENTRY("d6", M68000_regs.d[6])
+	RPM_ENTRY("d7", M68000_regs.d[7])
+	RPM_ENTRY("a0", M68000_regs.a[0])
+	RPM_ENTRY("a1", M68000_regs.a[1])
+	RPM_ENTRY("a2", M68000_regs.a[2])
+	RPM_ENTRY("a3", M68000_regs.a[3])
+	RPM_ENTRY("a4", M68000_regs.a[4])
+	RPM_ENTRY("a5", M68000_regs.a[5])
+	RPM_ENTRY("a6", M68000_regs.a[6])
+	RPM_ENTRY("a7", M68000_regs.a[7])
 	{}
 };
 
@@ -4263,6 +4263,10 @@ void FBA_LuaGui(unsigned char *s, int width, int height, int bpp, int pitch) {
 
 void FBA_LuaClearGui() {
 	gui_used = GUI_CLEAR;
+	if (gui_data) {
+		free(gui_data);
+		gui_data = NULL;
+	}
 }
 
 void FBA_LuaEnableGui(UINT8 enabled) {

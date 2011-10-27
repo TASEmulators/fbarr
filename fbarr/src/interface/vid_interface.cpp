@@ -111,6 +111,7 @@ static unsigned int __cdecl HighCol15(int r, int g, int b, int  /* i */)
 
 int VidSelect(unsigned int nPlugin)
 {
+	FBA_LuaClearGui();
 	if (nPlugin < VID_LEN) {
 		nVidSelect = nPlugin;
 		return 0;
