@@ -123,6 +123,32 @@ Returns a chunk of memory from the given address with the given length as a stri
 
 Writes value to memory address.
 
+===`memory.getregister (cpuregistername)`===
+
+Returns the current value of the given hardware register. For example, memory.getregister("m68000.pc") will return the 68000's current Program Counter. 
+
+Valid CPUs are: "m68000" (for example, 'memory.getregister("m68000.a1")') and "z80" (for example, memory.getregister("z80.bc")').
+
+===`memory.setregister (cpuregistername, value)`===
+
+Sets the current value of the given hardware register. For example, memory.setregister("m68000.pc",0x200) will change the 68000's current Program Counter to 0x200.
+
+Valid CPUs are: "m68000" (for example, 'memory.setregister("m68000.a1",0xFFA50A)') and "z80" (for example, 'memory.setregister("z80.bc",0x12C6)').
+
+You had better know exactly what you're doing or you're probably just going to crash the game if you try to use this function. That applies to the other memory.write functions as well, but to a lesser extent.
+
+===`memory.registerwrite (address, [size,] func)`===
+
+Calls the function whenever the given address is written to. Function can be nil.
+
+===`memory.registerread (address, [size,] func)`===
+
+Calls the function whenever the given address is read. Function can be nil.
+
+===`memory.registerexec (address, [size,] func)`===
+
+Calls the function whenever the given address is executed. Function can be nil.
+
 ----
 =joypad=
 
