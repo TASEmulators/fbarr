@@ -231,8 +231,6 @@ inline static unsigned char FetchByte(unsigned int a)
 
 //	bprintf(PRINT_NORMAL, _T("fetch8 0x%08X\n"), a);
 
-	CallRegisteredLuaMemHook(a, 1, 0, LUAMEMHOOK_EXEC);
-
 	pr = FIND_F(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
 		a ^= 1;
@@ -302,8 +300,6 @@ inline static unsigned short FetchWord(unsigned int a)
 
 //	bprintf(PRINT_NORMAL, _T("fetch16 0x%08X\n"), a);
 
-	CallRegisteredLuaMemHook(a, 2, 0, LUAMEMHOOK_EXEC);
-
 	pr = FIND_F(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
 		return *((unsigned short*)(pr + (a & SEK_PAGEM)));
@@ -371,8 +367,6 @@ inline static unsigned int FetchLong(unsigned int a)
 	a &= 0xFFFFFF;
 
 //	bprintf(PRINT_NORMAL, _T("fetch32 0x%08X\n"), a);
-
-	CallRegisteredLuaMemHook(a, 4, 0, LUAMEMHOOK_EXEC);
 
 	pr = FIND_F(a);
 	if ((unsigned int)pr >= SEK_MAXHANDLER) {
@@ -634,9 +628,14 @@ void __fastcall M68KWriteLong(unsigned int a, unsigned int d) { WriteLong(a, d);
 }
 #endif
 
+void __fastcall AsmCallRegisteredLuaMemHook()
+{
+	CallRegisteredLuaMemHook(M68000_regs.pc, 1, 0, LUAMEMHOOK_EXEC);
+}
+
 #if defined EMU_A68K
 struct A68KInter a68k_inter_normal = {
-	NULL,
+	AsmCallRegisteredLuaMemHook,
 	A68KRead8,
 	A68KRead16,
 	A68KRead32,
@@ -654,7 +653,7 @@ struct A68KInter a68k_inter_normal = {
 #if defined (FBA_DEBUG)
 
 struct A68KInter a68k_inter_breakpoint = {
-	NULL,
+	AsmCallRegisteredLuaMemHook,
 	ReadByteBP,
 	ReadWordBP,
 	ReadLongBP,
