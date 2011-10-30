@@ -3859,6 +3859,7 @@ int FBA_LoadLuaCode(const char *filename) {
 	}
 	_getcwd(luaCWD, _MAX_PATH);
 
+	FBA_LuaStop();
 	if (!LUA) {
 		LUA = lua_open();
 		luaL_openlibs(LUA);
