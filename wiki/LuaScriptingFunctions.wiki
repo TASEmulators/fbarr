@@ -1,4 +1,5 @@
 #summary FBA-RR Lua Scripting Function List
+#labels Featured
 
 See also [http://www.lua.org/manual/5.1/ Lua manual].
 
@@ -272,6 +273,10 @@ Draws a line from (x1,y1) to (x2,y2) with the given color.
 ===`gui.box(int x1, int y1, int x2, int y2 [, type fillcolor [, outlinecolor]])`===
 
 Draws a box with (x1,y1) and (x2,y2) as opposite corners with the given color.
+
+===`gui.savescreenshot()`===
+
+Causes FBA-RR to write a screenshot to a file as if the user pressed the associated hotkey.
 
 ===`string gui.gdscreenshot()`===
 
