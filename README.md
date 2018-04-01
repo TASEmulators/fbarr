@@ -7,9 +7,9 @@ with many customized features designed to aid in recording movie input files
 Resources
 =========
 
-http://tasvideos.org/forum/viewtopic.php?t=7234
-http://tasvideos.org/EmulatorResources/Fbarr.html
-http://tasvideos.org/EmulatorResources/Fbarr/FBM.html
+- http://tasvideos.org/forum/viewtopic.php?t=7234
+- http://tasvideos.org/EmulatorResources/Fbarr.html
+- http://tasvideos.org/EmulatorResources/Fbarr/FBM.html
 
 
 Windows Compilation Guide for Dummies
