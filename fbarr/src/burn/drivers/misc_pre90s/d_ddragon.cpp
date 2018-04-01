@@ -214,6 +214,22 @@ static struct BurnDIPInfo Drv2DIPList[]=
 	{0x14, 0x01, 0x80, 0x00, "On"                     },
 	
 	// Dip 2
+	// Note the difficulty settings were pulled from MAME
+	// Do not use the real Double Dragon 2 Manual as
+	// reference, because it lists wrong settings!
+	//
+	// If anyone points you to bad settings from Manual
+	//  they will look like this:
+	//   OFF OFF = Normal
+	//   OFF OFF = Easy
+	//   ON  OFF = Less Than Difficult
+	//   ON  ON  = Difficult
+	{0   , 0xfe, 0   , 4   , "Difficulty"             },
+	{0x15, 0x01, 0x03, 0x01, "Easy"                   },
+	{0x15, 0x01, 0x03, 0x03, "Medium"                 },
+	{0x15, 0x01, 0x03, 0x02, "Hard"                   },
+	{0x15, 0x01, 0x03, 0x00, "Hardest"                },
+
 	{0   , 0xfe, 0   , 2   , "Hurricane Kick"         },
 	{0x15, 0x01, 0x08, 0x00, "Easy"                   },
 	{0x15, 0x01, 0x08, 0x08, "Normal"                 },
